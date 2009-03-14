@@ -1,0 +1,17 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Login to Gawkk'} %>
+
+<div id="content-main">
+	<% form_tag do %>
+		<%= error_messages_for 'user' %>
+
+		<p>Email Address:<br/>
+		<%= text_field('user', 'email', :size => 20) %></p>
+
+		<p>Password:<br/>
+		<%= password_field('user', 'password', :size => 20) %></p>
+
+		<p><%= check_box_tag :remember %> <label for="remember">Remember me</label></p>
+
+		<%= submit_tag 'Login' %>
+	<% end %>
+</div>

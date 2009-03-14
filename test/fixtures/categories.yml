@@ -1,0 +1,23 @@
+comedy:
+ id: 1
+ name: Comedy
+ slug: comedy
+ allowed_on_front_page: true
+
+television:
+ id: 2
+ name: Television
+ slug: television
+ allowed_on_front_page: true
+
+uncategorized:
+ id: 3
+ name: Uncategorized
+ slug: uncategorized
+ allowed_on_front_page: true
+
+mature:
+ id: 4
+ name: Mature
+ slug: mature
+ allowed_on_front_page: false

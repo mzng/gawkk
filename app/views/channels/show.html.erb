@@ -1,0 +1,16 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name} %>
+
+<div id="content-main">
+	<%= render @videos %>
+	<div class="titled-pagination-container">
+		<span class="title-container">View More Videos in This Channel</span><br/>
+		<div class="paginate-single-link-set">
+			<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', channel_path(:user => @user, :channel => @channel, :page => (@page.to_i - 1)) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
+			<%= link_to 'Next &raquo;', channel_path(:user => @user, :channel => @channel, :page => (@page.to_i + 1)) %>
+		</div>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

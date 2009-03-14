@@ -1,0 +1,9 @@
+john_chuck:
+ id: 1
+ channel_id: 3
+ user_id: 2
+
+john_30rock:
+ id: 2
+ channel_id: 4
+ user_id: 2

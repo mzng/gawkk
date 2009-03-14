@@ -1,0 +1,25 @@
+<div id="new_comment_for_<%= commentable.id %>" class="new-comment" style="display:none;">
+	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}) do |f| %>
+		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
+		<%= f.hidden_field 'commentable_id', :value => commentable.id %>
+		<%= f.hidden_field 'thread_id', :value => comment.thread_id %>
+		
+		<table class="inline" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="image">
+					<%= image_tag(logged_in_user.thumbnail.blank? ? 'profile-pic.jpg' : logged_in_user.thumbnail, :class => 'avatar') %>
+				</td>
+				<td colspan="2" class="body">
+					<%= f.text_area 'body', :value => '', :rows => 2, :id => "new_comment_area_for_#{commentable.id}", :onkeyup => "updateCharacterCount('#{commentable.id}', this);" %>
+				</td>
+			</tr>
+			<tr>
+				<td id="characters_left_for_<%= commentable.id %>" class="character-count">140</td>
+				<td>
+					<%= submit_tag 'Post', :id => "submit_for_#{commentable.id}" %> or <%= link_to 'Cancel', "javascript:$('new_comment_for_#{commentable.id}').remove();" %>
+				</td>
+				<td class="last"></td>
+			</tr>
+		</table>
+	<% end -%>
+</div>

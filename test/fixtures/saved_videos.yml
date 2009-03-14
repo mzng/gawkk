@@ -1,0 +1,35 @@
+30_rock_bones:
+ id: 1
+ channel_id: 4
+ video_id: 3
+ created_at: <%= 36.hours.ago %>
+
+chuck_big_bang_theory:
+ id: 2
+ channel_id: 3
+ video_id: 1
+ created_at: <%= 24.hours.ago %>
+
+chuck_chuck:
+ id: 3
+ channel_id: 3
+ video_id: 7
+ created_at: <%= 12.hours.ago %>
+
+30_rock_big_bang_theory:
+ id: 4
+ channel_id: 4
+ video_id: 1
+ created_at: <%= 6.hours.ago %>
+
+hulu_popular_bones:
+ id: 5
+ channel_id: 5
+ video_id: 3
+ created_at: <%= 12.hours.ago %>
+
+hulu_popular_chuck:
+ id: 6
+ channel_id: 5
+ video_id: 7
+ created_at: <%= 6.hours.ago %>

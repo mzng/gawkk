@@ -1,0 +1,69 @@
+tsmango:
+ id: 1
+ administrator: true
+ username: tsmango
+ slug: tsmango
+ hashed_password: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+ name: "Thomas Mango"
+ email: tsmango@gmail.com
+ feed_owner: false
+
+john:
+ id: 2
+ administrator: false
+ username: john
+ slug: john
+ hashed_password: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+ name: "John Smith"
+ email: tsmango+jsmith@gmail.com
+ feed_owner: false
+
+chuck:
+ id: 3
+ administrator: false
+ username: chuck
+ slug: chuck
+ hashed_password: 
+ name: Chuck
+ email: tsmango+chuck@gmail.com
+ feed_owner: true
+
+30_rock:
+ id: 4
+ administrator: false
+ username: "30 Rock"
+ slug: "30-rock"
+ hashed_password: 
+ name: "30 Rock"
+ email: tsmango+30_rock@gmail.com
+ feed_owner: true
+
+hulu_popular:
+ id: 5
+ administrator: false
+ username: "Hulu Popular"
+ slug: "hulu-popular"
+ hashed_password: 
+ name: "Hulu Popular"
+ email: tsmango+hulu_popular@gmail.com
+ feed_owner: true
+
+gculliss:
+ id: 6
+ administrator: true
+ username: gculliss
+ slug: gculliss
+ hashed_password: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+ name: "Gary Culliss"
+ email: tsmango+gculliss@gmail.com
+ feed_owner: false
+
+jane:
+ id: 7
+ administrator: false
+ username: jane
+ slug: jane
+ hashed_password: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+ name: "Jane Smith"
+ email: tsmango+jane@gmail.com
+ feed_owner: false

@@ -1,0 +1,9 @@
+<% description ||= '' -%>
+<% selected ||= false -%>
+
+<% if @service_avatars["#{service}"] -%>
+	<div id="service-container-for-<%= service %>" class="service-avatar <%= 'selected' if selected %>" onclick="selectServiceAvatar(this, '<%= service %>');">
+		<%= image_tag @service_avatars["#{service}"] %><br/>
+		<p><%= description %></p>
+	</div>
+<% end -%>

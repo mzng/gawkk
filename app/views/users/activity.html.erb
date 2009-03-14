@@ -1,0 +1,20 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "The activity of #{@user.username}"} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity', 
+			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => true}, 
+			{:name => 'Profile', :options => {:controller => 'users', :action => 'profile', :id => @user}, :selected => false}, 
+			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
+	<%= render @news_items %>
+	<div class="titled-pagination-container">
+		<span class="title-container">View More Activity</span><br/>
+		<div class="paginate-single-link-set">
+			<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', user_path(:id => @user, :page => (@page.to_i - 1)) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
+			<%= link_to 'Next &raquo;', user_path(:id => @user, :page => (@page.to_i + 1)) %>
+		</div>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "/users/sidebar", :locals => {:user => @user} %>
+</div>

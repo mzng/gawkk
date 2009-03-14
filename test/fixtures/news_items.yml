@@ -1,0 +1,50 @@
+tom_big_bang_theory:
+ id: 1
+ news_item_type_id: 9
+ user_id: 1
+ reportable_type: Video
+ reportable_id: 1
+ message: "One of the funniest moments in this show!"
+ created_at: <%= 6.hours.ago %>
+
+tom_chuck:
+ id: 2
+ news_item_type_id: 9
+ user_id: 1
+ reportable_type: Video
+ reportable_id: 7
+ message: "This show just gets better and better."
+ created_at: <%= 5.hours.ago %>
+
+tom_hulu_popular:
+ id: 3
+ news_item_type_id: 5
+ user_id: 1
+ reportable_type: Channel
+ reportable_id: 5
+ created_at: <%= 4.hours.ago %>
+
+gary_big_bang_theory:
+ id: 4
+ news_item_type_id: 12
+ user_id: 6
+ reportable_type: Video
+ reportable_id: 1
+ created_at: <%= 3.hours.ago %>
+
+gary_30_rock:
+ id: 5
+ news_item_type_id: 5
+ user_id: 6
+ reportable_type: Channel
+ reportable_id: 4
+ created_at: <%= 2.hours.ago %>
+
+gary_bones:
+ id: 6
+ news_item_type_id: 12
+ user_id: 6
+ reportable_type: Video
+ reportable_id: 3
+ hidden: true
+ created_at: <%= 1.hours.ago %>

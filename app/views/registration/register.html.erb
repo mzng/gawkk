@@ -1,0 +1,91 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Sign Up for Gawkk', :description => 'Join Gawkk today to collect and share great videos with your friends for free!'} %>
+
+<div id="content-centered">
+	<table id="registration-progress" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="active">Register</td>
+			<td class="inactive">Get Connected</td>
+			<td class="inactive">Setup Your Profile</td>
+			<td class="inactive">Enjoy Gawkk!</td>
+		</tr>
+	</table>
+	
+	<%= error_messages_for 'user' %>
+	
+	<% form_for(@user, :url => {:controller => 'registration', :action => 'register'}) do |f| %>
+		<table id="registration" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="left">
+					<p><label for="user_username">Gawkk Username:</label><br/>
+					<%= f.text_field 'username', :onfocus => "revealTip('user_username');", :onblur => "hideTips();" %></p>
+					
+					<p><label for="user_email">Email Address:</label><br/>
+					<%= f.text_field 'email', :onfocus => "revealTip('user_email');", :onblur => "hideTips();" %></p>
+					
+					<p><label for="user_password">Password:</label><br/>
+					<%= f.password_field 'password', :onfocus => "revealTip('user_password');", :onblur => "hideTips();"  %></p>
+					
+					<p><label for="password_confirm">Password Confirm:</label><br/>
+					<%= f.password_field 'password_confirmation', :onfocus => "revealTip('user_password_confirmation');", :onblur => "hideTips();"  %></p>
+				</td>
+				<td class="center">
+					<div id="user_username_tip" class="tip">
+						<p><span id="username_validity"></span>
+						Select a Gawkk username for identifying your profile on the site. 
+						You can choose something cool or boring - it's up to you!</p>
+					</div>
+
+					<div id="user_email_tip" class="tip delay-hide">
+						<p>We'll email you about new Friends! You'll also receive an optional newsletter 
+						every week with new videos from your friends and subscribed channels, 
+						sent to you by Gawkk. <strong>You'll have control over all emails.</strong></p>
+
+						<p><%= link_to 'Privacy Policy', '/privacy', :popup => true %></p>
+					</div>
+
+					<div id="user_password_tip" class="tip">
+						<p>Your password must be at least 6 characters long.</p>
+					</div>
+
+					<div id="user_password_confirmation_tip" class="tip">
+						<p>Please confirm your password.</p>
+					</div>
+					
+					<%= image_tag 'tip_arrow.gif', :id => 'tip_arrow', :class => 'tip-arrow' %>
+				</td>
+				<td class="right" rowspan="2">
+					<strong>Why Join Gawkk?</strong>
+					<ul>
+						<li><strong>Discover Videos:</strong><br/>
+						Find new videos and channels from people with similar interests and tastes</li>
+						
+						<li><strong>Create Channels:</strong><br/>
+						Save and share your favorite videos from any website to your own custom channels</li>
+						
+						<li><strong>Find Friends:</strong><br/>
+						View the interesting videos your friends save to their channels</li>
+						
+						<li><strong>It's Free!</strong></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p><label for="user_send_digest_emails"><%= f.check_box 'send_digest_emails' %>
+					Update me on changes to my friends' videos and my subscribed channels via a weekly email.</label></p>
+					
+					<p>By signing up, you agree to the <%= link_to 'terms of use', '/terms-of-use', :popup => true %> 
+					and confirm that you're 13 years or older.</p>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Join Gawkk") %> or <%= link_to 'Login to Your Existing Account', {:controller => 'authentication', :action => 'login'} %>
+		</p>
+	<% end -%>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('user_username').focus();
+</script>

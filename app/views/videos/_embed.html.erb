@@ -1,0 +1,27 @@
+<div class="close">
+	<div class="clickable-area" onclick="watch('<%= video.id %>', '<%= video.slug %>');">
+		Close <%= image_tag('close.png') %>
+	</div>
+</div>
+<br class="clear"/>
+<% if !video.embed_code.blank? -%>
+	<div class="embed-container">
+		<%= video.embed_code %>
+	</div>
+	<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
+		<p class="trouble">
+			Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
+		</p>
+	<% end -%>
+<% else -%>
+	<div class="fake-embed-container">
+		<div class="about">
+			This video will open in a new window
+		</div>
+		<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.jpg' : video.thumbnail, :alt => '', :class => 'image'), video.url, :target => video.name %>
+		<div class="play">
+			<%= link_to 'Play Video', video.url, :target => video.name %>
+			<%= link_to image_tag('embed-fake-play.png'), video.url, :target => video.name %>
+		</div>
+	</div>
+<% end -%>

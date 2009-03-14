@@ -1,0 +1,17 @@
+<% title ||= '&nbsp;' -%>
+<% link ||= '#' -%>
+<% count ||= 0 -%>
+<% collection ||= Array.new -%>
+
+<% if collection.size > 0 -%>
+	<h1 class="section-header">
+		<span><%= link_to "View All#{count > 4 ? ' ' + count.to_s : ''}", link %></span>
+		<%= title %>
+	</h1>
+	<div class="set">
+		<% collection.each do |object| -%>
+			<%= render object %>
+		<% end -%>
+		<br class="clear"/>
+	</div>
+<% end -%>

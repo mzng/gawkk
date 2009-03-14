@@ -1,0 +1,57 @@
+<% visible_title = true		if visible_title.nil? -%>
+<% load_activity = false	if load_activity.nil? -%>
+<% load_comments = false	if load_comments.nil? -%>
+
+<% content_tag_for(:div, video) do -%>
+	<% if visible_title -%>
+		<div class="title">
+			<%= link_to video.title, "javascript:watch('#{video.id}','#{video.slug}');" %> <%= popular_icon(video) %>
+		</div>
+	<% end -%>
+	<div class="body">
+		<div class="thumbnail" onclick="watch('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>);">
+			<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+		</div>
+		<div class="description">
+			<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
+			<% if video.safe_description.length > 200 -%>
+				<span id="short_description_for_<%= video.id %>">
+					<%= video.safe_description.first(200) %>... <%= link_to 'read more', '#' %>
+				</span>
+			<% end -%>
+			<span id="full_description_for_<%= video.id %>" <% if video.safe_description.length > 200 -%>style="display:none;"<% end -%>>
+				<%= video.safe_description %>
+			</span>
+		</div>
+		<div class="posted">
+			Posted in <%= link_to video.category.name, {:controller => 'videos', :action => 'category', :category => video.category, :popular => video.popular?} %>
+			on <%= video.posted_at.strftime("%B %d, %Y") %>
+			<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
+				via <%= link_to video.host, video.url, :target => video.slug %>
+			<% end -%>
+		</div>
+		<div class="actions">
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td><%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO');" %> |</td>
+					<td id="like_for_<%= video.id %>"><%= link_to_remote 'Like', {:url => {:controller => 'videos', :action => 'like', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');"} %> |</td>
+					<td>
+						<ul class="menu-container">
+							<li>
+								<%= link_to '<span>More</span>' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
+								<ul>
+									<li><%= link_to 'Share', '#' %></li>
+									<li><%= link_to 'Embed', '#' %></li>
+									<li><%= link_to 'Permalink', '#' %></li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
+	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
+	<%= render :partial => "/comments/list", :locals => {:video => video, :load_comments => load_comments} %>
+<% end -%>

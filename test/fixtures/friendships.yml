@@ -1,0 +1,23 @@
+john_tsmango:
+ id: 1
+ user_id: 2
+ friend_id: 1
+ mutual: true
+
+john_gculliss:
+ id: 2
+ user_id: 2
+ friend_id: 6
+ mutual: false
+
+tsmango_john:
+ id: 3
+ user_id: 1
+ friend_id: 2
+ mutual: true
+
+jane_john:
+ id: 4
+ user_id: 7
+ friend_id: 2
+ mutual: false

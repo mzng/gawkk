@@ -1,0 +1,125 @@
+/* common */
+#registration-progress {
+	border: 1px solid #E5E5E5;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+#registration-progress td {
+	padding: 5px 10px;
+	text-align: center;
+	width: 25%;
+}
+
+#registration-progress td.inactive {
+	color: gray;
+}
+
+#registration-progress td.active {
+	background-color: #FFFFCC;
+}
+
+
+/* register */
+#registration {
+	width: 100%;
+}
+
+#registration .left input {
+	width: 215px;
+}
+
+#registration .center {
+	padding-left: 15px;
+	width: 360px;
+}
+
+#registration .right {
+	border-left: 1px solid #E5E5E5;
+	padding-left: 10px;
+	vertical-align: top;
+	width: 190px;
+}
+
+#registration .right strong {
+	font-size: 12pt;
+}
+
+#registration .right ul {
+	margin-left: -25px;
+	margin-bottom: 0px;
+}
+
+#registration .right li strong {
+	font-size: 10pt;
+}
+
+#registration .right li + li {
+	margin-top: 10px;
+}
+
+
+/* setup services */
+#registration .information {
+	text-align: center;
+}
+
+#registration .filler {
+	width: 35px;
+}
+
+.services .left {
+	border-bottom: 1px solid #EEEEEE;
+	padding: 15px 15px 15px 15px;
+	width: 192px;
+}
+
+.services .center {
+	border-bottom: 1px solid #EEEEEE;
+	width: 235px;
+}
+
+.services .no-logo {
+	font-size: 12pt;
+}
+
+.services .no-logo img {
+	vertical-align: top;
+}
+
+.services .no-bullets {
+	list-style: none;
+}
+
+.services .no-bullets img {
+	vertical-align: top;
+}
+
+
+/* setup profile */
+#services-containers p {
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+
+#service-containers .selected {
+	border: 3px solid #333333;
+}
+
+.service-avatar {
+	border: 3px solid #E5E5E5;
+	float: left;
+	margin-right: 10px;
+	padding: 5px;
+	text-align: center;
+	width: 90px;
+}
+
+.service-avatar:hover {
+	border: 3px solid #999999;
+	cursor: pointer;
+}
+
+.service-avatar p {
+	margin: 2px 0;
+}

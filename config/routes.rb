@@ -1,43 +1,62 @@
 ActionController::Routing::Routes.draw do |map|
-  # The priority is based upon order of creation: first created -> highest priority.
-
-  # Sample of regular route:
-  #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   map.resources :products
-
-  # Sample resource route with options:
-  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
-
-  # Sample resource route with sub-resources:
-  #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
+  # authentication
+  map.connect 'login',              :controller => 'authentication', :action => 'login'
+  map.connect 'logout',             :controller => 'authentication', :action => 'logout'
   
-  # Sample resource route with more complex sub-resources
-  #   map.resources :products do |products|
-  #     products.resources :comments
-  #     products.resources :sales, :collection => { :recent => :get }
-  #   end
-
-  # Sample resource route within a namespace:
-  #   map.namespace :admin do |admin|
-  #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
-  #     admin.resources :products
-  #   end
-
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  # map.root :controller => "welcome"
-
-  # See how all your routes lay out with "rake routes"
-
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing the them or commenting them out if you're using named routes and resources.
+  
+  # registration
+  map.connect 'register',           :controller => 'registration', :action => 'register'
+  map.connect 'setup/services',     :controller => 'registration', :action => 'setup_services'
+  map.connect 'setup/profile',      :controller => 'registration', :action => 'setup_profile'
+  
+  
+  # videos
+  map.connect 'all/newest',         :controller => 'videos', :action => 'index', :popular => false
+  map.connect 'all/popular',        :controller => 'videos', :action => 'index', :popular => true
+  map.connect ':category/newest',   :controller => 'videos', :action => 'category', :popular => false
+  map.connect ':category/popular',  :controller => 'videos', :action => 'category', :popular => true
+  map.connect 'friends',            :controller => 'videos', :action => 'friends'
+  map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
+  
+  map.connect ':id/discuss',        :controller => 'videos', :action => 'discuss'
+  map.connect ':id/watch',          :controller => 'videos', :action => 'watch'
+  map.connect ':id/like',           :controller => 'videos', :action => 'like'
+  map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
+  
+  map.connect 'videos/:action',     :controller => 'videos'
+  
+  
+  # comments
+  map.connect 'comments/:action',   :controller => 'comments'
+  
+  
+  # users
+  map.connect ':id/activity',       :controller => 'users', :action => 'activity'
+  map.connect ':id/profile',        :controller => 'users', :action => 'profile'
+  map.connect ':id/comments',       :controller => 'users', :action => 'comments'
+  map.connect ':id/follows',        :controller => 'users', :action => 'follows'
+  map.connect ':id/followers',      :controller => 'users', :action => 'followers'
+  map.connect ':id/friends',        :controller => 'users', :action => 'friends'
+  map.connect ':id/subscriptions',  :controller => 'users', :action => 'subscriptions'
+  map.connect 'members/:action',    :controller => 'users'
+  
+  
+  # channels
+  map.connect 'channels/:action',   :controller => 'channels'
+  
+  
+  # named paths
+  map.channel ':user/:channel',     :controller => 'channels', :action => 'show'
+  
+  
+  # front page
+  map.root :controller => 'videos', :action => 'friends'
+  
+  # generic routes
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
+  map.connect ':id', :controller => 'users', :action => 'activity'
+  
+  # named path for building the generic user route
+  map.user ':id', :controller => 'users', :action => 'activity'
 end

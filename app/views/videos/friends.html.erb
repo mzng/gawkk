@@ -1,0 +1,13 @@
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity', 
+			:links => [{:name => 'Activity', :options => '/', :selected => true}, 
+			{:name => 'Subscriptions', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => false}]} %>
+	<%= render @news_items %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :collection => @news_items} %>
+</div>
+
+<div id="content-sidebar">
+	<% if user_logged_in? -%>
+		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :user => logged_in_user} %>
+	<% end -%>
+</div>

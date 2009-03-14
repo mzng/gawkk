@@ -1,0 +1,84 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Complete Your Profile', :description => 'Tell us a bit more about yourself so your friends and other similar people can connect and share videos with you.'} %>
+
+<div id="content-centered">
+	<table id="registration-progress" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="inactive">Register</td>
+			<td class="active">Get Connected</td>
+			<td class="inactive">Setup Your Profile</td>
+			<td class="inactive">Enjoy Gawkk!</td>
+		</tr>
+	</table>
+	
+	<%= error_messages_for 'user' %>
+	
+	<% form_for(@user, :url => {:controller => 'registration', :action => 'setup_services'}) do |f| %>
+		<table id="registration" class="services" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="information" colspan="2">
+					What other sites do you use? Enter them here so they display on your Gawkk profile.
+				</td>
+			</tr>
+			<tr>
+				<td class="left">
+					<%= image_tag('service_twitter.png') %>
+				</td>
+				<td class="center">
+					Twitter Username<br/>
+					<%= f.text_field 'twitter_username' %>
+				</td>
+				<td class="filler" rowspan="5">&nbsp;</td>
+				<td class="right" rowspan="5">
+					<strong>What's This All About?</strong>
+					<p>Add links to:</p>
+					<ul class="no-bullets">
+						<li><%= image_tag('favicon_twitter.png') %> Twitter</li>
+						<li><%= image_tag('favicon_youtube.png') %> YouTube</li>
+						<li><%= image_tag('favicon_friendfeed.png') %> FriendFeed</li>
+						<li><%= image_tag('feed-owner.png') %> Blog or Website URL</li>
+						<li><%= image_tag('feed.png') %> Blog's RSS Feed</li>
+					</ul>
+					<p>Links to these services and sites will show up on your Gawkk profile for everyone to see.</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="left">
+					<%= image_tag('service_youtube.png') %>
+				</td>
+				<td class="center">
+					YouTube Username<br/>
+					<%= f.text_field 'youtube_username' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left">
+					<%= image_tag('service_friendfeed.png') %>
+				</td>
+				<td class="center">
+					FriendFeed Username<br/>
+					<%= f.text_field 'friendfeed_username' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('feed-owner.png') %> Blog or Website URL:
+				</td>
+				<td class="center">
+					<%= f.text_field 'website_url' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('feed.png') %> Blog's RSS Feed:
+				</td>
+				<td class="center">
+					<%= f.text_field 'feed_url' %>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Continue") %> or <%= link_to 'Skip this step', {:controller => 'registration', :action => 'setup_profile'} %>
+		</p>
+	<% end -%>
+</div>

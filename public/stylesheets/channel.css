@@ -1,0 +1,29 @@
+/* channel listing */
+.channel {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 89px;
+	line-height: 10pt;
+	margin: 5px 5px 5px 5px;
+	overflow: hidden;
+	text-align: center;
+	width: 64px;
+}
+
+.channel img {
+	border: 1px solid #E5E5E5;
+	height: 60px;
+	width: 60px;
+}
+
+/* channel listing in a grid container */
+.grid-container .channel {
+	height: 104px;
+	width: 79px;
+}
+
+.grid-container .channel img {
+	height: 75px;
+	width: 75px;
+}

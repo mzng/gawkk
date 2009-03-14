@@ -1,0 +1,106 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Complete Your Profile', :description => 'Tell us a bit more about yourself so your friends and other similar people can connect and share videos with you.'} %>
+
+<div id="content-centered">
+	<table id="registration-progress" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="inactive">Register</td>
+			<td><%= link_to 'Get Connected', {:controller => 'registration', :action => 'setup_services'} %></td>
+			<td class="active">Setup Your Profile</td>
+			<td class="inactive">Enjoy Gawkk!</td>
+		</tr>
+	</table>
+	
+	<%= error_messages_for 'user' %>
+	
+	<% form_for(@user, :url => {:controller => 'registration', :action => 'setup_profile'}, :html => {:multipart => true}) do |f| %>
+		<table id="registration" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><p>Choose an Avatar:</p></td>
+			</tr>
+			<tr>
+				<td id="service-containers" colspan="2">
+					<%= hidden_field 'use', 'service', :value => 'gawkk' %>
+					<%= render :partial => "service_avatar", :locals => {:service => 'gawkk', :description => 'Default', :selected => true} %>
+					<%= render :partial => "service_avatar", :locals => {:service => 'twitter', :description => 'Twitter'} %>
+					<%= render :partial => "service_avatar", :locals => {:service => 'youtube', :description => 'YouTube'} %>
+					<%= render :partial => "service_avatar", :locals => {:service => 'friendfeed', :description => 'FriendFeed'} %>
+				</td>
+				<td class="right" rowspan="2">
+					<strong>Share With Us</strong>
+					<ul>
+						<li><strong>Discover Videos:</strong><br/>
+						Find new videos and channels from people with similar interests and tastes</li>
+						
+						<li><strong>Create Channels:</strong><br/>
+						Save and share your favorite videos from any website to your own custom channels</li>
+						
+						<li><strong>Find Friends:</strong><br/>
+						View the interesting videos your friends save to their channels</li>
+						
+						<li><strong>It's Free!</strong></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p><label for="avatar_for_user">Or, Upload Your Own:</label><br/>
+					<%= file_field 'avatar', 'for_user', :onfocus => "revealTip('avatar_for_user');", :onblur => "hideTips();" %></p>
+					
+					<p><label for="user_name">First and Last Name:</label><br/>
+					<%= f.text_field 'name', :onfocus => "revealTip('user_name');", :onblur => "hideTips();" %></p>
+					
+					<p><label for="user_age_range_id">Age:</label><br/>
+					<%= f.select 'age_range_id', @age_ranges, {:include_blank => true}, :onfocus => "revealTip('user_age_range_id');", :onblur => "hideTips();" %></p>
+					
+					<p>Sex:<br/>
+					<label><%= f.radio_button 'sex', 'm', :onfocus => "revealTip('user_sex_m');", :onblur => "hideTips();" %> Male</label>
+					<label><%= f.radio_button 'sex', 'f', :onfocus => "revealTip('user_sex_f');", :onblur => "hideTips();" %> Female</label></p>
+					
+					<p><label for="user_location">Country:</label><br/>
+					<%= f.country_select 'location', ['United States'], {}, {:onfocus => "revealTip('user_location');", :onblur => "hideTips();", :style => 'width:215px;'} %></p>
+					
+					<p><label for="user_zip_code">Zip Code:</label><br/>
+					<%= f.text_field 'zip_code', :onfocus => "revealTip('user_zip_code');", :onblur => "hideTips();", :style => 'width:100px;' %></p>
+				</td>
+				<td class="center">
+					<div id="avatar_for_user_tip" class="tip">
+						<p>Upload an avatar to use as your profile picture.</p>
+					</div>
+
+					<div id="user_name_tip" class="tip">
+						<p>Your name is used only for searching and is shared only with friends. 
+						Your name is not displayed on the site except to a matching search request.</p>
+
+						<p><strong>If you want your friends to find you, use your real name here.</strong></p>
+					</div>
+
+					<div id="user_age_range_id_tip" class="tip">
+						<p>Your age will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_sex_m_tip" class="tip">
+						<p>Your sex will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_sex_f_tip" class="tip">
+						<p>Your sex will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_location_tip" class="tip">
+						<p>Your location will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_zip_code_tip" class="tip">
+						<p>Your location will not be displayed on the site.</p>
+					</div>
+					
+					<%= image_tag 'tip_arrow.gif', :id => 'tip_arrow', :class => 'tip-arrow' %>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Continue") %> or <%= link_to 'Skip this step', '/' %>
+		</p>
+	<% end -%>
+</div>

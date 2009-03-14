@@ -1,0 +1,6 @@
+<div id="activity_for_<%= video.id %>" class="activity">
+	<% if load_activity -%>
+		<%= render :partial => "/news_items/posted", :locals => {:video => video} %>
+		<%= render :partial => "/news_items/liked", :locals => {:video => video} %>
+	<% end -%>
+</div>

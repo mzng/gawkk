@@ -1,0 +1,4 @@
+<% content_tag_for(:div, user) do -%>
+	<%= link_to image_tag(user.thumbnail.blank? ? 'profile-pic.jpg' : user.thumbnail), user_path(:id => user) %>
+	<%= link_to user.username, user_path(:id => user) %>
+<% end -%>

@@ -1,0 +1,41 @@
+tsmango_channel:
+ id: 1
+ user_id: 1
+ name: "tsmango Channel"
+ slug: channel
+
+john_channel:
+ id: 2
+ user_id: 2
+ name: "john Channel"
+ slug: channel
+
+chuck_channel:
+ id: 3
+ user_id: 3
+ name: "Chuck Channel"
+ slug: channel
+
+30_rock_channel:
+ id: 4
+ user_id: 4
+ name: "30 Rock Channel"
+ slug: channel
+
+hulu_popular:
+ id: 5
+ user_id: 5
+ name: "Hulu Popular Channel"
+ slug: channel
+
+gculliss_channel:
+ id: 6
+ user_id: 6
+ name: "gculliss Channel"
+ slug: channel
+
+jane_channel:
+ id: 7
+ user_id: 7
+ name: "jane Channel"
+ slug: channel

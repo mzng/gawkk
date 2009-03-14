@@ -1,0 +1,14 @@
+<% if load_comments -%>
+	<% video.comments_by(@base_user, @include_followings) do |comments| -%>
+		<div id="comment_container_for_<%= video.id %>" class="comments">
+			<%= render comments %>
+		</div>
+		<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : ''} %>
+		<% if comments.size > 0 -%>
+			<%= render :partial => "/comments/reply", :locals => {:video => video} %>
+		<% end -%>
+	<% end -%>
+<% else -%>
+	<div id="comment_container_for_<%= video.id %>" class="comments"></div>
+	<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => ''} %>
+<% end -%>

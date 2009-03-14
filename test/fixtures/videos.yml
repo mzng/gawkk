@@ -1,0 +1,91 @@
+big_bang_theory:
+ id: 1
+ short_code: <%= Util::BaseConverter.to_base54(1) %>
+ category_id: 2
+ name: "Rock, Paper, Scissors, Lizard, Spock"
+ slug: rock-paper-scissors-lizard-spock
+ description: "The guys on The Big Bang Theory have an interesting way of settling their disputes..."
+ url: http://www.youtube.com/watch?v=_mKbnVKdix8
+ posted_by_id: 2
+ posted_at: <%= 48.hours.ago %>
+ promoted_at: <%= 5.hours.ago %>
+
+under_sea:
+ id: 2
+ short_code: <%= Util::BaseConverter.to_base54(2) %>
+ category_id: 1
+ name: "The Sarah Silverman Program: Preview - Under the Sea Emergency"
+ slug: the-sarah-silverman-program-preview-under-the-sea-emergency
+ description: "Sarah's post-dream distress call sends Laura and Jay into full rescue mode."
+ url: http://video.aol.com/partner/comedycentral/the_sarah_silverman_program_preview_under_the_sea_emergency/mgid:cms:mvideo:comedycentral.com:189912
+ posted_by_id: 2
+ posted_at: <%= 40.hours.ago %>
+ promoted_at: <%= 8.hours.ago %>
+
+bones:
+ id: 3
+ short_code: <%= Util::BaseConverter.to_base54(3) %>
+ category_id: 2
+ name: "Bones: The Boy in the Time Capsule"
+ slug: bones-the-boy-in-the-time-capsule
+ description: "A group of high school alumni gather to unearth a time capsule buried 20 years prior, only to find the body of one of their former teenage classmates inside."
+ url: http://www.hulu.com/watch/2291/bones-the-boy-in-the-time-capsule
+ posted_by_id: 2
+ posted_at: <%= 36.hours.ago %>
+
+steve_racer:
+ id: 4
+ short_code: <%= Util::BaseConverter.to_base54(4) %>
+ category_id: 1
+ name: "The Sarah Silverman Program: Steve Racer"
+ slug: the-sarah-silverman-program-steve-racer
+ description: "Brian catches Steve shooting movies in front of a homemade green screen."
+ url: http://video.aol.com/partner/comedycentral/the_sarah_silverman_program_steve_racer/mgid:cms:mvideo:comedycentral.com:188168
+ posted_by_id: 2
+ posted_at: <%= 30.hours.ago %>
+
+train:
+ id: 5
+ short_code: <%= Util::BaseConverter.to_base54(5) %>
+ category_id: 2
+ name: "Pedestrian Narrowly Misses Train and Gets His Shoe Knocked Off"
+ slug: pedestrian-narrowly-misses-train-and-gets-his-shoe-knocked-off
+ description: "In England, they monitor everything but sometimes having ubiquitous surveillance allows for some pretty incredible things to be caught on tape - like this guy who gets his foot hit by a train!"
+ url: http://www.youtube.com/watch?v=f_DLnOjO31U
+ posted_by_id: 2
+ posted_at: <%= 24.hours.ago %>
+ promoted_at: <%= 10.hours.ago %>
+
+hit_and_call:
+ id: 6
+ short_code: <%= Util::BaseConverter.to_base54(6) %>
+ category_id: 1
+ name: "Sarah Silverman Program: Hit and Call"
+ slug: sarah-silverman-program-hit-and-call
+ description: "Laura's grooming habits leave a lot to be desired while Sarah rings 911 after taking down an alleged terrorist."
+ url: http://video.aol.com/partner/comedycentral/2008_favorites_sarah_silverman_program_hit_and_call/mgid:cms:mvideo:comedycentral.com:215163
+ posted_by_id: 2
+ posted_at: <%= 20.hours.ago %>
+ promoted_at: <%= 14.hours.ago %>
+
+chuck:
+ id: 7
+ short_code: <%= Util::BaseConverter.to_base54(7) %>
+ category_id: 2
+ name: "Chuck: Recap: Chuck Versus the Ex"
+ slug: chuck-recap-chuck-versus-the-ex
+ description: "Miss the episode? Here's a Two-Minute Replay to get you caught up!"
+ url: http://www.hulu.com/watch/43699/chuck-recap-chuck-versus-the-ex
+ posted_by_id: 2
+ posted_at: <%= 12.hours.ago %>
+
+reunion:
+ id: 8
+ short_code: <%= Util::BaseConverter.to_base54(8) %>
+ category_id: 1
+ name: "The Sarah Silverman Program: Silverman Reunion"
+ slug: the-sarah-silverman-program-silverman-reunion
+ description: "Sarah corners her father in line at a book signing and learns the truth about his disappearance."
+ url: http://video.aol.com/partner/comedycentral/the_sarah_silverman_program_silverman_reunion/mgid:cms:mvideo:comedycentral.com:211598
+ posted_by_id: 2
+ posted_at: <%= 10.hours.ago %>

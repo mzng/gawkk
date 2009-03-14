@@ -1,0 +1,13 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Channels'} %>
+
+<div id="content-main">
+	<h1 class="section-header">Browse Channels</h1>
+	<div class="grid-container">
+		<%= render @channels %>
+	</div>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

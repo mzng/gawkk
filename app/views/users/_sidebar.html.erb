@@ -1,0 +1,21 @@
+<% if (welcome ||= false) -%>
+	<h1 class="section-header">Welcome, <%= user.username %></h1>
+<% end -%>
+
+<%= render :partial => '/users/statistics', :locals => {:user => user} %>
+
+<%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
+		:link => {:controller => 'users', :action => 'follows', :id => user}, 
+		:count => @followings_count, :collection => @followings} %>
+
+<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', 
+		:link => {:controller => 'users', :action => 'followers', :id => user}, 
+		:count => @followers_count, :collection => @followers} %>
+
+<%= render :partial => "/layouts/set", :locals => {:title => 'Friends', 
+		:link => {:controller => 'users', :action => 'friends', :id => user}, 
+		:count => @friends_count, :collection => @friends} %>
+
+<%= render :partial => "/layouts/set", :locals => {:title => 'Subscriptions', 
+		:link => {:controller => 'users', :action => 'subscriptions', :id => user}, 
+		:count => @subscribed_channels_count, :collection => @subscribed_channels} %>

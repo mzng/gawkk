@@ -1,0 +1,14 @@
+<% avatar_path ||= nil -%>
+<% title ||= '&nbsp;' -%>
+<% description ||= '&nbsp;' -%>
+
+<div id="content-header" class="separated">
+	<% if !avatar_path.blank? -%>
+		<%= image_tag(avatar_path, :class => 'avatar', :style => 'margin-bottom:10px;') %>
+	<% else -%>
+		<%= image_tag('g-avatar.png', :class => 'avatar', :style => 'margin-bottom:10px;') %>
+	<% end -%>
+	<h1 class="title"><%= title %></h1>
+	<h2 class="description"><%= description %></h2>
+	<div>&nbsp;</div>
+</div>

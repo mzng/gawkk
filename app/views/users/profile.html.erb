@@ -1,0 +1,12 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "The profile of #{@user.username}"} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Profile', 
+			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => false}, 
+			{:name => 'Profile', :options => {:controller => 'users', :action => 'profile', :id => @user}, :selected => true}, 
+			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "/users/sidebar", :locals => {:user => @user} %>
+</div>

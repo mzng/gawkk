@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+	  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<meta name="verify-v1" content="gJ6BCFevHkD1M2nQB8tjnpG74TtwLtQOdAWjoAwqOec=" />
+		<meta name="y_key" content="b78fce59f8ae1e66"/>
+		<link rel="shortcut icon" href="/favicon.ico" />
+		
+		<title>Gawkk - Share Videos with Friends</title>
+		
+		<%= stylesheet_link_tag 'scaffold', 'common', 'video', 'user', 'channel', 'registration' %>
+		<%= javascript_include_tag :all %>
+	</head>
+	<body>
+		<%= render :partial => "/layouts/header" %>
+		
+		<div id="outer">
+			<div id="content">
+				<% if !flash[:notice].blank? -%>
+					<p id="flash"><%= flash[:notice] %></p>
+				<% end -%>
+				
+				<%= yield  %>
+				
+				<br class="clear"/>
+			</div>
+			
+			<%= render :partial => "/layouts/footer" %>
+		</div>
+		
+		<!-- render :partial => "/layouts/referrers" -->
+	</body>
+</html>

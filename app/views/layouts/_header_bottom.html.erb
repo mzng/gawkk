@@ -1,0 +1,48 @@
+<div id="bottom">
+	<div id="section-container">
+		<ul class="menu-container" style="float:right;">
+			<li><%= link_to 'Add Friends', '/members/find', :class => 'action' %></li>
+			<li><%= link_to 'Post a Video', '/', :class => 'action' %></li>
+		</ul>
+		<ul class="menu-container">
+			<li><%= link_to 'Home', '/' %></li>
+			<li><%= link_to 'Videos' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'videos', :action => 'index', :popular => false} %>
+				<ul>
+					<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'index', :popular => false} %></li>
+					<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'index', :popular => true} %></li>
+					<li><%= link_to 'Subscriptions', {:controller => 'videos', :action => 'subscriptions'} %></li>
+					<li><%= link_to 'Post a Video', '/' %></li>
+				</ul>
+			</li>
+			<li><%= link_to 'Channels' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'channels'} %>
+				<ul>
+					<li><%= link_to 'Featured Channels', {:controller => 'channels'} %></li>
+					<li><%= link_to 'All Channels', {:controller => 'channels', :t => 'p'} %></li>
+				</ul>
+			</li>
+			<% if false -%>
+				<% if user_logged_in? -%>
+					<li><%= link_to 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'users', :action => 'show', :id => logged_in_user} %>
+						<ul>
+							<li><%= link_to 'My Profile', {:controller => 'users', :action => 'show', :id => logged_in_user} %></li>
+							<li><%= link_to 'My Channel', channel_path(:user => logged_in_user, :channel => logged_in_user.default_channel) %></li>
+							<li><%= link_to 'My Friends', {:controller => 'users', :action => 'friends_activity', :id => logged_in_user} %></li>
+							<li><%= link_to 'My Subscriptions', {:controller => 'users', :action => 'subscriptions_videos', :user => logged_in_user} %></li>
+						</ul>
+					</li>
+					<li><%= link_to 'Friends' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'users', :action => 'friends_activity', :id => logged_in_user} %>
+						<ul>
+							<li><%= link_to 'Friends\' Activity', {:controller => 'users', :action => 'friends_activity', :id => logged_in_user} %></li>
+							<li><%= link_to 'My Friends', {:controller => 'users', :action => 'friends', :user => logged_in_user} %></li>
+							<li><%= link_to 'Add Friends', {:controller => 'users', :action => 'find'} %></li>
+						</ul>
+					</li>
+				<% else -%>		
+					<li><%= link_to 'Profile', {:controller => 'login', :redirect_to => 'profile'} %></li>
+					<li><%= link_to 'Friends', {:controller => 'login', :redirect_to => 'friends_videos'} %></li>
+					<li><%= link_to 'Subscriptions', {:controller => 'login', :redirect_to => 'subscriptions_videos'} %></li>
+				<% end -%>
+			<% end -%>
+		</ul>
+	</div>
+</div>

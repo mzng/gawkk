@@ -1,0 +1,5 @@
+if @reply
+  page.insert_html(:after, "comment_#{@reply.id}", :partial => "/comments/new", :locals => {:commentable => @video, :comment => @comment})
+else
+  page.insert_html(:bottom, "video_#{@video.id}", :partial => "/comments/new", :locals => {:commentable => @video, :comment => @comment})
+end

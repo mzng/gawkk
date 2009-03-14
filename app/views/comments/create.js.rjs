@@ -1,0 +1,5 @@
+page.remove("new_comment_for_#{@comment.commentable_id}")
+page.insert_html(:bottom, "comment_container_for_#{@comment.commentable_id}", :partial => "/comments/comment", :locals => {:comment => @comment})
+page.visual_effect(:highlight, "comment_#{@comment.id}", :startcolor => "#FFFFCC")
+
+page << "if($('last_comment_id_for_#{@comment.commentable_id}')) {$('last_comment_id_for_#{@comment.commentable_id}').value = '#{@comment.id}';}"

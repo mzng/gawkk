@@ -1,0 +1,13 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @category.thumbnail, :title => @category.name, :description => params[:popular] ? 'Popular Videos' : 'Newest Videos'} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'All Videos', 
+			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => true}, :selected => @popular}, 
+			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :selected => !@popular}]} %>
+	<%= render @videos %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos} %>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

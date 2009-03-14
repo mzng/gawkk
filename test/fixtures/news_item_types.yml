@@ -1,0 +1,61 @@
+--- 
+news_item_type_00011: 
+  name: vote_a_video_down
+  kind: about a user
+  template: "{user} voted the video \"{video}\" down<br/>{video.listing}"
+  id: 11
+news_item_type_00012: 
+  name: vote_a_video_up
+  kind: about a user
+  template: "{user} voted the video \"{video}\" up<br/>{video.listing}"
+  id: 12
+news_item_type_00001: 
+  name: add_a_friend
+  kind: about a user
+  template: "{user} started following {friend}"
+  id: 1
+news_item_type_00002: 
+  name: invite_friends
+  kind: about a user
+  template: "{user} invited {message} to join Gawkk. <a href=\"/members/find\">Invite</a> your friends"
+  id: 2
+news_item_type_00003: 
+  name: save_a_video
+  kind: about a user
+  template: "{user} saved the video \"{video}\"<br/>{video.listing}"
+  id: 3
+news_item_type_00004: 
+  name: submit_a_video
+  kind: about a user
+  template: "{user} submitted the video \"{video}\"<br/>{video.listing}"
+  id: 4
+news_item_type_00005: 
+  name: subscribe_to_channel
+  kind: about a user
+  template: "{user} subscribed to {channel}<br/>{channel.listing}"
+  id: 5
+news_item_type_00006: 
+  name: popularized_saved_video
+  kind: for a user
+  template: The video you saved, entitled "{video}," became popular with {message}
+  id: 6
+news_item_type_00007: 
+  name: popularized_submission
+  kind: for a user
+  template: The video you submitted, entitled "{video}," became popular with {message}
+  id: 7
+news_item_type_00008: 
+  name: announcement
+  kind: for all users
+  template: "{message}"
+  id: 8
+news_item_type_00009: 
+  name: make_a_comment
+  kind: about a user
+  template: "{user} commented on the {commentable_type} \"{commentable}\"<br/>{comment.body}"
+  id: 9
+news_item_type_00010: 
+  name: welcome
+  kind: for a user
+  template: Welcome to Gawkk! Don't forget to <a href="/members/find">invite your friends</a>!
+  id: 10

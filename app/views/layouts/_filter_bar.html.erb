@@ -1,0 +1,9 @@
+<h1 id="filter-bar">
+	<span class="action-container">
+		<% links.each do |link| -%>
+			<%= link_to link[:name], link[:options], :class => link[:selected] ? 'selected' : '' %>
+		<% end -%>
+	</span>
+	<span class="title-container"><%= title %></span>
+</h1>
+<br class="clear"/>

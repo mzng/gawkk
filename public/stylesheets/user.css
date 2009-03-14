@@ -1,0 +1,73 @@
+/* user listing */
+.user {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 89px;
+	line-height: 10pt;
+	margin: 5px 5px 5px 5px;
+	overflow: hidden;
+	text-align: center;
+	width: 64px;
+}
+
+.user img {
+	border: 1px solid #E5E5E5;
+	height: 60px;
+	width: 60px;
+}
+
+/* user listing in a grid container */
+.grid-container .user {
+	height: 104px;
+	width: 79px;
+}
+
+.grid-container .user img {
+	height: 75px;
+	width: 75px;
+}
+
+/* statistics table */
+.user-statistics {
+	padding: 5px;
+	width: 100%;
+}
+
+.user-statistics td {
+	text-align: center;
+	width: 25%;
+}
+
+.user-statistics td span {
+	font-size: 18pt;
+	line-height: 22pt;
+}
+
+.user-statistics td .user {
+	margin-top: 0px;
+}
+
+.user-statistics td + td {
+	border-right: 1px solid #E5E5E5;
+}
+
+.user-statistics td:last-child {
+	border-right: 0px;
+}
+
+
+
+/*.service-list {
+	list-style: none;
+	margin-left: -30px;
+	margin-top: 0px;
+	_margin-left: 0px;
+}
+
+.service-list li {
+	overflow: hidden;
+	padding: 2px 0px;
+	white-space: nowrap;
+	width: 295px;
+}*/

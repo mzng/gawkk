@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+*.pid
+changelog.txt
+gawkk.tmproj
+refactor.tmproj
+db/sphinx
+public/images/thumbnails
+public/images/users
+vendor/plugins/acts_as_solr/solr/tmp/development_pid
+vendor/plugins/acts_as_solr/solr/solr/data/development
