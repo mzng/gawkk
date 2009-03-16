@@ -154,6 +154,40 @@ class User < ActiveRecord::Base
   
   
   # Relationships and Subscriptions
+  def follow(friend)
+    if !follows?(friend)
+      Friendship.create(:user_id => self.id, :friend_id => friend.id)
+    end
+  end
+  
+  def unfollow(friend)
+    if follows?(friend)
+      Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.id, friend.id]).destroy
+    end
+  end
+  
+  def follows?(friend)
+    Friendship.count(:all, :conditions => ['user_id = ? AND friend_id = ?', self.id, friend.id]) > 0 ? true : false
+  end
+  
+  
+  def subscribe_to(channel)
+    if !subscribes_to?(channel)
+      Subscription.create(:user_id => self.id, :channel_id => channel.id)
+    end
+  end
+  
+  def unsubscribe_from(channel)
+    if subscribes_to?(channel)
+      Subscription.find(:first, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id]).destroy
+    end
+  end
+  
+  def subscribes_to?(channel)
+    Subscription.count(:all, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id]) > 0 ? true : false
+  end
+  
+  
   def followings(*args)
     # Speed this method up with cache
     options = args.extract_options!

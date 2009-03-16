@@ -1,0 +1,3 @@
+page << "if($('subscribe_for_#{@channel.id}')) {"
+page.replace("subscribe_for_#{@channel.id}", :partial => '/channels/subscribe', :locals => {:channel => @channel})
+page << "}"

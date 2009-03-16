@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name} %>
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name, :channel => @channel} %>
 
 <div id="content-main">
 	<%= render @videos %>

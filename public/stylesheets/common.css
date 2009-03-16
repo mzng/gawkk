@@ -64,22 +64,6 @@ a {
 	text-decoration: underline;
 }
 
-a.subscribe, a.subscribe:visited, a.unsubscribe:hover {
-	background-color: #195baa;
-	border: 1px solid #195baa;
-	color: #FFFFFF !important;
-	font-size: 8pt;
-	padding: 2px;
-}
-
-a.subscribe:hover, a.unsubscribe {
-	background-color: #778eaa;
-	border: 1px solid #778eaa;
-	color: #FFFFFF !important;
-	font-size: 8pt;
-	padding: 2px;
-}
-
 a.moreLink {
 	display:block;
 	padding:0 20px 1px 0;

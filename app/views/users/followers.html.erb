@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Followers of #{@user.username}"} %>
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Followers of #{@user.username}", :user => @user} %>
 
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Followers of #{@user.username}", 

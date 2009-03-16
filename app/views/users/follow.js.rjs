@@ -1,0 +1,3 @@
+page << "if($('follow_for_#{@friend.id}')) {"
+page.replace("follow_for_#{@friend.id}", :partial => '/users/follow', :locals => {:user => @friend})
+page << "}"

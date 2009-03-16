@@ -38,6 +38,34 @@ class ChannelsController < ApplicationController
   end
   
   
+  # Channel Actions
+  def subscribe
+    # ensure_logged_in_user or do nothing
+    
+    if @channel = Channel.find(params[:id])
+      logged_in_user.subscribe_to(@channel)
+    end
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
+  def unsubscribe
+    # ensure_logged_in_user or do nothing
+    
+    if @channel = Channel.find(params[:id])
+      logged_in_user.unsubscribe_from(@channel)
+    end
+    
+    respond_to do |format|
+      format.js {
+        render :action => "subscribe"
+      }
+    end
+  end
+  
+  
   private
   def load_channel
     if (@user = User.find_by_slug(params[:user])) and (@channel = Channel.owned_by(@user).with_slug(params[:channel]).first)
@@ -49,6 +77,14 @@ class ChannelsController < ApplicationController
     else
       flash[:notice] = 'The channel you are looking for does not exist.'
       redirect_to :action => "index"
+    end
+  end
+  
+  def ensure_logged_in_user
+    if user_logged_in?
+      yield
+    else
+      render :nothing => true
     end
   end
 end

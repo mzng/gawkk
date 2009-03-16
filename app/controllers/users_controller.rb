@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions]
+  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow]
   layout 'page'
   
   # User Manager
@@ -77,6 +78,34 @@ class UsersController < ApplicationController
   end
   
   
+  # User Actions
+  def follow
+    # ensure_logged_in_user or do nothing
+    
+    if @friend = User.find_by_slug(params[:id])
+      logged_in_user.follow(@friend)
+    end
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
+  def unfollow
+    # ensure_logged_in_user or do nothing
+    
+    if @friend = User.find_by_slug(params[:id])
+      logged_in_user.unfollow(@friend)
+    end
+    
+    respond_to do |format|
+      format.js {
+        render :action => "follow"
+      }
+    end
+  end
+  
+  
   private
   def load_user
     if @user = User.find_by_slug(params[:id])
@@ -97,6 +126,14 @@ class UsersController < ApplicationController
     else
       flash[:notice] = 'The user you are looking for does not exist.'
       redirect_to :action => "index"
+    end
+  end
+  
+  def ensure_logged_in_user
+    if user_logged_in?
+      yield
+    else
+      render :nothing => true
     end
   end
 end

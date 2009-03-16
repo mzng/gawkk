@@ -1,6 +1,8 @@
-<% avatar_path ||= nil -%>
-<% title ||= '&nbsp;' -%>
-<% description ||= '&nbsp;' -%>
+<% avatar_path	||= nil -%>
+<% title 				||= '&nbsp;' -%>
+<% description	||= '&nbsp;' -%>
+<% user					||= nil -%>
+<% channel			||= nil -%>
 
 <div id="content-header" class="separated">
 	<% if !avatar_path.blank? -%>
@@ -10,5 +12,13 @@
 	<% end -%>
 	<h1 class="title"><%= title %></h1>
 	<h2 class="description"><%= description %></h2>
-	<div>&nbsp;</div>
+	<div>
+		<% if !user.nil? -%>
+			<%= render :partial => "/users/follow", :locals => {:user => user} %>
+		<% elsif !channel.nil? -%>
+			<%= render :partial => "/channels/subscribe", :locals => {:channel => channel} %>
+		<% else -%>
+			&nbsp;
+		<% end -%>
+	</div>
 </div>
