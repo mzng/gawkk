@@ -5,11 +5,11 @@
 <% content_tag_for(:div, video) do -%>
 	<% if visible_title -%>
 		<div class="title">
-			<%= link_to video.title, "javascript:watch('#{video.id}','#{video.slug}');" %> <%= popular_icon(video) %>
+			<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}');" %> <%= popular_icon(video) %>
 		</div>
 	<% end -%>
 	<div class="body">
-		<div class="thumbnail" onclick="watch('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>);">
+		<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>);">
 			<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 		</div>
 		<div class="description">

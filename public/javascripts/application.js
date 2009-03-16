@@ -29,7 +29,7 @@ function rest(videoId) {
 	}
 }
 
-function watch(videoId, videoSlug) {
+function watchVideo(videoId, videoSlug) {
 	if($('embed_for_' + videoId).style.display != 'none') {
 		$('embed_for_' + videoId).hide();
 	} else {
