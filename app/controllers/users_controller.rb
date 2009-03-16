@@ -18,6 +18,10 @@ class UsersController < ApplicationController
     @users = collect('users', User.members.all(:order => order, :offset => @offset, :limit => @per_page))
   end
   
+  def find
+    # Well, this is embarrassing!
+  end
+  
   
   # User Pages
   def activity

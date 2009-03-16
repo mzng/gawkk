@@ -219,6 +219,7 @@
 .video .inline td {
 	font-size: 9pt;
 	padding: 3px 0;
+	text-align: left;
 }
 
 .video .inline td + td {

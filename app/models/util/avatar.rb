@@ -17,7 +17,7 @@ class Util::Avatar
   end
   
   def self.use_file_avatar(user, file)
-    if Util::Avatar.write("#{user.slug}.jpg", file.read)
+    if !file.nil? and Util::Avatar.write("#{user.slug}.jpg", file.read)
       user.update_attribute('thumbnail', "users/#{user.slug}.jpg")
     end
   end

@@ -1,0 +1,10 @@
+<% title 			||= '&nbsp;' -%>
+<% link 			||= '#' -%>
+<% count			||= 0 -%>
+<% set_size		||= 4 -%>
+<% force_link ||= false -%>
+
+<h1 class="section-header">
+	<% if force_link or count > 0 -%><span><%= link_to "View All#{count > set_size ? ' ' + count.to_s : ''}", link %></span><% end -%>
+	<%= title %>
+</h1>

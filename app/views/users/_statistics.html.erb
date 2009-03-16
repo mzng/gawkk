@@ -13,7 +13,7 @@
 		</td>
 		<td>
 			<span><%= @posts_count %></span><br/>
-			<%= link_to 'Posts', {:controller => 'users', :action => 'activity', :id => user} %>
+			<%= link_to 'Posts', user_path(user) %>
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>

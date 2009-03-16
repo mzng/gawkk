@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/discuss',        :controller => 'videos', :action => 'discuss'
   map.connect ':id/watch',          :controller => 'videos', :action => 'watch'
   map.connect ':id/like',           :controller => 'videos', :action => 'like'
+  map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   
   map.connect 'videos/:action',     :controller => 'videos'
@@ -43,6 +44,25 @@ ActionController::Routing::Routes.draw do |map|
   
   # channels
   map.connect 'channels/:action',   :controller => 'channels'
+  
+  
+  # search
+  map.connect 'search/:action',     :controller => 'search'
+  
+  
+  # pages
+  map.connect 'buttons',            :controller => 'pages', :action => 'buttons'
+  map.connect 'contact',            :controller => 'pages', :action => 'contact'
+  map.connect 'how',                :controller => 'pages', :action => 'how_gawkk_works'
+  map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
+  map.connect 'report-bug',         :controller => 'pages', :action => 'report_bug'
+  map.connect 'rss',                :controller => 'pages', :action => 'rss'
+  map.connect 'share',              :controller => 'pages', :action => 'share'
+  map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
+  map.connect 'tour',               :controller => 'pages', :action => 'tour'
+  map.connect 'faq',                :controller => 'pages', :action => 'faq'
+  map.connect 'jobs',               :controller => 'pages', :action => 'jobs'
+  map.connect 'pages/:action',      :controller => 'pages'
   
   
   # named paths

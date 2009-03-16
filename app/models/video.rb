@@ -16,6 +16,15 @@ class Video < ActiveRecord::Base
   named_scope :in_category, lambda {|category| {:select => 'id, category_id', :conditions => {:category_id => category.id}}}
   named_scope :in_categories, lambda {|categories| {:select => 'id, category_id', :conditions => ['category_id IN (?)', categories]}}
   
+  
+  define_index do
+    indexes :name
+    indexes :description
+    has category_id
+    has posted_at
+  end
+  
+  
   def to_param
     self.slug
   end
@@ -70,10 +79,10 @@ class Video < ActiveRecord::Base
       user_ids.concat(user.followings_ids)
     end
     
-    votes = Vote.positive.by_users(user_ids).for_video(self).in_order.all
+    likes = Like.by_users(user_ids).for_video(self).in_order.all
     
-    if votes.size > 0
-      yield votes
+    if likes.size > 0
+      yield likes
     end
   end
   

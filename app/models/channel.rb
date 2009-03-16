@@ -14,6 +14,16 @@ class Channel < ActiveRecord::Base
   validates_presence_of :name, :user_id
   validates_uniqueness_of [:name, :slug], :scope => :user_id, :message => "must be unique"
   
+  
+  define_index do
+    indexes :name
+    indexes :description
+    indexes :keywords
+    has mature
+    has user_owned
+  end
+  
+  
   def before_validation_on_create
     if User.find(self.user_id).channels.count == 0
       self.slug = 'channel'

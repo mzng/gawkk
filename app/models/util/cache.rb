@@ -117,6 +117,7 @@ class Util::Cache
     # select all users no longer in cache at once
     User.find(ids_of_users_to_load).each do |user|
       Rails.cache.write(user.cache_key, user, :expires_in => 1.day)
+      Rails.cache.write(user.long_cache_key, user, :expires_in => 1.day)
     end
     
     # collect all of the full users from cache

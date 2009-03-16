@@ -1,0 +1,9 @@
+<% separated = true if separated.nil? -%>
+
+<div <% if separated -%>class="search-container"<% end -%>>
+	<% form_tag({}, :name => 'search', :method => 'get') do -%>
+		<p class="refine-search">
+			<input class="field" type="text" name="q" value="<%= @q.gsub('"', '&quot;') %>"/> <%= submit_tag 'Search', :class => 'submit' %>
+		</p>
+	<% end -%>
+</div>

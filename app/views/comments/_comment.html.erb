@@ -6,7 +6,7 @@
 		<td colspan="2" class="body">
 			<%= link_to comment.user.username, user_path(:id => comment.user) %>: <%=h comment.body %>
 			<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
-			<span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}');" %></span>
+			<% if user_logged_in? -%><span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}');" %></span><% end -%>
 		</td>
 	</tr>
 <% end -%>

@@ -1,0 +1,30 @@
+Hey <%= @user.username %>,
+
+Welcome to the Gawkk video sharing network!
+
+<% if false -%>
+Verify Your Email Address
+To complete your sign-up, please click on the link below to verify your email address:
+http://www.gawkk.com/settings/confirm-email/<%= @user.slug %>?auth=<%= @user.email_confirmation_auth_code %>
+<% end -%>
+In case you forget, here is your login info - keep this email around for reference!
+
+   Gawkk Username: <%= @user.username %>
+   Password: <%= @user.password %>
+   Your Profile: http://www.gawkk.com/<%= @user.slug %>
+
+Gawkk on!
+
+Thanks,
+The Gawkk Team
+
+------------------
+This email was sent to: <%= @user.email %>
+
+You received this email because you signed up for an account at Gawkk.com
+
+<% if false -%>
+To update your email settings or unsubscribe from these notifications, visit:
+http://www.gawkk.com/settings/notifications
+<% end -%>
+You can reach Gawkk at 258 W. 71 Street, Suite 1A, New York, NY 10023

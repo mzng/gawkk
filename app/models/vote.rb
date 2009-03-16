@@ -25,10 +25,18 @@ class Vote < ActiveRecord::Base
   
   
   def self.like(user, video)
-    if vote = Vote.by_user(user).for_video(video).first and user.administrator?
-      vote.update_attribute('value', vote.value + 1)
+    if vote = Vote.by_user(user).for_video(video).first and vote.value < 1
+      vote.update_attribute('value', 1)
     elsif vote.nil?
       vote = Vote.create(:user_id => user.id, :video_id => video.id, :value => 1)
+    end
+    
+    vote
+  end
+  
+  def self.unlike(user, video)
+    if vote = Vote.by_user(user).for_video(video).first and vote.value > 0
+      vote.update_attribute('value', vote.value - 1)
     end
     
     vote

@@ -46,7 +46,7 @@ class RegistrationController < ApplicationController
       @service_avatars = Util::Avatar.collect_avatars(@user)
       @age_ranges = AgeRange.collect
     else
-      if params[:avatar] and params[:avatar][:for_user].class != String
+      if params[:avatar] and params[:avatar][:for_user] != nil and params[:avatar][:for_user].class != String
         Util::Avatar.use_file_avatar(@user, params[:avatar][:for_user])
       elsif !params[:use][:service].blank?
         Util::Avatar.use_service_avatar(@user, params[:use][:service])

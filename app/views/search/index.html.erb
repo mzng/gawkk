@@ -1,0 +1,28 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Search Results for <em>#{@q}</em>"} %>
+
+<div id="content-main">
+	<h1 class="section-header">Search</h1>
+	<%= render :partial => "/search/search", :locals => {:separated => false} %>
+	
+	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Channels', :count => @channels.total_entries, :set_size => 7, :link => {:action => 'channels', :q => @q}} %>
+	<div class="grid-container">
+		<%= @channels.size > 0 ? render(@channels) : "<em>No Channels found.</em>" %>
+	</div>
+	<br class="clear"/>
+	
+	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Members', :count => @users.total_entries, :set_size => 7, :link => {:action => 'members', :q => @q}} %>
+	<div class="grid-container">
+		<%= @users.size > 0 ? render(@users) : "<em>No Members found.</em>" %>
+	</div>
+	<br class="clear"/>
+	
+	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Videos', :count => @videos.total_entries, :set_size => 5, :link => {:action => 'videos', :q => @q}} %>
+	<div class="grid-container">
+		<%= @videos.size > 0 ? render(@videos) : "<em>No Videos found.</em>" %>
+	</div>
+	<br class="clear"/>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

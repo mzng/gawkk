@@ -1,0 +1,16 @@
+<% if !user_logged_in? -%>
+	<% form_tag({:controller => 'registration', :action => 'register'}, :method => 'get') do -%>
+		<input type="hidden" name="f" value="pb"/>
+		<div id="pitch">
+			<span>
+				<%= submit_tag 'Join today!' %><br/>
+				Already a member? <%= link_to 'Login', :controller => 'authentication', :action => 'login' %>
+			</span>
+			<div>
+				<p style="font-size:16pt;font-weight:bold;">Welcome to Gawkk!</p>
+				<p>Gawkk is a social video community where members <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with their friends.</p>
+				<p><%= link_to 'Join the conversation today!', {:controller => 'registration', :action => 'register', :f => 'pl'}, :style => 'color:#195baa;font-weight:bold;text-decoration:none;' %></p>
+			</div>
+		</div>
+	<% end -%>
+<% end -%>

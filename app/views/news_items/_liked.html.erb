@@ -1,12 +1,15 @@
-<% video.likes_by(@base_user, @include_followings) do |likes| -%>
-	<table class="inline" cellpadding="0" cellspacing="0">
-		<tr>
-			<td class="image">
-				<%= image_tag('tick.png') %>
-			</td>
-			<td colspan="2">
-				Liked by <%= summarize_likes(likes) %>
-			</td>
-		</tr>
-	</table>
-<% end -%>
+<div id="likes_for_<%= video.id %>" class="activity">
+	<% video.likes_by(@base_user, @include_followings) do |likes| -%>
+		<table class="inline" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="image">
+					<%= image_tag('tick.png') %>
+				</td>
+				<td colspan="2">
+					Liked by <%= summarize_likes(likes) %>
+					- <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like", :locals => {:video => video} %></span>
+				</td>
+			</tr>
+		</table>
+	<% end -%>
+</div>

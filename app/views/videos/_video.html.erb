@@ -33,20 +33,26 @@
 		<div class="actions">
 			<table cellpadding="0" cellspacing="0">
 				<tr>
-					<td><%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO');" %> |</td>
-					<td id="like_for_<%= video.id %>"><%= link_to_remote 'Like', {:url => {:controller => 'videos', :action => 'like', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');"} %> |</td>
+					<td><%= render :partial => "/videos/comment", :locals => {:video => video} %></td>
 					<td>
-						<ul class="menu-container">
-							<li>
-								<%= link_to '<span>More</span>' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
-								<ul>
-									<li><%= link_to 'Share', '#' %></li>
-									<li><%= link_to 'Embed', '#' %></li>
-									<li><%= link_to 'Permalink', '#' %></li>
-								</ul>
-							</li>
-						</ul>
+						<span class="like_for_<%= video.id %>">
+							<%= render :partial => "/videos/like", :locals => {:video => video} %>
+						</span>
 					</td>
+					<% if false -%>
+						<td>
+							<ul class="menu-container">
+								<li>
+									<%= link_to '<span>More</span>' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
+									<ul>
+										<li><%= link_to 'Share', '#' %></li>
+										<li><%= link_to 'Embed', '#' %></li>
+										<li><%= link_to 'Permalink', '#' %></li>
+									</ul>
+								</li>
+							</ul>
+						</td>
+					<% end -%>
 				</tr>
 			</table>
 		</div>

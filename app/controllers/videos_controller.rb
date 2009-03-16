@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:like, :comment]
-  around_filter :load_video, :only => [:discuss, :watch, :like, :comment]
-  skip_before_filter :verify_authenticity_token, :only => [:watch, :comment]
+  around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment]
+  around_filter :load_video, :only => [:discuss, :watch, :like, :unlike, :comment]
+  skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :comment]
   layout 'page'
   
   
@@ -36,7 +36,11 @@ class VideosController < ApplicationController
   def friends
     record_ad_campaign
     setup_pagination
-    setup_user_sidebar(logged_in_user) if user_logged_in?
+    if user_logged_in?
+      setup_user_sidebar(logged_in_user)
+    else
+      @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 8))
+    end
     
     @base_user = (logged_in_user or User.new)
     @include_followings = true
@@ -45,7 +49,11 @@ class VideosController < ApplicationController
   
   def subscriptions
     setup_pagination
-    setup_user_sidebar(logged_in_user) if user_logged_in?
+    if user_logged_in?
+      setup_user_sidebar(logged_in_user)
+    else
+      @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 8))
+    end
     
     @videos = collect('saved_videos', (logged_in_user or User.new).subscription_videos(:offset => @offset, :limit => @per_page))
   end
@@ -73,12 +81,41 @@ class VideosController < ApplicationController
     end
   end
   
-  def like
-    # load_video or redirect
-    @vote = Vote.like(logged_in_user, @video)
+  def reload_activity
+    @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
+      Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
+    }
+    @base_user = Rails.cache.fetch("users/#{params[:user]}", :expires_in => 1.day) {
+      User.find_by_slug(params[:base_user])
+    }
+    @include_followings = params[:include_followings]
     
     respond_to do |format|
       format.js {}
+    end
+  end
+  
+  def like
+    # load_video or redirect
+    if Like.by_user(logged_in_user).for_video(@video).count == 0
+      Like.create :user_id => logged_in_user.id, :video_id => @video.id
+    end
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
+  def unlike
+    # load_video or redirect
+    if like = Like.by_user(logged_in_user).for_video(@video).first
+      like.destroy
+    end
+    
+    respond_to do |format|
+      format.js {
+        render :action => "like"
+      }
     end
   end
   

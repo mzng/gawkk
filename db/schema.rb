@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090303155612) do
+ActiveRecord::Schema.define(:version => 20090314034643) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -205,6 +205,16 @@ ActiveRecord::Schema.define(:version => 20090303155612) do
   end
 
   add_index "jobs", ["job_category_id"], :name => "job_category_id"
+
+  create_table "likes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "video_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "likes", ["user_id"], :name => "user_id"
+  add_index "likes", ["video_id"], :name => "video_id"
 
   create_table "message_types", :force => true do |t|
     t.string "name"
@@ -458,6 +468,7 @@ ActiveRecord::Schema.define(:version => 20090303155612) do
     t.integer  "member_votes_count",       :default => 0
     t.boolean  "ineligible_for_promotion", :default => false
     t.string   "short_code"
+    t.integer  "likes_count",              :default => 0
   end
 
   add_index "videos", ["posted_by_id"], :name => "posted_by_id"
@@ -541,6 +552,9 @@ ActiveRecord::Schema.define(:version => 20090303155612) do
   add_foreign_key "invitations", ["invitee_id"], "users", ["id"], :name => "invitations_ibfk_2"
 
   add_foreign_key "jobs", ["job_category_id"], "job_categories", ["id"], :name => "jobs_ibfk_1"
+
+  add_foreign_key "likes", ["user_id"], "users", ["id"], :name => "likes_ibfk_1"
+  add_foreign_key "likes", ["video_id"], "videos", ["id"], :name => "likes_ibfk_2"
 
   add_foreign_key "messages", ["sender_id"], "users", ["id"], :name => "messages_ibfk_1"
   add_foreign_key "messages", ["receiver_id"], "users", ["id"], :name => "messages_ibfk_2"

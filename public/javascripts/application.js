@@ -1,4 +1,20 @@
-// watch container
+// common
+function descriptiveField(field, description, focused) {
+	if(focused) {
+		if(field.value == description) {
+			field.value = '';
+			field.style.color = '#333';
+		}
+	} else {
+		if(field.value == '') {
+			field.style.color = 'gray';
+			field.value = description;
+		}
+	}
+}
+
+
+// video
 function work(videoId) {
 	if($('loading_for_' + videoId)) {
 		$('popular_for_' + videoId).style.display = 'none';
@@ -29,6 +45,23 @@ function watch(videoId, videoSlug) {
 				}
 			}}
 		);
+	}
+}
+
+
+// activity
+function reloadActivity(videoId) {
+	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings;
+		
+		new Ajax.Request('/videos/reload_activity/' + videoId + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
+				work(videoId);
+			}, onComplete:function(request){
+				rest(videoId);
+			}}
+		);
+	} else {
+		rest(videoId);
 	}
 }
 

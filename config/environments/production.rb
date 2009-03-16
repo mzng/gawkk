@@ -15,13 +15,23 @@ config.action_controller.perform_caching             = true
 # config.logger = SyslogLogger.new
 
 # Use a different cache store in production
-# config.cache_store = :mem_cache_store
+config.cache_store = :mem_cache_store, '75.127.77.201', '75.127.77.202', {:namespace => 'gawkk'}
 
 # Enable serving of images, stylesheets, and javascripts from an asset server
 # config.action_controller.asset_host = "http://assets.example.com"
 
 # Disable delivery errors, bad email addresses will be ignored
-# config.action_mailer.raise_delivery_errors = false
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = false
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = { 
+   :address => "mail.gawkk.com", 
+   :port => 587, 
+   :domain => "gawkk.com", 
+   :authentication => :login, 
+   :user_name => "notifier", 
+   :password => "purplemonkeydishwasher"   
+}
 
 # Enable threaded mode
 # config.threadsafe!

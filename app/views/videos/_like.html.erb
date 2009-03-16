@@ -1,0 +1,7 @@
+<% if user_logged_in? and logged_in_user.liked?(video) -%>
+	<%= link_to_remote 'Unlike', {:url => {:controller => 'videos', :action => 'unlike', :id => video}, :loading => "work('#{video.id}');", :complete => "reloadActivity('#{video.id}');"} %>
+<% elsif user_logged_in? -%>
+	<%= link_to_remote 'Like', {:url => {:controller => 'videos', :action => 'like', :id => video}, :loading => "work('#{video.id}');", :complete => "reloadActivity('#{video.id}');"} %>
+<% else -%>
+	<%= link_to 'Like', {:controller => 'authentication', :action => 'login'} %>
+<% end -%>

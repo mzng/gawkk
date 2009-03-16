@@ -1,0 +1,16 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Search Results for <em>#{@q}</em>"} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Search Members", :include_search => true, 
+			:links => [{:name => 'Channels', :options => {:controller => 'search', :action => 'channels', :q => @q}, :selected => false}, 
+			{:name => 'Members', :options => {:controller => 'search', :action => 'members', :q => @q}, :selected => true}, 
+			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => false}]} %>
+	<div class="grid-container">
+		<%= render @users %>
+	</div>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users, :options => {:q => @q}} %>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

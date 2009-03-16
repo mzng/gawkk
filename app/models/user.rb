@@ -47,6 +47,14 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :on => :save, :message => "should match confirmation"
   
   
+  define_index do
+    indexes :username
+    indexes :name
+    indexes :email
+    has feed_owner
+  end
+  
+  
   def validate_on_create
     errors.add(:username,   "must be at least 4 characters") unless self.username.length > 3 or self.feed_owner?
     errors.add(:username,   "can't be longer than 15 characters") unless self.username.length < 16 or self.feed_owner?
@@ -98,7 +106,9 @@ class User < ActiveRecord::Base
       # Report welcome news item
       
       # Send welcome email
-      # RegistrationMailer.deliver_registration_notification(@user)
+      spawn(:nice => 10) do
+        RegistrationMailer.deliver_notification(self)
+      end
     end
   end
 
@@ -118,6 +128,10 @@ class User < ActiveRecord::Base
   
   def to_param
     self.slug
+  end
+
+  def long_cache_key
+    "users/#{self.slug}"
   end
   
   
@@ -210,8 +224,11 @@ class User < ActiveRecord::Base
     SavedVideo.in_channels(self.subscription_ids).all(options)
   end
   
-  
   # Utility Methods
+  def liked?(video)
+    (Like.by_user(self).for_video(video).count > 0) ? true : false
+  end
+  
   def self.default_followings
     User.with_slugs(['gculliss']).all
   end

@@ -1,13 +1,12 @@
-<% title ||= '&nbsp;' -%>
-<% link ||= '#' -%>
-<% count ||= 0 -%>
-<% collection ||= Array.new -%>
+<% title 			||= '&nbsp;' -%>
+<% link 			||= '#' -%>
+<% count			||= 0 -%>
+<% set_size		||= 4 -%>
+<% force_link ||= false -%>
+<% collection	||= Array.new -%>
 
 <% if collection.size > 0 -%>
-	<h1 class="section-header">
-		<span><%= link_to "View All#{count > 4 ? ' ' + count.to_s : ''}", link %></span>
-		<%= title %>
-	</h1>
+	<%= render :partial => "/layouts/set_header", :locals => {:title => title, :count => count, :set_size => set_size, :link => link, :force_link => force_link} %>
 	<div class="set">
 		<% collection.each do |object| -%>
 			<%= render object %>

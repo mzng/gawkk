@@ -55,12 +55,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def setup_pagination(options = {})
-    @per_page = options[:per_page].nil? ? 25 : options[:per_page]
-    
+  def parse_page
     @page = params[:page].blank? ? 1 : params[:page]
     @page = 1 unless @page.to_s.match(/^[0-9]+$/)
     @page = @page.to_i
+  end
+  
+  def setup_pagination(options = {})
+    @per_page = options[:per_page].nil? ? 25 : options[:per_page]
+    
+    parse_page
     
     @offset = (@page - 1) * @per_page
   end

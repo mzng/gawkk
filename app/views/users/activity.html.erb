@@ -13,6 +13,7 @@
 			<%= link_to 'Next &raquo;', user_path(:id => @user, :page => (@page.to_i + 1)) %>
 		</div>
 	</div>
+	<%= render :partial => "/news_items/setup" %>
 </div>
 
 <div id="content-sidebar">

@@ -1,0 +1,1 @@
+page.replace("activity_for_#{@video.id}", :partial => "/news_items/activity", :locals => {:video => @video, :load_activity => true})

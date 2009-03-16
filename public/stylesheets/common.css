@@ -125,6 +125,10 @@ img {
 }
 
 /* forms */
+div.search-container {
+	border-bottom: 1px solid #E5E5E5;
+}
+
 p.submit {
 	font-size: 8pt;
 }
@@ -140,6 +144,16 @@ p.submit a {
 p.refine-search {
 	font-size: 10pt;
 	line-height: 10pt;
+}
+
+p.refine-search .field {
+	font-size: 12pt;
+	margin-top: 5px;
+	width: 300px;
+}
+
+p.refine-search .submit {
+	margin-top: 5px;
 }
 
 p.refine-search span {

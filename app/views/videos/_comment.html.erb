@@ -1,0 +1,5 @@
+<% if user_logged_in? -%>
+	<%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO');" %> |
+<% else -%>
+	<%= link_to 'Comment', {:controller => 'authentication', :action => 'login'} %> |
+<% end -%>

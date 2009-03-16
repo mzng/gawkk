@@ -1,3 +1,5 @@
+<%= render :partial => "/layouts/pitch" %>
+
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Subscriptions', 
 			:links => [{:name => 'Activity', :options => '/', :selected => false}, 
@@ -9,5 +11,8 @@
 <div id="content-sidebar">
 	<% if user_logged_in? -%>
 		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :user => logged_in_user} %>
+	<% else -%>
+		<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
+				:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
 	<% end -%>
 </div>
