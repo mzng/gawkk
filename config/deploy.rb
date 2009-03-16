@@ -102,7 +102,7 @@ set :scm, "git"
 set :keep_releases, 5
 set :scm_username, "tsmango"
 set :branch, "master"
-set :deploy_via, :remote_cache
+# set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
 
 # =============================================================================
