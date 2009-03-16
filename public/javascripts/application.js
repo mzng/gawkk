@@ -32,6 +32,11 @@ function rest(videoId) {
 function watchVideo(videoId, videoSlug) {
 	if($('embed_for_' + videoId).style.display != 'none') {
 		$('embed_for_' + videoId).hide();
+		
+		if($('short_description_for_' + videoId) && $('short_description_for_' + videoId).style.display == 'none') {
+			$('full_description_for_' + videoId).hide();
+			$('short_description_for_' + videoId).show();
+		}
 	} else {
 		new Ajax.Request('/' + videoSlug + '/watch', {asynchronous:true, evalScripts:false, onLoading:function(request){
 				work(videoId);
@@ -45,6 +50,13 @@ function watchVideo(videoId, videoSlug) {
 				}
 			}}
 		);
+	}
+}
+
+function readMore(videoId) {
+	if($('short_description_for_' + videoId)) {
+		$('short_description_for_' + videoId).hide();
+		$('full_description_for_' + videoId).show();
 	}
 }
 
