@@ -42,6 +42,10 @@ class Video < ActiveRecord::Base
     self.description.blank? ? self.title : self.description
   end
   
+  def safe_embed_code
+    return self.embed_code.gsub(/'/,'"')
+  end
+  
   def first_channel
     if self.saved_videos.first
       self.saved_videos.first.channel
@@ -87,15 +91,19 @@ class Video < ActiveRecord::Base
   end
   
   def comments_by(user, include_friends = true)
-    user_ids = Array.new
-    
-    user_ids << user.id
-    if include_friends
-      user_ids.concat(user.followings_ids)
+    if !user.nil?
+      user_ids = Array.new
+
+      user_ids << user.id
+      if include_friends
+        user_ids.concat(user.followings_ids)
+      end
+
+      thread_ids = Comment.thread_ids_for(user_ids, self)
+      comments = Comment.in_threads(thread_ids).in_order.all
+    else
+      comments = Comment.for_commentable(self).in_order.all
     end
-    
-    thread_ids = Comment.thread_ids_for(user_ids, self)
-    comments = Comment.in_threads(thread_ids).in_order.all
     
     yield comments
   end

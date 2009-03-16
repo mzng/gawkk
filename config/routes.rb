@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'friends',            :controller => 'videos', :action => 'friends'
   map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
   
+  map.connect 'v/:id',              :controller => 'videos', :action => 'follow'
   map.connect ':id/discuss',        :controller => 'videos', :action => 'discuss'
   map.connect ':id/watch',          :controller => 'videos', :action => 'watch'
   map.connect ':id/like',           :controller => 'videos', :action => 'like'

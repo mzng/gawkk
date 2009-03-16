@@ -1,9 +1,13 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => @video.title} %>
 
 <div id="content-main">
-	<%= render @video, :visible_title => false %>
+	<%= render @video, :visible_title => false, :load_comments => true %>
 </div>
 
 <div id="content-sidebar">
-	
+	<%= render :partial => "statistics", :locals => {:video => @video} %>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	watch('<%= @video.id %>','<%= @video.slug %>');
+</script>
