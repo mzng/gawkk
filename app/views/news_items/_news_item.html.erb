@@ -1,7 +1,7 @@
 <% if news_item.reportable_type == 'Video' -%>
 	<%= render news_item.reportable, :load_activity => true, :load_comments => true %>
-<% else -%>
-	<% content_tag_for(:div, news_item, :style => 'display:none;') do -%>
-		NewsItem: <%= news_item.id %>
+<% elsif false -%>
+	<% content_tag_for(:div, news_item) do -%>
+		<%= news_item.render %>
 	<% end -%>
 <% end -%>
