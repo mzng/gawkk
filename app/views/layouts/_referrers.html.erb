@@ -1,3 +1,3 @@
-<% if referrer_is?('adbrite') and (!(params[:controller] == 'videos' and params[:action] == 'index') and !(params[:controller] == 'users' and params[:action] == 'register') and !(params[:controller] == 'users' and params[:action] == 'find')) -%>
+<% if referrer_is?('adbrite') and (!(params[:controller] == 'videos' and params[:action] == 'friends') and !(params[:controller] == 'registration' and params[:action] == 'register') and !(params[:controller] == 'users' and params[:action] == 'find')) -%>
 	<img border="0" hspace="0" vspace="0" width="1" height="1" src="http://stats.adbrite.com/stats/stats.gif?_uid=166754&_pid=5317" style="display:none;"/>
 <% end -%>

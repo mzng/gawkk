@@ -50,7 +50,8 @@ module ExceptionNotifiable
     def exceptions_to_treat_as_404
       exceptions = [ActiveRecord::RecordNotFound,
                     ActionController::UnknownController,
-                    ActionController::UnknownAction]
+                    ActionController::UnknownAction,
+                    ActionController::InvalidAuthenticityToken]
       exceptions << ActionController::RoutingError if ActionController.const_defined?(:RoutingError)
       exceptions
     end

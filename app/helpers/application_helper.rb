@@ -24,6 +24,10 @@ module ApplicationHelper
   end
   
   
+  def referrer_is?(ref)
+    return (!session[:ref].blank? and session[:ref] == ref) ? true : false
+  end
+  
   def popular_icon(video)
     html = image_tag('spinner.gif', :id => "loading_for_#{video.id}", :style => 'display:none;')
     if video.popular?

@@ -22,11 +22,6 @@ class RegistrationController < ApplicationController
     else
       redirect_to :action => "setup_services"
     end
-  rescue ActionController::InvalidAuthenticityToken
-    @user = User.new
-    @user.send_digest_emails = true
-    
-    render :action => "register"
   end
   
   def setup_services
