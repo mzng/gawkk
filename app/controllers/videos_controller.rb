@@ -36,11 +36,8 @@ class VideosController < ApplicationController
   def friends
     record_ad_campaign
     setup_pagination
-    if user_logged_in?
-      setup_user_sidebar(logged_in_user)
-    else
-      @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 8))
-    end
+    setup_generic_sidebar
+    setup_user_sidebar(logged_in_user) if user_logged_in?
     
     @base_user = (logged_in_user or User.new)
     @include_followings = true
@@ -49,11 +46,8 @@ class VideosController < ApplicationController
   
   def subscriptions
     setup_pagination
-    if user_logged_in?
-      setup_user_sidebar(logged_in_user)
-    else
-      @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 8))
-    end
+    setup_generic_sidebar
+    setup_user_sidebar(logged_in_user) if user_logged_in?
     
     @videos = collect('saved_videos', (logged_in_user or User.new).subscription_videos(:offset => @offset, :limit => @per_page))
   end

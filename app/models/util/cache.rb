@@ -131,4 +131,30 @@ class Util::Cache
     
     return @users
   end
+  
+  def self.collect_users_from_news_items(news_items)
+    # gather ids of users no longer in cache
+    ids_of_users_to_load = Array.new
+    news_items.each do |news_item|
+      if !Rails.cache.exist?("users/#{news_item.user_id}")
+        ids_of_users_to_load << news_item.user_id
+      end
+    end
+    
+    # select all users no longer in cache at once
+    User.find(ids_of_users_to_load).each do |user|
+      Rails.cache.write(user.cache_key, user, :expires_in => 1.day)
+    end
+    
+    # collect all of the full users from cache
+    @users = Array.new(news_items.size)
+    
+    for i in 0..(news_items.size - 1)
+      @users[i] = Rails.cache.fetch("users/#{news_items[i].user_id}", :expires_in => 1.day) do
+        User.find(news_items[i].user_id)
+      end
+    end
+    
+    return @users
+  end
 end

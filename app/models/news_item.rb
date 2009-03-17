@@ -3,6 +3,9 @@ class NewsItem < ActiveRecord::Base
   belongs_to :user
   belongs_to :reportable, :polymorphic => true
   
+  named_scope :recent, :select => '*, max(news_items.created_at) AS max_created_at', :order => 'max_created_at DESC'
+  named_scope :grouped_by_user, :group => 'user_id'
+  
   
   def before_create
     self.message = '' if self.message.nil?

@@ -1,0 +1,18 @@
+/* category listing */
+.category {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 89px;
+	line-height: 10pt;
+	margin: 5px 5px 5px 5px;
+	overflow: hidden;
+	text-align: center;
+	width: 64px;
+}
+
+.category img {
+	border: 1px solid #E5E5E5;
+	height: 60px;
+	width: 60px;
+}
