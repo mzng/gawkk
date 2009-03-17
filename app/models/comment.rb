@@ -8,11 +8,15 @@ class Comment < ActiveRecord::Base
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
   named_scope :for_commentable, lambda {|commentable| {:conditions => {:commentable_type => commentable.class.name, :commentable_id => commentable.id}}}
   
+  
   def after_create
     # Generate a new thread_id if this comment isn't already part of a thread
     if self.thread_id.blank?
       self.update_attribute('thread_id', Util::BaseConverter.to_base54(self.id))
     end
+    
+    NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id)
+    return true
   end
   
   

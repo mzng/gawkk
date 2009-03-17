@@ -4,5 +4,25 @@ class Friendship < ActiveRecord::Base
   
   validates_presence_of :user_id, :friend_id
   
-  # TODO: Ensure the `mutual` flag is properly handled on creation and deletion of Friendships
+  
+  def before_create
+    self.auth_code = Util::AuthCode.generate(25) + Time.now.to_i.to_s
+  end
+  
+  def after_create
+    if friendship = Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.friend_id, self.user_id])
+      self.update_attribute('mutual', true)
+      friendship.update_attribute('mutual', true)
+    end
+    
+    NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id)
+    return true
+  end
+  
+  def before_destroy
+    if friendship = Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.friend_id, self.user_id])
+      friendship.update_attribute('mutual', false)
+    end
+    return true
+  end
 end

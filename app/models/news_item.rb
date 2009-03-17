@@ -3,6 +3,28 @@ class NewsItem < ActiveRecord::Base
   belongs_to :user
   belongs_to :reportable, :polymorphic => true
   
+  
+  def before_create
+    self.message = '' if self.message.nil?
+  end
+  
+  
+  def self.report(*args)
+    options = args.extract_options!
+    
+    if options[:type] and type = NewsItemType.cached_by_name(options[:type])
+      options.merge!(:news_item_type_id => type.id)
+      options.delete(:type)
+      
+      if options[:reportable]
+        options.merge!({:reportable_type => options[:reportable].class.name, :reportable_id => options[:reportable].id})
+        options.delete(:reportable)
+      end
+      
+      NewsItem.create(options)
+    end
+  end
+  
   def self.grouped_activity(user_ids, options = {})
     # Speed and clean this method up with the caching system
     activity_types = NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
@@ -45,7 +67,6 @@ class NewsItem < ActiveRecord::Base
     html = html.gsub(/\{format\}/, format)
     return html
   end
-  
   
   private
   def channel_name(name)
