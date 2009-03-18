@@ -9,7 +9,7 @@ class Category < ActiveRecord::Base
   
   def self.allowed_on_front_page
     Rails.cache.fetch("categories/allowed-on-front-page", :expires_in => 1.week) {
-      Category.find(:all, :conditions => 'allowed_on_front_page = true')
+      Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
     }
   end
   

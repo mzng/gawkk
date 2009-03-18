@@ -157,4 +157,30 @@ class Util::Cache
     
     return @users
   end
+  
+  def self.collect_users_from_subscriptions(subscriptions)
+    # gather ids of users no longer in cache
+    ids_of_users_to_load = Array.new
+    subscriptions.each do |subscription|
+      if !Rails.cache.exist?("users/#{subscription.user_id}")
+        ids_of_users_to_load << subscription.user_id
+      end
+    end
+    
+    # select all users no longer in cache at once
+    User.find(ids_of_users_to_load).each do |user|
+      Rails.cache.write(user.cache_key, user, :expires_in => 1.day)
+    end
+    
+    # collect all of the full users from cache
+    @users = Array.new(subscriptions.size)
+    
+    for i in 0..(subscriptions.size - 1)
+      @users[i] = Rails.cache.fetch("users/#{subscriptions[i].user_id}", :expires_in => 1.day) do
+        User.find(subscriptions[i].user_id)
+      end
+    end
+    
+    return @users
+  end
 end

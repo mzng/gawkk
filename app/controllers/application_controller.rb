@@ -94,4 +94,19 @@ class ApplicationController < ActionController::Base
     activity_types = NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
     @posts_count = NewsItem.count(:all, :conditions => ['news_item_type_id IN (?) AND user_id = ?', activity_types, user.id])
   end
+  
+  def setup_category_sidebar(category = nil)
+    if !category.nil?
+      @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 4))
+    end
+    
+    @categories = Category.allowed_on_front_page
+  end
+  
+  def setup_channel_sidebar(channel)
+    @recent_subscribers_count = Subscription.for_channel(channel).count
+    @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))
+    
+    @related_channels = collect('channels', Channel.in_category(channel.category).all(:order => 'rand()', :limit => 4))
+  end
 end

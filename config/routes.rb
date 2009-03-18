@@ -71,7 +71,8 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # named paths
-  map.channel ':user/:channel',     :controller => 'channels', :action => 'show'
+  map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
+  map.subscribers ':user/:channel/subscribers', :controller => 'channels', :action => 'subscribers'
   
   
   # front page

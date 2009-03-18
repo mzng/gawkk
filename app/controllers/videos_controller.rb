@@ -8,6 +8,8 @@ class VideosController < ApplicationController
   # Streams
   def index
     setup_pagination
+    setup_category_sidebar
+    
     @popular = params[:popular] ? true : false
     
     if @popular
@@ -20,6 +22,8 @@ class VideosController < ApplicationController
   def category
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
       setup_pagination
+      setup_category_sidebar(@category)
+      
       @popular = params[:popular] ? true : false
       
       if @popular

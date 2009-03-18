@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  around_filter :load_channel, :only => [:show]
+  around_filter :load_channel, :only => [:show, :subscribers]
   layout 'page'
   
   # Channel Manager
@@ -33,8 +33,19 @@ class ChannelsController < ApplicationController
   def show
     # load_channel or redirect
     setup_pagination
+    setup_channel_sidebar(@channel)
 
     @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))
+  end
+  
+  
+  # Single Channel
+  def subscribers
+    # load_channel or redirect
+    setup_pagination(:per_page => 42)
+    setup_channel_sidebar(@channel)
+    
+    @users = collect('users_from_subscriptions', Subscription.for_channel(@channel).recent.all(:offset => @offset, :limit => @per_page))
   end
   
   

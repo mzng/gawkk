@@ -1,7 +1,7 @@
 <%= render :partial => "/layouts/content_header", :locals => {:title => 'All Videos', :description => @popular ? 'Popular Videos' : 'Newest Videos'} %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'All Videos', 
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => (@popular ? 'Popular Videos' : 'Newest Videos'), 
 			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'index', :popular => true}, :selected => @popular}, 
 			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'index', :popular => false}, :selected => !@popular}]} %>
 	<%= render @videos %>
@@ -9,5 +9,7 @@
 </div>
 
 <div id="content-sidebar">
-	
+	<%= render :partial => "/categories/about", :locals => {:link => {:controller => 'videos'}} %>
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
 </div>

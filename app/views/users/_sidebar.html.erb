@@ -10,7 +10,7 @@
 		:link => {:controller => 'users', :action => 'followers', :id => user}, 
 		:count => @followers_count, :collection => @followers} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Friends', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Friends', :description => '(mutual followers)', 
 		:link => {:controller => 'users', :action => 'friends', :id => user}, 
 		:count => @friends_count, :collection => @friends} %>
 

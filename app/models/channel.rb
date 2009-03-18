@@ -10,6 +10,7 @@ class Channel < ActiveRecord::Base
   named_scope :owned_by, lambda {|user| {:conditions => ['user_id = ?', user.id]}}
   named_scope :owned_by_many, lambda {|slugs| {:include => :user, :conditions => ['users.slug IN (?)', slugs]}}
   named_scope :subscribed_to_by, lambda {|user| {:joins => :subscriptions, :conditions => ['subscriptions.user_id = ?', user.id]}}
+  named_scope :in_category, lambda {|category_id| {:conditions => ['user_owned = false AND category_ids like ?', "%#{category_id}%"]}}
   
   validates_presence_of :name, :user_id
   validates_uniqueness_of [:name, :slug], :scope => :user_id, :message => "must be unique"
@@ -54,6 +55,10 @@ class Channel < ActiveRecord::Base
   
   def to_param
     self.slug
+  end
+  
+  def category
+    self.category_ids.blank? ? '' : self.category_ids.split.first
   end
   
   
