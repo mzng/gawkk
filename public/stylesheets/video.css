@@ -257,6 +257,7 @@
 .video .inline .body textarea {
 	font-family: arial;
 	font-size: 9pt;
+	height: 29px;
 	margin-top: 0px;
 	padding: 4px;
 	width: 500px;
