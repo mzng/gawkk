@@ -37,6 +37,10 @@ function watchVideo(videoId, videoSlug) {
 			$('full_description_for_' + videoId).hide();
 			$('short_description_for_' + videoId).show();
 		}
+		
+		if($('new_comment_for_' + videoId) && $('new_comment_area_for_' + videoId).value == '') {
+			$('new_comment_for_' + videoId).remove();
+		}
 	} else {
 		new Ajax.Request('/' + videoSlug + '/watch', {asynchronous:true, evalScripts:false, onLoading:function(request){
 				work(videoId);
@@ -47,6 +51,10 @@ function watchVideo(videoId, videoSlug) {
 				
 				if(scroll) {
 					Effect.ScrollTo('video_' + videoId, {offset: 5});
+				}
+				
+				if(!$('new_comment_for_' + videoId)) {
+					comment(videoId, videoSlug, '!AUTO');
 				}
 			}}
 		);
@@ -92,12 +100,12 @@ function comment(videoId, videoSlug, replyId) {
 	} else if(replyId != null) {
 		q = "?reply_id=" + replyId;
 	}
-	
+
 	new Ajax.Request('/' + videoSlug + '/comment' + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
 			work(videoId);
 		}, onComplete:function(request){
 			rest(videoId);
-			
+
 			Effect.BlindDown('new_comment_for_' + videoId, { duration: 0.5, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();} });
 		}}
 	);

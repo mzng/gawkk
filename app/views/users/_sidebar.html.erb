@@ -1,6 +1,4 @@
-<% if (welcome ||= false) -%>
-	<h1 class="section-header">Welcome, <%= user.username %></h1>
-<% end -%>
+<h1 class="section-header"><% if (welcome ||= false) -%>Welcome, <% end -%><%= user.username %></h1>
 
 <%= render :partial => '/users/statistics', :locals => {:user => user} %>
 
