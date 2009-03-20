@@ -1,4 +1,8 @@
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @category.thumbnail, :title => @category.name, :description => (params[:popular] ? 'Popular Videos' : 'Newest Videos') + " in the #{@category.name} Category"} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Categories', :params => {:controller => 'videos', :action => 'index', :popular => false}}, 
+									{:name => @category.name, :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}, 
+									{:name => @popular ? 'Popular Videos' : 'Newest Videos', :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}]} %>
 
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => (@popular ? 'Popular Videos' : 'Newest Videos'), 

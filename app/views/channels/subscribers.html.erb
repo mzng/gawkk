@@ -1,4 +1,8 @@
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name, :channel => @channel} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Channels', :params => {:controller => 'channels'}}, 
+									{:name => @channel.name, :params => channel_path(:user => @user, :channel => @channel)}, 
+									{:name => 'Subscribers', :params => subscribers_path(:user => @user, :channel => @channel)}]} %>
 
 <div id="content-main">
 	<h1 class="section-header">Subscribers</h1>

@@ -1,4 +1,8 @@
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "The activity of #{@user.username}", :user => @user} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+									{:name => @user.username, :params => user_path(:id => @user)}, 
+									{:name => 'Activity Stream', :params => user_path(:id => @user)}]} %>
 
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 

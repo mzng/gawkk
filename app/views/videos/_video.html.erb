@@ -5,7 +5,9 @@
 <% content_tag_for(:div, video) do -%>
 	<% if visible_title -%>
 		<div class="title">
-			<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}');" %> <%= popular_icon(video) %>
+			<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+			<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
+			<%= popular_icon(video) %>
 		</div>
 	<% end -%>
 	<div class="body">

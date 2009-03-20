@@ -1,0 +1,10 @@
+<% page ||= nil -%>
+<% crumbs ||= Array.new -%>
+<% crumbs = [{:name => 'Home', :params => '/'}].concat(crumbs) -%>
+
+<div id="breadcrumbs">
+	<%= crumbs.collect{|link| link_to(link[:name], link[:params])}.join(' &gt; ') %>
+	<% if !page.nil? -%>
+		&gt; Page <%= page %>
+	<% end -%>
+</div>
