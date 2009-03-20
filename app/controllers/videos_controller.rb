@@ -158,7 +158,7 @@ class VideosController < ApplicationController
     params[:video][:embed_code]     = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
     params[:thumbnail][:for_video]  = '' if params[:thumbnail] and params[:thumbnail][:for_video] == 'Enter a Thumbnail URL...'
     
-    if user_can_edit?(@video)
+    if request.put? and user_can_edit?(@video)
       @video = Video.find(@video.id)
       
       @video.name = params[:video][:name]

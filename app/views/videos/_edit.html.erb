@@ -26,7 +26,7 @@
 					<%= f.text_area 'embed_code', {:value => (video.embed_code.blank? ? 'Embed Code...' : video.embed_code), :onfocus => "descriptiveField(this, 'Embed Code...', true);", :onblur => "descriptiveField(this, 'Embed Code...', false);", :style => (video.embed_code.blank? ? 'color:gray' : '')} %>
 				</div>
 				<p class="submit">
-					<%= submit_tag 'Update' %> or <%= link_to 'Cancel', '#' %>
+					<%= submit_tag 'Update' %> or <%= link_to_remote 'Cancel', {:url => {:controller => 'videos', :action => 'update', :id => video}, :method => :get, :loading => "work('#{video.id}');"} %>
 				</p>
 			</div>
 			<br class="clear"/>
