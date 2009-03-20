@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
+  config.gem "hpricot", :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
   config.gem "rmagick", :lib => "RMagick", :version => "~>2.8"
   config.gem "twitter4r", :lib => "twitter"
   config.gem "youtube-g", :lib => "youtube_g"
