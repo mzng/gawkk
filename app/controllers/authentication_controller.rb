@@ -30,7 +30,7 @@ class AuthenticationController < ApplicationController
         
         redirect_to '/'
       else
-        flash[:notice] = "Invalid user/password combination"
+        flash[:notice] = 'Invalid user/password combination'
         
         @user = User.new(params[:user])
         @user.password = ''

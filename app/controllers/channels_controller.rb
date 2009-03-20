@@ -4,6 +4,7 @@ class ChannelsController < ApplicationController
   
   # Channel Manager
   def index
+    searchable
     setup_pagination(:per_page => 42)
     
     if params[:t] and params[:t] == 'p'

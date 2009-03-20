@@ -7,7 +7,7 @@
 				</td>
 				<td colspan="2">
 					Liked by <%= summarize_likes(likes) %>
-					- <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like", :locals => {:video => video} %></span>
+					<span class="like">- <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like", :locals => {:video => video} %></span></span>
 				</td>
 			</tr>
 		</table>

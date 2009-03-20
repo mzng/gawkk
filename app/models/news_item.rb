@@ -38,7 +38,7 @@ class NewsItem < ActiveRecord::Base
             :conditions => ["news_item_type_id IN (?) AND reportable_type = 'Video' AND user_id IN (?) AND hidden = false", activity_types, user_ids], 
             :group => 'reportable_id'},
            {:select => '*, created_at AS max_created_at', 
-            :conditions => ["news_item_type_id IN (?) AND reportable_type != 'Video' AND user_id IN (?) AND hidden = false", activity_types, user_ids]}], 
+            :conditions => ["news_item_type_id IN (?) AND (reportable_type != 'Video' OR reportable_type IS NULL) AND user_id IN (?) AND hidden = false", activity_types, user_ids]}], 
             options)
   end
   

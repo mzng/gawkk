@@ -1,6 +1,9 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Members'} %>
 
 <div id="content-main">
+	<h1 class="section-header">Search Members</h1>
+	<%= render :partial => "/search/search", :locals => {:link => {:controller => 'search', :action => 'members'}, :separated => false} %>
+	
 	<h1 class="section-header">Browse Members</h1>
 	<div class="grid-container">
 		<%= render @users %>

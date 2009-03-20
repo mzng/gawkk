@@ -30,6 +30,10 @@ function rest(videoId) {
 }
 
 function watchVideo(videoId, videoSlug) {
+	watchVideoAndScroll(videoId, videoSlug, true)
+}
+
+function watchVideoAndScroll(videoId, videoSlug, scroll) {
 	if($('embed_for_' + videoId).style.display != 'none') {
 		$('embed_for_' + videoId).hide();
 		

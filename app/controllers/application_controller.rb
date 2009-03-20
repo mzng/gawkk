@@ -57,6 +57,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def searchable
+    @q = params[:q] ? params[:q] : ''
+  end
+  
   def parse_page
     @page = params[:page].blank? ? 1 : params[:page]
     @page = 1 unless @page.to_s.match(/^[0-9]+$/)

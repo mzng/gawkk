@@ -29,23 +29,6 @@
 		</ol>
 	
 		<p>If you cannot see your Bookmarks Toolbar, go to the &quot;View&quot; menu and select &quot;Toolbars.&quot; Set the &quot;Bookmarks Toolbar&quot; to appear.</p>
-	<% elsif browser_is? :ie -%>
-		<h3>Add the Save Button to Internet Explorer</h3>
-		<p>You can easily save videos from any site on the web just by clicking the
-		&quot;Save to Gawkk&quot; browser button. When you see a great video at any
-		site, you can click the &quot;Save to Gawkk&quot; button in your browser to
-		quickly add the video to your channel.</p>
-	
-		<p>Follow these simple steps to add the &quot;Save to Gawkk&quot; bookmark button to your browser:</p>
-		<ol>
-			<li>Right-click the &quot;Save to Gawkk&quot; Button below and select &quot;Add to favorites...&quot;</li>
-			<li>In the small window that pops up, set &quot;Create In&quot; to &quot;Links&quot; and click &quot;OK.&quot;</li>
-			<li>The &quot;Save to Gawkk&quot; Button should now appear on your Links toolbar.</li>
-		</ol>
-	
-		<p><a href="javascript:location.href='http://www.gawkk.com/submit?url='+encodeURIComponent(location.href)" style="background-color:#E5E5E5;border:1px solid #AAAAAA;color:#333;font-weight:bold;text-decoration:none;padding:5px 40px;">Save to Gawkk</a></p>
-		
-		<p style="margin-top:25px;">If you cannot see your Links Toolbar, go to the &quot;View&quot; menu and select &quot;Toolbars.&quot; Set the &quot;Links&quot; to appear.</p>
 	<% elsif browser_is? :webkit -%>
 		<h3>Add the Save Button to Safari</h3>
 		<p>You can easily save videos from any site on the web just by clicking the
@@ -64,5 +47,22 @@
 			<li>From the &quot;View&quot; menu, click &quot;Show Bookmark Bar&quot;</li>
 			<li>You should now be able to drag the &quot;Save to Gawkk&quot; link to the bookmark bar.</li>
 		</ol>
+	<% else -%>
+		<h3>Add the Save Button to Internet Explorer</h3>
+		<p>You can easily save videos from any site on the web just by clicking the
+		&quot;Save to Gawkk&quot; browser button. When you see a great video at any
+		site, you can click the &quot;Save to Gawkk&quot; button in your browser to
+		quickly add the video to your channel.</p>
+	
+		<p>Follow these simple steps to add the &quot;Save to Gawkk&quot; bookmark button to your browser:</p>
+		<ol>
+			<li>Right-click the &quot;Save to Gawkk&quot; Button below and select &quot;Add to favorites...&quot;</li>
+			<li>In the small window that pops up, set &quot;Create In&quot; to &quot;Links&quot; and click &quot;OK.&quot;</li>
+			<li>The &quot;Save to Gawkk&quot; Button should now appear on your Links toolbar.</li>
+		</ol>
+	
+		<p><a href="javascript:location.href='http://www.gawkk.com/submit?url='+encodeURIComponent(location.href)" style="background-color:#E5E5E5;border:1px solid #AAAAAA;color:#333;font-weight:bold;text-decoration:none;padding:5px 40px;">Save to Gawkk</a></p>
+		
+		<p style="margin-top:25px;">If you cannot see your Links Toolbar, go to the &quot;View&quot; menu and select &quot;Toolbars.&quot; Set the &quot;Links&quot; to appear.</p>
 	<% end -%>
 </div>

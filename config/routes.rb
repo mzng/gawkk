@@ -10,6 +10,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'setup/profile',      :controller => 'registration', :action => 'setup_profile'
   
   
+  # submit
+  map.connect 'submit/:action',     :controller => 'submit'
+  
+  
   # videos
   map.connect 'all/newest',         :controller => 'videos', :action => 'index', :popular => false
   map.connect 'all/popular',        :controller => 'videos', :action => 'index', :popular => true

@@ -299,6 +299,18 @@
 	display: inline;
 }
 
+.video .inline .like {
+	display: none;
+}
+
+.video .inline .like a {
+	font-size: 8pt;
+}
+
+.video .inline:hover .like {
+	display: inline;
+}
+
 /* statistics */
 .video-statistics {
 	background-color: #f9f9f9;

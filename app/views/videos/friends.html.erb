@@ -1,11 +1,14 @@
 <%= render :partial => "/layouts/pitch" %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity', 
+	<%= render :partial => "/submit/new" %>
+	
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
 			:links => [{:name => 'Activity', :options => '/', :selected => true}, 
 			{:name => 'Subscriptions', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => false}]} %>
 	<%= render @news_items %>
 	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :collection => @news_items} %>
+	
 	<%= render :partial => "/news_items/setup" %>
 </div>
 
@@ -17,7 +20,7 @@
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Active Members', 
 			:link => {:controller => 'users'}, :force_link => true, :collection => @active_members} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Categories', 
-			:link => {:controller => 'videos'}, :force_link => true, :collection => @categories} %>
+			:link => {:controller => 'videos', :popular => true}, :force_link => true, :collection => @categories} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
 			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
 </div>

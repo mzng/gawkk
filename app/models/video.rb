@@ -3,6 +3,8 @@ class Video < ActiveRecord::Base
   belongs_to  :posted_by, :class_name => "User", :foreign_key => "posted_by_id", :counter_cache => true
   
   has_many    :comments, :as => :commentable, :order => 'created_at DESC', :dependent => :destroy
+  has_many    :likes, :dependent => :destroy
+  has_many    :news_items, :as => :reportable, :dependent => :destroy
   has_many    :saved_videos, :dependent => :destroy
   
   validates_presence_of   :category_id, :name, :url, :posted_by_id
@@ -25,6 +27,38 @@ class Video < ActiveRecord::Base
   end
   
   
+  def before_create
+    self.slug         = Util::Slug.generate(self.name)
+    self.url          = Util::Scrub.url(self.url)
+    self.description  = '' if self.description.nil?
+    self.embed_code   = Util::EmbedCode.generate(self, self.url)
+    self.posted_at    = Time.now
+    
+    return true
+  end
+  
+  def after_create
+    self.update_attribute('short_code', Util::BaseConverter.to_base54(self.id))
+    return true
+  end
+  
+  def before_save
+    self.description = '' if self.description.nil?
+    
+    Rails.cache.delete(self.cache_key)
+    Rails.cache.delete(self.long_cache_key)
+    
+    return true
+  end
+  
+  def before_destroy
+    Rails.cache.delete(self.cache_key)
+    Rails.cache.delete(self.long_cache_key)
+    
+    return true
+  end
+  
+  
   def to_param
     self.slug
   end
@@ -36,6 +70,10 @@ class Video < ActiveRecord::Base
   
   def title
     self.name.blank? ? '' : self.name
+  end
+
+  def title=(title)
+    self.name = title
   end
   
   def safe_description

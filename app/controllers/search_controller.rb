@@ -32,14 +32,19 @@ class SearchController < ApplicationController
   
   private
   def ensure_query
+    searchable
     default_queries = ['Search...', 'Search Channels...', 'Search Members...', 'Search Videos...']
-    @q = params[:q]
     
-    if @q and !default_queries.include?(@q)
+    if @q and !@q.blank? and !default_queries.include?(@q)
       yield
     else
       flash[:notice] = 'You must enter a query.'
-      redirect_to request.env["HTTP_REFERER"]
+      
+      if request.env["HTTP_REFERER"].blank?
+        redirect_to :controller => "videos", :action => "friends"
+      else
+        redirect_to request.env["HTTP_REFERER"]
+      end
     end
   end
 end

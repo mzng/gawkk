@@ -1,0 +1,29 @@
+<% if user_logged_in? -%>
+	<h1 class="section-header">What are you watching?</h1>
+	<% form_tag({:controller => 'submit', :action => 'index'}, {:method => :post}) do -%>
+		<table id="post" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="image">
+					<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'g-avatar.png' : logged_in_user.thumbnail, :class => 'avatar') %>
+				</td>
+				<td colspan="2" class="body">
+					<%= text_area 'comment', 'body', :value => 'Tell your friends about it.', :onfocus => "descriptiveField(this, 'Tell your friends about it.', true);", :onblur => "descriptiveField(this, 'Tell your friends about it.', false);", :onkeyup => "updateCharacterCount('post', this);" %>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2" class="url">
+					<%= text_field 'video', 'url', :value => 'Video URL (optional)', :onfocus => "descriptiveField(this, 'Video URL (optional)', true);", :onblur => "descriptiveField(this, 'Video URL (optional)', false);" %>
+				</td>
+			</tr>
+			<tr>
+				<td id="characters_left_for_post" class="character-count">140</td>
+				<td>
+					<%= submit_tag 'Post', :id => "submit_for_post" %>
+				</td>
+				<td class="last"></td>
+			</tr>
+		</table>
+	<% end -%>
+	<br class="clear"/>
+<% end -%>
