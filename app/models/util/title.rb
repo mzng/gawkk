@@ -1,3 +1,5 @@
+require 'hpricot'
+
 class Util::Title
   def self.from_url(url)
     doc = Hpricot(open(url))
