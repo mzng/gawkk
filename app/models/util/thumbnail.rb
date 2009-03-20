@@ -75,6 +75,12 @@ class Util::Thumbnail
     return video
   end
   
+  def self.use_url_thumbnail(video, image_url)
+    if !image_url.blank? and Util::Thumbnail.fetch_and_write(image_url, video.slug, video.posted_at)
+      video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
+    end
+  end
+  
   
   private
   def self.write_suggestions(thumbnail_urls)
@@ -110,5 +116,36 @@ class Util::Thumbnail
     end
     
     image_keys
+  end
+  
+  def self.fetch_and_write(image_url, slug, timestamp)
+    image_fetched = false
+    
+    uri = URI.parse(image_url)
+    Net::HTTP.start(uri.host) { |http|
+      resp = http.get(uri.path + (uri.query.nil? ? '' : '?' + uri.query))
+      image_fetched = Util::Thumbnail.write(slug, timestamp, resp.body)
+    }
+    
+    image_fetched
+  rescue
+    return false
+  end
+  
+  def self.write(slug, timestamp, data)
+    open("#{RAILS_ROOT}/public/images/thumbnails/" + timestamp.strftime("%Y/%m/%d") + "/#{slug}.jpg", "wb") { |file|
+      file.write(data)
+    }
+
+    image = Magick::Image.read("#{RAILS_ROOT}/public/images/thumbnails/" + timestamp.strftime("%Y/%m/%d") + "/#{slug}.jpg")
+    if image = image[0]
+      image.crop_resized!(127, 89)
+      image.write("#{RAILS_ROOT}/public/images/thumbnails/" + timestamp.strftime("%Y/%m/%d") + "/#{slug}.jpg")
+      image.destroy!
+    end
+    
+    return true
+  rescue
+    return false
   end
 end

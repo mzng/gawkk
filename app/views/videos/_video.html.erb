@@ -1,6 +1,7 @@
-<% visible_title = true		if visible_title.nil? -%>
-<% load_activity = false	if load_activity.nil? -%>
-<% load_comments = false	if load_comments.nil? -%>
+<% visible_title 			= true	if visible_title.nil? -%>
+<% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
+<% load_activity			= false	if load_activity.nil? -%>
+<% load_comments			= false	if load_comments.nil? -%>
 
 <% content_tag_for(:div, video) do -%>
 	<% if visible_title -%>
@@ -11,7 +12,7 @@
 		</div>
 	<% end -%>
 	<div class="body">
-		<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>);">
+		<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %><%= refresh_thumbnail ? '?' + Time.now.to_i.to_s : '' %>);">
 			<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 		</div>
 		<div class="description">
@@ -54,6 +55,9 @@
 								</li>
 							</ul>
 						</td>
+					<% end -%>
+					<% if user_can_edit?(video) -%>
+						<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video}, :loading => "work('#{video.id}');"} %></td>
 					<% end -%>
 				</tr>
 			</table>

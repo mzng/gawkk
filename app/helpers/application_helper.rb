@@ -23,6 +23,16 @@ module ApplicationHelper
     (session[:user_id] != nil) ? true : false
   end
   
+  def user_can_edit?(object)
+    if object.class == Video
+      if user_logged_in? and (user_can_administer? or object.posted_by_id == logged_in_user.id)
+        return true
+      end
+    end
+    
+    return false
+  end
+  
   
   def referrer_is?(ref)
     return (!session[:ref].blank? and session[:ref] == ref) ? true : false

@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment]
-  around_filter :load_video, :only => [:discuss, :watch, :like, :unlike, :comment]
-  skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :comment]
+  around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment, :edit, :update]
+  around_filter :load_video, :only => [:discuss, :watch, :like, :unlike, :comment, :edit, :update]
+  skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   layout 'page'
   
   
@@ -93,6 +93,20 @@ class VideosController < ApplicationController
     end
   end
   
+  def reload_comments
+    @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
+      Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
+    }
+    @base_user = Rails.cache.fetch("users/#{params[:user]}", :expires_in => 1.day) {
+      User.find_by_slug(params[:base_user])
+    }
+    @include_followings = params[:include_followings]
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
   def like
     # load_video or redirect
     if Like.by_user(logged_in_user).for_video(@video).count == 0
@@ -123,6 +137,42 @@ class VideosController < ApplicationController
     
     if params[:reply_id] and params[:reply_id] != '' and @reply = Comment.find(params[:reply_id])
       @comment.thread_id = @reply.thread_id
+    end
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
+  def edit
+    # load_video or redirect
+    @categories = Category.all_cached
+    
+    respond_to do |format|
+      format.js {}
+    end
+  end
+  
+  def update
+    # load_video or redirect
+    params[:video][:embed_code]     = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
+    params[:thumbnail][:for_video]  = '' if params[:thumbnail] and params[:thumbnail][:for_video] == 'Enter a Thumbnail URL...'
+    
+    if user_can_edit?(@video)
+      @video = Video.find(@video.id)
+      
+      @video.name = params[:video][:name]
+      @video.description  = params[:video][:description]
+      @video.description  = @video.name if @video.description.blank?
+      @video.description  = Util::Scrub.html(@video.description)
+      @video.category_id  = params[:video][:category_id]
+      @video.embed_code   = params[:video][:embed_code]
+      
+      @video.save
+      
+      if params[:thumbnail] and !params[:thumbnail][:for_video].blank?
+        Util::Thumbnail.use_url_thumbnail(@video, params[:thumbnail][:for_video])
+      end
     end
     
     respond_to do |format|

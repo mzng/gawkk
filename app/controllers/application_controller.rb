@@ -45,6 +45,16 @@ class ApplicationController < ActionController::Base
     (session[:user_id] != nil) ? true : false
   end
   
+  def user_can_edit?(object)
+    if object.class == Video
+      if user_logged_in? and (user_can_administer? or object.posted_by_id == logged_in_user.id)
+        return true
+      end
+    end
+    
+    return false
+  end
+  
   # Caching
   def collect(type, collection)
     Util::Cache.send("collect_#{type}".to_sym, collection)

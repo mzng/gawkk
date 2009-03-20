@@ -331,3 +331,79 @@
 .video-statistics input {
 	width: 200px;
 }
+
+/* inline video editor */
+.video-edit {
+	background-color: #f3f6f9;
+	padding: 5px 5px 0 5px;
+}
+
+.video-edit .about {
+	font-weight: bold;
+	padding-left: 2px;
+}
+
+.video-edit .title {
+	margin-top: 5px;
+}
+
+.video-edit .title input {
+	border: 1px solid #999999;
+	font-size: 11pt;
+	padding: 3pt;
+	width: 625px;
+}
+
+.video-edit .thumbnail-container {
+	float: left;
+	margin-right: 10px;
+	width: 129px;
+}
+
+.video-edit .thumbnail {
+	cursor: default;
+}
+
+.video-edit .thumbnail img {
+	height: 89px;
+	margin-right: 0px;
+	width: 127px;
+}
+
+.video-edit .thumbnail-container a {
+	font-size: 8pt;
+	margin-left: 2px;
+}
+
+.video-edit .field-container {
+	float: right;
+	width: 505px;
+}
+
+.video-edit .description textarea {
+	border: 1px solid #999999;
+	height: 43px;
+	padding: 3pt;
+	width: 480px;
+}
+
+.video-edit .posted {
+	padding: 5px 0;
+}
+
+.video-edit .thumbnail_url {
+	padding-bottom: 5px;
+}
+
+.video-edit .thumbnail_url input {
+	border: 1px solid #999999;
+	padding: 3pt;
+	width: 480px;
+}
+
+.video-edit .embed_code textarea {
+	border: 1px solid #999999;
+	height: 43px;
+	padding: 3pt;
+	width: 480px;
+}

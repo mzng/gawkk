@@ -91,6 +91,21 @@ function reloadActivity(videoId) {
 
 
 // comments
+function reloadComments(videoId) {
+	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings;
+		
+		new Ajax.Request('/videos/reload_comments/' + videoId + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
+				work(videoId);
+			}, onComplete:function(request){
+				rest(videoId);
+			}}
+		);
+	} else {
+		rest(videoId);
+	}
+}
+
 function comment(videoId, videoSlug, replyId) {
 	if($('new_comment_for_' + videoId)) {
 		$('new_comment_for_' + videoId).remove();
@@ -110,7 +125,7 @@ function comment(videoId, videoSlug, replyId) {
 		}, onComplete:function(request){
 			rest(videoId);
 
-			Effect.BlindDown('new_comment_for_' + videoId, { duration: 0.5, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();} });
+			Effect.BlindDown('new_comment_for_' + videoId, { duration: 0.3, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();} });
 		}}
 	);
 }
