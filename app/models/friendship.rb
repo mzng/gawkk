@@ -10,9 +10,14 @@ class Friendship < ActiveRecord::Base
   end
   
   def after_create
+    # Set mutual flags when appropriate
     if friendship = Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.friend_id, self.user_id])
       self.update_attribute('mutual', true)
       friendship.update_attribute('mutual', true)
+    end
+    
+    spawn do
+      FollowMailer.deliver_notification(self)
     end
     
     NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id)

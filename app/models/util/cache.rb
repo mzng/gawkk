@@ -183,4 +183,30 @@ class Util::Cache
     
     return @users
   end
+  
+  def self.collect_users_from_comments(comments)
+    # gather ids of users no longer in cache
+    ids_of_users_to_load = Array.new
+    comments.each do |comment|
+      if !Rails.cache.exist?("users/#{comment.user_id}")
+        ids_of_users_to_load << comment.user_id
+      end
+    end
+    
+    # select all users no longer in cache at once
+    User.find(ids_of_users_to_load).each do |user|
+      Rails.cache.write(user.cache_key, user, :expires_in => 1.day)
+    end
+    
+    # collect all of the full users from cache
+    @users = Array.new(comments.size)
+    
+    for i in 0..(comments.size - 1)
+      @users[i] = Rails.cache.fetch("users/#{comments[i].user_id}", :expires_in => 1.day) do
+        User.find(comments[i].user_id)
+      end
+    end
+    
+    return @users
+  end
 end

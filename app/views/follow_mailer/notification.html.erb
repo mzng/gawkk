@@ -1,0 +1,17 @@
+Hey <%= @friendship.friend.username %>,
+
+<%= @friendship.user.username %> is now following your activity on Gawkk.
+
+Check out <%= @friendship.user.username %>'s profile here:
+http://www.gawkk.com/<%= @friendship.user.slug %>
+
+<% if !@friendship.mutual? -%>
+You can follow <%= @friendship.user.username %> back by clicking on the 'follow' button.
+<% end -%>
+
+Thanks,
+The Gawkk Team
+
+------------------
+This email was sent to: <%= @friendship.friend.email %>
+You can reach Gawkk at 258 W. 71 Street, Suite 1A, New York, NY 10023
