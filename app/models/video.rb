@@ -145,4 +145,19 @@ class Video < ActiveRecord::Base
     
     yield comments
   end
+  
+  
+  def retrieve_truveo_redirect
+    begin
+      self.truveo_url = self.url
+      if self.truveo_url.downcase[/^(http|https):\/\/xml\.truveo\.com\//]
+        html = Hpricot(open(self.truveo_url))
+        if html.at('meta') and html.at('meta')['content']
+          self.url = html.at('meta')['content'][6, html.at('meta')['content'].length - 2]
+        end
+      end
+      self.save
+    rescue
+    end
+  end
 end

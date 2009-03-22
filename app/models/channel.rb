@@ -62,6 +62,15 @@ class Channel < ActiveRecord::Base
   end
   
   
+  def categorize!
+    category_ids = Array.new
+    Feed.find(:all, :conditions => ['owned_by_id = ?', self.user_id]).each do |feed|
+      category_ids << feed.category_id if !feed.category_id.blank?
+    end
+    self.update_attribute('category_ids', category_ids.join(' '))
+  end
+  
+  
   # Streams
   def videos(*args)
     # Speed and clean this up with the caching system
