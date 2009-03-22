@@ -1,6 +1,6 @@
 class DiscussionMailer < ActionMailer::Base
   def notification(details)
-    @subject      = "#{details[:sender].username} has posted a reply to a video discussion you're following on Gawkk"
+    @subject      = "#{details[:sender].username} replied to the Gawkk discussion: \"#{details[:video].title}\""
     @body["details"] = details
     @recipients   = details[:recipient].email
     @from         = "\"Gawkk\" <notifier@gawkk.com>"
