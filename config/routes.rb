@@ -55,6 +55,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'channels/:action',   :controller => 'channels'
   
   
+  # twitter
+  map.connect 'twitter/:action',    :controller => 'twitter'
+  
+  
   # search
   map.connect 'search/:action',     :controller => 'search'
   

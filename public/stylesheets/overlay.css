@@ -1,0 +1,41 @@
+/* overlay */
+#shadow {
+	background-image: url(/images/overlay.png);
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 4000;
+}
+
+* html #shadow {
+	background-color: #000;
+	back\ground-color: transparent;
+	background-image: url(/images/blank.gif);
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/overlay.png", sizingMethod="scale");
+}
+
+#overlay {
+	background-image: url(/images/overlay-65.png);
+	display: none;
+	position: absolute;
+	z-index: 5000;
+}
+
+#close {
+	display: none;
+	position: absolute;
+	z-index: 6000;
+}
+
+#close:hover {
+	cursor: pointer;
+}
+
+#overlay #overlayed-content {
+	background-color: #FFFFFF;
+	border:1px solid #E5E5E5;
+	margin: 5px;
+	overflow: hidden;
+}

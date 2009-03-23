@@ -10,7 +10,7 @@
 		
 		<title>Gawkk - Share Videos with Friends</title>
 		
-		<%= stylesheet_link_tag 'scaffold', 'common', 'category', 'activity', 'video', 'user', 'channel', 'registration', 'submit' %>
+		<%= stylesheet_link_tag 'scaffold', 'common', 'overlay', 'category', 'activity', 'video', 'user', 'channel', 'registration', 'submit' %>
 		<%= javascript_include_tag :all %>
 		
 		<% if !user_logged_in? or (user_logged_in? and !user_can_administer?) -%>
@@ -35,6 +35,7 @@
 			<%= render :partial => "/layouts/footer" %>
 		</div>
 		
+		<%= render :partial => "/layouts/overlay" %>
 		<%= render :partial => "/layouts/referrers" %>
 	</body>
 </html>

@@ -311,6 +311,10 @@
 	display: inline;
 }
 
+.video .inline td label {
+	font-size: 8pt;
+}
+
 /* statistics */
 .video-statistics {
 	background-color: #f9f9f9;

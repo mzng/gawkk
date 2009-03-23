@@ -1,0 +1,10 @@
+<% commentable ||= nil -%>
+
+<% if user_logged_in? and !commentable.nil? -%>
+	<label for="tweet_it_for_<%= commentable.id %>">
+		<%= check_box 'tweet', 'it', {:id => "tweet_it_for_#{commentable.id}", :onchange => "updateCharacterCount('#{commentable.id}', $('new_comment_area_for_#{commentable.id}'));", :checked => logged_in_user.auto_tweet?} %>Also post to Twitter
+	</label>
+	<% if !logged_in_user.auto_tweet? -%>
+		<%= observe_field "tweet_it_for_#{commentable.id}", :url => {:controller => 'twitter', :action => 'request_credentials'}, :with => 'tweet_it' %>
+	<% end -%>
+<% end -%>

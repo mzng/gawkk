@@ -132,6 +132,11 @@ function comment(videoId, videoSlug, replyId) {
 
 function updateCharacterCount(commentableId, field) {
 	var charactersLeft = 140 - field.value.length;
+	
+	if($('tweet_it_for_' + commentableId).checked) {
+		charactersLeft = charactersLeft - 26;
+	}
+	
 	$('characters_left_for_' + commentableId).update(charactersLeft);
 	
 	if(charactersLeft < 0) {
@@ -142,7 +147,6 @@ function updateCharacterCount(commentableId, field) {
 		$('characters_left_for_' + commentableId).removeClassName('over-limit');
 	}
 }
-
 
 // tips
 function revealTip(fieldId) {

@@ -14,9 +14,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td id="characters_left_for_<%= commentable.id %>" class="character-count">140</td>
+				<td id="characters_left_for_<%= commentable.id %>" class="character-count"><%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %></td>
 				<td>
-					<%= submit_tag 'Post', :id => "submit_for_#{commentable.id}" %> or <%= link_to 'Cancel', '#close', :onclick => "$('new_comment_for_#{commentable.id}').remove();" %>
+					<%= submit_tag 'Post', :id => "submit_for_#{commentable.id}" %>
+					<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable} %>
 				</td>
 				<td class="last"></td>
 			</tr>

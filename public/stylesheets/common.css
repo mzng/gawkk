@@ -104,6 +104,10 @@ img {
 	font-size: smaller;
 }
 
+.buffered {
+	padding: 15px;
+}
+
 /* blank slate container */
 .blank-slate-copy {
 	background-color: #FFFFEE;

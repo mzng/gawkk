@@ -3,6 +3,8 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   belongs_to :age_range
   
+  has_one :twitter_account, :dependent => :destroy
+  
   has_many :channels, :class_name => "Channel", :order => 'channels.created_at', :dependent => :destroy
   has_many :feeds, :class_name => "Feed", :foreign_key => "owned_by_id", :dependent => :destroy
   has_many :news_items, :class_name => "NewsItem", :foreign_key => "user_id", :dependent => :destroy
@@ -133,6 +135,10 @@ class User < ActiveRecord::Base
 
   def long_cache_key
     "users/#{self.slug}"
+  end
+  
+  def auto_tweet?
+    (!self.id.nil? and self.twitter_account and self.twitter_account.authenticated?) ? true : false
   end
   
   
