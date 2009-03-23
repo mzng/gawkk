@@ -1,5 +1,6 @@
 class TwitterController < ApplicationController
   around_filter :ensure_logged_in_user, :only => [:request_credentials]
+  skip_before_filter :verify_authenticity_token, :only => [:request_credentials]
   layout 'page'
   
   
