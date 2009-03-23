@@ -86,8 +86,9 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_generic_sidebar
+    setup_category_sidebar
+    
     @active_members     = collect('users_from_news_items', NewsItem.grouped_by_user.recent.all(:limit => 4))
-    @categories         = Category.allowed_on_front_page.sort_by{rand}[0, 4]
     @featured_channels  = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 4))
   end
   
