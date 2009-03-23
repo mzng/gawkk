@@ -12,7 +12,7 @@
 			<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail), user_path(:id => news_item.user) %>
 		</td>
 		<td class="message">
-			<%= link_to news_item.user.username, user_path(:id => news_item.reportable) %> is now following <%= link_to news_item.reportable.username, user_path(:id => news_item.reportable) %>
+			<%= link_to news_item.user.username, user_path(:id => news_item.user) %> is now following <%= link_to news_item.reportable.username, user_path(:id => news_item.reportable) %>
 		</td>
 	</tr>
 </table>
