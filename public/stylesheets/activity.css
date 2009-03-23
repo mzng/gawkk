@@ -1,0 +1,56 @@
+.item {
+	margin-top: 15px;
+	width: 100%;
+}
+
+.item td {
+	font-size: 9pt;
+	padding: 3px 0;
+	text-align: left;
+}
+
+.item td + td {
+	padding-left: 5px;
+}
+
+.item td a {
+	font-size: 9pt;
+}
+
+.item .image {
+	text-align: right;
+	vertical-align: top;
+	width: 129px;
+}
+
+.item .image img {
+	border: 1px solid #E5E5E5;
+	height: 60px;
+	width: 60px;
+}
+
+.item .title {
+	font-size: 11pt;
+	line-height: 11pt;
+	height: 26px;
+}
+
+.item .title a {
+	font-size: 11pt;
+}
+
+.item .avatar {
+	text-align: right;
+	width: 35px;
+}
+
+.item .avatar img {
+	border: 1px solid #E5E5E5;
+	height: 28px;
+	width: 28px;
+}
+
+.item .status {
+	height: 31px;
+	padding-left: 5px;
+}

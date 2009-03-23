@@ -61,6 +61,14 @@ class Channel < ActiveRecord::Base
     self.category_ids.blank? ? '' : self.category_ids.split.first
   end
   
+  def proper_name
+    if self.name.downcase[/^the /]
+      return self.name
+    else
+      return 'The ' + self.name
+    end
+  end
+  
   
   def categorize!
     category_ids = Array.new

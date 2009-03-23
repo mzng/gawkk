@@ -1,5 +1,11 @@
 <% if news_item.reportable_type == 'Video' -%>
 	<%= render news_item.reportable, :load_activity => true, :load_comments => true %>
+<% elsif news_item.news_item_type.name == 'status' -%>
+	<%= render :partial => "/news_items/status", :locals => {:news_item => news_item} %>
+<% elsif news_item.news_item_type.name == 'add_a_friend' -%>
+	<%= render :partial => "/news_items/add_a_friend", :locals => {:news_item => news_item} %>
+<% elsif news_item.news_item_type.name == 'subscribe_to_channel' -%>
+	<%= render :partial => "/news_items/subscribe_to_channel", :locals => {:news_item => news_item} %>
 <% elsif false -%>
 	<% content_tag_for(:div, news_item) do -%>
 		<%= news_item.render %>

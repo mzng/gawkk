@@ -1,0 +1,18 @@
+<table id="news_item_<%= news_item.id %>" class="item" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="image" rowspan="2">
+			<%= link_to image_tag(news_item.reportable.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.user.thumbnail), channel_path(:user => news_item.reportable.user, :channel => news_item.reportable) %>
+		</td>
+		<td class="title" colspan="2">
+			<%= link_to news_item.reportable.proper_name, channel_path(:user => news_item.reportable.user, :channel => news_item.reportable) %>
+		</td>
+	</tr>
+	<tr>
+		<td class="avatar">
+			<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail), user_path(:id => news_item.user) %>
+		</td>
+		<td class="message">
+			<%= link_to news_item.user.username, user_path(:id => news_item.reportable) %> subscribed to <%= link_to news_item.reportable.proper_name, channel_path(:user => news_item.reportable.user, :channel => news_item.reportable) %>
+		</td>
+	</tr>
+</table>
