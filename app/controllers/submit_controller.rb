@@ -8,6 +8,9 @@ class SubmitController < ApplicationController
     params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'Tell your friends about it.'
     params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'Video URL (optional)'
     
+    params[:comment][:body].strip!
+    params[:video][:url].strip!
+    
     
     if request.post?
       @tweet_it = (params[:tweet][:it] == '1' and logged_in_user.auto_tweet?) ? true : false
@@ -45,6 +48,8 @@ class SubmitController < ApplicationController
     params[:video][:description]  = '' if params[:video] and params[:video][:description] == 'Description...'
     params[:video][:embed_code]   = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
     params[:comment][:body]       = '' if params[:comment] and params[:comment][:body] == 'Comment...'
+    
+    params[:comment][:body].strip!
     
     
     if request.post?
