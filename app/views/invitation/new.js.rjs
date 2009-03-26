@@ -1,0 +1,7 @@
+page << "if($('inviter_container_for_#{params[:id]}')) {"
+page.remove("inviter_container_for_#{params[:id]}")
+page << "}"
+
+page.insert_html(:before, "comment_actions_for_#{params[:id]}", :partial => '/invitation/new', :locals => {:friends => @friends, :contacts => @contacts})
+
+page.replace_html("inviter_link_for_#{params[:id]}", :partial => '/comments/close_inviter', :locals => {:video_id => params[:id]})

@@ -1,0 +1,5 @@
+if !@email.nil?
+  page << "$('email_field_for_#{@video_id}').value = '';$('email_field_for_#{@video_id}').focus();"
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", link_to_remote(@email, {:url => {:controller => 'invitation', :action => 'unselect', :video_id => @video_id, :email => @email}}, :id => "email_for_#{@video_id}_#{@email}_link") + "<span id=\"email_for_#{@video_id}_#{@email}_extra\">, </span>")
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", check_box("email_for_#{@video_id}", @email, {:checked => true, :style => 'display:none;'}))
+end

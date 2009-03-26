@@ -28,7 +28,7 @@ class Tweet < ActiveRecord::Base
       if tweet_type = TweetType.find_by_name(type)
         tweet = Tweet.create :tweet_type_id => tweet_type.id, :twitter_account_id => twitter_account.id, :reportable_type => reportable.class.name, :reportable_id => reportable.id
       end
-      tweet.publish
+      tweet.publish if Rails.env.production?
     end
   end
   

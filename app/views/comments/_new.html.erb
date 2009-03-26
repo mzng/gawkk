@@ -13,13 +13,17 @@
 					<%= f.text_area 'body', :value => '', :id => "new_comment_area_for_#{commentable.id}", :onkeyup => "updateCharacterCount('#{commentable.id}', this);" %>
 				</td>
 			</tr>
-			<tr>
-				<td id="characters_left_for_<%= commentable.id %>" class="character-count"><%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %></td>
+			<tr id="comment_actions_for_<%= commentable.id %>">
+				<td id="characters_left_for_<%= commentable.id %>" class="character-count">
+					<%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %>
+				</td>
 				<td>
 					<%= submit_tag 'Post', :id => "submit_for_#{commentable.id}" %>
 					<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable} %>
 				</td>
-				<td class="last"></td>
+				<td id="inviter_link_for_<%= commentable.id %>" class="last">
+					<%= render :partial => "/comments/open_inviter", :locals => {:video_id => commentable.id} %>
+				</td>
 			</tr>
 		</table>
 	<% end -%>

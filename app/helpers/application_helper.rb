@@ -52,11 +52,11 @@ module ApplicationHelper
     html = ''
     
     if likes.size > 1
-      html = likes.first(likes.size - 1).collect{|v| link_to(v.user.username, user_path(:user => v.user))}.join(', ') + ' and '
+      html = likes.first(likes.size - 1).collect{|v| link_to(v.user.username, user_path(:id => v.user))}.join(', ') + ' and '
     end
     
     if likes.size > 0
-      html = html + link_to(likes.last.user.username, user_path(:user => likes.last.user))
+      html = html + link_to(likes.last.user.username, user_path(:id => likes.last.user))
     end
     
     html

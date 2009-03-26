@@ -218,6 +218,12 @@ class User < ActiveRecord::Base
     Channel.subscribed_to_by(self).all(options)
   end
   
+  def contacts(*args)
+    # Speed this method up with cache
+    options = args.extract_options!
+    Contact.of_user(self).all(options)
+  end
+  
   
   # Streams
   def activity(*args)
@@ -272,5 +278,13 @@ class User < ActiveRecord::Base
   
   def self.default_followings
     User.with_slugs(['gculliss']).all
+  end
+  
+  def <=>(obj)
+    if obj.class == Contact
+      self.username.downcase <=> obj.email.downcase
+    else
+      self.username.downcase <=> obj.username.downcase
+    end
   end
 end
