@@ -10,7 +10,7 @@ class SubmitController < ApplicationController
     
     
     if request.post?
-      @tweet_it = (params[:tweet][:it] == 1 and logged_in_user.auto_tweet?) ? true : false
+      @tweet_it = (params[:tweet][:it] == '1' and logged_in_user.auto_tweet?) ? true : false
       
       if params[:video][:url].blank? or params[:video][:url] == 'Video URL (optional)'
         if !params[:comment][:body].blank?
