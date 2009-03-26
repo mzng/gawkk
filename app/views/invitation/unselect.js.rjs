@@ -13,3 +13,5 @@ elsif !@email.nil?
   page.remove("email_for_#{@video_id}_#{@email}_extra")
   page.remove("email_for_#{@video_id}_#{@email}")
 end
+
+page << "$('friend_for_#{@video_id}').selectedIndex = 0;"

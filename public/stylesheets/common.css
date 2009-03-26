@@ -12,6 +12,10 @@ body, p, ol, ul, td {
 	line-height: 18px;
 }
 
+input, textarea {
+	font-family: arial;
+}
+
 h1, h1.section-header {
 	font-size: 14pt;
 	margin: 4px 0;
