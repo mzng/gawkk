@@ -4,6 +4,7 @@
 			{:name => @video.title}]} %>
 
 <div id="content-main">
+	<%= image_tag((@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail), :style => 'display:none;') %>
 	<%= render @video, :visible_title => false, :load_comments => true %>
 </div>
 
