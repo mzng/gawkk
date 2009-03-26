@@ -10,6 +10,8 @@ class SubmitController < ApplicationController
     
     
     if request.post?
+      @tweet_it = (params[:tweet][:it] == 1 and logged_in_user.auto_tweet?) ? true : false
+      
       if params[:video][:url].blank? or params[:video][:url] == 'Video URL (optional)'
         if !params[:comment][:body].blank?
           NewsItem.report(:type => 'status', :user_id => logged_in_user.id, :message => params[:comment][:body])
@@ -69,6 +71,10 @@ class SubmitController < ApplicationController
           @comment.commentable_type = 'Video'
           @comment.commentable_id = @video.id
           @comment.save
+          
+          if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?
+            Tweet.report('make_a_comment', logged_in_user, @comment)
+          end
         end
         
         redirect_to :controller => "videos", :action => "friends"

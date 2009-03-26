@@ -1,5 +1,5 @@
 <div id="new_comment_for_<%= commentable.id %>" class="new-comment" style="display:none;">
-	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}) do |f| %>
+	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}, :condition => "$F('new_comment_area_for_#{commentable.id}') != ''") do |f| %>
 		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
 		<%= f.hidden_field 'commentable_id', :value => commentable.id %>
 		<%= f.hidden_field 'thread_id', :value => comment.thread_id %>

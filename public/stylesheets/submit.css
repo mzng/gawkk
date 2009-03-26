@@ -21,6 +21,15 @@
 	font-size: 9pt;
 }
 
+#post td label {
+	font-size: 8pt;
+}
+
+#post td label a {
+	font-size: 8pt;
+}
+
+
 #post .image {
 	text-align: right;
 	vertical-align: top;

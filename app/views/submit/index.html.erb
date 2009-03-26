@@ -51,9 +51,8 @@
 			<tr>
 				<td></td>
 				<td class="submit-container">
-					<p class="submit">
-						<%= submit_tag("Post", :tabindex => 6) %> or <%= link_to 'Cancel', {:controller => "videos", :action => "friends"} %>
-					</p>
+					<%= submit_tag("Post", :tabindex => 6) %>
+					<%= render :partial => "/comments/tweet", :locals => {:comment_only => true, :checked => @tweet_it} %>
 				</td>
 			</tr>
 		</table>
