@@ -8,7 +8,7 @@
 		<meta name="y_key" content="b78fce59f8ae1e66"/>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		
-		<title>Gawkk - Share Videos with Friends</title>
+		<title>Gawkk - <%= @title.nil? ? 'Share Videos with Friends' : @title %></title>
 		
 		<%= stylesheet_link_tag 'scaffold', 'common', 'overlay', 'category', 'activity', 'video', 'user', 'channel', 'registration', 'submit' %>
 		<%= javascript_include_tag :all %>

@@ -69,6 +69,7 @@ class VideosController < ApplicationController
   
   def discuss
     # load_video or redirect
+    set_title(@video.title)
     setup_discuss_sidebar(@video)
     setup_related_videos(@video)
   end

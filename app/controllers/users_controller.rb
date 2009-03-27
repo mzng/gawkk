@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   # User Pages
   def activity
     # load_member or redirect
+    set_title(@user.username + ' - Activity')
     setup_pagination
     setup_user_sidebar(@user)
     
@@ -38,16 +39,19 @@ class UsersController < ApplicationController
   
   def profile
     # load_member or redirect
+    set_title(@user.username + ' - Profile')
     setup_user_sidebar(@user)
   end
   
   def comments
     # load_member or redirect
+    set_title(@user.username + ' - Comments')
     setup_user_sidebar(@user)
   end
   
   def follows
     # load_member or redirect
+    set_title(@user.username + ' - Follows')
     setup_pagination(:per_page => 42)
     setup_user_sidebar(@user)
     
@@ -56,6 +60,7 @@ class UsersController < ApplicationController
   
   def followers
     # load_member or redirect
+    set_title(@user.username + ' - Followers')
     setup_pagination(:per_page => 42)
     setup_user_sidebar(@user)
     
@@ -64,6 +69,7 @@ class UsersController < ApplicationController
   
   def friends
     # load_member or redirect
+    set_title(@user.username + ' - Friends')
     setup_pagination(:per_page => 42)
     setup_user_sidebar(@user)
     
@@ -72,6 +78,7 @@ class UsersController < ApplicationController
   
   def subscriptions
     # load_member or redirect
+    set_title(@user.username + ' - Subscriptions')
     setup_pagination(:per_page => 42)
     setup_user_sidebar(@user)
     
