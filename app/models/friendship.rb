@@ -4,6 +4,12 @@ class Friendship < ActiveRecord::Base
   
   validates_presence_of :user_id, :friend_id
   
+  attr_accessor :silent
+  
+  
+  def after_initialize
+    self.silent = false
+  end
   
   def before_create
     self.auth_code = Util::AuthCode.generate(25) + Time.now.to_i.to_s
@@ -20,7 +26,7 @@ class Friendship < ActiveRecord::Base
       FollowMailer.deliver_notification(self)
     end
     
-    NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id)
+    NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id) if self.silent == false
     return true
   end
   

@@ -18,6 +18,19 @@ class SubmitController < ApplicationController
       if params[:video][:url].blank? or params[:video][:url] == 'Video URL (optional)'
         if !params[:comment][:body].blank?
           NewsItem.report(:type => 'status', :user_id => logged_in_user.id, :message => params[:comment][:body])
+          
+          if @tweet_it == true and Rails.env.production?
+            Twitter::Client.configure do |config|
+              config.user_agent = 'Gawkk'
+              config.application_name = 'gawkk'
+              config.application_url = 'http://gawkk.com'
+              config.source = 'gawkk'
+            end
+            
+            twitter_account = logged_in_user.twitter_account
+            twitter = Twitter::Client.new(:login => twitter_account.username, :password => twitter_account.password)
+            twitter.status(:post, params[:comment][:body])
+          end
         end
         
         redirect_to :controller => "videos", :action => "friends"
@@ -33,9 +46,20 @@ class SubmitController < ApplicationController
           
           @categories = Category.all_cached
           @youtube_id = Util::YouTube.extract_id(@video.url)
+        elsif !params[:comment][:body].blank?
+          @comment = Comment.new(params[:comment])
+          @comment.user_id = logged_in_user.id
+          @comment.commentable_type = 'Video'
+          @comment.commentable_id = existing_video.id
+          @comment.save
+          
+          if @tweet_it == true and Rails.env.production?
+            Tweet.report('make_a_comment', logged_in_user, @comment)
+          end
+          
+          redirect_to :controller => "videos", :action => "friends"
         else
-          # Comment.create
-          redirect_to :controller => "videos", :action => "discuss", :id => existing_video
+          redirect_to :controller => "videos", :action => "friends"
         end
       end
     else

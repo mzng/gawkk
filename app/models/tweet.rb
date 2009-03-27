@@ -36,7 +36,6 @@ class Tweet < ActiveRecord::Base
     twitter_account = self.twitter_account
     status = self.render
     
-    # Configure twitter for gawkk
     Twitter::Client.configure do |config|
       config.user_agent = 'Gawkk'
       config.application_name = 'gawkk'

@@ -91,12 +91,20 @@ class User < ActiveRecord::Base
     if !self.feed_owner?
       # Setup default followings
       User.default_followings.each do |user|
-        Friendship.create :user_id => self.id, :friend_id => user.id
+        friendship = Friendship.new
+        friendship.user_id    = self.id
+        friendship.friend_id  = user.id
+        friendship.silent     = true
+        friendship.save
       end
       
       # Setup default subscriptions
       Channel.default_subscriptions.each do |channel|
-        Subscription.create :user_id => self.id, :channel_id => channel.id
+        subscription = Subscription.new
+        subscription.user_id    = self.id
+        subscription.channel_id = channel.id
+        subscription.silent     = true
+        subscription.save
       end
       
       # Process existing invitations
