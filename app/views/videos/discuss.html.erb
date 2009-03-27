@@ -6,6 +6,15 @@
 <div id="content-main">
 	<%= image_tag((@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail), :style => 'display:none;') %>
 	<%= render @video, :visible_title => false, :load_comments => true %>
+	
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Videos', :collection => @related_videos, 
+				:link => {:controller => 'search', :action => 'videos', :q => @q}, :force_link => true} %>
+	
+	<%= render :partial => "/layouts/set", :locals => {:title => "More Videos in #{@channel.proper_name}", :collection => @channel_videos, 
+				:link => channel_path(@channel.user, @channel), :force_link => true} %>
+	
+	<%= render :partial => "/layouts/set", :locals => {:title => "More Videos in #{@category.name}", :collection => @category_videos, 
+				:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
 </div>
 
 <div id="content-sidebar">

@@ -70,6 +70,7 @@ class VideosController < ApplicationController
   def discuss
     # load_video or redirect
     setup_discuss_sidebar(@video)
+    setup_related_videos(@video)
   end
   
   def watch

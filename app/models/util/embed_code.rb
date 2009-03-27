@@ -5,7 +5,19 @@ class Util::EmbedCode
       video.swf_url = ''
 
       begin
-        if url[/^(http|https):\/\/(.*)?youtube\.com\//] # *.youtube.com
+        if url[/^(http|https):\/\/(.*)?hulu\.com\//] # *.hulu.com
+          doc = Hpricot(open(url))
+          links = (doc/"head link")
+          if links.size > 0
+            links.each do |link|
+              if link[:rel] and link[:rel] == 'video_src' and link[:href]
+                video.swf_url = link[:href]
+                video.embed_code = "<object class=\"generated-by-gawkk\" width=\"630\" height=\"365\"><param name=\"movie\" value=\"#{video.swf_url}\"></param><embed src=\"#{video.swf_url}\" type=\"application/x-shockwave-flash\"  width=\"630\" height=\"365\"></embed></object>"
+              end
+            end
+          end
+          
+        elsif url[/^(http|https):\/\/(.*)?youtube\.com\//] # *.youtube.com
           if !url.index('v=', url.index('?') + 1).nil?
             id = url[/v=[\w-]+/][2, url[/v=[\w-]+/].length]
             video.embed_code  = "<object width=\"500\" height=\"415\"><param name=\"movie\" value=\"http://www.youtube.com/v/#{id}\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/#{id}\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"500\" height=\"415\"></embed></object>"

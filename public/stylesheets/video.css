@@ -1,3 +1,21 @@
+/* small video listing */
+.small-video {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 118px;
+	line-height: 10pt;
+	margin: 5px 15px 5px 5px;
+	overflow: hidden;
+	width: 140px;
+}
+
+.small-video img {
+	border: 1px solid #E5E5E5;
+	height: 89px;
+	width: 127px;
+}
+
 /* listing */
 .video {
 	overflow-x: hidden;

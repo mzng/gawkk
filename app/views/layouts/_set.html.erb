@@ -10,7 +10,11 @@
 	<%= render :partial => "/layouts/set_header", :locals => {:title => title, :description => description, :count => count, :set_size => set_size, :link => link, :force_link => force_link} %>
 	<div class="set">
 		<% collection.each do |object| -%>
-			<%= render object %>
+			<% if object.class == Video -%>
+				<%= render :partial => "/videos/video_small", :locals => {:video => object} %>
+			<% else -%>
+				<%= render object %>
+			<% end -%>
 		<% end -%>
 		<br class="clear"/>
 	</div>

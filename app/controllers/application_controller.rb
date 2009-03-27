@@ -133,6 +133,17 @@ class ApplicationController < ActionController::Base
     @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 4))
   end
   
+  def setup_related_videos(video)
+    @q = Util::Scrub.query(video.title, true)
+    @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids})
+    
+    @channel = video.first_channel
+    @channel_videos = collect('saved_videos', @channel.videos(:limit => 4))
+    
+    @category = video.category
+    @category_videos = collect('videos', Video.newest.in_category(@category).all(:limit => 4))
+  end
+  
   def setup_channel_sidebar(channel)
     @recent_subscribers_count = Subscription.for_channel(channel).count
     @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))
