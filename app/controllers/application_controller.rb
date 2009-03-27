@@ -118,6 +118,21 @@ class ApplicationController < ActionController::Base
     @categories = Category.allowed_on_front_page
   end
   
+  def setup_discuss_sidebar(video)
+    # @channels_count = SavedVideo.count(:conditions => {:video_id => video.id})
+    @channels = collect('channels_from_saved_videos', SavedVideo.all(:conditions => {:video_id => video.id}))
+    
+    # @members_count = Like.count(:conditions => {:video_id => video.id})
+    @members = collect('users_from_likes', Like.all(:conditions => {:video_id => video.id}))
+    
+    if user_logged_in?
+      # @friends_count = NewsItem.by_users(logged_in_user.followings_ids).grouped_by_user.count(:conditions => {:reportable_type => 'Video', :reportable_id => video.id})
+      @friends = collect('users_from_news_items', NewsItem.by_users(logged_in_user.followings_ids).grouped_by_user.all(:conditions => {:reportable_type => 'Video', :reportable_id => video.id}))
+    end
+    
+    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 4))
+  end
+  
   def setup_channel_sidebar(channel)
     @recent_subscribers_count = Subscription.for_channel(channel).count
     @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))

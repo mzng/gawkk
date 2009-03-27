@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
   around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment, :edit, :update]
-  around_filter :load_video, :only => [:discuss, :watch, :like, :unlike, :comment, :edit, :update]
-  skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
+  around_filter :load_video, :only => [:discuss, :discuss_sidebar, :watch, :like, :unlike, :comment, :edit, :update]
+  skip_before_filter :verify_authenticity_token, :only => [:discuss_sidebar, :watch, :reload_activity, :reload_comments, :comment]
   layout 'page'
   
   
@@ -69,6 +69,7 @@ class VideosController < ApplicationController
   
   def discuss
     # load_video or redirect
+    setup_discuss_sidebar(@video)
   end
   
   def watch

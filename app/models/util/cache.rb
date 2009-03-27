@@ -105,6 +105,32 @@ class Util::Cache
     return @channels
   end
   
+  def self.collect_channels_from_saved_videos(saved_videos)
+    # gather ids of channels no longer in cache
+    ids_of_channels_to_load = Array.new
+    saved_videos.each do |saved_video|
+      if !Rails.cache.exist?("channels/#{saved_video.channel_id}")
+        ids_of_channels_to_load << saved_video.channel_id
+      end
+    end
+    
+    # select all channels no longer in cache at once
+    Channel.find(ids_of_channels_to_load, :include => :user).each do |channel|
+      Rails.cache.write(channel.cache_key, channel, :expires_in => 1.day)
+    end
+    
+    # collect all of the full channels from cache
+    @channels = Array.new(saved_videos.size)
+    
+    for i in 0..(saved_videos.size - 1)
+      @channels[i] = Rails.cache.fetch("channels/#{saved_videos[i].channel_id}", :expires_in => 1.day) do
+        Channel.find(saved_videos[i].channel_id, :include => :user)
+      end
+    end
+    
+    return @channels
+  end
+  
   def self.collect_users(users)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
@@ -204,6 +230,32 @@ class Util::Cache
     for i in 0..(comments.size - 1)
       @users[i] = Rails.cache.fetch("users/#{comments[i].user_id}", :expires_in => 1.day) do
         User.find(comments[i].user_id)
+      end
+    end
+    
+    return @users
+  end
+  
+  def self.collect_users_from_likes(likes)
+    # gather ids of users no longer in cache
+    ids_of_users_to_load = Array.new
+    likes.each do |like|
+      if !Rails.cache.exist?("users/#{like.user_id}")
+        ids_of_users_to_load << like.user_id
+      end
+    end
+    
+    # select all users no longer in cache at once
+    User.find(ids_of_users_to_load).each do |user|
+      Rails.cache.write(user.cache_key, user, :expires_in => 1.day)
+    end
+    
+    # collect all of the full users from cache
+    @users = Array.new(likes.size)
+    
+    for i in 0..(likes.size - 1)
+      @users[i] = Rails.cache.fetch("users/#{likes[i].user_id}", :expires_in => 1.day) do
+        User.find(likes[i].user_id)
       end
     end
     

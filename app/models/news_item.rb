@@ -5,6 +5,7 @@ class NewsItem < ActiveRecord::Base
   
   named_scope :recent, :select => '*, max(news_items.created_at) AS max_created_at', :order => 'max_created_at DESC'
   named_scope :grouped_by_user, :group => 'user_id'
+  named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
   
   
   def before_create
