@@ -1,4 +1,5 @@
 require 'aws/s3'
+require 's3_aws_fix'
 require 'ftools'
 
 namespace :backup do
