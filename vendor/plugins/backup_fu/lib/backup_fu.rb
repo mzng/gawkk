@@ -16,7 +16,7 @@ class BackupFu
     raw_config = File.read(File.join(RAILS_ROOT, 'config', 'backup_fu.yml'))
     erb_config = ERB.new(raw_config).result 
     fu_conf    = YAML.load(erb_config)
-    @fu_conf   = fu_conf[RAILS_ENV].symbolize_keys
+    @fu_conf   = fu_conf.symbolize_keys
     
     @s3_conf = YAML.load_file(File.join(RAILS_ROOT, 'config', 'amazon_s3.yml'))[RAILS_ENV].symbolize_keys
     @fu_conf[:s3_bucket] ||= @s3_conf[:bucket_name]
