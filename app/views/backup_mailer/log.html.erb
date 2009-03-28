@@ -1,0 +1,13 @@
+<%= Time.now.strftime("%m/%d/%Y at %I:%M%p") %>
+
+GET/PUT Statistics For Image Buckets:
+
+gawkk_user_thumbnails bucket: <%= @stats[:gawkk_user_thumbnails][:get] %> GET, <%= @stats[:gawkk_user_thumbnails][:put] %> PUT
+gawkk_video_thumbnails bucket: <%= @stats[:gawkk_video_thumbnails][:get] %> GET, <%= @stats[:gawkk_video_thumbnails][:put] %> PUT
+
+
+Backups Currently Hosted at S3:
+
+<% @stats[:backups].each do |backup| -%>
+<%= backup %>
+<% end -%>

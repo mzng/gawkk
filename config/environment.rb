@@ -16,12 +16,10 @@ Rails::Initializer.run do |config|
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
-  # config.gem "bj"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "feedtools", :lib => "feed_tools"
-  config.gem "hpricot", :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
-  config.gem "rmagick", :lib => "RMagick", :version => "~>2.8"
+  config.gem "hpricot",   :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
+  config.gem "right_aws", :lib => "right_aws"
+  config.gem "rmagick",   :lib => "RMagick", :version => "~>2.8"
   config.gem "twitter4r", :lib => "twitter"
   config.gem "youtube-g", :lib => "youtube_g"
 
