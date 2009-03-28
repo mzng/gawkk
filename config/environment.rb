@@ -27,7 +27,7 @@ Rails::Initializer.run do |config|
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
   config.plugins = [:redhillonrails_core, :foreign_key_migrations, :ar_fixtures, :union, 
-                    :spawn, :exception_notification, 'thinking-sphinx', 
+                    :backup_fu, :spawn, :exception_notification, 'thinking-sphinx', 
                     :acts_as_list, :browser_detect, :country_select, :white_list]
 
   # Skip frameworks you're not going to use. To use Rails without a database,
