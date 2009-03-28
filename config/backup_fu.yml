@@ -1,8 +1,8 @@
-production:
- app_name: gawkk
- s3_bucket: gawkk_backup
- aws_access_key_id: 1SMFTD6EHSSCK56P15R2
- aws_secret_access_key: HqYDpHjKykFzsUQmcKbZkxQbhO8jzPY9VzPomxJV
- dump_base_path: /tmp
- enable_nice: true
- nice_level: 15
+app_name: gawkk
+s3_bucket: gawkk_backup
+aws_access_key_id: 1SMFTD6EHSSCK56P15R2
+aws_secret_access_key: HqYDpHjKykFzsUQmcKbZkxQbhO8jzPY9VzPomxJV
+dump_base_path: /tmp
+enable_nice: true
+nice_level: 15
+verbose: true
