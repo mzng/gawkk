@@ -1,6 +1,6 @@
 namespace :backup do
   namespace :status do
-    task :database do
+    task :database => :environment do
       s3 = RightAws::S3.new('1SMFTD6EHSSCK56P15R2', 'HqYDpHjKykFzsUQmcKbZkxQbhO8jzPY9VzPomxJV')
       
       backup_files = Array.new
