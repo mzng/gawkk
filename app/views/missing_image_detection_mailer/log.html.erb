@@ -1,5 +1,7 @@
 Images for the following videos have been replaced with suggested images from truveo:
 
-<% @video_urls.each do |url| -%>
-<%= url %>
+<% @urls.each_with_index do |url, i| -%>
+<%= Array.new(@urls.size.to_s.length - (i + 1).to_s.length).collect{|j| ' '}.join %><%= i + 1 %>: <%= url %>
 <% end -%>
+
+Note: When a suggested image could not be found for a video (unfixed), it was simply reset to the default 'no image' thumbnail.

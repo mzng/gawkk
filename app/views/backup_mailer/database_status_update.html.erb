@@ -1,7 +1,7 @@
 <%= Time.now.strftime("%m/%d/%Y at %I:%M%p") %>
 
-Database Backups Currently Hosted at S3:
+Database Backups Currently Hosted at Amazon S3:
 
-<% @backup_files.each do |backup| -%>
-<%= backup %>
+<% @files.each do |file| -%>
+<%= file %>
 <% end -%>

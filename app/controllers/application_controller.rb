@@ -142,10 +142,10 @@ class ApplicationController < ActionController::Base
     @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids})
     
     @channel = video.first_channel
-    @channel_videos = collect('saved_videos', @channel.videos(:limit => 4))
+    @channel_videos = (@channel.nil? ? Array.new : collect('saved_videos', @channel.videos(:limit => 4)))
     
     @category = video.category
-    @category_videos = collect('videos', Video.newest.in_category(@category).all(:limit => 4))
+    @category_videos = (@category.nil? ? Array.new : collect('videos', Video.newest.in_category(@category).all(:limit => 4)))
   end
   
   def setup_channel_sidebar(channel)
