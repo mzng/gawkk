@@ -1,8 +1,8 @@
 class BackupMailer < ActionMailer::Base
-  def logs(stats)
-    @subject    = "Daily Amazon S3 Statistics"
-    @body["stats"]  = stats
-    @recipients = "logs@gawkk.com"
+  def database_status_update(backup_files)
+    @subject    = "Amazon S3: Database Backups"
+    @body["backup_files"] = backup_files
+    @recipients = "tom@gawkk.com"
     @from       = "\"Gawkk\" <notifier@gawkk.com>"
     headers       "Reply-to" => "notifier@gawkk.com"
     @sent_on    = Time.now

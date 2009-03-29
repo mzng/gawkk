@@ -5,4 +5,5 @@ aws_secret_access_key: HqYDpHjKykFzsUQmcKbZkxQbhO8jzPY9VzPomxJV
 dump_base_path: /tmp
 enable_nice: true
 nice_level: 15
+keep_backups: 10
 verbose: true

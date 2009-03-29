@@ -285,7 +285,7 @@ class User < ActiveRecord::Base
   end
   
   def self.default_followings
-    User.with_slugs(['gculliss']).all
+    User.with_slugs(['gculliss', 'brianoblivion']).all
   end
   
   def <=>(obj)
