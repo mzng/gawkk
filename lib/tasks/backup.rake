@@ -4,6 +4,7 @@ namespace :backup do
     s3 = Util::AWS.connect
     files = Hash.new
     
+    
     # Process Backup Files
     files[:database] = Array.new
     
