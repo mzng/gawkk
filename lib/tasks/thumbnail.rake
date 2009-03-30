@@ -8,8 +8,8 @@ namespace :thumbnail do
     fixed = 0
     urls = Array.new
     
-    for page in (1..(Video.count(:all, :conditions => ['posted_at > ? AND thumbnail != ?', (Time.now - 25.hours), '']) / 100 + 1)).to_a
-      Video.find(:all, :conditions => ['posted_at > ? AND thumbnail != ?', (Time.now - 25.hours), ''], :order => 'posted_at DESC', :limit => 100, :offset => (100 * (page - 1))).each do |video|
+    for page in (1..(Video.count(:all, :conditions => ['posted_at > ? AND thumbnail != ?', (Time.now - 27.hours), '']) / 100 + 1)).to_a
+      Video.find(:all, :conditions => ['posted_at > ? AND thumbnail != ?', (Time.now - 27.hours), ''], :order => 'posted_at DESC', :limit => 100, :offset => (100 * (page - 1))).each do |video|
         if !video.thumbnail.blank? and !File.exists?("#{RAILS_ROOT}/public/images/#{video.thumbnail}")
           # Reset the thumbnail path
           video.update_attribute('thumbnail', '')
