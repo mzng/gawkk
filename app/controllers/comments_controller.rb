@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(params[:comment])
     @comment.user_id = logged_in_user.id
+    @comment.twitter_username = logged_in_user.twitter_account.username if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?
     @comment.save
     
     spawn do

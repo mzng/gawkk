@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090314034643) do
+ActiveRecord::Schema.define(:version => 20090330202449) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20090314034643) do
     t.string   "commentable_type"
     t.integer  "commentable_id"
     t.string   "thread_id"
+    t.string   "twitter_username"
   end
 
   add_index "comments", ["user_id"], :name => "user_id"

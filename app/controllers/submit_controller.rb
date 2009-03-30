@@ -53,6 +53,7 @@ class SubmitController < ApplicationController
           @comment.user_id = logged_in_user.id
           @comment.commentable_type = 'Video'
           @comment.commentable_id = existing_video.id
+          @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
           @comment.save
           
           if @tweet_it == true and Rails.env.production?
@@ -103,6 +104,7 @@ class SubmitController < ApplicationController
           @comment.user_id = logged_in_user.id
           @comment.commentable_type = 'Video'
           @comment.commentable_id = @video.id
+          @comment.twitter_username = logged_in_user.twitter_account.username if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?
           @comment.save
           
           if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?

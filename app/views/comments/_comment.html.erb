@@ -6,6 +6,7 @@
 		<td colspan="2" class="body">
 			<%= link_to comment.user.username, user_path(:id => comment.user) %>: <%=h comment.body %>
 			<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
+			<% if !comment.twitter_username.blank? -%><span>- Also posted to <%= link_to "@#{comment.twitter_username}", "http://twitter.com/#{comment.twitter_username}", :target => 'twitter', :style => 'font-size:8pt;' %> on Twitter</span><% end -%>
 			<% if user_logged_in? -%><span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}');" %></span><% end -%>
 		</td>
 	</tr>
