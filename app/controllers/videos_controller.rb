@@ -7,10 +7,11 @@ class VideosController < ApplicationController
   
   # Streams
   def index
+    @popular = params[:popular] ? true : false
+    
+    set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
     setup_pagination
     setup_category_sidebar
-    
-    @popular = params[:popular] ? true : false
     
     if @popular
       @videos = collect('videos', Video.popular.allowed_on_front_page.all(:offset => @offset, :limit => @per_page))
@@ -21,10 +22,11 @@ class VideosController < ApplicationController
   
   def category
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
+      @popular = params[:popular] ? true : false
+      
+      set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       setup_pagination
       setup_category_sidebar(@category)
-      
-      @popular = params[:popular] ? true : false
       
       if @popular
         @videos = collect('videos', Video.popular.in_category(@category).all(:offset => @offset, :limit => @per_page))

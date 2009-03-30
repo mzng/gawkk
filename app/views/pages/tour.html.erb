@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Gawkk Tour', :description => 'A quick overview of site features'} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Gawkk Web Tour', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Web Tour'}]} %>
 
 <div id="tour">
 	<% unless params[:clean] -%>

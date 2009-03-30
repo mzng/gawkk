@@ -4,6 +4,11 @@ class TwitterController < ApplicationController
   layout 'page'
   
   
+  def please_register
+    flash[:notice] = 'Register or Login so that you can start tweeting your activity.'
+    redirect_to :controller => "registration", :action => "register"
+  end
+  
   def request_credentials
     @twitter_account = logged_in_user.twitter_account ? logged_in_user.twitter_account : TwitterAccount.new
     

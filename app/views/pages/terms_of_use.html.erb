@@ -1,7 +1,4 @@
-<div id="content-header">
-	<h1>Gawkk Terms of Use</h1>
-	<a href="/">Home</a> &gt; Site Details &gt; Gawkk Terms of Use
-</div>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Terms of Use', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Terms of Use'}]} %>
 
 <div id="content-main">
 	<p>Gawkk ("Gawkk") welcomes you to our service.  Gawkk provides its
@@ -615,18 +612,4 @@
 	parties, except as otherwise provided herein.</p>
 </div>
 
-<div id="content-sidebar">
-	<h1 class="section-header">About Us</h1>
-	<a href="/how">How Gawkk Works</a><br/>
-	<a href="/tour">Take the Site Tour</a><br/>
-	<a href="/faq">Frequently Asked Questions</a><br/>
-	<a href="http://blog.gawkk.com">The Gawkk Blog</a><br/>
-	<a href="/jobs">Jobs at Gawkk</a><br/>
-	<a href="/contact">Contact Gawkk</a>
-	
-	<h1 class="section-header">Site Details</h1>
-	<a href="/report-bug">Report a Website Bug</a><br/>
-	<a href="/rss">RSS Feeds</a><br/>
-	Terms of Use<br/>
-	<a href="/privacy">Privacy Policy</a>
-</div>
+<%= render :partial => "sidebar" %>

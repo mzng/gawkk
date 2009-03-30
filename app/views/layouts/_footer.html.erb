@@ -2,36 +2,34 @@
 	<div class="container">
 		<div class="heading">Site Links</div>
 		<div><%= link_to 'Home', '/' %></div>
-		<div><%= link_to 'RSS Feeds', '/rss' %></div>
 		<div><%= link_to 'Videos by Category', '/all/popular' %></div>
 		<div><%= link_to 'Popular Videos', '/all/popular' %></div>
 		<div><%= link_to 'Newest Videos', '/all/newest' %></div>
-		<div><%= link_to 'Featured Channels', '/channels?s=al' %></div>
-		<div><%= link_to 'Popular Channels', '/channels' %></div>
 	</div>
 	<div class="container">
 		<div class="heading">More Gawkk</div>
-		<div><%= link_to 'Sidebar Widget', '/share' %></div>
-		<div><%= link_to 'Bookmark Button', '/buttons' %></div>
-		<div><%= link_to 'Invite Your Friends', '/members/find' %></div>
-		<div><%= link_to 'Submit a Video', '/submit' %></div>
-		<div><%= link_to 'Tweet Your Activity', '/settings/twitter' %></div>
-		<div><%= link_to 'Popular Videos on Twitter', 'http://twitter.com/gawkk', :target => 'twitter' %></div>
+		<div><%= link_to 'Featured Channels', '/channels' %></div>
+		<div><%= link_to 'Popular Channels', '/channels?t=p' %></div>
+		<div>
+			<% if user_logged_in? -%>
+				<%= link_to_remote 'Tweet Your Activity', :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %>
+			<% else -%>
+				<%= link_to 'Tweet Your Activity', '/twitter/please_register' %>
+			<% end -%>
+		</div>
+		<div><%= link_to '@Gawkk on Twitter', 'http://twitter.com/gawkk', :target => 'twitter' %></div>
 	</div>
 	<div class="container">
 		<div class="heading">About Gawkk</div>
-		<div><%= link_to 'About Us', '/how' %></div>
+		<div><%= link_to 'About Us', '/about' %></div>
 		<div><%= link_to 'Contact Us', '/contact' %></div>
-		<div><%= link_to 'Gawkk Tour', '/tour' %></div>
 		<div><%= link_to 'The Gawkk Blog', 'http://blog.gawkk.com', :target => 'blog' %></div>
-		<div><%= link_to 'Jobs at Gawkk', '/jobs' %></div>
 	</div>
 	<div class="container">
 		<div class="heading">Help</div>
 		<div><%= link_to 'Frequent Questions', '/faq' %></div>
-		<div><%= link_to 'How Gawkk Works', '/how' %></div>
-		<div><%= link_to 'Take the Site Tour', '/tour' %></div>
-		<div><%= link_to 'Report a Website Bug', '/report-bug' %></div>
+		<div><%= link_to 'Take Web Tour', '/tour' %></div>
+		<div><%= link_to 'Take Video Tour', '/tour-video' %></div>
 	</div>
 	<div class="container" style="border-right:0px;">
 		<div class="heading">Legal</div>

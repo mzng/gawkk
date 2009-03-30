@@ -71,6 +71,10 @@ class ApplicationController < ActionController::Base
     @q = params[:q] ? params[:q] : ''
   end
   
+  def set_feed_url(feed_url)
+    @feed_url = feed_url
+  end
+  
   def set_title(title)
     @title = title
   end

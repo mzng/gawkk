@@ -8,6 +8,10 @@
 		<meta name="y_key" content="b78fce59f8ae1e66"/>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		
+		<% if !@feed_url.nil? -%>
+			<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<%= @feed_url %>" />
+		<% end -%>
+		
 		<% if !@thumbnail_url.nil? -%>
 			<link rel="image_src" href="<%= @thumbnail_url %>" />
 			<link rel="media:image" href="<%= @thumbnail_url %>" />

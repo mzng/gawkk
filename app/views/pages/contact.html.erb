@@ -1,1 +1,40 @@
-<%= render :partial => "/layouts/embarrassed", :locals => {:title => 'Contact Form', :description => 'contact us'} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Contact', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Contact'}]} %>
+
+<div id="content-main">
+	<table cellpadding="3" cellspacing="0" style="width:75%;">
+		<tr>
+			<td colspan="2" style="font-size:12pt;">
+				<strong>Gawkk welcomes your thoughts, comments and suggestions!</strong>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				Feel free to email us, call us or send us mail.
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-left:50px;">
+				<p><strong>Phone:</strong> (888) 312-5620</p>
+				<p><strong>Email:</strong> contact[at]gawkk.com</p>
+			</td>
+			<td>
+				<p>
+					<strong>Mailing Address:</strong><br/>
+					Gawkk.com<br/>
+					258 W. 71 Street, Suite 1A<br/>
+					New York, NY 10023<br/>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<p>
+					Thanks,<br/>
+					The Gawkk Team
+				</p>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<%= render :partial => "sidebar" %>

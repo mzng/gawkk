@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   layout 'page'
   
-  def buttons
+  
+  def about
     
   end
   
@@ -9,27 +10,7 @@ class PagesController < ApplicationController
     
   end
   
-  def how_gawkk_works
-    
-  end
-  
-  def privacy
-    
-  end
-  
-  def report_bug
-    
-  end
-  
-  def rss
-    
-  end
-  
-  def share
-    
-  end
-  
-  def terms_of_use
+  def faq
     
   end
   
@@ -37,12 +18,15 @@ class PagesController < ApplicationController
     
   end
   
-  
-  def faq
+  def tour_video
     
   end
   
-  def jobs
+  def privacy
+    
+  end
+  
+  def terms_of_use
     
   end
   

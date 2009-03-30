@@ -1,7 +1,4 @@
-<div id="content-header">
-	<h1>Gawkk Privacy Policy</h1>
-	<a href="/">Home</a> &gt; Site Details &gt; Gawkk Privacy Policy
-</div>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Privacy Policy', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Privacy Policy'}]} %>
 
 <div id="content-main">
 	<p>Gawkk was founded on the principles of helping people to discover new
@@ -288,18 +285,4 @@
 	<p>This Privacy Policy is effective as of August 1, 2007.</p>
 </div>
 
-<div id="content-sidebar">
-	<h1 class="section-header">About Us</h1>
-	<a href="/how">How Gawkk Works</a><br/>
-	<a href="/tour">Take the Site Tour</a><br/>
-	<a href="/faq">Frequently Asked Questions</a><br/>
-	<a href="http://blog.gawkk.com">The Gawkk Blog</a><br/>
-	<a href="/jobs">Jobs at Gawkk</a><br/>
-	<a href="/contact">Contact Gawkk</a>
-	
-	<h1 class="section-header">Site Details</h1>
-	<a href="/report-bug">Report a Website Bug</a><br/>
-	<a href="/rss">RSS Feeds</a><br/>
-	<a href="/terms-of-use">Terms of Use</a><br/>
-	Privacy Policy
-</div>
+<%= render :partial => "sidebar" %>

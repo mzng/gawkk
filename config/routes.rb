@@ -29,6 +29,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   
+  
+  map.connect 'all/newest.rss',         :controller => 'videos', :action => 'index', :popular => false, :format => 'rss'
+  map.connect 'all/popular.rss',        :controller => 'videos', :action => 'index', :popular => true, :format => 'rss'
+  map.connect ':category/newest.rss',   :controller => 'videos', :action => 'category', :popular => false, :format => 'rss'
+  map.connect ':category/popular.rss',  :controller => 'videos', :action => 'category', :popular => true, :format => 'rss'
+  
   map.connect 'videos/:action',     :controller => 'videos'
   
   
@@ -68,17 +74,13 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # pages
-  map.connect 'buttons',            :controller => 'pages', :action => 'buttons'
+  map.connect 'about',              :controller => 'pages', :action => 'about'
   map.connect 'contact',            :controller => 'pages', :action => 'contact'
-  map.connect 'how',                :controller => 'pages', :action => 'how_gawkk_works'
-  map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
-  map.connect 'report-bug',         :controller => 'pages', :action => 'report_bug'
-  map.connect 'rss',                :controller => 'pages', :action => 'rss'
-  map.connect 'share',              :controller => 'pages', :action => 'share'
-  map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
-  map.connect 'tour',               :controller => 'pages', :action => 'tour'
   map.connect 'faq',                :controller => 'pages', :action => 'faq'
-  map.connect 'jobs',               :controller => 'pages', :action => 'jobs'
+  map.connect 'tour',               :controller => 'pages', :action => 'tour'
+  map.connect 'tour-video',         :controller => 'pages', :action => 'tour_video'
+  map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
+  map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
   map.connect 'pages/:action',      :controller => 'pages'
   
   
