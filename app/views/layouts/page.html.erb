@@ -8,9 +8,14 @@
 		<meta name="y_key" content="b78fce59f8ae1e66"/>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		
+		<% if !@thumbnail_url.nil? -%>
+			<link rel="image_src" href="<%= @thumbnail_url %>" />
+			<link rel="media:image" href="<%= @thumbnail_url %>" />
+		<% end -%>
+		
 		<title>Gawkk - <%= @title.nil? ? 'Share Videos with Friends' : @title %></title>
 		
-		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'user', 'channel', 'registration', 'submit' %>
+		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'share', 'user', 'channel', 'registration', 'submit' %>
 		<%= javascript_include_tag :all %>
 		
 		<%= render :partial => "/layouts/ie7_css_overrides" %>
