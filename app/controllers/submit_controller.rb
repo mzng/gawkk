@@ -5,11 +5,13 @@ class SubmitController < ApplicationController
   
   
   def index
-    params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'Tell your friends about it.'
-    params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'Video URL (optional)'
-    
-    params[:comment][:body].strip!
-    params[:video][:url].strip!
+    if params[:comment] and params[:video]
+      params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'Tell your friends about it.'
+      params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'Video URL (optional)'
+
+      params[:comment][:body].strip!
+      params[:video][:url].strip!
+    end
     
     
     if request.post?
@@ -92,7 +94,9 @@ class SubmitController < ApplicationController
       @comment = Comment.new(params[:comment])
       
       if @video.save
-        SavedVideo.create(:channel_id => Channel.owned_by(logged_in_user).first.id, :video_id => @video.id)
+        if channels = Channel.owned_by(logged_in_user) and channels.size > 0
+          SavedVideo.create(:channel_id => channels.first.id, :video_id => @video.id)
+        end
         NewsItem.report(:type => 'submit_a_video', :reportable => @video, :user_id => logged_in_user.id)
         
         if !params[:comment][:body].blank?
