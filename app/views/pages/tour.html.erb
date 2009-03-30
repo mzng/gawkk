@@ -1,0 +1,133 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Gawkk Tour', :description => 'A quick overview of site features'} %>
+
+<div id="tour">
+	<% unless params[:clean] -%>
+		<div id="overview-image">
+			<%= image_tag('tour/overview.jpg') %>
+		</div>
+	<% end -%>
+	
+	<div id="overview-features">
+		<h2>Feature Overview</h2>
+		<p>
+			Gawkk.com works like a &quot;Twitter for videos&quot; where you can discover, share and discuss 
+			videos from around the web with your friends and followers by answering one simple question: 
+			<strong>What are you watching?</strong>
+		</p>
+	</div>
+	
+	<div class="join-section" style="border:0px;margin-top:0px;padding-top:0px;">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:50%;">
+					<ul>
+						<li>Post and share videos from any site around the web</li>
+						<li>Share videos with your friends and followers</li>
+						<li>See the videos your friends post</li>
+						<li>Cross-post videos to social messaging sites such as Twitter</li>
+						<li>Subscribe to thousands of great video channels</li>
+					</ul>
+				</td>
+				<td>
+					<div class="join-container">
+						<% form_tag({:controller => 'registration', :action => 'register'}, :method => 'get') do -%>
+							<%= submit_tag 'Join today!' %><br/><br/>
+							Already a member? <%= link_to 'Login', :controller => 'authentication', :action => 'login' %>
+						<% end -%>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="tour-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:575px;"><%= image_tag('tour/post.jpg') %></td>
+				<td>
+					<h2>Post Videos</h2>
+					<p>Post your thoughts, along with a video URL to share great videos with your friends and followers.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="tour-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:575px;"><%= image_tag('tour/inline-comments.jpg') %></td>
+				<td>
+					<h2>Inline Comments</h2>
+					<p>Your comments are posted right beneath the video, where your friends and followers can join in the conversation.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="tour-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:575px;"><%= image_tag('tour/invite-cross-post.jpg') %></td>
+				<td>
+					<h2>Invite &amp; Cross-Post</h2>
+					<p>When posting your thoughts, you can invite friends to join you in the conversation and even post your comment to Twitter.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="tour-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td rowspan="3" style="width:332px;"><%= image_tag('tour/following-followers.jpg') %></td>
+				<td>
+					<h2>Follow</h2>
+					<p>All posts are publicly available, so you can follow people on the site that you find interesting.</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h2>Followers</h2>
+					<p>Similarly, people can follow you to see your videos and posts.</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h2>Friends</h2>
+					<p>Friends are mutual followers and can be invited to your conversations.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="tour-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:332px;"><%= image_tag('tour/subscriptions.jpg') %></td>
+				<td>
+					<h2>Subscribe to Channels</h2>
+					<p>You can subscribe to get the newest videos in thousands of channels based on topics such as TV shows, movies, celebrities, comedians and more.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="join-section">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:50%;">
+					<h2>Join Today!</h2>
+					<p>Start sharing and discussing great videos from around the web with your friends, right now.</p>
+				</td>
+				<td>
+					<div class="join-container">
+						<% form_tag({:controller => 'registration', :action => 'register'}, :method => 'get') do -%>
+							<%= submit_tag 'Join today!' %><br/><br/>
+							Already a member? <%= link_to 'Login', :controller => 'authentication', :action => 'login' %>
+						<% end -%>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
