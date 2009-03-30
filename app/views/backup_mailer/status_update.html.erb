@@ -1,0 +1,14 @@
+<%= Time.now.strftime("%m/%d/%Y at %I:%M%p") %>
+
+Database Backups Currently Hosted at Amazon S3:
+
+<% @files[:database].each do |file| -%>
+<%= file %>
+<% end -%>
+
+
+Images Backed Up to Amazon S3 Yesterday:
+
+<% @files[:images].each_with_index do |file, i| -%>
+<%= Array.new(@files[:images].size.to_s.length - (i + 1).to_s.length).collect{|j| ' '}.join %><%= i + 1 %>: <%= file %>
+<% end -%>

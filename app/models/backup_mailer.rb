@@ -1,17 +1,8 @@
 class BackupMailer < ActionMailer::Base
-  def database_status_update(files)
-    @subject    = "Amazon S3: Database Backup Status"
+  def status_update(files)
+    @subject    = "Amazon S3: Backup Status (#{files[:database].size} DB Backups; #{files[:images].size} New Images)"
     @body["files"] = files
-    @recipients = "logs@gawkk.com"
-    @from       = "\"Gawkk\" <notifier@gawkk.com>"
-    headers       "Reply-to" => "notifier@gawkk.com"
-    @sent_on    = Time.now
-  end
-  
-  def image_status_update(files)
-    @subject    = "Amazon S3: Image Backup Status (#{files.size} new)"
-    @body["files"] = files
-    @recipients = "logs@gawkk.com"
+    @recipients = "tom@gawkk.com"
     @from       = "\"Gawkk\" <notifier@gawkk.com>"
     headers       "Reply-to" => "notifier@gawkk.com"
     @sent_on    = Time.now
