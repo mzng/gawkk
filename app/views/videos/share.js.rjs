@@ -1,0 +1,2 @@
+page.replace_html("share_for_#{@video.id}", :partial => "/videos/share", :locals => {:video => @video})
+page.visual_effect(:blind_down, "share_for_#{@video.id}", :duration => '0.3')

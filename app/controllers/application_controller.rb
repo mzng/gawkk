@@ -75,6 +75,10 @@ class ApplicationController < ActionController::Base
     @title = title
   end
   
+  def set_thumbnail(thumbnail_url)
+    @thumbnail_url = thumbnail_url
+  end
+  
   def parse_page
     @page = params[:page].blank? ? 1 : params[:page]
     @page = 1 unless @page.to_s.match(/^[0-9]+$/)
@@ -139,7 +143,11 @@ class ApplicationController < ActionController::Base
   
   def setup_related_videos(video)
     @q = Util::Scrub.query(video.title, true)
-    @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids})
+    begin
+      @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids})
+    rescue
+      @related_videos = Array.new
+    end
     
     @channel = video.first_channel
     @channel_videos = (@channel.nil? ? Array.new : collect('saved_videos', @channel.videos(:limit => 4)))

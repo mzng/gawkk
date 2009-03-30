@@ -42,6 +42,7 @@
 							<%= render :partial => "/videos/like", :locals => {:video => video} %>
 						</span>
 					</td>
+					<td>| <%= link_to_remote 'Share', :url => {:controller => 'videos', :action => 'share', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');" %></td>
 					<% if false -%>
 						<td>
 							<ul class="menu-container">
@@ -63,6 +64,7 @@
 			</table>
 		</div>
 	</div>
+	<div id="share_for_<%= video.id %>" class="share" style="display:none;"></div>
 	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
 	<%= render :partial => "/comments/list", :locals => {:video => video, :load_comments => load_comments} %>

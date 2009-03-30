@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
   around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment, :edit, :update]
-  around_filter :load_video, :only => [:discuss, :discuss_sidebar, :watch, :like, :unlike, :comment, :edit, :update]
-  skip_before_filter :verify_authenticity_token, :only => [:discuss_sidebar, :watch, :reload_activity, :reload_comments, :comment]
+  around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
+  skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   layout 'page'
   
   
@@ -70,8 +70,17 @@ class VideosController < ApplicationController
   def discuss
     # load_video or redirect
     set_title(@video.title)
+    set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
     setup_discuss_sidebar(@video)
     setup_related_videos(@video)
+  end
+  
+  def share
+    # load_video or redirect
+    
+    respond_to do |format|
+      format.js {}
+    end
   end
   
   def watch

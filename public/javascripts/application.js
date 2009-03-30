@@ -193,3 +193,9 @@ function selectServiceAvatar(container, service) {
 		container.addClassName('selected')
 	}
 }
+
+// facebook
+function fbs_click(u) {
+	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer','toolbar=0,status=0,width=626,height=436');
+	return false;
+}
