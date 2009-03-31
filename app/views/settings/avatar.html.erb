@@ -1,0 +1,40 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Settings", :user => @user} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {
+			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+									{:name => @user.username, :params => user_path(:id => @user)}, 
+									{:name => 'Settings', :params => {:controller => 'settings'}}, 
+									{:name => 'Avatar'}]} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Change Your Avatar', :links => []} %>
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'avatar'}, :html => {:multipart => true}) do |f| %>
+		<table id="settings-avatar" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><p style="margin-top:0px;">Choose an Avatar:</p></td>
+			</tr>
+			<tr>
+				<td id="service-containers" colspan="2">
+					<%= hidden_field 'use', 'service', :value => 'gawkk' %>
+					<%= render :partial => "/registration/service_avatar", :locals => {:service => 'gawkk', :description => 'Default', :selected => true} %>
+					<%= render :partial => "/registration/service_avatar", :locals => {:service => 'twitter', :description => 'Twitter'} %>
+					<%= render :partial => "/registration/service_avatar", :locals => {:service => 'youtube', :description => 'YouTube'} %>
+					<%= render :partial => "/registration/service_avatar", :locals => {:service => 'friendfeed', :description => 'FriendFeed'} %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p style="margin-top:15px;"><label for="avatar_for_user">Or, Upload Your Own:</label><br/>
+					<%= file_field 'avatar', 'for_user', :onfocus => "revealTip('avatar_for_user');", :onblur => "hideTips();" %></p>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Update") %>
+		</p>
+	<% end -%>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>

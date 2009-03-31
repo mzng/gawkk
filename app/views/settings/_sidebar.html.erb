@@ -1,0 +1,8 @@
+<div id="settings-sidebar">
+	<h1 class="section-header">Options</h1>
+	<%= link_to 'Your Profile', {:controller => "settings", :action => "profile"}, :style => bold_for('profile') %><br/>
+	<%= link_to 'Your Avatar', {:controller => "settings", :action => "avatar"}, :style => bold_for('avatar') %><br/>
+	<%= link_to 'Email Settings', {:controller => "settings", :action => "email"}, :style => bold_for('email') %><br/>
+	<%= link_to 'Change Password', {:controller => "settings", :action => "password"}, :style => bold_for('password') %><br/>
+	<%= link_to_remote 'Twitter Access', :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %>
+</div>

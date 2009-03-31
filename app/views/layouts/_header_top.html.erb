@@ -10,7 +10,7 @@
 					<%= logged_in_user.username %>:
 					<%= link_to('Profile', user_path(logged_in_user)) %> |
 					<%= link_to('Subscriptions', {:controller => 'videos', :action => 'subscriptions'}) %> |
-					<%= link_to('Settings', '#') %> |
+					<%= link_to('Settings', {:controller => 'settings'}) %> |
 					<%= link_to('Logout', {:controller => 'authentication', :action => 'logout'}) %>
 				</span>
 			<% else -%>

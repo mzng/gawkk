@@ -75,4 +75,14 @@ module ApplicationHelper
     
     html
   end
+  
+  def bold_for(action)
+    css = ''
+    
+    if params[:action] == action
+      css = 'font-weight:bold;'
+    end
+    
+    css
+  end
 end

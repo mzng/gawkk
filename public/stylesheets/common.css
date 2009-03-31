@@ -198,6 +198,18 @@ p.refine-search span {
 	text-align: center;
 }
 
+/* coming soon */
+div.coming-soon {
+	background-color: #f9f9f9;
+	border: 1px solid #E5E5E5;
+	margin-top: 30px;
+	padding: 25px;
+}
+
+div.coming-soon h2 {
+	text-align: center;
+}
+
 /* pagination */
 div.titled-pagination-container {
 	padding: 10px 0;

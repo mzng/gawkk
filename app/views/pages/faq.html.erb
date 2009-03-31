@@ -1,9 +1,11 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Frequently Asked Questions', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Frequent Questions'}]} %>
 
 <div id="content-main">
-	<div style="background-color:#f9f9f9;border:1px solid #E5E5E5;margin-top:30px;padding:25px;">
-		<h2 style="text-align:center;">Coming Soon</h2>
+	<div class="coming-soon">
+		<h2>Coming Soon</h2>
 	</div>
 </div>
 
-<%= render :partial => "sidebar" %>
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>

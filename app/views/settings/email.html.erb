@@ -1,0 +1,53 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Settings", :user => @user} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {
+			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+									{:name => @user.username, :params => user_path(:id => @user)}, 
+									{:name => 'Settings', :params => {:controller => 'settings'}}, 
+									{:name => 'Email'}]} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Email Settings', :links => []} %>
+	
+	<%= error_messages_for 'user' %>
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'email'}) do |f| %>
+		<table id="settings-profile" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<p style="margin-top:0px;">
+						Current Email Address:<br/>
+						&nbsp;&nbsp;<strong><%= @user.email %></strong>
+					</p>
+
+					<p><label for="user_password">Current Gawkk Password:</label><br/>
+					<%= f.password_field 'password', :onfocus => "revealTip('user_password');", :onblur => "hideTips();" %></p>
+
+					<p><label for="user_email">New Email Address:</label><br/>
+					<%= f.text_field 'email', :value => '', :onfocus => "revealTip('user_email');", :onblur => "hideTips();" %></p>
+				</td>
+				<td class="center">
+					<div id="user_password_tip" class="tip">
+						<p>Enter your current Gawkk password so we know it's really you.</p>
+					</div>
+
+					<div id="user_email_tip" class="tip">
+						<p>Enter a new email address for this account.</p>
+					</div>
+					
+					<%= image_tag 'tip_arrow.gif', :id => 'tip_arrow', :class => 'tip-arrow' %>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Update") %>
+		</p>
+	<% end -%>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('user_password').focus();
+</script>

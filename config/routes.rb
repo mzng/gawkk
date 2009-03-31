@@ -10,6 +10,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'setup/profile',      :controller => 'registration', :action => 'setup_profile'
   
   
+  # settings
+  map.connect 'settings/:action',   :controller => 'settings'
+  
+  
   # submit
   map.connect 'submit/:action',     :controller => 'submit'
   

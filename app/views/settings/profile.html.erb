@@ -1,0 +1,131 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Settings", :user => @user} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {
+			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+									{:name => @user.username, :params => user_path(:id => @user)}, 
+									{:name => 'Settings', :params => {:controller => 'settings'}}, 
+									{:name => 'Profile'}]} %>
+
+<div id="content-main">
+	<%= error_messages_for 'user' %>
+	
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'profile'}) do |f| %>
+		<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'About', :links => []} %>
+		<table id="settings-profile" cellpadding="0" cellspacing="0">
+			<tr>
+				<td style="width:260px;">
+					<p style="margin-top:0px;"><label for="user_name">First and Last Name:</label><br/>
+					<%= f.text_field 'name', :onfocus => "revealTip('user_name');", :onblur => "hideTips();" %></p>
+					
+					<p><label for="user_age_range_id">Age:</label><br/>
+					<%= f.select 'age_range_id', @age_ranges, {:include_blank => true}, :onfocus => "revealTip('user_age_range_id');", :onblur => "hideTips();" %></p>
+					
+					<p>Sex:<br/>
+					<label><%= f.radio_button 'sex', 'm', :onfocus => "revealTip('user_sex_m');", :onblur => "hideTips();" %> Male</label>
+					<label><%= f.radio_button 'sex', 'f', :onfocus => "revealTip('user_sex_f');", :onblur => "hideTips();" %> Female</label></p>
+					
+					<p><label for="user_location">Country:</label><br/>
+					<%= f.country_select 'location', ['United States'], {}, {:onfocus => "revealTip('user_location');", :onblur => "hideTips();", :style => 'width:215px;'} %></p>
+					
+					<p><label for="user_zip_code">Zip Code:</label><br/>
+					<%= f.text_field 'zip_code', :onfocus => "revealTip('user_zip_code');", :onblur => "hideTips();", :style => 'width:100px;' %></p>
+				</td>
+				<td class="center">
+					<div id="user_name_tip" class="tip">
+						<p>Your name is used only for searching and is shared only with friends. 
+						Your name is not displayed on the site except to a matching search request.</p>
+
+						<p><strong>If you want your friends to find you, use your real name here.</strong></p>
+					</div>
+
+					<div id="user_age_range_id_tip" class="tip">
+						<p>Your age will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_sex_m_tip" class="tip">
+						<p>Your sex will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_sex_f_tip" class="tip">
+						<p>Your sex will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_location_tip" class="tip">
+						<p>Your location will not be displayed on the site.</p>
+					</div>
+
+					<div id="user_zip_code_tip" class="tip">
+						<p>Your location will not be displayed on the site.</p>
+					</div>
+					
+					<%= image_tag 'tip_arrow.gif', :id => 'tip_arrow', :class => 'tip-arrow' %>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Update") %>
+		</p>
+	<% end -%>
+	
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'services'}) do |f| %>
+		<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Elsewhere', :links => []} %>
+		<div style="float:right;margin-right:15px;width:215px;">
+			<strong>What's This All About?</strong>
+			<p>Links to these services and sites will show up on your Gawkk profile for everyone to see.</p>
+		</div>
+		<table id="settings-elsewhere" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="left no-logo" style="padding-top:0px;">
+					<%= image_tag('favicon_twitter.png') %> Twitter Username:
+				</td>
+				<td class="center">
+					<%= f.text_field 'twitter_username' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('favicon_youtube.png') %> YouTube Username:
+				</td>
+				<td class="center">
+					<%= f.text_field 'youtube_username' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('favicon_friendfeed.png') %> FriendFeed Username:
+				</td>
+				<td class="center">
+					<%= f.text_field 'friendfeed_username' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('feed-owner.png') %> Blog or Website URL:
+				</td>
+				<td class="center">
+					<%= f.text_field 'website_url' %>
+				</td>
+			</tr>
+			<tr>
+				<td class="left no-logo">
+					<%= image_tag('feed.png') %> Blog's RSS Feed:
+				</td>
+				<td class="center">
+					<%= f.text_field 'feed_url' %>
+				</td>
+			</tr>
+		</table>
+		
+		<p class="submit">
+			<%= submit_tag("Update") %>
+		</p>
+	<% end -%>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('user_name').focus();
+</script>

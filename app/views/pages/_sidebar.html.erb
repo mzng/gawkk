@@ -1,10 +1,8 @@
-<div id="content-sidebar">
-	<h1 class="section-header">Gawkk</h1>
-	<a href="/about">About Us</a><br/>
-	<a href="/contact">Contact Us</a><br/>
-	<a href="/faq">Frequent Questions</a><br/>
-	<a href="/tour">Gawkk Web Tour</a><br/>
-	<a href="/tour-video">Gawkk Video Tour</a><br/>
-	<a href="/privacy">Privacy Policy</a><br/>
-	<a href="/terms-of-use">Terms of Use</a><br/>
-</div>
+<h1 class="section-header">Gawkk</h1>
+<%= link_to 'About Us', {:controller => "pages", :action => "about"}, :style => bold_for('about') %><br/>
+<%= link_to 'Contact Us', {:controller => "pages", :action => "contact"}, :style => bold_for('contact') %><br/>
+<%= link_to 'Frequent Questions', {:controller => "pages", :action => "faq"}, :style => bold_for('faq') %><br/>
+<%= link_to 'Gawkk Web Tour', {:controller => "pages", :action => "tour"} %><br/>
+<%= link_to 'Gawkk Video Tour', {:controller => "pages", :action => "tour_video"}, :style => bold_for('tour_video') %><br/>
+<%= link_to 'Privacy Policy', {:controller => "pages", :action => "privacy"}, :style => bold_for('privacy') %><br/>
+<%= link_to 'Terms of Use', {:controller => "pages", :action => "terms_of_use"}, :style => bold_for('terms_of_use') %>
