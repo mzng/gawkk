@@ -6,7 +6,7 @@
 									{:name => 'Email'}]} %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Email Settings', :links => []} %>
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Change Your Email Address', :links => []} %>
 	
 	<%= error_messages_for 'user' %>
 	<% form_for(@user, :url => {:controller => 'settings', :action => 'email'}) do |f| %>
