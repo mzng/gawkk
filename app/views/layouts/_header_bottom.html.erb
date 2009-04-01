@@ -5,34 +5,41 @@
 		</ul>
 		<ul class="menu-container">
 			<li><%= link_to 'Home', '/' %></li>
-			<li><%= link_to 'Videos' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'videos', :action => 'index', :popular => false} %>
+			<li><%= link_to 'Videos' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => '/videos', :action => 'index', :popular => false} %>
 				<ul>
-					<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'index', :popular => false} %></li>
-					<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'index', :popular => true} %></li>
-					<li><%= link_to 'Friends\' Videos', {:controller => 'videos', :action => 'friends'} %></li>
-					<li><%= link_to 'Subscriptions\' Videos', {:controller => 'videos', :action => 'subscriptions'} %></li>
+					<li><%= link_to 'Newest Videos', {:controller => '/videos', :action => 'index', :popular => false} %></li>
+					<li><%= link_to 'Popular Videos', {:controller => '/videos', :action => 'index', :popular => true} %></li>
+					<li><%= link_to 'Friends\' Videos', {:controller => '/videos', :action => 'friends'} %></li>
+					<li><%= link_to 'Subscriptions\' Videos', {:controller => '/videos', :action => 'subscriptions'} %></li>
 					<li><%= link_to 'Post a Video', '/' %></li>
 				</ul>
 			</li>
-			<li><%= link_to 'Channels' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'channels'} %>
+			<li><%= link_to 'Channels' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => '/channels'} %>
 				<ul>
-					<li><%= link_to 'Featured Channels', {:controller => 'channels'} %></li>
-					<li><%= link_to 'All Channels', {:controller => 'channels', :t => 'p'} %></li>
+					<li><%= link_to 'Featured Channels', {:controller => '/channels'} %></li>
+					<li><%= link_to 'All Channels', {:controller => '/channels', :t => 'p'} %></li>
 				</ul>
 			</li>
 			<% if user_logged_in? -%>
 				<li><%= link_to 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), user_path(logged_in_user) %>
 					<ul>
 						<li><%= link_to 'My Profile', user_path(logged_in_user) %></li>
-						<li><%= link_to 'My Followings', {:controller => 'users', :action => 'follows', :id => logged_in_user} %></li>
-						<li><%= link_to 'My Followers', {:controller => 'users', :action => 'followers', :id => logged_in_user} %></li>
-						<li><%= link_to 'My Friends', {:controller => 'users', :action => 'friends', :id => logged_in_user} %></li>
-						<li><%= link_to 'My Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %></li>
-						<li><%= link_to 'Add Friends', {:controller => 'members', :action => 'find'}, :class => 'action' %></li>
+						<li><%= link_to 'My Followings', {:controller => '/users', :action => 'follows', :id => logged_in_user} %></li>
+						<li><%= link_to 'My Followers', {:controller => '/users', :action => 'followers', :id => logged_in_user} %></li>
+						<li><%= link_to 'My Friends', {:controller => '/users', :action => 'friends', :id => logged_in_user} %></li>
+						<li><%= link_to 'My Subscriptions', {:controller => '/users', :action => 'subscriptions', :id => logged_in_user} %></li>
+						<li><%= link_to 'Add Friends', {:controller => '/members', :action => 'find'}, :class => 'action' %></li>
 					</ul>
 				</li>
 			<% else -%>
 				<li><%= link_to 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'authentication', :action => 'login'} %></li>
+			<% end -%>
+			<% if user_can_administer? -%>
+				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
+					<ul>
+						<li><%= link_to 'Registrations Per Day', {:controller => 'admin/statistics', :action => 'registrations'} %></li>
+					</ul>
+				</li>
 			<% end -%>
 		</ul>
 	</div>
