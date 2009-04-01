@@ -33,6 +33,7 @@ class ChannelsController < ApplicationController
   # Streams
   def show
     # load_channel or redirect
+    set_feed_url("http://www.gawkk.com/#{@user.slug}/#{@channel.slug}.rss")
     set_title(@channel.proper_name)
     setup_pagination
     setup_channel_sidebar(@channel)

@@ -90,6 +90,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # named paths
   map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
+  map.channel_rss ':user/:channel.rss',         :controller => 'channels', :action => 'show', :format => 'rss'
   map.subscribers ':user/:channel/subscribers', :controller => 'channels', :action => 'subscribers'
   
   
