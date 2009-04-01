@@ -107,7 +107,8 @@ class SettingsController < ApplicationController
   
   private
   def ensure_logged_in_user
-    if user_logged_in? and @user = User.find(logged_in_user.id)
+    if user_logged_in? and @user = ((user_can_administer? and !params[:id].blank? and User.find_by_slug(params[:id])) or User.find(logged_in_user.id))
+      params[:id] = nil if @user.id == logged_in_user.id
       yield
     else
       flash[:notice] = 'You must be logged in to the do that.'

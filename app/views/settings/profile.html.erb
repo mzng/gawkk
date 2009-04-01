@@ -8,7 +8,7 @@
 <div id="content-main">
 	<%= error_messages_for 'user' %>
 	
-	<% form_for(@user, :url => {:controller => 'settings', :action => 'profile'}) do |f| %>
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'profile', :id => params[:id]}) do |f| %>
 		<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'About', :links => []} %>
 		<table id="settings-profile" cellpadding="0" cellspacing="0">
 			<tr>
@@ -67,7 +67,7 @@
 		</p>
 	<% end -%>
 	
-	<% form_for(@user, :url => {:controller => 'settings', :action => 'services'}) do |f| %>
+	<% form_for(@user, :url => {:controller => 'settings', :action => 'services', :id => params[:id]}) do |f| %>
 		<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Elsewhere', :links => []} %>
 		<div style="float:right;margin-right:15px;width:215px;">
 			<strong>What's This All About?</strong>
