@@ -1,0 +1,5 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Registrations (#{@total} Total)", :crumbs => [{:name => 'Admin'}, {:name => 'Statistics'}, {:name => 'Registrations Per Day'}]} %>
+
+<p style="margin-top:50px;text-align:center;">
+	<%= image_tag(@chart.to_url) %>
+</p>

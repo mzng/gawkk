@@ -88,6 +88,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'pages/:action',      :controller => 'pages'
   
   
+  # administration areas
+  map.connect 'admin/statistics/:action',     :controller => 'admin/statistics'
+  
+  
   # named paths
   map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
   map.channel_rss ':user/:channel.rss',         :controller => 'channels', :action => 'show', :format => 'rss'

@@ -459,6 +459,11 @@ div.paginate-single-link-set span.disabled {
 	font-weight: normal;
 }
 
+#content-header .simple-title {
+	font-size: 18pt;
+	line-height: 24pt;
+}
+
 #content-header .description {
 	font-size: 10pt;
 	font-weight: normal;

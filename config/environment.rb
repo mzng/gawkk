@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on and have them installed with rake gems:install
   config.gem "feedtools", :lib => "feed_tools"
+  config.gem "gchart",    :lib => "gchart"
   config.gem "hpricot",   :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
   config.gem "right_aws", :lib => "right_aws"
   config.gem "rmagick",   :lib => "RMagick", :version => "~>2.8"

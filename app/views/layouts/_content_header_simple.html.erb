@@ -3,7 +3,7 @@
 <% crumbs ||= Array.new -%>
 
 <div id="content-header" class="separated">
-	<h1><%= title %></h1>
+	<h1 class="simple-title"><%= title %></h1>
 	<div>
 		<% if crumbs.size > 0 -%>
 			<%= render :partial => "/layouts/breadcrumbs", :locals => {:crumbs => crumbs} %>
