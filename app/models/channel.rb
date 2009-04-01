@@ -33,23 +33,33 @@ class Channel < ActiveRecord::Base
       self.slug = Util::Slug.generate(self.name, false)
       self.description ||= ''
     end
+    
+    return true
   end
   
   def validate_on_create
     errors.add(:name, "can't be longer than 40 characters") unless self.name.length < 41 or self.user.feed_owner?
+    
+    return true
   end
   
   def before_create
     self.category_ids = '' if self.category_ids.blank?
     self.keywords     = '' if self.keywords.blank?
+    
+    return true
   end
   
   def before_save
     Rails.cache.delete(self.cache_key)
+    
+    return true
   end
   
   def after_save
     Rails.cache.write(self.cache_key, Channel.find(self.id, :include => :user), 1.week)
+    
+    return true
   end
   
   
