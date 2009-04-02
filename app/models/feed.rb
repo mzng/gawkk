@@ -122,7 +122,7 @@ class Feed < ActiveRecord::Base
               open("http://www.gawkk.com/images/#{video.thumbnail}")
             rescue OpenURI::HTTPError
               video.thumbnail.update_attribute('thumbnail', '')
-              ImportMailer.deliver_thumbnail_failure_notification
+              ImportMailer.deliver_automatic_shutdown_notification
               Parameter.set('feed_importer_status', 'false')
             end
           end
