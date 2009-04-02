@@ -1,2 +1,8 @@
-page.replace_html("share_for_#{@video.id}", :partial => "/videos/share", :locals => {:video => @video})
-page.visual_effect(:blind_down, "share_for_#{@video.id}", :duration => '0.3')
+page << "if($('share_for_#{@video.id}').style.display != 'none') {"
+  page.visual_effect(:blind_up, "share_for_#{@video.id}", :duration => '0.3')
+  page.replace_html("more_link_for_#{@video.id}", :partial => "/videos/more_link", :locals => {:video => @video, :open => true})
+page << "} else {"
+  page.replace_html("share_for_#{@video.id}", :partial => "/videos/share", :locals => {:video => @video})
+  page.replace_html("more_link_for_#{@video.id}", :partial => "/videos/more_link", :locals => {:video => @video, :open => false})
+  page.visual_effect(:blind_down, "share_for_#{@video.id}", :duration => '0.3')
+page << "}"

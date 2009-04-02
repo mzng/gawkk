@@ -19,7 +19,7 @@
 			<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
 			<% if video.safe_description.length > 200 -%>
 				<span id="short_description_for_<%= video.id %>">
-					<%= video.safe_description.first(200) %>... <%= link_to 'read more', "javascript:readMore('#{video.id}');watchVideo('#{video.id}','#{video.slug}');" %>
+					<%= video.safe_description.first(200) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}');" %>
 				</span>
 			<% end -%>
 			<span id="full_description_for_<%= video.id %>" <% if video.safe_description.length > 200 -%>style="display:none;"<% end -%>>
@@ -45,7 +45,11 @@
 					<% if user_can_edit?(video) -%>
 						<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video}, :loading => "work('#{video.id}');"} %></td>
 					<% end -%>
-					<td>| <%= link_to_remote 'More', :url => {:controller => 'videos', :action => 'share', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');" %><%= image_tag('menu-arrow.png', :class => 'pull') %></td>
+					<td>
+						<span id="more_link_for_<%= video.id %>">
+							<%= render :partial => "/videos/more_link", :locals => {:video => video, :open => true} %>
+						</span>
+					</td>
 				</tr>
 			</table>
 		</div>

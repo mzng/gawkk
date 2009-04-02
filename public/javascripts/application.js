@@ -72,6 +72,13 @@ function readMore(videoId) {
 	}
 }
 
+function read(videoId, videoSlug) {
+	readMore(videoId);
+	if($('embed_for_' + videoId).style.display == 'none') {
+		watchVideo(videoId, videoSlug);
+	}
+}
+
 
 // activity
 function reloadActivity(videoId) {

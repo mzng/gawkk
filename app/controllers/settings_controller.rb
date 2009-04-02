@@ -4,7 +4,7 @@ class SettingsController < ApplicationController
   
   
   def index
-    redirect_to :action => "profile"
+    redirect_to :action => "profile", :id => params[:id]
   end
   
   def profile

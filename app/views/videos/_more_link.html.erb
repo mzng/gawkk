@@ -1,0 +1,1 @@
+| <%= link_to_remote 'More', :url => {:controller => 'videos', :action => 'share', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');" %><%= image_tag("menu-arrow#{open ? '' : '-up'}.png", :id => "more_link_arrow_for_#{video.id}", :class => 'pull') %>

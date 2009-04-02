@@ -50,6 +50,10 @@ class ApplicationController < ActionController::Base
       if user_logged_in? and (user_can_administer? or object.posted_by_id == logged_in_user.id)
         return true
       end
+    elsif object.class == User
+      if user_logged_in? and (user_can_administer? or object.id == logged_in_user.id)
+        return true
+      end
     end
     
     return false

@@ -1,4 +1,11 @@
-<h1 class="section-header"><% if (welcome ||= false) -%>Welcome, <% end -%><%= user.username %></h1>
+<h1 class="section-header">
+	<% if (welcome ||= false) -%>
+		Welcome,
+	<% elsif user_can_edit?(user) -%>
+		<span><%= link_to 'Edit Settings', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></span>
+	<% end -%>
+	<%= user.username %>
+</h1>
 
 <%= render :partial => '/users/statistics', :locals => {:user => user} %>
 
