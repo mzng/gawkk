@@ -10,6 +10,13 @@ class Admin::ImportController < ApplicationController
     redirect_to request.env["HTTP_REFERER"]
   end
   
+  def fix_thumbnails
+    system "/var/www/apps/gawkk/current/rake thumbnail:fixer RAILS_ENV=#{Rails.env} &"
+    
+    flash[:notice] = 'The thumbnail:fixer rake task has been started in the background.'
+    redirect_to request.env["HTTP_REFERER"]
+  end
+  
   
   private
   def ensure_user_can_administer
