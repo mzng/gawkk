@@ -1,0 +1,31 @@
+<% if service == 'twitter' -%>
+	<% if value.blank? -%>
+		<%= image_tag('favicon_twitter_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('favicon_twitter.png'), "http://twitter.com/#{value}", :target => 'twitter' %>
+	<% end -%>
+<% elsif service == 'youtube' -%>
+	<% if value.blank? -%>
+		<%= image_tag('favicon_youtube_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('favicon_youtube.png'), "http://youtube.com/user/#{value}", :target => 'youtube' %>
+	<% end -%>
+<% elsif service == 'friendfeed' -%>
+	<% if value.blank? -%>
+		<%= image_tag('favicon_friendfeed_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('favicon_friendfeed.png'), "http://friendfeed.com/#{value}", :target => 'friendfeed' %>
+	<% end -%>
+<% elsif service == 'website_url' -%>
+	<% if value.blank? -%>
+		<%= image_tag('feed-owner_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('feed-owner.png'), value, :target => 'website-url' %>
+	<% end -%>
+<% elsif service == 'feed_url' -%>
+	<% if value.blank? -%>
+		<%= image_tag('feed_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('feed.png'), value, :target => 'feed-url' %>
+	<% end -%>
+<% end -%>

@@ -1,0 +1,35 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Users", :crumbs => [{:name => 'Admin', :params => {:controller => '/videos', :action => 'friends'}}, {:name => 'Users', :params => {:controller => 'admin/users'}}]} %>
+
+<div>
+	<table id="user-list" cellpadding="3" cellspacing="0">
+		<thead>
+			<th colspan="2">Username</th>
+			<th>Email</th>
+			<th>Name</th>
+			<th>Elsewhere</th>
+			<th>Registered</th>
+			<th colspan="2">Last Login</th>
+		</thead>
+		<tbody>
+			<% @users.each do |user| -%>
+				<tr>
+					<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+					<td><%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+					<td><div><%= user.email %></div></td>
+					<td><div><%= user.name %></div></td>
+					<td>
+						<%= render :partial => "service_avatar", :locals => {:service => 'twitter',			:value => user.twitter_username} %>
+						<%= render :partial => "service_avatar", :locals => {:service => 'youtube',			:value => user.youtube_username} %>
+						<%= render :partial => "service_avatar", :locals => {:service => 'friendfeed',	:value => user.friendfeed_username} %>
+						<%= render :partial => "service_avatar", :locals => {:service => 'website_url',	:value => user.website_url} %>
+						<%= render :partial => "service_avatar", :locals => {:service => 'feed_url',		:value => user.feed_url} %>
+					</td>
+					<td><%= user.created_at.strftime("%m/%d/%Y") if user.created_at != nil %></td>
+					<td><%= time_ago_in_words(user.last_login_at) + ' ago' if user.last_login_at != nil %></td>
+					<td class="actions"><%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %></td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users} %>
+</div>
