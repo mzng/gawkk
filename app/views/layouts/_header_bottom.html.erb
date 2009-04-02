@@ -37,7 +37,7 @@
 			<% if user_can_administer? -%>
 				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
 					<ul>
-						<li><%= link_to 'Registrations Per Day', {:controller => 'admin/statistics', :action => 'registrations'} %></li>
+						<li><%= link_to 'Registrations', {:controller => 'admin/statistics', :action => 'registrations'} %></li>
 					</ul>
 				</li>
 			<% end -%>
