@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Registrations (#{@total} Total)", :crumbs => [{:name => 'Admin'}, {:name => 'Statistics'}, {:name => 'Registrations'}]} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Registrations (#{@total} Total, #{@total_today} Today)", :crumbs => [{:name => 'Admin'}, {:name => 'Statistics'}, {:name => 'Registrations'}]} %>
 
 <p style="margin-top:50px;text-align:center;">
 	<%= image_tag(@per_day.to_url) %>
