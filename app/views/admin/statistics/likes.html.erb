@@ -1,0 +1,9 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Likes (#{@total} Total, #{@total_today} Today)", :crumbs => [{:name => 'Admin', :params => {:controller => '/videos', :action => 'friends'}}, {:name => 'Statistics', :params => {:controller => 'admin/statistics'}}, {:name => 'Likes'}]} %>
+
+<p style="margin-top:50px;text-align:center;">
+	<%= image_tag(@per_day.to_url) %>
+</p>
+
+<p style="margin-top:50px;text-align:center;">
+	<%= image_tag(@per_week.to_url) %>
+</p>
