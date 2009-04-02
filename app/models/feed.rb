@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class Feed < ActiveRecord::Base
   belongs_to :category
   belongs_to :owned_by, :class_name => "User", :foreign_key => "owned_by_id"
@@ -113,6 +115,19 @@ class Feed < ActiveRecord::Base
               report.thumbnail_count = report.thumbnail_count + 1 if !video.thumbnail.blank?
             end
           end
+          
+          # Ensure we have a thumbnail if we think we have it
+          if !video.thumbnail.blank?
+            begin
+              open("http://www.gawkk.com/images/#{video.thumbnail}")
+            rescue OpenURI::HTTPError
+              video.thumbnail.update_attribute('thumbnail', '')
+              ImportMailer.deliver_thumbnail_failure_notification
+              Parameter.set('feed_importer_status', 'false')
+            end
+          end
+          
+          break if !Parameter.status?('feed_importer_status')
         end
 
         report.items_in_feed = items.size

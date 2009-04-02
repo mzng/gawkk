@@ -2,12 +2,22 @@ class Parameter < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   
+  
+  def before_save
+    Rails.cache.delete("parameters/#{self.name}")
+    
+    return true
+  end
+  
+  
   def status?
     return (self.value == 'true') ? true : false
   end
   
   def self.status?(parameter)
-    return Parameter.find_by_name(parameter).status?
+    Rails.cache.fetch("parameters/#{parameter}", :expires_in => 1.day) do
+      Parameter.find_by_name(parameter).status?
+    end
   end
   
   

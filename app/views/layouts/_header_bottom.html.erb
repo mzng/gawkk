@@ -36,8 +36,11 @@
 			<% end -%>
 			<% if user_can_administer? -%>
 				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
-					<ul>
+					<ul style="width:165px;">
 						<li><%= link_to 'Registrations', {:controller => 'admin/statistics', :action => 'registrations'} %></li>
+						<% if Parameter.status?('feed_importer_status') -%>
+							<li><%= link_to 'Shutdown Feed Importers', {:controller => 'admin/import', :action => 'shutdown'}, :confirm => 'Are you sure?' %></li>
+						<% end -%>
 					</ul>
 				</li>
 			<% end -%>
