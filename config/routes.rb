@@ -4,6 +4,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'logout',             :controller => 'authentication', :action => 'logout'
   
   
+  # administration areas
+  map.connect 'admin/comments/:action',   :controller => 'admin/comments'
+  map.connect 'admin/import/:action',     :controller => 'admin/import'
+  map.connect 'admin/statistics/:action', :controller => 'admin/statistics'
+  map.connect 'admin/users/:action',      :controller => 'admin/users'
+  
+  
   # registration
   map.connect 'register',           :controller => 'registration', :action => 'register'
   map.connect 'setup/services',     :controller => 'registration', :action => 'setup_services'
@@ -86,12 +93,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
   map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
   map.connect 'pages/:action',      :controller => 'pages'
-  
-  
-  # administration areas
-  map.connect 'admin/import/:action',         :controller => 'admin/import'
-  map.connect 'admin/statistics/:action',     :controller => 'admin/statistics'
-  map.connect 'admin/users/:action',     :controller => 'admin/users'
   
   
   # named paths
