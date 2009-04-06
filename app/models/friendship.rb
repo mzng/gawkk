@@ -26,7 +26,10 @@ class Friendship < ActiveRecord::Base
       FollowMailer.deliver_notification(self)
     end
     
-    NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id) if self.silent == false
+    if self.silent == false and !User.default_followings.collect{|u| u.id}.include?(self.user_id)
+      NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id)
+    end
+    
     return true
   end
   

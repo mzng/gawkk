@@ -285,7 +285,9 @@ class User < ActiveRecord::Base
   end
   
   def self.default_followings
-    User.with_slugs(['gculliss', 'brianoblivion']).all
+    Rails.cache.fetch('users/default-followings', :expires_in => 1.week) do
+      User.with_slugs(['gculliss', 'brianoblivion']).all
+    end
   end
   
   def <=>(obj)

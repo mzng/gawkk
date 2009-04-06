@@ -13,7 +13,10 @@ class Subscription < ActiveRecord::Base
   end
   
   def after_create
-    NewsItem.report(:type => 'subscribe_to_channel', :reportable => self.channel, :user_id => self.user_id) if self.silent == false
+    if self.silent == false and !User.default_followings.collect{|u| u.id}.include?(self.user_id)
+      NewsItem.report(:type => 'subscribe_to_channel', :reportable => self.channel, :user_id => self.user_id)
+    end
+    
     return true
   end
 end
