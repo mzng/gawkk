@@ -35,11 +35,12 @@
 				<li><%= link_to 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'authentication', :action => 'login'} %></li>
 			<% end -%>
 			<% if user_can_administer? -%>
-				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), '#' %>
+				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'admin/overview'} %>
 					<ul style="width:165px;">
+						<li><%= link_to 'Channel Manager', {:controller => 'admin/channels'} %></li>
 						<li><%= link_to 'Comment Manager', {:controller => 'admin/comments'} %></li>
+						<li><%= link_to 'Statistic Viewer', {:controller => 'admin/statistics'} %></li>
 						<li><%= link_to 'User Manager', {:controller => 'admin/users'} %></li>
-						<li><%= link_to 'View Statistics', {:controller => 'admin/statistics'} %></li>
 						<li><%= link_to 'Fix Recent Thumbnails', {:controller => 'admin/import', :action => 'fix_thumbnails'}, :confirm => 'Are you sure?' %></li>
 						<% if Parameter.status?('feed_importer_status') -%>
 							<li><%= link_to 'Shutdown Feed Importers', {:controller => 'admin/import', :action => 'shutdown'}, :confirm => 'Are you sure?' %></li>

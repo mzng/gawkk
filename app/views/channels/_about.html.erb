@@ -1,2 +1,13 @@
-<h1 class="section-header">What are Channels?</h1>
-<p>Channels are groups of videos, such as TV shows, movies, celebrities, comedians and more.</p>
+<% if !@user.description.blank? or user_can_administer? -%>
+	<h1 class="section-header">
+		<% if user_can_administer? -%>
+			<span><%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => @channel.id} %></span>
+		<% end -%>
+		About
+	</h1>
+	<% if !@user.description.blank? -%>
+		<p><%= simple_format(auto_link(@user.description)) %></p>
+	<% else -%>
+		<p class="no-description">There isn't a description for this channel, yet.</p>
+	<% end -%>
+<% end -%>

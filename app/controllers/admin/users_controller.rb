@@ -4,9 +4,14 @@ class Admin::UsersController < ApplicationController
   
   
   def index
+    searchable
     setup_pagination(:per_page => 50)
     
-    @users = collect('users', User.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
+    if @q.blank?
+      @users = collect('users', User.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
+    else
+      @users = User.search(@q, :page => @page, :per_page => @per_page, :conditions => {:feed_owner => false})
+    end
   end
   
   

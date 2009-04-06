@@ -1,8 +1,6 @@
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Settings", :user => @user} %>
 <%= render :partial => "/layouts/breadcrumbs", :locals => {
-			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
-									{:name => @user.username, :params => user_path(:id => @user)}, 
-									{:name => 'Settings', :params => {:controller => 'settings'}}, 
+			:crumbs => [{:name => 'Settings', :params => {:controller => 'settings'}}, 
 									{:name => 'Profile'}]} %>
 
 <div id="content-main">

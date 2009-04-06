@@ -1,0 +1,39 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name, :channel => @channel} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Channels', :params => {:controller => '/channels'}}, 
+									{:name => @channel.name, :params => channel_path(:user => @user, :channel => @channel)}, 
+									{:name => 'Edit'}]} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'About', :links => []} %>
+	
+	<div id="channel-edit">
+		<%= error_messages_for 'user' %>
+		<%= error_messages_for 'channel' %>
+		<% form_for(@channel, :url => {:controller => 'admin/channels', :action => 'update', :id => @channel.id}, :html => {:multipart => true}) do |f| %>
+			<p style="margin-top:0px;"><label>Name:</label><br/>
+			<%= f.text_field 'name' %></p>
+
+			<p><label>Description:</label><br/>
+			<%= text_area 'user', 'description', :value => @user.description %></p>
+
+			<p><label>Keywords:</label><br/>
+			<%= f.text_field 'keywords' %></p>
+
+			<p><label for="avatar_for_user">Upload an Avatar:</label><br/>
+			<%= file_field 'avatar', 'for_user' %></p>
+
+			<p><label for="channel_featured">Featured: <%= f.check_box 'featured' %></label></p>
+
+			<p><label for="channel_mature">Mature: <%= f.check_box 'mature' %></label></p>
+
+			<p class="submit">
+				<%= submit_tag("Update") %> or <%= link_to 'Cancel', channel_path(:user => @user, :channel => @channel) %>
+			</p>
+		<% end -%>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>

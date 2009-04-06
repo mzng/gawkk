@@ -480,6 +480,14 @@ div.paginate-single-link-set span.disabled {
 	width: 75px;
 }
 
+#content-header .settings {
+	float: right;
+}
+
+#content-header .settings a {
+	font-size: 8pt;
+}
+
 #content-main {
 	float: left;
 	width: 650px;

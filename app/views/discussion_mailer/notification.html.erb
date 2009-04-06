@@ -1,7 +1,11 @@
 <%= @details[:sender].username %> has posted a reply to a video discussion you're following on Gawkk.
 
 To catch up on the discussion, follow this link:
+<% if @details[:video].short_code.blank? -%>
 http://www.gawkk.com/<%= @details[:video].slug %>/discuss
+<% else -%>
+http://www.gawkk.com/v/<%= @details[:video].short_code %>
+<% end -%>
 
 
 Thanks,

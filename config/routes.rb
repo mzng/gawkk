@@ -5,6 +5,8 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # administration areas
+  map.connect 'admin/overview/:action',   :controller => 'admin/overview'
+  map.connect 'admin/channels/:action',   :controller => 'admin/channels'
   map.connect 'admin/comments/:action',   :controller => 'admin/comments'
   map.connect 'admin/import/:action',     :controller => 'admin/import'
   map.connect 'admin/statistics/:action', :controller => 'admin/statistics'

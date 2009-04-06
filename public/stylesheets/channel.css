@@ -46,3 +46,11 @@ a.unsubscribe {
 	padding: 2px 4px;
 	text-decoration: none !important;
 }
+
+/* misc */
+.no-description {
+	background-color: #FFFFDD;
+	font-size: 9pt;
+	padding: 3px;
+	text-align: center;
+}

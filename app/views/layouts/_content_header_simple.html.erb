@@ -1,12 +1,22 @@
-<% title ||= '&nbsp;' -%>
-<% description ||= '&nbsp;' -%>
-<% crumbs ||= Array.new -%>
+<% title					||= '&nbsp;' -%>
+<% include_search	||= false -%>
+<% crumbs					||= Array.new -%>
+<% q							||= '' -%>
+<% description		||= '&nbsp;' -%>
 
 <div id="content-header" class="separated">
 	<h1 class="simple-title"><%= title %></h1>
 	<div>
+		<% if include_search -%>
+			<div style="float:right;">
+				<% form_tag({}, :name => 'search', :method => 'get') do -%>
+					<input class="field" type="text" name="q" value="<%= @q.gsub('"', '&quot;') %>"/>
+					<input id="search_button" type="image" src="/images/search.png" style="vertical-align:bottom;"/>
+				<% end -%>
+			</div>
+		<% end -%>
 		<% if crumbs.size > 0 -%>
-			<%= render :partial => "/layouts/breadcrumbs", :locals => {:crumbs => crumbs} %>
+			<%= render :partial => "/layouts/breadcrumbs", :locals => {:crumbs => crumbs, :q => q} %>
 		<% else -%>
 			<%= description %>
 		<% end -%>

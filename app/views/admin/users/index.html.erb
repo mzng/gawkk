@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Users", :crumbs => [{:name => 'Admin', :params => {:controller => '/videos', :action => 'friends'}}, {:name => 'Users', :params => {:controller => 'admin/users'}}]} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Users", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Users', :params => {:controller => 'admin/users'}}], :q => @q, :include_search => true} %>
 
 <div>
 	<table id="user-list" cellpadding="3" cellspacing="0">
@@ -31,5 +31,5 @@
 			<% end -%>
 		</tbody>
 	</table>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users, :options => {:q => @q}} %>
 </div>

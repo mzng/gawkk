@@ -1,0 +1,25 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Channels", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Channels', :params => {:controller => 'admin/channels'}}], :q => @q, :include_search => true} %>
+
+<div>
+	<table id="channel-list" cellpadding="3" cellspacing="0">
+		<thead>
+			<th colspan="2">Name</th>
+			<th style="text-align:center;">Videos</th>
+			<th style="text-align:center;">Subscribers</th>
+			<th colspan="2">Created</th>
+		</thead>
+		<tbody>
+			<% @channels.each do |channel| -%>
+				<tr>
+					<td class="avatar-container"><%= link_to image_tag((channel.user.thumbnail.blank? ? 'g-avatar.png' : channel.user.thumbnail)), channel_path(:user => channel.user, :channel => channel), :target => "edit-#{channel.id}" %></td>
+					<td><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel), :target => "edit-#{channel.id}" %></td>
+					<td style="text-align:center;"><%= channel.saves_count %></td>
+					<td style="text-align:center;"><%= channel.subscriptions_count %></td>
+					<td><%= channel.created_at.strftime("%m/%d/%Y") if channel.created_at != nil %></td>
+					<td class="actions"><%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => channel.id}, :target => "edit-#{channel.id}" %></td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels, :options => {:q => @q}} %>
+</div>

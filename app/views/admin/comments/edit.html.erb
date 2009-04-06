@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Comments", :crumbs => [{:name => 'Admin', :params => {:controller => '/videos', :action => 'friends'}}, {:name => 'Comments', :params => {:controller => 'admin/comments'}}, {:name => @comment.id}]} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Comments", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Comments', :params => {:controller => 'admin/comments'}}, {:name => @comment.id}]} %>
 
 <div id="comment-edit">
 	<%= error_messages_for 'comment' %>

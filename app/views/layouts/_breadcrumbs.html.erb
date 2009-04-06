@@ -1,10 +1,14 @@
-<% page ||= nil -%>
-<% crumbs ||= Array.new -%>
-<% crumbs = [{:name => 'Home', :params => '/'}].concat(crumbs) -%>
+<% page		||= nil -%>
+<% crumbs	||= Array.new -%>
+<% crumbs	= [{:name => 'Home', :params => '/'}].concat(crumbs) -%>
+<% q			||= '' -%>
 
 <div id="breadcrumbs">
 	<%= crumbs.collect{|link| link[:params].blank? ? link[:name] : link_to(link[:name], link[:params])}.join(' &gt; ') %>
 	<% if !page.nil? -%>
 		&gt; Page <%= page %>
+	<% end -%>
+	<% if !q.blank? -%>
+		&gt; Search Results for <em><%= q %></em>
 	<% end -%>
 </div>

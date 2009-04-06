@@ -22,6 +22,8 @@
 		:link => subscribers_path(:user => @user, :channel => @channel), :force_link => true, 
 		:count => @recent_subscribers_count, :collection => @recent_subscribers} %>
 	
+	<%= render :partial => "/channels/explanation" %>
+	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
 </div>
