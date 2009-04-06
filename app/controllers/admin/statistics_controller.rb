@@ -45,7 +45,7 @@ class Admin::StatisticsController < ApplicationController
   
   def registrations
     @total = User.count(:all, :conditions => {:feed_owner => false})
-    @total_today = User.count(:all, :conditions => ['feed_owner = false AND date(created_at) = curdate()'])
+    @total_today = User.count(:all, :conditions => ["feed_owner = false AND convert_tz(created_at, '+00:00', '-04:00') >= curdate()"])
     
     registrations_per_day = User.find(:all, :select => "count(*) as registrations, year(created_at) as year, month(created_at) as month, day(created_at) as day, dayofyear(created_at) as dayofyear", :conditions => ['feed_owner = false and created_at > date_sub(curdate(), interval 6 month)'], :group => 'year, dayofyear', :order => 'created_at')
     registration_counts_per_day = registrations_per_day.collect{|summary| summary.registrations.to_i}
