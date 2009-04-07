@@ -12,6 +12,7 @@ class VideosController < ApplicationController
     set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
     setup_pagination
     setup_category_sidebar
+    taggable
     
     if @popular
       @videos = collect('videos', Video.popular.allowed_on_front_page.all(:offset => @offset, :limit => @per_page))
@@ -27,6 +28,7 @@ class VideosController < ApplicationController
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       setup_pagination
       setup_category_sidebar(@category)
+      taggable
       
       if @popular
         @videos = collect('videos', Video.popular.in_category(@category).all(:offset => @offset, :limit => @per_page))

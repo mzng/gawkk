@@ -85,6 +85,10 @@ class ApplicationController < ActionController::Base
     @q
   end
   
+  def taggable
+    @tagged = params[:tagged] ? params[:tagged] : nil
+  end
+  
   def set_feed_url(feed_url)
     @feed_url = feed_url
   end

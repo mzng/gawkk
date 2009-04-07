@@ -6,10 +6,10 @@
 
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => (@popular ? 'Popular Videos' : 'Newest Videos'), 
-			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => true}, :selected => @popular}, 
-			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :selected => !@popular}]} %>
-	<%= render @videos %>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos} %>
+			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => true, :tagged => @tagged}, :selected => @popular}, 
+			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => false, :tagged => @tagged}, :selected => !@popular}]} %>
+	<%= render @videos, :tagged => @tagged %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
 </div>
 
 <div id="content-sidebar">
