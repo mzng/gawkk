@@ -1,5 +1,5 @@
 class Util::Scrub
-  def self.query(q, remove_stop_words = false)
+  def self.query(q, remove_stop_words = false, trim = true)
     q = q.gsub(/[^\w|^ ]/, '')
     
     if remove_stop_words
@@ -12,7 +12,7 @@ class Util::Scrub
       
       words.delete('x')
       
-      if words.length > 4
+      if trim and words.length > 4
         q = words[0, 4].join(' ')
       else
         q = words.join(' ')

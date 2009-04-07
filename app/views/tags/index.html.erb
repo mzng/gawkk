@@ -1,0 +1,10 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "#{@q} Videos", :crumbs => [{:name => 'Tags'}, {:name => @q}]} %>
+
+<div id="content-main">
+	<%= render @videos, :tagged => true %>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos, :options => {:q => @q}} %>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

@@ -71,8 +71,18 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def searchable
+  def searchable(options = {})
     @q = params[:q] ? params[:q] : ''
+    
+    if options[:convert_tags]
+      @q.gsub(/-/, ' ')
+    end
+    
+    if options[:titleize]
+      @q = @q.titleize
+    end
+    
+    @q
   end
   
   def set_feed_url(feed_url)

@@ -42,7 +42,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   
-  
   map.connect 'all/newest.rss',         :controller => 'videos', :action => 'index', :popular => false, :format => 'rss'
   map.connect 'all/popular.rss',        :controller => 'videos', :action => 'index', :popular => true, :format => 'rss'
   map.connect ':category/newest.rss',   :controller => 'videos', :action => 'category', :popular => false, :format => 'rss'
@@ -84,6 +83,11 @@ ActionController::Routing::Routes.draw do |map|
   
   # search
   map.connect 'search/:action',     :controller => 'search'
+  
+  
+  # tags
+  map.connect 'tags/:q',            :controller => 'tags'
+  map.connect 'tags/:q.rss',        :controller => 'tags', :format => 'rss'
   
   
   # pages

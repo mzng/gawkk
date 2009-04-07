@@ -146,6 +146,10 @@ class Video < ActiveRecord::Base
     yield comments
   end
   
+  def tags
+    Util::Scrub.query(self.title.downcase, true, false).split
+  end
+  
   
   def retrieve_truveo_redirect
     begin

@@ -2,19 +2,26 @@
 <% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
 <% load_activity			= false	if load_activity.nil? -%>
 <% load_comments			= false	if load_comments.nil? -%>
+<% tagged							= false if tagged.nil? -%>
 
 <% content_tag_for(:div, video) do -%>
 	<% if visible_title -%>
 		<div class="title">
-			<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+			<%= link_to video.title, tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
 			<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
 			<%= popular_icon(video) %>
 		</div>
 	<% end -%>
 	<div class="body">
-		<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %><%= refresh_thumbnail ? '?' + Time.now.to_i.to_s : '' %>);">
-			<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
-		</div>
+		<% if tagged -%>
+			<div class="thumbnail">
+				<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+			</div>
+		<% else -%>
+			<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %><%= refresh_thumbnail ? '?' + Time.now.to_i.to_s : '' %>);">
+				<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+			</div>
+		<% end -%>
 		<div class="description">
 			<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
 			<% if video.safe_description.length > 200 -%>
@@ -58,4 +65,5 @@
 	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
 	<%= render :partial => "/comments/list", :locals => {:video => video, :load_comments => load_comments} %>
+	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => tagged} %>
 <% end -%>
