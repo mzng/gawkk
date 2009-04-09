@@ -42,10 +42,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   
-  map.connect 'all/newest.rss',         :controller => 'videos', :action => 'index', :popular => false, :format => 'rss'
-  map.connect 'all/popular.rss',        :controller => 'videos', :action => 'index', :popular => true, :format => 'rss'
-  map.connect ':category/newest.rss',   :controller => 'videos', :action => 'category', :popular => false, :format => 'rss'
-  map.connect ':category/popular.rss',  :controller => 'videos', :action => 'category', :popular => true, :format => 'rss'
+  map.connect 'all/newest/tagged',        :controller => 'videos', :action => 'index', :popular => false, :tagged => true
+  map.connect 'all/popular/tagged',       :controller => 'videos', :action => 'index', :popular => true, :tagged => true
+  map.connect ':category/newest/tagged',  :controller => 'videos', :action => 'category', :popular => false, :tagged => true
+  map.connect ':category/popular/tagged', :controller => 'videos', :action => 'category', :popular => true, :tagged => true
+  
+  map.connect 'all/newest.rss',           :controller => 'videos', :action => 'index', :popular => false, :format => 'rss'
+  map.connect 'all/popular.rss',          :controller => 'videos', :action => 'index', :popular => true, :format => 'rss'
+  map.connect ':category/newest.rss',     :controller => 'videos', :action => 'category', :popular => false, :format => 'rss'
+  map.connect ':category/popular.rss',    :controller => 'videos', :action => 'category', :popular => true, :format => 'rss'
   
   map.connect 'videos/:action',     :controller => 'videos'
   
