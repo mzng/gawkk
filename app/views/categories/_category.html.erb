@@ -1,4 +1,4 @@
 <% content_tag_for(:div, category) do -%>
-	<%= link_to image_tag(category.thumbnail.blank? ? image_tag('g-avatar.png') : category.thumbnail), {:controller => 'videos', :action => 'category', :category => category, :popular => true} %>
-	<%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => true} %>
+	<%= link_to image_tag(category.thumbnail.blank? ? image_tag('g-avatar.png') : category.thumbnail), {:controller => 'videos', :action => 'category', :category => category, :popular => false, :tagged => @tagged} %>
+	<%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => false, :tagged => @tagged} %>
 <% end -%>

@@ -6,8 +6,9 @@
 	<% end -%>
 	<%= user.username %>
 </h1>
+<%= render :partial => "/users/statistics", :locals => {:user => user} %>
 
-<%= render :partial => '/users/statistics', :locals => {:user => user} %>
+<%= render :partial => "/users/about", :locals => {:user => user} %>
 
 <%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 

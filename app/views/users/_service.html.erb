@@ -1,0 +1,19 @@
+<% separator = (separator ? ', ' : '') -%>
+
+<% if service == 'twitter' -%>
+	<% if !value.blank? -%>
+		<%= link_to 'Twitter', "http://twitter.com/#{value}", :target => 'twitter' %><%= separator %>
+	<% end -%>
+<% elsif service == 'youtube' -%>
+	<% if !value.blank? -%>
+		<%= link_to 'YouTube', "http://youtube.com/user/#{value}", :target => 'youtube' %><%= separator %>
+	<% end -%>
+<% elsif service == 'friendfeed' -%>
+	<% if !value.blank? -%>
+		<%= link_to 'FriendFeed', "http://friendfeed.com/#{value}", :target => 'friendfeed' %><%= separator %>
+	<% end -%>
+<% elsif service == 'website_url' -%>
+	<% if !value.blank? -%>
+		<%= link_to 'Website', value, :target => 'website-url' %><%= separator %>
+	<% end -%>
+<% end -%>

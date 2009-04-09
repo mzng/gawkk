@@ -17,7 +17,7 @@
 			<link rel="media:image" href="<%= @thumbnail_url %>" />
 		<% end -%>
 		
-		<title>Gawkk - <%= @title.nil? ? 'Share Videos with Friends' : @title %></title>
+		<title><%= @title.nil? ? 'Share Videos with Friends' : @title %> on Gawkk</title>
 		
 		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'share', 'user', 'channel', 'registration', 'settings', 'submit', 'admin.channel', 'admin.comment', 'admin.user' %>
 		<%= javascript_include_tag :all %>

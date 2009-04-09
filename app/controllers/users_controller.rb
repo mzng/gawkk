@@ -37,12 +37,6 @@ class UsersController < ApplicationController
     @news_items = @user.activity(:offset => @offset, :limit => @per_page)
   end
   
-  def profile
-    # load_member or redirect
-    set_title(@user.username + ' - Profile')
-    setup_user_sidebar(@user)
-  end
-  
   def comments
     # load_member or redirect
     set_title(@user.username + ' - Comments')

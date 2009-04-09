@@ -35,12 +35,12 @@ class User < ActiveRecord::Base
   named_scope :friends_of, lambda {|user| {:joins => 'LEFT OUTER JOIN `friendships` ON friendships.friend_id = users.id', :conditions => ['friendships.user_id = ? AND friendships.mutual = true', user.id]}}
   
   
-  attr_accessor   :password, :password_confirmation
+  attr_accessor   :password, :password_confirmation, :external_services
   
   attr_accessible :administrator, :username, :slug, :password, :password_confirmation, :name, :email, :last_login_at, :created_at
   attr_accessible :salt, :cookie_hash, :password_reset_auth_code, :password_reset_expires_at, :email_confirmation_auth_code, :email_confirmed_at
   attr_accessible :description, :age_range_id, :age_range, :location, :sex, :zip_code
-  attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url
+  attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
   attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
   attr_accessible :feed_owner
@@ -147,6 +147,18 @@ class User < ActiveRecord::Base
   
   def auto_tweet?
     (!self.id.nil? and self.twitter_account and self.twitter_account.authenticated?) ? true : false
+  end
+  
+  def services
+    if self.external_services.nil?
+      self.external_services = Array.new
+      self.external_services << {:name => 'twitter', :value => self.twitter_username} if !self.twitter_username.blank?
+      self.external_services << {:name => 'youtube', :value => self.youtube_username} if !self.youtube_username.blank?
+      self.external_services << {:name => 'friendfeed', :value => self.friendfeed_username} if !self.friendfeed_username.blank?
+      self.external_services << {:name => 'website_url', :value => self.website_url} if !self.website_url.blank?
+    end
+    
+    self.external_services
   end
   
   

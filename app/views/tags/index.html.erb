@@ -1,10 +1,14 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "#{@q} Videos", :crumbs => [{:name => 'Tags'}, {:name => @q}]} %>
+<%= render :partial => "/layouts/content_header", :locals => {:title => "#{@q} Videos", :description => "Videos Tagged with '#{@q}'"} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Videos by Tag', :params => {:controller => 'videos', :action => 'index', :popular => false, :tagged => true}}, 
+									{:name => @q}]} %>
 
 <div id="content-main">
-	<%= render @videos, :tagged => true %>
+	<%= render @videos %>
 	<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos, :options => {:q => @q}} %>
 </div>
 
 <div id="content-sidebar">
-	
+	<%= render :partial => "/tags/explanation" %>
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
 </div>

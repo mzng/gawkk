@@ -85,7 +85,11 @@ class ApplicationController < ActionController::Base
     @q
   end
   
-  def taggable
+  def taggable(options = {})
+    if options[:assume]
+      params[:tagged] = true
+    end
+    
     @tagged = params[:tagged] ? params[:tagged] : nil
   end
   

@@ -2,18 +2,17 @@
 <% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
 <% load_activity			= false	if load_activity.nil? -%>
 <% load_comments			= false	if load_comments.nil? -%>
-<% tagged							= false if tagged.nil? -%>
 
 <% content_tag_for(:div, video) do -%>
 	<% if visible_title -%>
 		<div class="title">
-			<%= link_to video.title, tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+			<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
 			<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
 			<%= popular_icon(video) %>
 		</div>
 	<% end -%>
 	<div class="body">
-		<% if tagged -%>
+		<% if @tagged -%>
 			<div class="thumbnail">
 				<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 			</div>
@@ -65,5 +64,5 @@
 	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
 	<%= render :partial => "/comments/list", :locals => {:video => video, :load_comments => load_comments} %>
-	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => tagged} %>
+	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
 <% end -%>

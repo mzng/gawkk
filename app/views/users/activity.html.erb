@@ -6,8 +6,7 @@
 
 <div id="content-main">
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
-			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => true}, 
-			{:name => 'Profile', :options => {:controller => 'users', :action => 'profile', :id => @user}, :selected => false}, 
+			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => true},  
 			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
 	<%= render @news_items %>
 	<div class="titled-pagination-container">

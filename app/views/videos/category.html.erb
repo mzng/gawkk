@@ -8,12 +8,12 @@
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => (@popular ? 'Popular Videos' : 'Newest Videos'), 
 			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => true, :tagged => @tagged}, :selected => @popular}, 
 			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => false, :tagged => @tagged}, :selected => !@popular}]} %>
-	<%= render @videos, :tagged => @tagged %>
+	<%= render @videos %>
 	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
 </div>
 
 <div id="content-sidebar">
-	<%= render :partial => "/categories/about", :locals => {:link => {:controller => 'videos', :action => 'category', :category => @category}} %>
+	<%= render :partial => "/categories/explanation", :locals => {:link => {:controller => 'videos', :action => 'category', :category => @category}} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
 </div>

@@ -56,6 +56,27 @@
 	border-right: 0px;
 }
 
+/* about section */
+.user-about {
+	padding: 0 5px;
+}
+
+.user-about .no-bullets {
+	list-style: none;
+}
+
+.user-about .no-bullets img {
+	vertical-align: top;
+}
+
+.user-about p {
+	margin: 5px 0 10px 0;
+}
+
+.user-about .elsewhere a {
+	font-size: 9pt;
+}
+
 /* follow buttons */
 a.follow {
 	background-color: #195baa;

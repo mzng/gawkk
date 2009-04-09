@@ -22,5 +22,5 @@
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
 			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', 
-			:link => {:controller => 'videos', :popular => true}, :force_link => true, :collection => @categories} %>
+			:link => {:controller => 'videos', :popular => false}, :force_link => true, :collection => @categories} %>
 </div>

@@ -16,6 +16,7 @@ class SettingsController < ApplicationController
       @user.sex           = params[:user][:sex]
       @user.location      = params[:user][:location]
       @user.zip_code      = params[:user][:zip_code]
+      @user.description   = params[:user][:description]
       
       if @user.save
         flash[:notice] = 'Your profile has been updated successfully.'

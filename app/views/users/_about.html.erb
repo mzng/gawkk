@@ -1,0 +1,27 @@
+<% if !user.description.blank? or user.services.size > 0 or user_can_edit?(user) -%>
+	<h1 class="section-header">
+		<% if user_can_administer? -%><span>Joined <%= user.created_at.strftime("%m/%d/%Y") %></span><% end -%>
+		About
+	</h1>
+
+	<div class="user-about">
+		<% if !user.description.blank? -%>
+			<p><%= simple_format(auto_link('Bio: ' + user.description)) %></p>
+		<% elsif user_can_edit?(user) -%>
+			<p>Bio: <em><%= link_to 'Write about yourself', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></em></p>
+		<% end -%>
+
+		<% if user.services.size > 0 -%>
+			<p class="elsewhere">
+				Find me: 
+				<% user.services.each_with_index do |service, i| -%>
+					<%= render :partial => "/users/service", :locals => {:service => service[:name], :value => service[:value], :separator => (i < user.services.size - 1 ? true : false)} %>
+				<% end -%>
+			</p>
+		<% elsif user_can_edit?(user) -%>
+			<p class="elsewhere">
+				Find me: <em><%= link_to 'Add your external services', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></em>
+			</p>
+		<% end -%>
+	</div>
+<% end -%>

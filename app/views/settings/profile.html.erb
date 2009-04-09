@@ -26,6 +26,9 @@
 					
 					<p><label for="user_zip_code">Zip Code:</label><br/>
 					<%= f.text_field 'zip_code', :onfocus => "revealTip('user_zip_code');", :onblur => "hideTips();", :style => 'width:100px;' %></p>
+					
+					<p><label for="user_description">Bio:</label><br/>
+					<%= text_area 'user', 'description', :onfocus => "revealTip('user_description');", :onblur => "hideTips();" %></p>
 				</td>
 				<td class="center">
 					<div id="user_name_tip" class="tip">
@@ -53,6 +56,10 @@
 
 					<div id="user_zip_code_tip" class="tip">
 						<p>Your location will not be displayed on the site.</p>
+					</div>
+					
+					<div id="user_description_tip" class="tip">
+						<p>Do you like zebras? Well, how will people know if you don't tell them about yourself?</p>
 					</div>
 					
 					<%= image_tag 'tip_arrow.gif', :id => 'tip_arrow', :class => 'tip-arrow' %>

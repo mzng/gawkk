@@ -41,6 +41,12 @@
 	margin-top: 10px;
 }
 
+#settings-profile textarea {
+	height: 75px;
+	padding: 2px;
+	width: 300px;
+}
+
 /* elsewhere */
 #settings-elsewhere {
 	
