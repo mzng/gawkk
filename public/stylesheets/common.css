@@ -522,6 +522,13 @@ div.paginate-single-link-set span.disabled {
 	font-weight: bold;
 }
 
+#tagged-categories {
+	font-size: 8pt;
+	margin-bottom: 10px;
+	padding: 0 30px;
+	text-align: center;
+}
+
 #copyright {
 	color: #666666;
 	font-size: 8pt;

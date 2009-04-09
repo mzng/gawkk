@@ -164,7 +164,7 @@ class ApplicationController < ActionController::Base
       @friends = collect('users_from_news_items', NewsItem.by_users(logged_in_user.followings_ids).grouped_by_user.all(:conditions => {:reportable_type => 'Video', :reportable_id => video.id}))
     end
     
-    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 4))
+    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 16))
   end
   
   def setup_related_videos(video)
