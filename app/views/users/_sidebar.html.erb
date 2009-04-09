@@ -1,5 +1,8 @@
+<% welcome	= false if welcome.nil? -%>
+<% about		= true if about.nil? -%>
+
 <h1 class="section-header">
-	<% if (welcome ||= false) -%>
+	<% if welcome -%>
 		Welcome,
 	<% elsif user_can_edit?(user) -%>
 		<span><%= link_to 'Edit Settings', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></span>
@@ -8,7 +11,9 @@
 </h1>
 <%= render :partial => "/users/statistics", :locals => {:user => user} %>
 
-<%= render :partial => "/users/about", :locals => {:user => user} %>
+<% if about -%>
+	<%= render :partial => "/users/about", :locals => {:user => user} %>
+<% end -%>
 
 <%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 
