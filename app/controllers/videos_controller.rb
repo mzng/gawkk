@@ -11,7 +11,7 @@ class VideosController < ApplicationController
     
     set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
     set_title("#{@popular ? 'Popular' : 'Newest'} Videos")
-    setup_pagination
+    setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
     setup_category_sidebar
     taggable
     
@@ -28,7 +28,7 @@ class VideosController < ApplicationController
       
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       set_title("#{@popular ? 'Popular' : 'Newest'} Videos in The #{@category.name} Category")
-      setup_pagination
+      setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
       setup_category_sidebar(@category)
       taggable
       
