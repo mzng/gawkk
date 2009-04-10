@@ -6,9 +6,9 @@
 
 	<div class="user-about">
 		<% if !user.description.blank? -%>
-			<p><%= simple_format(auto_link('Bio: ' + user.description)) %></p>
+			<p><%= simple_format(auto_link(user.description)) %></p>
 		<% elsif user_can_edit?(user) -%>
-			<p>Bio: <em><%= link_to 'Write about yourself', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></em></p>
+			<p><em><%= link_to 'Write about yourself', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></em></p>
 		<% end -%>
 
 		<% if user.services.size > 0 -%>

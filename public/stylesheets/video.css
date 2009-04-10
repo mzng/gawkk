@@ -311,28 +311,32 @@
 
 .video .inline .body .reply {
 	color: gray;
-	display: none;
+	/*display: none;*/
 	font-style: normal;
+	visibility: hidden;
 }
 
 .video .inline .body .reply a {
-	font-size: 9pt;
+	font-size: 8pt;
 }
 
 .video .inline:hover .reply {
-	display: inline;
+	/*display: inline;*/
+	visibility: visible;
 }
 
 .video .inline .like {
-	display: none;
+	/*display: none;*/
+	visibility: hidden;
 }
 
 .video .inline .like a {
-	font-size: 9pt;
+	font-size: 8pt;
 }
 
 .video .inline:hover .like {
-	display: inline;
+	/*display: inline;*/
+	visibility: visible;
 }
 
 .video .inline td label {
