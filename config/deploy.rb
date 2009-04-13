@@ -117,9 +117,9 @@ set :git_enable_submodules, 1
 #   end
 # end
 
-# task :move_sitemaps, :roles => :web do
-#   run "cp /var/www/apps/gawkk/shared/sitemaps/*.txt /var/www/apps/gawkk/current/public/"
-# end
+task :move_sitemaps, :roles => :web do
+  run "cp /var/www/apps/gawkk/shared/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
+end
 
 task :disable_web, :roles => :web do
   require 'erb'
@@ -149,4 +149,4 @@ end
 
 after 'app:symlinks:setup',  'app:symlinks:setup_db'
 after 'app:symlinks:update', 'app:symlinks:update_db'
-# after 'deploy', 'move_sitemaps'
+after 'deploy', 'move_sitemaps'
