@@ -313,6 +313,14 @@ class Feed < ActiveRecord::Base
         end
       end
       
+      if video.thumbnail.blank? and video.url.downcase[/^(http|https):\/\/(.*)?joost\.com\//]
+        media_thumbnails = feed_item.find_all_nodes('joost:thumbnail')
+        if media_thumbnails and media_thumbnails.first and media_thumbnails.first.get_text
+          Util::Thumbnail.fetch_from_url(video.posted_at, video.slug, media_thumbnails.first.get_text.to_s)
+          video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
+        end
+      end
+      
       # msnbc videos
       if video.thumbnail.blank? and video.url.downcase[/^(http|https):\/\/www\.msnbc\.msn\.com\//]
         media_content = feed_item.find_all_nodes('media:content')
