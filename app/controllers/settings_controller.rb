@@ -41,7 +41,9 @@ class SettingsController < ApplicationController
       end
     end
     
-    redirect_to :action => "profile"
+    @age_ranges = AgeRange.collect
+    
+    render :action => "profile"
   end
   
   def avatar

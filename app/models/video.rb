@@ -43,7 +43,8 @@ class Video < ActiveRecord::Base
   end
   
   def before_save
-    self.description = '' if self.description.nil?
+    self.description  = '' if self.description.nil?
+    self.embed_code   = Util::EmbedCode.scrub(self.embed_code)
     
     Rails.cache.delete(self.cache_key)
     Rails.cache.delete(self.long_cache_key)

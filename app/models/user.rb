@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"
   validates_confirmation_of :password, :on => :save, :message => "should match confirmation"
+  validates_format_of       :website_url, :with => URI.regexp, :on => :save
   
   
   define_index do

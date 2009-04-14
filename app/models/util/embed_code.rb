@@ -1,5 +1,7 @@
 class Util::EmbedCode
   def self.generate(video, url)
+    video.embed_code = Util::EmbedCode.scrub(video.embed_code)
+    
     if video.embed_code.blank?
       video.embed_code = ''
       video.swf_url = ''
@@ -109,5 +111,13 @@ class Util::EmbedCode
     end
     
     video.embed_code
+  end
+  
+  def self.scrub(embed_code)
+    if !embed_code.blank? and embed_code == embed_code[URI.regexp]
+      embed_code = ''
+    end
+    
+    embed_code
   end
 end
