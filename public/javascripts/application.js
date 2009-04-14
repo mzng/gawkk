@@ -55,6 +55,10 @@ function watchVideoAndScroll(videoId, videoSlug, scroll) {
 				
 				if(scroll) {
 					Effect.ScrollTo('video_' + videoId, {offset: 5});
+					
+					if(typeof pageTracker != 'undefined') {
+						pageTracker._trackPageview("/watched-video");
+					}
 				}
 				
 				if(!$('new_comment_for_' + videoId)) {

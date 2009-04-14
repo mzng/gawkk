@@ -1,5 +1,1 @@
 page.replace_html("embed_for_#{@video.id}", :partial => "/videos/embed", :locals => {:video => @video})
-
-if Rails.env.production? and !user_logged_in? or (user_logged_in? and !user_can_administer?)
-	page << "pageTracker._trackPageview(\"/watched-video\");"
-end
