@@ -57,7 +57,7 @@ namespace :sitemaps do
 
     system("gzip #{File.join(RAILS_ROOT, 'public/sitemap_index.xml')}")
     
-    if Rails.env == 'production'
+    if Rails.env.production?
       system("rm -f /var/www/apps/gawkk/shared/sitemaps/*.xml.gz")
       system("cp /var/www/apps/gawkk/current/public/sitemap_*.xml.gz /var/www/apps/gawkk/shared/sitemaps/")
     end
