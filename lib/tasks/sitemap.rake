@@ -3,6 +3,10 @@ require 'lib/sitemap.rb'
 namespace :sitemaps do
 	desc "Re-generates XML Sitemap files"
 	task :generate => :environment do
+	  if Rails.env.production?
+  	  system("rm -f /var/www/apps/gawkk/current/public/sitemap_*.xml.gz")
+	  end
+	  
 	  count = 0
     sitemap_count = 0
     
