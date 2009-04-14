@@ -28,7 +28,7 @@ namespace :sitemaps do
         
         # Setup a new sitemap
         sitemap_count = sitemap_count + 1
-        sitemap = Sitemap.new("http://www.gawkk.com/sitemap_#{sitemap_count.to_s}.xml.gz")
+        sitemap = Sitemap.new
       end
       
       # Add videos to current sitemap
