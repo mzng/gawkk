@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :password]
+  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :notifications, :password]
   layout 'page'
   
   
@@ -83,6 +83,21 @@ class SettingsController < ApplicationController
         flash[:notice] = 'The password you entered was incorrect.'
       end
     end
+  end
+  
+  def notifications
+    # ensure_logged_in_user or redirect
+    
+    if request.put?
+      @user.digest_email_frequency  = params[:user][:digest_email_frequency]
+      @user.send_digest_emails      = (@user.digest_email_frequency > 0 ? true : false)
+      
+      if @user.save
+        flash[:notice] = 'Your notification settings have been updated successfully.'
+      end
+    end
+    
+    render :action => "email"
   end
   
   def password

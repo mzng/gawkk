@@ -41,14 +41,14 @@ class User < ActiveRecord::Base
   attr_accessible :salt, :cookie_hash, :password_reset_auth_code, :password_reset_expires_at, :email_confirmation_auth_code, :email_confirmed_at
   attr_accessible :description, :age_range_id, :age_range, :location, :sex, :zip_code
   attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
-  attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails
+  attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
   attr_accessible :feed_owner
   
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"
   validates_confirmation_of :password, :on => :save, :message => "should match confirmation"
-  validates_format_of       :website_url, :with => URI.regexp, :on => :save
+  validates_format_of       :website_url, :with => URI.regexp, :allow_blank => true, :on => :save
   
   
   define_index do
@@ -78,6 +78,7 @@ class User < ActiveRecord::Base
     self.slug                         = Util::Slug.generate(self.username, false)
     self.thumbnail                    = Util::Avatar.random
     self.youtube_username             = ''
+    self.digest_email_frequency       = (self.send_digest_emails ? 3 : 0)
   end
   
   def after_create

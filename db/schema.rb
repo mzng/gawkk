@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090330202449) do
+ActiveRecord::Schema.define(:version => 20090414204705) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -439,6 +439,7 @@ ActiveRecord::Schema.define(:version => 20090330202449) do
     t.string   "friendfeed_username"
     t.string   "website_url"
     t.string   "feed_url"
+    t.integer  "digest_email_frequency",                    :default => 0,     :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"
