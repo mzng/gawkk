@@ -22,6 +22,7 @@ class TwitterController < ApplicationController
     @twitter_account.user_id  = logged_in_user.id
     @twitter_account.username = params[:twitter_account][:username]
     @twitter_account.password = params[:twitter_account][:password]
+    @twitter_account.tweet_likes = (params[:twitter_account][:tweet_likes] == '1' ? true : false)
     
     @twitter_account.save
     

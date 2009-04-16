@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090414204705) do
+ActiveRecord::Schema.define(:version => 20090416162413) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(:version => 20090414204705) do
     t.string   "password"
     t.boolean  "authenticated", :default => false, :null => false
     t.datetime "created_at"
+    t.boolean  "tweet_likes",   :default => true,  :null => false
   end
 
   add_index "twitter_accounts", ["user_id"], :name => "user_id"

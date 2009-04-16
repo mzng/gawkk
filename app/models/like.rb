@@ -10,6 +10,13 @@ class Like < ActiveRecord::Base
   
   def after_create
     NewsItem.report(:type => 'like_a_video', :reportable => self.video, :user_id => self.user_id)
+    
+    spawn do
+      if twitter_account = self.user.twitter_account and twitter_account.tweet_likes?
+        Tweet.report('liked_a_video', self.user, self.video)
+      end
+    end
+    
     return true
   end
   
