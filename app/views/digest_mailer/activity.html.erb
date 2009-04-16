@@ -33,7 +33,7 @@
 				<table width="600" cellspacing="0" cellpadding="0" class="body">
 					<tr>               
 						<td align="left" valign="top" width="348" class="mainbar">
-							<% @user.followings_activity(:limit => 10).each do |news_item| -%>
+							<% @user.followings_activity(:limit => 5).each do |news_item| -%>
 								<%= render :partial => '/news_items/news_item_email', :locals => {:news_item => news_item, :path => @path} %>
 							<% end -%>
 						</td>

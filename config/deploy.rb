@@ -121,13 +121,13 @@ task :move_sitemaps, :roles => :web do
   run "cp /var/www/apps/gawkk/shared/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
 end
 
-task :disable_web, :roles => :web do
-  require 'erb'
-  on_rollback { delete "/var/www/apps/gawkk/shared/system/maintenance.html" }
-  template = File.read("app/views/layouts/maintenance.rhtml")
-  page = ERB.new(template).result(binding)
-  put page, "/var/www/apps/gawkk/shared/system/maintenance.html"
-end
+# task :disable_web, :roles => :web do
+#   require 'erb'
+#   on_rollback { delete "/var/www/apps/gawkk/shared/system/maintenance.html" }
+#   template = File.read("app/views/layouts/maintenance.rhtml")
+#   page = ERB.new(template).result(binding)
+#   put page, "/var/www/apps/gawkk/shared/system/maintenance.html"
+# end
 
 namespace :app do
   namespace :symlinks do
