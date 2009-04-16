@@ -66,6 +66,20 @@ module ApplicationHelper
     html
   end
   
+  def summarize_likes_absolute(likes)
+    html = ''
+    
+    if likes.size > 1
+      html = likes.first(likes.size - 1).collect{|v| "<a href=\"http://gawkk.com/#{v.user.slug}\">#{v.user.username}</a>"}.join(', ') + ' and '
+    end
+    
+    if likes.size > 0
+      html = html + "<a href=\"http://gawkk.com/#{likes.last.user.slug}\">#{likes.last.user.username}</a>"
+    end
+    
+    html
+  end
+  
   def collapse_comments(comments)
     html = ''
     

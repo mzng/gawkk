@@ -1,0 +1,22 @@
+<table class="add_a_friend" border="0" cellspacing="0" cellpadding="3" width="100%">
+	<tr>
+		<td class="avatar" rowspan="2">
+			<a href="http://gawkk.com/<%= news_item.reportable.slug %>">
+				<img src="http://gawkk.com/images/<%= news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail %>" height="40" width="40"/>
+			</a>
+		</td>
+		<td class="user" colspan="2">
+			<a href="http://gawkk.com/<%= news_item.reportable.slug %>"><%= news_item.reportable.username %></a>
+		</td>
+	</tr>
+	<tr>
+		<td class="follower">
+			<a href="http://gawkk.com/<%= news_item.user.slug %>">
+				<img src="http://gawkk.com/images/<%= news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail %>" height="18" width="18"/>
+			</a>
+		</td>
+		<td class="message">
+			<a href="http://gawkk.com/<%= news_item.user.slug %>"><%= news_item.user.username %></a> is now following <a href="http://gawkk.com/<%= news_item.reportable.slug %>"><%= news_item.reportable.username %></a>
+		</td>
+	</tr>
+</table>

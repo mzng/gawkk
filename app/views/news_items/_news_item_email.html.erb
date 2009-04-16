@@ -1,0 +1,9 @@
+<% if news_item.reportable_type == 'Video' -%>
+	<%= render :partial => '/videos/video_email', :locals => {:video => news_item.reportable} %>
+<% elsif news_item.news_item_type.name == 'status' -%>
+	<%= render :partial => "/news_items/status_email", :locals => {:news_item => news_item} %>
+<% elsif news_item.news_item_type.name == 'add_a_friend' -%>
+	<%= render :partial => "/news_items/add_a_friend_email", :locals => {:news_item => news_item} %>
+<% elsif news_item.news_item_type.name == 'subscribe_to_channel' -%>
+	<%= render :partial => "/news_items/subscribe_to_channel_email", :locals => {:news_item => news_item} %>
+<% end -%>

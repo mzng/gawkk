@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions]
+  around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions, :digest]
   around_filter :ensure_logged_in_user, :only => [:follow, :unfollow]
   layout 'page'
   
@@ -77,6 +77,12 @@ class UsersController < ApplicationController
     setup_user_sidebar(@user)
     
     @channels = @user.subscribed_channels(:order => 'channels.name ASC', :offset => @offset, :limit => @per_page)
+  end
+  
+  def digest
+    # load_member or redirect
+    @path = Rails.env.production? ? 'http://gawkk.com' : 'http://refactor.local'
+    render :text => DigestMailer.create_activity(@user).body, :layout => false
   end
   
   

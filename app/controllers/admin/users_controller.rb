@@ -1,4 +1,5 @@
 class Admin::UsersController < ApplicationController
+  around_filter :load_member, :only => [:deliver_digest]
   around_filter :ensure_user_can_administer
   layout 'page'
   
@@ -14,6 +15,15 @@ class Admin::UsersController < ApplicationController
     end
   end
   
+  def deliver_digest
+    spawn do
+      DigestMailer.deliver_activity(@user)
+    end
+    
+    flash[:notice] = "A digest email has been sent to #{@user.username}."
+    redirect_to :action => "index"
+  end
+  
   
   private
   def ensure_user_can_administer
@@ -21,6 +31,15 @@ class Admin::UsersController < ApplicationController
       yield
     else
       redirect_to '/'
+    end
+  end
+  
+  def load_member
+    if @user = User.find_by_slug(params[:id]) and !@user.feed_owner?
+      yield
+    else
+      flash[:notice] = 'The user you are looking for does not exist.'
+      redirect_to :action => "index"
     end
   end
 end

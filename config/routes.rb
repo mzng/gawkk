@@ -66,6 +66,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/followers',      :controller => 'users', :action => 'followers'
   map.connect ':id/friends',        :controller => 'users', :action => 'friends'
   map.connect ':id/subscriptions',  :controller => 'users', :action => 'subscriptions'
+  map.connect ':id/digest',         :controller => 'users', :action => 'digest'
   
   map.connect ':id/follow',         :controller => 'users', :action => 'follow'
   map.connect ':id/unfollow',       :controller => 'users', :action => 'unfollow'

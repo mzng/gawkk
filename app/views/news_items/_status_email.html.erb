@@ -1,0 +1,15 @@
+<table class="status" border="0" cellspacing="0" cellpadding="3" width="100%">
+	<tr>
+		<td class="avatar" rowspan="2">
+			<a href="http://gawkk.com/<%= news_item.user.slug %>">
+				<img src="http://gawkk.com/images/<%= news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail %>" height="40" width="40"/>
+			</a>
+		</td>
+		<td class="user">
+			<a href="http://gawkk.com/<%= news_item.user.slug %>"><%= news_item.user.username %></a>
+		</td>
+	</tr>
+	<tr>
+		<td class="message"><%= news_item.message %></td>
+	</tr>
+</table>
