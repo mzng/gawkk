@@ -1,21 +1,21 @@
-<table class="add_a_friend" border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="100%" style="margin: 5px 0 10px 0;">
 	<tr>
-		<td class="avatar" rowspan="2">
+		<td rowspan="2" style="width: 44px;">
 			<a href="http://gawkk.com/<%= news_item.reportable.slug %>">
-				<img src="http://gawkk.com/images/<%= news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail %>" height="40" width="40"/>
+				<img src="http://gawkk.com/images/<%= news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail %>" height="40" width="40" style="border: 1px solid #E5E5E5;"/>
 			</a>
 		</td>
-		<td class="user" colspan="2">
-			<a href="http://gawkk.com/<%= news_item.reportable.slug %>"><%= news_item.reportable.username %></a>
+		<td colspan="2">
+			<a href="http://gawkk.com/<%= news_item.reportable.slug %>" style="font-size: 14px;"><%= news_item.reportable.username %></a>
 		</td>
 	</tr>
 	<tr>
-		<td class="follower">
+		<td style="width: 20px;">
 			<a href="http://gawkk.com/<%= news_item.user.slug %>">
-				<img src="http://gawkk.com/images/<%= news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail %>" height="18" width="18"/>
+				<img src="http://gawkk.com/images/<%= news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail %>" height="18" width="18" style="border: 1px solid #E5E5E5;"/>
 			</a>
 		</td>
-		<td class="message">
+		<td style="font-size: 9pt;">
 			<a href="http://gawkk.com/<%= news_item.user.slug %>"><%= news_item.user.username %></a> is now following <a href="http://gawkk.com/<%= news_item.reportable.slug %>"><%= news_item.reportable.username %></a>
 		</td>
 	</tr>

@@ -1,38 +1,42 @@
-<h2><a href="http://gawkk.com/<%= video.slug %>/discuss"><%= video.title %></a></h2>
+<h2 style="font-family: arial;font-size: 16px;line-height: 18px;color: #000000;margin: 5px 0 5px 0;">
+	<a href="http://gawkk.com/<%= video.slug %>/discuss" style="font-family: arial;font-size: 16px;color: #4F6AA1;text-decoration: underline;font-style: normal;">
+		<%= video.title %>
+	</a>
+</h2>
 
-<table class="video" border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="100%" style="margin-top: 5px;">
 	<tr>
-		<td class="thumbnail" width="140">
+		<td class="thumbnail" width="140" style="padding-right: 5px;">
 			<a href="http://gawkk.com/<%= video.slug %>/discuss">
-				<img src="http://gawkk.com/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>" width="127" height="89" class="inline" vspace="4"/>
+				<img src="http://gawkk.com/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %>" width="127" height="89" style="border: 1px solid #dedede;padding: 4px;" vspace="4"/>
 			</a>
 		</td>
 		<td><p><%= video.safe_description.length > 200 ? video.safe_description.first(200) + '...' : video.safe_description %></p></td>
 	</tr>
 </table>
 
-<table class="actions" border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="100%" style="margin-bottom: 15px;margin-top: 0px;">
 	<% if !video.posted_by.feed_owner? -%>
 		<tr>
-			<td class="image"><img src="http://gawkk.com/images/add.png"/></td>
-			<td>Originally posted by <a href="http://gawkk.com/<%= video.posted_by.slug %>"><%= video.posted_by.username %></a></td>
+			<td style="font-size: 9pt;padding: 2px 2px 2px 5px;text-align: right;width: 24px;"><img src="http://gawkk.com/images/add.png"/></td>
+			<td style="font-size: 9pt;padding: 2px 2px 2px 5px;">Originally posted by <a href="http://gawkk.com/<%= video.posted_by.slug %>"><%= video.posted_by.username %></a></td>
 		</tr>
 	<% end -%>
 	<% video.likes_by(@user, true) do |likes| -%>
 		<tr>
-			<td class="image"><img src="http://gawkk.com/images/tick.png"/></td>
-			<td>Liked by <%= summarize_likes_absolute(likes) %></td>
+			<td style="font-size: 9pt;padding: 2px 2px 2px 5px;text-align: right;width: 24px;"><img src="http://gawkk.com/images/tick.png"/></td>
+			<td style="font-size: 9pt;padding: 2px 2px 2px 5px;">Liked by <%= summarize_likes_absolute(likes) %></td>
 		</tr>
 	<% end -%>
 	<% video.comments_by(@base_user, @include_followings) do |comments| -%>
 		<% comments.each do |comment| -%>
 			<tr>
-				<td class="image">
+				<td style="font-size: 9pt;padding: 2px 2px 2px 5px;text-align: right;width: 24px;">
 					<a href="http://gawkk.com/<%= comment.user.slug %>">
 						<img src="http://gawkk.com/images/<%= comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail %>" height="24" width="24"/>
 					</a>
 				</td>
-				<td><a href="http://gawkk.com/<%= comment.user.slug %>"><%= comment.user.username %></a>: <%= comment.body %>.</td>
+				<td style="font-size: 9pt;padding: 2px 2px 2px 5px;"><a href="http://gawkk.com/<%= comment.user.slug %>"><%= comment.user.username %></a>: <%= comment.body %>.</td>
 			</tr>
 		<% end -%>
 	<% end -%>
