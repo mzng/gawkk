@@ -1,4 +1,5 @@
-<%= @details[:sender].username %> has posted a reply to a video discussion you're following on Gawkk.
+<%= @details[:sender].username %> has posted a reply to a video discussion you're following on Gawkk:
+"<%= @details[:video].title %>"
 
 To catch up on the discussion, follow this link:
 <% if @details[:video].short_code.blank? -%>
