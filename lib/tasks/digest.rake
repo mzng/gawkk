@@ -6,4 +6,8 @@ namespace :digest do
       }
     }
   end
+  
+  task :test => :environment do
+	  DigestMailer.deliver_activity(User.find_by_slug('tsmango'))
+  end
 end
