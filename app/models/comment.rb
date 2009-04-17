@@ -19,13 +19,16 @@ class Comment < ActiveRecord::Base
     
     spawn do
       if self.commentable_type == 'Video'
-        Util::Cache.collect_users_from_comments(Comment.in_thread(self.thread_id).not_user(self.user_id).all).uniq.each do |commenter|
+        likers = Util::Cache.collect_users_from_likes(Like.for_video(self.commentable).not_user(self.user_id).all)
+        commenters = Util::Cache.collect_users_from_comments(Comment.in_thread(self.thread_id).not_user(self.user_id).all)
+        
+        likers.concat(commenters).uniq.each do |user|
           details = Hash.new
-          details[:sender] = self.user
-          details[:recipient] = commenter
-          details[:video] = self.commentable
+          details[:sender]    = self.user
+          details[:recipient] = user
+          details[:video]     = self.commentable
           details[:thread_id] = self.thread_id
-
+          
           DiscussionMailer.deliver_notification(details)
         end
       end

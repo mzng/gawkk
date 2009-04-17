@@ -4,6 +4,7 @@ class Like < ActiveRecord::Base
   
   named_scope :by_user, lambda {|user| {:conditions => {:user_id => user.id}}}
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
+  named_scope :not_user, lambda {|user_id| {:conditions => ['user_id != ?', user_id]}}
   named_scope :for_video, lambda {|video| {:conditions => {:video_id => video.id}}}
   named_scope :in_order, :order => 'created_at ASC'
   
