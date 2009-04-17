@@ -33,7 +33,7 @@
 			<tr>
 				<td style="font-size: 9pt;padding: 2px 2px 2px 5px;text-align: right;width: 24px;">
 					<a href="http://gawkk.com/<%= comment.user.slug %>">
-						<img src="http://gawkk.com/images/<%= comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail %>" height="24" width="24"/>
+						<img src="http://gawkk.com/images/<%= comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail %>" height="24" width="24" border="0"/>
 					</a>
 				</td>
 				<td style="font-size: 9pt;padding: 2px 2px 2px 5px;"><a href="http://gawkk.com/<%= comment.user.slug %>"><%= comment.user.username %></a>: <%= comment.body %>.</td>
