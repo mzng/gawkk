@@ -1,15 +1,13 @@
 namespace :digest do
 	task :emails => :environment do
-	  User.find_in_batches(:conditions => ['feed_owner = false AND digest_email_frequency > 0'], :batch_size => 100) { |users|
-	    users.each { |user|
-        begin
-          DigestMailer.deliver_activity(user)
-          puts "PASS: #{user.username}"
-        rescue
-          puts "FAIL: #{user.username}"
-        end
-      }
-    }
+    User.find(:all, :conditions => ['feed_owner = false AND digest_email_frequency > 0'], :order => 'created_at ASC').each do |user|
+      begin
+        DigestMailer.deliver_activity(user)
+        puts "PASS: #{user.username}"
+      rescue
+        puts "FAIL: #{user.username}"
+      end
+    end
   end
   
   task :test => :environment do
