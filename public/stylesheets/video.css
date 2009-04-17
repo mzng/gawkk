@@ -168,23 +168,35 @@
 	background-color: #f3f6f9;
 	border: 0px;
 	margin-top: 5px;
-	padding-bottom: 10px;
+	padding-bottom: 15px;
 	text-align: center;
+}
+
+.video .trouble-close td {
+	text-align: right;
+	width: 125px;
+}
+
+.video .trouble-close td.trouble {
+	font-size: 9pt;
+	text-align: center;
+	width: 400px;
 }
 
 .video .embed .close {
 	text-align: right;
 }
 
-.video .embed .close .clickable-area {
+.video .embed .clickable-area {
 	color: #a2a4a4;
 	cursor: pointer;
 	float: right;
 	font-size: 8pt;
 	padding: 5px 5px 5px 10px;
+	width: 50px;
 }
 
-.video .embed .close .clickable-area:hover {
+.video .embed .clickable-area:hover {
 	color: #333;
 }
 
@@ -194,11 +206,6 @@
 	background-repeat: no-repeat;
 	overflow-x: hidden;
 	width: 648px;
-}
-
-.video .embed .trouble {
-	font-size: 9pt;
-	margin: 5px 0 0 0;
 }
 
 .video .embed .fake-embed-container {

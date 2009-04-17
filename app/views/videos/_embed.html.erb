@@ -1,18 +1,28 @@
-<div class="close">
-	<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
-		Close <%= image_tag('close.png') %>
+<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
+	<table class="trouble-close" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>&nbsp;</td>
+			<td class="trouble">
+				Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
+			</td>
+			<td>
+				<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+					Close <%= image_tag('close.png') %>
+				</div>
+			</td>
+		</tr>
+	</table>
+<% else -%>
+	<div class="close">
+		<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+			Close <%= image_tag('close.png') %>
+		</div>
 	</div>
-</div>
-<br class="clear"/>
+<% end -%>
 <% if !video.embed_code.blank? -%>
 	<div class="embed-container">
 		<%= video.embed_code %>
 	</div>
-	<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
-		<p class="trouble">
-			Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
-		</p>
-	<% end -%>
 <% else -%>
 	<div class="fake-embed-container">
 		<div class="about">

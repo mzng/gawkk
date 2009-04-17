@@ -20,6 +20,7 @@
 	<div class="grid-container">
 		<%= @videos.size > 0 ? render(@videos) : "<em>No Videos found.</em>" %>
 	</div>
+	<%= render :partial => "/layouts/pagination", :locals => {:options => {:action => 'videos', :q => @q, :page => 1}} %>
 	<br class="clear"/>
 </div>
 
