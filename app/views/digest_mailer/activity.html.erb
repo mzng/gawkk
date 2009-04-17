@@ -9,16 +9,20 @@
 			<td align="center">
 				<table width="600" cellspacing="0" cellpadding="0">
 					<tr>
-						<td align="center" style="font-family:arial;font-size:10px;color:#666666;padding:4px 0 4px 0;">
+						<td align="center" style="font-family:arial;font-size:10px;color:#666666;padding:5px 0 5px 0;">
 							<p>You're receiving this newsletter because you <em><strong>signed up at <a href="http://gawkk.com" name="top" style="color:#333333;">gawkk.com</a></strong></em>.</p>
-							<p>Having trouble reading this email? <a href="http://gawkk.com/<%= @user.slug %>/digest" style="color:#333333;">View it in your browser</a>. Not interested anymore? <a href="http://gawkk.com/settings/email" style="color:#333333;">Unsubscribe Instantly</a>.</p>
+							<p>Having trouble reading this email? <a href="http://gawkk.com/<%= @user.slug %>/digest" style="color:#333333;">View it in your browser</a></p>
 						</td>
 					</tr>
 					<tr>
 						<td height="77" align="left" bgcolor="#195baa">
 							<table width="600" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td style="color:#FFFFFF;font-size:18px;padding:0 10px;"><img src="http://gawkk.com/images/logo-tagline.png" alt="gawkk.com"/></td>
+									<td style="color:#FFFFFF;font-size:18px;padding:0 10px;">
+										<a href="http://gawkk.com">
+											<img src="http://gawkk.com/images/logo-tagline.png" alt="gawkk.com"/>
+										</a>
+									</td>
 									<td style="color:#FFFFFF;font-size:18px;padding:0 10px;text-align:right;">
 										<h3 style="font-family:arial;font-size:14px;color:#ffffff;font-weight:normal;text-align:right;display:inline;font-style:italic;"><%= Time.now.strftime("%A, %B ") + Time.now.strftime("%d").to_i.ordinalize %></h3>
 									</td>
@@ -34,9 +38,14 @@
 				<table width="600" cellspacing="0" cellpadding="0" style="background-color:#ffffff;">
 					<tr>               
 						<td align="left" valign="top" width="348" alink="font-family: arial;font-size: 9pt;color: #4F6AA1;" class="mainbar" style="padding: 22px 14px 0 14px;">
-							<% @user.followings_activity(:limit => 5).each do |news_item| -%>
+							<p>Here's the latest from your friends and follows on Gawkk:</p>
+							
+							<% @user.followings_activity(:limit => 7).each do |news_item| -%>
 								<%= render :partial => '/news_items/news_item_email', :locals => {:news_item => news_item, :path => @path} %>
 							<% end -%>
+							
+							<p><a href="http://gawkk.com">See More Videos at Gawkk &raquo;</a></p>
+							<br/>
 						</td>
 						<% if false -%>
 							<td align="center" valign="top" width="219" style="padding:22px 10px 10px 10px;">
@@ -67,12 +76,11 @@
 						<td colspan="1" align="center">
 							<table width="560" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td style="padding: 0 0 10px 0;border-top: 2px solid #ededed;" align="left">
-										<p style="color: #a1a1a1;font-size: 11px;margin: 0;padding: 0;margin: 14px 0 0 0;">&copy; Copyright 2007 - 2009, Gawkk.com</p>
-										<p style="color: #a1a1a1;font-size: 11px;margin: 0;padding: 0;">
-											<a href="http://gawkk.com/<%= @user.slug %>/digest" style="font-family: arial;font-size: 11px;color: #4F6AA1;">Forward this email to a friend</a>. 
-											Not interested anymore? <a href="http://gawkk.com/settings/email" style="font-family: arial;font-size: 11px;color: #4F6AA1;">Unsubscribe Instantly</a>.
+									<td style="padding: 0 0 10px 0;border-top: 2px solid #ededed;" align="center">
+										<p style="color: #a1a1a1;font-size: 11px;margin: 14px 0 0 0;padding: 0;">
+											You can change the settings of your gawkk email update by visiting your <a href="http://gawkk.com/settings/email" style="font-family: arial;font-size: 11px;color: #4F6AA1;">Email Settings</a> page.
 										</p>
+										<p style="color: #a1a1a1;font-size: 11px;margin: 5px 0 0 0;padding: 0;">&copy; Copyright 2007 - 2009, Gawkk.com</p>
 									</td>
 								</tr>
 							</table>
