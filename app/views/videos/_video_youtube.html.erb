@@ -1,0 +1,42 @@
+<% video = video_youtube -%>
+
+<div class="video" id="youtube_video_<%= video.unique_id %>">
+	<div class="title">
+		<%= link_to video.title, "javascript:watchYouTubeVideo('#{video.unique_id}');" %>
+	</div>
+	<div class="body">
+		<div class="thumbnail" onclick="watchYouTubeVideo('<%= video.unique_id %>');" style="background-image:url(<%= Util::YouTube.thumbnail_url(video) %>);">
+			<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+		</div>
+		<div class="description">
+			<% if !video.description.nil? and video.description.size > 200 -%>
+				<%= video.description.first(200) %>...
+			<% else -%>
+				<%= video.description.blank? ? '' : video.description %>
+			<% end -%>
+		</div>
+		<div class="posted">
+			Posted <% if video.categories.size > 0 -%>in <%= video.categories.first.term %><% end -%>
+			<% if video.published_at -%>
+				on <%= video.published_at.strftime("%B %d, %Y") %>
+			<% end -%>
+			via <%= link_to 'youtube.com', video.player_url, :target => video.unique_id %>
+		</div>
+	</div>
+	<div id="embed_for_youtube_video_<%= video.unique_id %>" class="embed" style="display:none;">
+		<table class="trouble-close" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>&nbsp;</td>
+				<td class="trouble">
+					Having trouble? <%= link_to 'Open video at source site', video.player_url, :target => video.unique_id %>
+				</td>
+				<td>
+					<div class="clickable-area" onclick="watchYouTubeVideo('<%= video.unique_id %>');">
+						Close <%= image_tag('close.png') %>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div id="embed_code_for_youtube_video_<%= video.unique_id %>" class="embed-container"></div>
+	</div>
+</div>

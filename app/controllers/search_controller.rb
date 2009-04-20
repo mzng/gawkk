@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
-  around_filter :ensure_query, :only => [:index, :channels, :members, :videos]
-  skip_before_filter :verify_authenticity_token, :only => [:index, :channels, :members, :videos]
+  around_filter :ensure_query, :only => [:index, :channels, :members, :videos, :youtube]
+  skip_before_filter :verify_authenticity_token, :only => [:index, :channels, :members, :videos, :youtube]
   layout 'page'
   
   
@@ -28,6 +28,30 @@ class SearchController < ApplicationController
     setup_pagination(:per_page => 25)
     
     @videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :page => @page, :per_page => @per_page, :conditions => {:category_id => Category.allowed_on_front_page_ids})
+  end
+  
+  def youtube
+    respond_to do |format|
+      format.html {
+        begin
+          setup_pagination(:per_page => 25)
+
+          client = Util::YouTube.client
+          @result = client.videos_by(:query => @q, :offset => (@offset == 0 ? nil : @offset), :max_results => @per_page)
+        rescue
+          flash[:notice] = "YouTube is broken! The internet is collaposing upon itself! <a href=\"/search/youtube?q=#{@q}\">Try again</a>."
+          redirect_to :action => "index", :q => @q
+        end
+      }
+      format.js {
+        begin
+          client = Util::YouTube.client
+          @result = client.videos_by(:query => @q, :max_results => 5)
+        rescue
+          @results = nil
+        end
+      }
+    end
   end
   
   private

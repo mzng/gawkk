@@ -1,0 +1,7 @@
+if !@result.nil? and @result.videos.size > 0
+  page.replace_html('youtube_search_results', :partial => '/videos/video_youtube', :collection => @result.videos)
+elsif !@result.nil?
+  page.replace_html('youtube_search_results', "<em>No Videos found.</em>")
+else
+  page.replace_html('youtube_search_results', "<div style=\"padding-top:15px;text-align:center;\">YouTube is broken! The internet is collaposing upon itself! (Sometimes <a href=\"/search?q=#{@q}\">refreshing</a> works)</div>")
+end

@@ -20,7 +20,17 @@
 	<div class="grid-container">
 		<%= @videos.size > 0 ? render(@videos) : "<em>No Videos found.</em>" %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:options => {:action => 'videos', :q => @q, :page => 1}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => "View All#{@videos.total_entries > 5 ? ' ' + @videos.total_entries.to_s : ''} Search Results", :options => {:action => 'videos', :q => @q, :page => 1}} %>
+	<br class="clear"/>
+	
+	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Videos at YouTube', :link => {:action => 'youtube', :q => @q}, :force_link => true} %>
+	<div id="youtube_search_results" class="grid-container">
+		<div style="padding-top:15px;text-align:center;"><%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Searching YouTube...</div>
+		<script type="text/javascript" charset="utf-8">
+			new Ajax.Request('/search/youtube?q=<%= @q %>', {method:'get', asynchronous:true, evalScripts:false});
+		</script>
+	</div>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View All YouTube Search Results', :options => {:action => 'youtube', :q => @q, :page => 1}} %>
 	<br class="clear"/>
 </div>
 

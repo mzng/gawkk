@@ -83,6 +83,18 @@ function read(videoId, videoSlug) {
 	}
 }
 
+function watchYouTubeVideo(youTubeUnqiueId) {
+	var embed_code = "<object width=\"425\" height=\"350\"><param name=\"movie\" value=\"http://www.youtube.com/v/" + youTubeUnqiueId + "\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/" + youTubeUnqiueId + "\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"425\" height=\"350\"></embed></object>"
+	
+	if($('embed_for_youtube_video_' + youTubeUnqiueId).style.display != 'none') {
+		$('embed_for_youtube_video_' + youTubeUnqiueId).hide();
+	} else {
+		$('embed_code_for_youtube_video_' + youTubeUnqiueId).update(embed_code);
+		Effect.BlindDown('embed_for_youtube_video_' + youTubeUnqiueId, { duration: 0.5 });
+		Effect.ScrollTo('youtube_video_' + youTubeUnqiueId, {offset: 5});
+	}
+}
+
 
 // activity
 function reloadActivity(videoId) {

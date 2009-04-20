@@ -220,6 +220,11 @@ div.titled-pagination-container {
 	text-align: center;
 }
 
+div.titled-pagination-container .title-container {
+	color: #555555;
+	font-weight: bold;
+}
+
 div.paginate-single-link-set {
 	color: #4F6AA1 !important;
 	margin-bottom: 5px;

@@ -4,12 +4,12 @@
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Search Videos", :include_search => true, 
 			:links => [{:name => 'Channels', :options => {:controller => 'search', :action => 'channels', :q => @q}, :selected => false}, 
 			{:name => 'Members', :options => {:controller => 'search', :action => 'members', :q => @q}, :selected => false}, 
-			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => true}, 
-			{:name => 'YouTube', :options => {:controller => 'search', :action => 'youtube', :q => @q}, :selected => false}]} %>
+			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => false}, 
+			{:name => 'YouTube', :options => {:controller => 'search', :action => 'youtube', :q => @q}, :selected => true}]} %>
 	<div class="grid-container">
-		<%= render @videos %>
+		<%= render :partial => '/videos/video_youtube', :collection => @result.videos %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Search Results', :collection => @videos, :options => {:q => @q}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Search Results', :collection => @result.videos, :options => {:q => @q}} %>
 </div>
 
 <div id="content-sidebar">

@@ -1,4 +1,11 @@
 class Util::YouTube
+  def self.client
+    client = YouTubeG::Client.new
+    client = YouTubeG::Client.new unless client
+    
+    return client
+  end
+  
   def self.extract_id(url)
     youtube_id = nil
     
@@ -7,5 +14,13 @@ class Util::YouTube
     end
     
     return youtube_id
+  end
+  
+  def self.thumbnail_url(result)
+    if result.thumbnails.size > 0
+      result.thumbnails.first.url
+    else
+      '/images/no-image.png'
+    end
   end
 end

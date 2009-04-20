@@ -4,11 +4,12 @@
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Search Members", :include_search => true, 
 			:links => [{:name => 'Channels', :options => {:controller => 'search', :action => 'channels', :q => @q}, :selected => false}, 
 			{:name => 'Members', :options => {:controller => 'search', :action => 'members', :q => @q}, :selected => true}, 
-			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => false}]} %>
+			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => false}, 
+			{:name => 'YouTube', :options => {:controller => 'search', :action => 'youtube', :q => @q}, :selected => false}]} %>
 	<div class="grid-container">
 		<%= render @users %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users, :options => {:q => @q}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Search Results', :collection => @users, :options => {:q => @q}} %>
 </div>
 
 <div id="content-sidebar">

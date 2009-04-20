@@ -4,7 +4,7 @@
 
 <br class="clear"/>
 <div class="titled-pagination-container">
-	<span class="title-container"><%= title %></span><br/>
+	<% if !title.blank? -%><span class="title-container"><%= title %></span><br/><% end -%>
 	<div class="paginate-single-link-set">
 		<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', {:page => (@page.to_i - 1)}.merge(options) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
 		<% if collection.nil? or collection.size == @per_page -%><%= link_to 'Next &raquo;', {:page => (@page.to_i + 1)}.merge(options) %><% else -%><span class="disabled prev_page">Next &raquo;</span><% end -%>
