@@ -19,8 +19,12 @@ class Comment < ActiveRecord::Base
     
     spawn do
       if self.commentable_type == 'Video'
-        likers = Util::Cache.collect_users_from_likes(Like.for_video(self.commentable).not_user(self.user_id).all)
-        commenters = Util::Cache.collect_users_from_comments(Comment.in_thread(self.thread_id).not_user(self.user_id).all)
+        likers      = Util::Cache.collect_users_from_likes(Like.for_video(self.commentable).not_user(self.user_id).all)
+        commenters  = Util::Cache.collect_users_from_comments(Comment.in_thread(self.thread_id).not_user(self.user_id).all)
+        
+        if !self.commentable.posted_by.feed_owner and self.commentable.posted_by.id != self.user_id
+          likers << self.commentable.posted_by
+        end
         
         likers.concat(commenters).uniq.each do |user|
           details = Hash.new
