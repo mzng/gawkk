@@ -1,8 +1,15 @@
 class Admin::VideosController < ApplicationController
   around_filter :ensure_user_can_administer
-  around_filter :load_video, :only => [:destroy]
+  around_filter :load_video, :only => [:update_embed_code, :destroy]
   layout 'page'
   
+  
+  def update_embed_code
+    params[:video][:embed_code] = '' if params[:video] and params[:video][:embed_code] == 'Enter embed code...'
+    
+    @video.embed_code = Util::EmbedCode.scrub(params[:video][:embed_code], true)
+    @video.save
+  end
   
   def destroy
     begin

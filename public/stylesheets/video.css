@@ -244,6 +244,10 @@
 	margin-left: 10px;
 }
 
+.video .embed .admin-fake-embed-container {
+	height: 325px;
+}
+
 /* inline activity and comments */
 .video .inline {
 	width: 100%;

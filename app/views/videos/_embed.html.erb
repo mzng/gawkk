@@ -24,7 +24,7 @@
 		<%= video.embed_code %>
 	</div>
 <% else -%>
-	<div class="fake-embed-container">
+	<div class="fake-embed-container<%= user_can_administer? ? ' admin-fake-embed-container' : '' %>">
 		<div class="about">
 			This video will open in a new window
 		</div>
@@ -33,5 +33,12 @@
 			<%= link_to 'Play Video', video.url, :target => video.name %>
 			<%= link_to image_tag('embed-fake-play.png'), video.url, :target => video.name %>
 		</div>
+		<% if user_can_administer? -%>
+			<div>
+				<% remote_form_for(video, :url => {:controller => 'admin/videos', :action => 'update_embed_code', :id => video}, :loading => "watchVideo('#{video.id}','#{video.slug}');work('#{video.id}');") do |f| -%>
+					<%= f.text_field 'embed_code', :value => 'Enter embed code...', :onfocus => "descriptiveField(this, 'Enter embed code...', true);", :onblur => "descriptiveField(this, 'Enter embed code...', false);", :style => 'color:gray;' %>
+				<% end -%>
+			</div>
+		<% end -%>
 	</div>
 <% end -%>

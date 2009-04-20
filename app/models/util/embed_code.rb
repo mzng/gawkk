@@ -113,9 +113,11 @@ class Util::EmbedCode
     video.embed_code
   end
   
-  def self.scrub(embed_code)
+  def self.scrub(embed_code, center = false)
     if !embed_code.blank? and embed_code == embed_code[URI.regexp]
       embed_code = ''
+    elsif center and embed_code[/^<center>/].nil?
+      embed_code = '<center>' + embed_code + '</center>'
     end
     
     embed_code
