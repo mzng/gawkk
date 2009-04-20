@@ -7,6 +7,9 @@ class Video < ActiveRecord::Base
   has_many    :news_items, :as => :reportable, :dependent => :destroy
   has_many    :saved_videos, :dependent => :destroy
   
+  # Legacy votes table, defined here for destroys only
+  has_many :votes, :dependent => :destroy
+  
   validates_presence_of   :category_id, :name, :url, :posted_by_id
   validates_uniqueness_of :url, :on => :create, :message => "must be unique"
   

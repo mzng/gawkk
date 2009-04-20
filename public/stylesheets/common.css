@@ -93,6 +93,10 @@ a.action {
 	font-size: 8pt;
 }
 
+a.destructive:hover {
+	color: red;
+}
+
 img {
 	vertical-align: bottom;
 	border: 0px;

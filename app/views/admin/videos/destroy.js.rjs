@@ -1,0 +1,5 @@
+if @deleted
+  page.replace_html("del_link_for_#{@video_id}", '| Deleted')
+else
+  page.replace_html("del_link_for_#{@video_id}", '| Not Deleted')
+end

@@ -51,6 +51,13 @@
 					<% if user_can_edit?(video) -%>
 						<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video}, :loading => "work('#{video.id}');"} %></td>
 					<% end -%>
+					<% if user_can_administer? -%>
+						<td>
+							<span id="del_link_for_<%= video.id %>">
+								| <%= link_to_remote 'Del', {:url => {:controller => 'admin/videos', :action => 'destroy', :id => video}, :confirm => "Are you sure?", :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');"}, {:method => :post, :class => 'destructive'} %>
+							</span>
+						</td>
+					<% end -%>
 					<td>
 						<span id="more_link_for_<%= video.id %>">
 							<%= render :partial => "/videos/more_link", :locals => {:video => video, :open => true} %>

@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/import/:action',     :controller => 'admin/import'
   map.connect 'admin/statistics/:action', :controller => 'admin/statistics'
   map.connect 'admin/users/:action',      :controller => 'admin/users'
+  map.connect 'admin/videos/:action',     :controller => 'admin/videos'
   
   
   # registration
