@@ -1,7 +1,9 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Search Results for <em>#{@q}</em>"} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Search Results for <em>#{@q}</em>", :crumbs => [{:name => 'Search', :params => {:action => 'index', :q => @q}}, {:name => 'Channels'}, {:name => "<em>#{@q}</em>"}]} %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Search Channels", :include_search => true, 
+	<%= render :partial => "/search/search", :locals => {:separated => false} %>
+	
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Search Results", 
 			:links => [{:name => 'Channels', :options => {:controller => 'search', :action => 'channels', :q => @q}, :selected => true}, 
 			{:name => 'Members', :options => {:controller => 'search', :action => 'members', :q => @q}, :selected => false}, 
 			{:name => 'Videos', :options => {:controller => 'search', :action => 'videos', :q => @q}, :selected => false}, 
