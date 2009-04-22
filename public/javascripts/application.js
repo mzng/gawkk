@@ -36,6 +36,7 @@ function watchVideo(videoId, videoSlug) {
 function watchVideoAndScroll(videoId, videoSlug, scroll) {
 	if($('embed_for_' + videoId).style.display != 'none') {
 		$('embed_for_' + videoId).hide();
+		$('embed_for_' + videoId).update('');
 		
 		if($('short_description_for_' + videoId) && $('short_description_for_' + videoId).style.display == 'none') {
 			$('full_description_for_' + videoId).hide();
