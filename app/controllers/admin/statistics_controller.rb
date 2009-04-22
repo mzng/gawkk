@@ -48,12 +48,12 @@ class Admin::StatisticsController < ApplicationController
     @total_today = User.count(:all, :conditions => ["feed_owner = false AND convert_tz(created_at, '+00:00', '-04:00') >= curdate()"])
     
     
-    registrations_past_week = User.find(:all, :select => "count(*) as registrations, year(created_at) as year, month(created_at) as month, day(created_at) as day, dayofyear(created_at) as dayofyear", :conditions => ['feed_owner = false and created_at > date_sub(curdate(), interval 7 day)'], :group => 'year, dayofyear', :order => 'created_at')
-    registration_counts_past_week = registrations_past_week.collect{|summary| summary.registrations.to_i}
-    registration_days_past_week = registrations_past_week.collect{|summary| summary.day + '/' + summary.month}
+    registrations_past_month = User.find(:all, :select => "count(*) as registrations, year(created_at) as year, month(created_at) as month, day(created_at) as day, dayofyear(created_at) as dayofyear", :conditions => ['feed_owner = false and created_at > date_sub(curdate(), interval 1 month)'], :group => 'year, dayofyear', :order => 'created_at')
+    registration_counts_past_month = registrations_past_month.collect{|summary| summary.registrations.to_i}
+    registration_days_past_month = registrations_past_month.collect{|summary| summary.month + '/' + summary.day}
     
-    @past_week = GChart.bar(:data => [registration_counts_past_week], :extras => {'chtt' => 'Per Day, Past Week', 'chs' => '900x300', 'chxt' => 'x,y', 'chxl' => "0:|#{registration_days_past_week.join('|')}|", 'chxr' => "1,0,#{registration_counts_past_week.max}"})
-    @past_week.orientation = :vertical
+    @past_month = GChart.bar(:data => [registration_counts_past_month], :extras => {'chtt' => 'Per Day, Past Month', 'chs' => '900x300', 'chxt' => 'x,y', 'chxl' => "0:|#{registration_days_past_month.join('|')}|", 'chxr' => "1,0,#{registration_counts_past_month.max}"})
+    @past_month.orientation = :vertical
     
     
     registrations_per_day = User.find(:all, :select => "count(*) as registrations, year(created_at) as year, month(created_at) as month, day(created_at) as day, dayofyear(created_at) as dayofyear", :conditions => ['feed_owner = false and created_at > date_sub(curdate(), interval 6 month)'], :group => 'year, dayofyear', :order => 'created_at')
