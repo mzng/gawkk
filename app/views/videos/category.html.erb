@@ -1,3 +1,5 @@
+<%= render :partial => "/layouts/pitch" %>
+
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @category.thumbnail, :title => @category.name, :description => (params[:popular] ? 'Popular Videos' : 'Newest Videos') + " in the #{@category.name} Category"} %>
 <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 			:crumbs => [{:name => 'Categories', :params => {:controller => 'videos', :action => 'index', :popular => false}}, 
