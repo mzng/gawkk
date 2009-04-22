@@ -26,6 +26,13 @@
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Members', :collection => @members} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Friends', :collection => @friends} if user_logged_in? %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
+	
+	<h1 class="section-header">Videos by Tag</h1>
+	<div>
+		<% @video.tags(:generate_phrases => true).each do |tag| -%>
+			<span class="tag"><%= image_tag('tag_green.png') %> <%= render :partial => 'tags/tag', :object => tag %></span>&nbsp;
+		<% end -%>
+	</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">

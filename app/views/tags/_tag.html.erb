@@ -1,1 +1,1 @@
-<%= link_to tag, {:controller => 'tags', :q => tag} %>
+<%= link_to tag, {:controller => 'tags', :q => tag.gsub(/ /, '-')} %>

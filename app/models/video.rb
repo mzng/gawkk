@@ -150,8 +150,22 @@ class Video < ActiveRecord::Base
     yield comments
   end
   
-  def tags
-    Util::Scrub.query(self.title.downcase, true, false).split
+  def tags(*args)
+    options = args.extract_options!
+  
+    tags = Util::Scrub.query(self.title.downcase, true, false).split
+  
+    if options[:generate_phrases] and tags.size > 1
+      phrases = Array.new
+    
+      (1..(tags.size - 1)).each do |i|
+        phrases << tags[i - 1] + ' ' + tags[i]
+      end
+    
+      tags.concat(phrases)
+    end
+  
+    return tags
   end
   
   

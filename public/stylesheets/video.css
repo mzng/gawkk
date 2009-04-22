@@ -379,6 +379,12 @@
 	width: 196px;
 }
 
+/* video tags */
+span.tag {
+	font-size: 9pt;
+	white-space: nowrap;
+}
+
 /* inline video editor */
 .video-edit {
 	background-color: #f3f6f9;
