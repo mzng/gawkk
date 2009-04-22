@@ -170,7 +170,7 @@ class ApplicationController < ActionController::Base
   def setup_related_videos(video)
     @q = Util::Scrub.query(video.title, true)
     begin
-      @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids})
+      @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 4, :conditions => {:category_id => Category.allowed_on_front_page_ids}, :retry_stale => true)
     rescue
       @related_videos = Array.new
     end
