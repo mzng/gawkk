@@ -118,12 +118,19 @@ class Feed < ActiveRecord::Base
           
           # Ensure we have a thumbnail if we think we have it
           if !video.thumbnail.blank?
+            retry_count = 0
+            
             begin
               open("http://www.gawkk.com/images/#{video.thumbnail}")
             rescue OpenURI::HTTPError
-              video.update_attribute('thumbnail', '')
-              ImportMailer.deliver_automatic_shutdown_notification
-              Parameter.set('feed_importer_status', 'false')
+              if retry_count > 1
+                ImportMailer.deliver_automatic_shutdown_notification(video)
+                Parameter.set('feed_importer_status', 'false')
+              else
+                retry_count = retry_count + 1
+                sleep(3 * retry_count)
+                retry
+              end
             end
           end
           
