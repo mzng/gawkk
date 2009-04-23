@@ -1,7 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   # authentication
-  map.connect 'login',              :controller => 'authentication', :action => 'login'
-  map.connect 'logout',             :controller => 'authentication', :action => 'logout'
+  map.connect 'login',                    :controller => 'authentication', :action => 'login'
+  map.connect 'logout',                   :controller => 'authentication', :action => 'logout'
+  map.connect 'authentication/:action',   :controller => 'authentication'
   
   
   # administration areas

@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter :preload_models
+  before_filter [:preload_models, :check_cookie]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -20,6 +20,21 @@ class ApplicationController < ActionController::Base
     SavedVideo
     User
     Video
+  end
+  
+  # Check for a remember cookie and autologin
+  def check_cookie
+    return if session[:user_id]
+    
+    if cookies[:_gawkk_login]
+      user = User.find_by_slug(cookies[:_gawkk_login].split('&')[0])
+      return unless user
+      cookie_hash = Digest::MD5.hexdigest(cookies[:_gawkk_login].split('&')[1] + user.salt)
+      if user.cookie_hash == cookie_hash
+        session[:user_id] = user.id
+        user.update_attribute('last_login_at', Time.now)
+      end
+    end
   end
   
   # Authorization
