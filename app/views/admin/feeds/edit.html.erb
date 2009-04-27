@@ -1,0 +1,31 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name, :channel => @channel} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+			:crumbs => [{:name => 'Channels', :params => {:controller => '/channels'}}, 
+									{:name => @channel.name, :params => channel_path(:user => @user, :channel => @channel)}, 
+									{:name => 'Feeds', :params => {:controller => 'admin/channels', :action => 'feeds', :id => @channel.id}},
+									{:name => 'Edit'}]} %>
+
+<div id="content-main">
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Change Feed Settings', :links => []} %>
+	
+	<div id="feed-edit">
+		<%= error_messages_for 'feed' %>
+		<% form_for(@feed, :url => {:controller => 'admin/feeds', :action => 'update', :channel_id => @channel.id, :id => @feed}) do |f| %>
+			<p style="margin-top:0px;"><label>Category:</label><br/>
+			<%= f.select 'category_id', @categories.collect{|category| [category.name, category.id]} %></p>
+			
+			<p><label>Url:</label><br/>
+			<%= f.text_field 'url' %></p>
+
+			<p><label for="feed_active">Active: <%= f.check_box 'active' %></label></p>
+
+			<p class="submit">
+				<%= submit_tag("Update") %> or <%= link_to 'Cancel', {:controller => 'admin/channels', :action => 'feeds', :id => @channel.id} %>
+			</p>
+		<% end -%>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	<%= render :partial => "sidebar" %>
+</div>

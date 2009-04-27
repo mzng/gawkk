@@ -14,6 +14,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/users/:action',      :controller => 'admin/users'
   map.connect 'admin/videos/:action',     :controller => 'admin/videos'
   
+  # nested administration areas
+  map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
+  
   
   # registration
   map.connect 'register',           :controller => 'registration', :action => 'register'

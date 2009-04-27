@@ -27,11 +27,13 @@ class Admin::ChannelsController < ApplicationController
     if @user.update_attribute('description', params[:user][:description]) and @channel.update_attributes(params[:channel])
       flash[:notice] = 'The channel was successfully updated.'
       redirect_to channel_path(:user => @user, :channel => @channel)
+    else
+      render :action => 'edit'
     end
   end
   
   def feeds
-    
+    @feeds = Feed.find(:all, :conditions => {:owned_by_id => @channel.user_id})
   end
   
   

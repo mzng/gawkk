@@ -1,4 +1,4 @@
-/* list */
+/* channel list */
 #channel-list {
 	width: 100%;
 }
@@ -38,9 +38,43 @@
 	font-size: 8pt;
 }
 
-/* edit form */
+/* channel edit form */
 #channel-edit textarea {
 	height: 100px;
 	padding: 2px;
 	width: 300px;
+}
+
+/* feed list */
+#feed-list {
+	width: 100%;
+}
+
+#feed-list td {
+	border-bottom: 1px solid #E5E5E5;
+	font-size: 9pt;
+}
+
+#feed-list td:last-child {
+	text-align: right;
+}
+
+#feed-list td div {
+	white-space: nowrap;
+	overflow: hidden;
+	width: 350px;
+}
+
+#feed-list td.actions a {
+	color: red;
+	font-size: 8pt;
+}
+
+#add-feed-action a {
+	font-size: 8pt;
+}
+
+/* channel list */
+#feed-edit input#feed_url {
+	width: 350px;
 }

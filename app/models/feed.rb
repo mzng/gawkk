@@ -9,7 +9,7 @@ class Feed < ActiveRecord::Base
   
   attr_accessor :dont_recategorize
   
-  validates_presence_of :category_id, :owned_by_id
+  validates_presence_of :category_id, :owned_by_id, :url
   
   def after_save
     Rails.cache.delete(self.cache_key)

@@ -1,0 +1,5 @@
+<div id="settings-sidebar">
+	<h1 class="section-header">Options</h1>
+	<%= link_to 'Profile', {:controller => "admin/channels", :action => "edit", :id => @channel.id} %><br/>
+	<%= link_to 'Feeds', {:controller => "admin/channels", :action => "feeds", :id => @channel.id} %>
+</div>

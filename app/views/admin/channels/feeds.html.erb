@@ -5,8 +5,23 @@
 									{:name => 'Feeds'}]} %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Feeds', :links => []} %>
-	
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Feeds', :links => [], :break_below => false} %>
+	<table id="feed-list" cellpadding="3" cellspacing="0">
+		<tbody>
+			<% @feeds.each do |feed| -%>
+				<tr>
+					<td style="width:16px;"><%= image_tag(feed.active? ? 'tick.png' : 'cross.png') %></td>
+					<td><%= feed.category.name %></td>
+					<td><div><%= feed.url %></div></td>
+					<td class="actions">
+						<%= link_to 'Edit', {:controller => 'admin/feeds', :action => 'edit', :channel_id => @channel.id, :id => feed}, :target => "edit-#{feed.id}" %> |
+						<%= link_to 'Delete', {:controller => 'admin/feeds', :action => 'destroy', :channel_id => @channel.id, :id => feed}, :confirm => 'Are you sure?', :method => :post %>
+					</td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<p id="add-feed-action"><%= image_tag('add.png') %> <%= link_to 'Add a feed', {:controller => 'admin/feeds', :action => 'new', :channel_id => @channel.id} %></p>
 </div>
 
 <div id="content-sidebar">
