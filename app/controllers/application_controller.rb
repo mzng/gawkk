@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :check_cookie]
+  before_filter [:preload_models, :check_cookie, :perform_action]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -33,6 +33,18 @@ class ApplicationController < ActionController::Base
       if user.cookie_hash == cookie_hash
         session[:user_id] = user.id
         user.update_attribute('last_login_at', Time.now)
+      end
+    end
+  end
+  
+  # Perform any outstanding action
+  def perform_action
+    if user_logged_in?
+      if actionable = session[:actionable]
+        actionable.user_id = logged_in_user.id
+        actionable.save
+        
+        session[:actionable] = nil
       end
     end
   end

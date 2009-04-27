@@ -16,7 +16,7 @@
 			<% else -%>
 				<span>
 					<%= link_to('Register', {:controller => 'registration', :action => 'register'}) %> |
-					<%= link_to('Login', {:controller => 'authentication', :action => 'login'}) %>
+					<%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}}) %>
 				</span>
 			<% end -%>
 		</div>

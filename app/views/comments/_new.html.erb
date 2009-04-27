@@ -7,7 +7,7 @@
 		<table class="inline" cellpadding="0" cellspacing="0">
 			<tr>
 				<td class="image">
-					<%= image_tag(logged_in_user.thumbnail.blank? ? 'profile-pic.jpg' : logged_in_user.thumbnail, :class => 'avatar') %>
+					<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'g-avatar.png' : logged_in_user.thumbnail, :class => 'avatar') %>
 				</td>
 				<td colspan="2" class="body">
 					<%= f.text_area 'body', :value => '', :id => "new_comment_area_for_#{commentable.id}", :onkeyup => "updateCharacterCount('#{commentable.id}', this);" %>

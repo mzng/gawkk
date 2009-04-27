@@ -1,0 +1,23 @@
+<div class="buffered">
+	<h1 class="section-header">Login to Gawkk</h1>
+	
+	<% form_tag({:controller => 'authentication', :action => 'login'}) do %>
+		<%= error_messages_for 'user' %>
+		<%= hidden_field 'current', 'path', :id => 'current_path' %>
+
+		<p>Email Address:<br/>
+		<%= text_field('user', 'email', :size => 20) %></p>
+
+		<p>Password:<br/>
+		<%= password_field('user', 'password', :size => 20) %></p>
+		
+		<p><%= check_box_tag :remember %> <label for="remember">Remember me</label></p>
+
+		<%= submit_tag 'Login' %> or <%= link_to 'Cancel', '#cancel', :onclick => "hideOverlay();" %>
+	<% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('current_path').value = window.location.pathname + window.location.search;
+	$('user_email').focus();
+</script>

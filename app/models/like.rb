@@ -8,6 +8,8 @@ class Like < ActiveRecord::Base
   named_scope :for_video, lambda {|video| {:conditions => {:video_id => video.id}}}
   named_scope :in_order, :order => 'created_at ASC'
   
+  validates_uniqueness_of :video_id, :scope => :user_id
+  
   
   def after_create
     NewsItem.report(:type => 'like_a_video', :reportable => self.video, :user_id => self.user_id)

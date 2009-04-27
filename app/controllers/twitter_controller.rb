@@ -11,10 +11,6 @@ class TwitterController < ApplicationController
   
   def request_credentials
     @twitter_account = logged_in_user.twitter_account ? logged_in_user.twitter_account : TwitterAccount.new
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def update_credentials
@@ -25,10 +21,6 @@ class TwitterController < ApplicationController
     @twitter_account.tweet_likes = (params[:twitter_account][:tweet_likes] == '1' ? true : false)
     
     @twitter_account.save
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   
