@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :check_cookie, :perform_action]
+  before_filter [:preload_models, :check_cookie, :perform_outstanding_action]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
   
   # Perform any outstanding action
-  def perform_action
+  def perform_outstanding_action
     if user_logged_in?
       if actionable = session[:actionable]
         actionable.user_id = logged_in_user.id

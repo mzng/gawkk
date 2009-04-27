@@ -7,7 +7,7 @@
 			<span>
 				<%= submit_tag 'Join today!' %><br/>
 				or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>
-				Already a member? <%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}}) %>
+				Already a member? <%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %>
 			</span>
 			<div>
 				<p style="font-size:16pt;font-weight:bold;"><%= title %></p>
