@@ -1,7 +1,7 @@
 <% title ||= 'Welcome to Gawkk!' -%>
 
 <% if !user_logged_in? -%>
-	<% form_tag({:controller => 'registration', :action => 'register'}, :method => 'get') do -%>
+	<% form_remote_tag({:url => {:controller => 'registration', :action => 'register'}, :method => 'get'}) do -%>
 		<input type="hidden" name="f" value="pb"/>
 		<div id="pitch">
 			<span>
@@ -12,7 +12,7 @@
 			<div>
 				<p style="font-size:16pt;font-weight:bold;"><%= title %></p>
 				<p>Gawkk is like a <strong>'Twitter for videos'</strong> where members <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with their friends by answering the question: <strong>What are you watching?</strong></p>
-				<p><%= link_to 'Join the conversation today!', {:controller => 'registration', :action => 'register', :f => 'pl'}, :style => 'color:#195baa;font-weight:bold;text-decoration:none;' %></p>
+				<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
 			</div>
 		</div>
 	<% end -%>
