@@ -1,0 +1,9 @@
+page.replace_html('username', @username)
+
+if @valid.nil?
+  page << "$('username').style.color = 'gray';"
+elsif @valid
+  page << "$('username').style.color = '#333333';"
+else
+  page << "$('username').style.color = 'red';"
+end

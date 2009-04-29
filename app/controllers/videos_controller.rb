@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:like, :unlike, :comment, :edit, :update]
+  around_filter :ensure_logged_in_user, :only => [:unlike, :edit, :update]
   around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   layout 'page'
@@ -83,18 +83,10 @@ class VideosController < ApplicationController
   
   def share
     # load_video or redirect
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def watch
     # load_video or redirect
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def reload_activity
@@ -105,10 +97,6 @@ class VideosController < ApplicationController
       User.find_by_slug(params[:base_user])
     }
     @include_followings = params[:include_followings]
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def reload_comments
@@ -119,20 +107,18 @@ class VideosController < ApplicationController
       User.find_by_slug(params[:base_user])
     }
     @include_followings = params[:include_followings]
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def like
-    # load_video or redirect
-    if Like.by_user(logged_in_user).for_video(@video).count == 0
-      Like.create :user_id => logged_in_user.id, :video_id => @video.id
-    end
+    like = Like.new
+    like.video_id = @video.id
     
-    respond_to do |format|
-      format.js {}
+    if user_logged_in?
+      like.user_id = logged_in_user.id
+      like.save
+    else
+      session[:actionable] = like
+      render :template => 'registration/register'
     end
   end
   
@@ -142,11 +128,7 @@ class VideosController < ApplicationController
       like.destroy
     end
     
-    respond_to do |format|
-      format.js {
-        render :action => "like"
-      }
-    end
+    render :action => 'like'
   end
   
   def comment
@@ -156,19 +138,11 @@ class VideosController < ApplicationController
     if params[:reply_id] and params[:reply_id] != '' and @reply = Comment.find(params[:reply_id])
       @comment.thread_id = @reply.thread_id
     end
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def edit
     # load_video or redirect
     @categories = Category.all_cached
-    
-    respond_to do |format|
-      format.js {}
-    end
   end
   
   def update
@@ -191,10 +165,6 @@ class VideosController < ApplicationController
       if params[:thumbnail] and !params[:thumbnail][:for_video].blank?
         Util::Thumbnail.use_url_thumbnail(@video, params[:thumbnail][:for_video])
       end
-    end
-    
-    respond_to do |format|
-      format.js {}
     end
   end
   

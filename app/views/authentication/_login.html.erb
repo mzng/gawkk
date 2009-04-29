@@ -1,0 +1,70 @@
+<div id="registration-overlay" class="buffered">
+	<h1 class="section-header">Login to Gawkk</h1>
+	<p id="join-or-login">
+		<span>Not a member yet? <%= link_to_remote('Sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %></span>
+		Sign in with Twitter, Facebook or Gawkk
+	</p>
+	
+	<table id="container" cellpadding="3" cellspacing="0">
+		<tr>
+			<td id="twitter-selector" class="service" onclick="javascript:chooseService('twitter', '');"><%= image_tag('service_twitter.png') %></td>
+			<td rowspan="3" class="forms">
+				<div id="twitter-form" class="signup_form" style="display:none;">
+					<p class="coming-soon">Coming Soon</p>
+					<p class="title">Sign in Securely with Twitter</p>
+					<p class="explanation">
+						Soon, you'll be able to use your twitter account!<br/>For now, you can sign up 
+						for a <%= link_to 'Gawkk', '#gawkk', :onclick => "chooseService('gawkk', 'user_email');" %> account.
+					</p>
+					<p class="authorize"><%= submit_tag('Authorize with Twitter', :disabled => true) %></p>
+				</div>
+				
+				<div id="facebook-form" class="signup_form" style="display:none;">
+					<p class="coming-soon">Coming Soon</p>
+					<p class="title">Sign in Securely with Facebook</p>
+					<p class="explanation">
+						Soon, you'll be able to use your facebook account!<br/>For now, you can sign up 
+						for a <%= link_to 'Gawkk', '#gawkk', :onclick => "chooseService('gawkk', 'user_email');" %> account.
+					</p>
+					<p class="authorize"><%= submit_tag('Connect to Facebook', :disabled => true) %></p>
+				</div>
+				
+				<div id="gawkk-form" class="signup_form" style="display:block;">
+					<p class="title">Sign in with Gawkk</p>
+					
+					<% form_tag({:controller => 'authentication', :action => 'login'}) do %>
+						<%= error_messages_for 'user' %>
+						<%= hidden_field 'current', 'path', :id => 'current_path' %>
+
+						<table cellpadding="3" cellspacing="0">
+							<tr>
+								<td>Email Address:</td>
+								<td><%= text_field 'user', 'email', :class => 'field' %></td>
+							</tr>
+							<tr>
+								<td>Password:</td>
+								<td><%= password_field 'user', 'password', :class => 'field' %></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><label for="remember"><%= check_box_tag :remember %> Remember me</label></td>
+							</tr>
+							<tr>
+								<td colspan="2" style="padding-right:45px;">
+									<%= submit_tag 'Login' %>
+								</td>
+							</tr>
+						</table>
+					<% end %>
+				</div>
+			</td>
+		</tr>
+		<tr><td id="facebook-selector" class="service" onclick="javascript:chooseService('facebook', '');"><%= image_tag('service_facebook.jpg') %></td></tr>
+		<tr><td id="gawkk-selector" class="service selected-service" onclick="javascript:chooseService('gawkk', 'user_email');"><%= image_tag('logo.png') %></td></tr>
+	</table>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('current_path').value = window.location.pathname + window.location.search;
+	$('user_email').focus();
+</script>

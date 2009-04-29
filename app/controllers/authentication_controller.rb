@@ -29,7 +29,8 @@ class AuthenticationController < ApplicationController
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
         
-        redirect_to '/'
+        flash[:notice] = nil
+        redirect_to (params[:current] and !params[:current][:path].blank?) ? params[:current][:path] : '/'
       else
         flash[:notice] = 'Invalid user/password combination'
         

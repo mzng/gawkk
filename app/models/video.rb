@@ -72,6 +72,10 @@ class Video < ActiveRecord::Base
   end
   
   
+  def user_id=(user_id)
+    self.posted_by_id = user_id
+  end
+  
   def title
     self.name.blank? ? '' : self.name
   end

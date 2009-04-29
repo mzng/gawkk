@@ -1,6 +1,9 @@
 function displayOverlayWithOffset(height, width, offset) {
 	hideOverlay();
 	
+	// Dim the lights
+	$('shadow').show();
+	
 	var scrollY = 0;
 	var top = 0;
 	var viewportHeight = 0;
@@ -41,11 +44,9 @@ function displayOverlayWithOffset(height, width, offset) {
 	$('overlay').style.left			= ((viewportWidth / 2) - ((width + 12) / 2)) + 'px';
 	$('overlay').style.top			= top + 'px';
 	$('overlay').style.display	= 'block';
-	// Effect.Appear('overlay', { duration: 0.5 });
 	
 	$('overlayed-content').style.height	= height + 'px';
 	$('overlayed-content').style.width	= width + 'px';
-	// $('overlayed-content').src					= url;
 	
 	$('close').style.left			= ((viewportWidth / 2) + ((width + 12) / 2) - 18) + 'px';
 	$('close').style.top			= (top - 12) + 'px';
@@ -60,6 +61,9 @@ function hideOverlay() {
 	$('close').style.display		= 'none';
 	$('overlay').style.display	= 'none';
 	$('overlayed-content').replace("<div id=\"overlayed-content\"></div>");
+	
+	// Raise the lights
+	$('shadow').hide();
 }
 
 function resizeOverlay(height, width) {
