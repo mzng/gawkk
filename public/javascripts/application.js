@@ -200,6 +200,22 @@ function hide(tipId) {
 	$(tipId).style.visibility = 'hidden';
 }
 
+// registration overlay
+function chooseService(serviceName, focusField) {
+	var serviceSelecors = $$('.service');
+	for(i = 0; i < serviceSelecors.length; i++) {
+		serviceSelecors[i].removeClassName('selected-service');
+	}
+	
+	var serviceForms = $$('.signup_form');
+	for(i = 0; i < serviceForms.length; i++) {
+		serviceForms[i].hide();
+	}
+	
+	$(serviceName + '-selector').addClassName('selected-service');
+	$(serviceName + '-form').appear({duration: .2, afterFinish: function(){if(focusField != '') {$(focusField).focus();}}});
+}
+
 
 // service avatars
 function selectServiceAvatar(container, service) {

@@ -118,7 +118,7 @@ class VideosController < ApplicationController
       like.save
     else
       session[:actionable] = like
-      render :template => 'authentication/login'
+      render :template => 'registration/register'
     end
   end
   

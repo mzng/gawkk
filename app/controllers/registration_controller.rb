@@ -3,12 +3,47 @@ class RegistrationController < ApplicationController
   layout 'page'
   
   
+  def username_check
+    @valid = true
+    
+    if !params[:username].blank?
+      @username = params[:username]
+      
+      if @username.length < 4
+        @valid = false
+      end
+      
+      if @valid and @username.length > 15
+        @valid = false
+      end
+      
+      if @valid and @username.match(/\s/)
+        @valid = false
+      end
+      
+      if @valid and @username.match(/\./)
+        @valid = false
+      end
+      
+      if @valid and !User.unique_username?(@username)
+        @valid = false
+      end
+    else
+      @username = 'username'
+      @valid   = nil
+    end
+  end
+  
   def register
     if !user_logged_in?
       if request.get?
         @user = User.new
         @user.send_digest_emails = true
       else
+        if params[:user][:password_confirmation].nil?
+          params[:user][:password_confirmation] = params[:user][:password]
+        end
+        
         @user = User.new(params[:user])
         @user.ad_campaign   = session[:ref]
         @user.administrator = false

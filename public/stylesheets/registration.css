@@ -1,3 +1,88 @@
+/* registration overlay */
+#registration-overlay #join-or-login {
+	font-size: 9pt;
+	margin-top: 0px;
+	padding: 0 5px;
+}
+
+#registration-overlay #join-or-login span {
+	float: right;
+}
+
+#registration-overlay table#container {
+	height: 231px;
+	width: 100%;
+}
+
+#registration-overlay table#container td.service {
+	border: 1px solid #f3f6f9;
+	border-right: 1px solid #CCCCCC;
+	cursor: pointer;
+	height: 73px;
+	text-align: center;
+}
+
+#registration-overlay table#container td.selected-service {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	border-right: 1px solid #FFFFFF;
+	height: 73px;
+	text-align: center;
+}
+
+#registration-overlay table#container .forms {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	border-left: 0px;
+	vertical-align: top;
+	width: 350px;
+}
+
+#registration-overlay table#container .forms .title {
+	font-size: 11pt;
+	font-weight: bold;
+	margin: 0 0 10px 0;
+	padding: 10px 0 5px 0;
+	text-align: center;
+}
+
+#registration-overlay .signup_form .explanation {
+	padding: 0 15px;
+	text-align: center;
+}
+
+#registration-overlay .signup_form .coming-soon {
+	font-size: 24pt;
+	text-align: center;
+}
+
+#registration-overlay .signup_form .authorize {
+	padding-top: 15px;
+	text-align: center;
+}
+
+#registration-overlay #gawkk-form table {
+	margin: 0 auto;
+	/*width: 290px;*/
+	width: 345px;
+}
+
+#registration-overlay #gawkk-form table td:first-child {
+	text-align: right;
+	width: 115px;
+}
+
+#registration-overlay #gawkk-form table td input.field {
+	width: 175px;
+}
+
+#registration-overlay #gawkk-form table td.agreement {
+	font-size: 8pt;
+	font-style: italic;
+	padding-right: 45px;
+}
+
+
 /* common */
 #registration-progress {
 	border: 1px solid #E5E5E5;

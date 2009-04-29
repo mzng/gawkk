@@ -16,9 +16,10 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # registration
-  map.connect 'register',           :controller => 'registration', :action => 'register'
-  map.connect 'setup/services',     :controller => 'registration', :action => 'setup_services'
-  map.connect 'setup/profile',      :controller => 'registration', :action => 'setup_profile'
+  map.connect 'register',             :controller => 'registration', :action => 'register'
+  map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
+  map.connect 'setup/profile',        :controller => 'registration', :action => 'setup_profile'
+  map.connect 'registration/:action', :controller => 'registration'
   
   
   # settings

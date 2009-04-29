@@ -17,7 +17,8 @@
 }
 
 #overlay #overlayed-content {
-	background-color: #FFFFFF;
+	/*background-color: #FFFFFF;*/
+	background-color: #f3f6f9;
 	border:1px solid #E5E5E5;
 	margin: 5px;
 	overflow: hidden;

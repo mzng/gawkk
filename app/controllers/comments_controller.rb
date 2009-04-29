@@ -53,7 +53,7 @@ class CommentsController < ApplicationController
       end
     else
       session[:actionable] = @comment
-      render :template => 'authentication/login'
+      render :template => 'registration/register'
     end
   end
   
