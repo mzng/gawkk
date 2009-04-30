@@ -53,6 +53,9 @@ class CommentsController < ApplicationController
       end
     else
       session[:actionable] = @comment
+      
+      @user = User.new
+      @user.send_digest_emails = true
       render :template => 'registration/register'
     end
   end

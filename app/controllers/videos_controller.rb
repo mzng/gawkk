@@ -118,6 +118,9 @@ class VideosController < ApplicationController
       like.save
     else
       session[:actionable] = like
+      
+      @user = User.new
+      @user.send_digest_emails = true
       render :template => 'registration/register'
     end
   end
