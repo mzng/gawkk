@@ -157,7 +157,8 @@ function comment(videoId, videoSlug, replyId) {
 function updateCharacterCount(commentableId, field) {
 	var charactersLeft = 140 - field.value.length;
 	
-	if($('tweet_it_for_' + commentableId).checked) {
+	var tweetIt = $('tweet_it_for_' + commentableId);
+	if(tweetIt != null && tweetIt.checked) {
 		charactersLeft = charactersLeft - 26;
 	}
 	
