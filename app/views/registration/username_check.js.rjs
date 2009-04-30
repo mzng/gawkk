@@ -1,9 +1,12 @@
 page.replace_html('username', @username)
 
 if @valid.nil?
+  page.replace_html('username_is_valid', image_tag('blank.gif', :style => 'vertical-align:top;'))
   page << "$('username').style.color = 'gray';"
 elsif @valid
+  page.replace_html('username_is_valid', image_tag('tick.png', :style => 'vertical-align:top;'))
   page << "$('username').style.color = 'green';"
 else
+  page.replace_html('username_is_valid', image_tag('cross.png', :style => 'vertical-align:top;'))
   page << "$('username').style.color = 'red';"
 end
