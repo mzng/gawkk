@@ -44,6 +44,8 @@
 	margin: 0 0 10px 0;
 	padding: 10px 0 5px 0;
 	text-align: center;
+	_margin: 5px 0 0 0;
+	_padding: 0;
 }
 
 #registration-overlay .signup_form .explanation {
@@ -54,6 +56,7 @@
 #registration-overlay .signup_form .coming-soon {
 	font-size: 24pt;
 	text-align: center;
+	_margin-top: 15px;
 }
 
 #registration-overlay .signup_form .authorize {
@@ -63,8 +66,8 @@
 
 #registration-overlay #gawkk-form table {
 	margin: 0 auto;
-	/*width: 290px;*/
 	width: 345px;
+	_margin-top:-10px;
 }
 
 #registration-overlay #gawkk-form table td:first-child {
@@ -80,6 +83,8 @@
 	font-size: 8pt;
 	font-style: italic;
 	padding-right: 45px;
+	_padding: 0 45px 0 0;
+	_text-align: right;
 }
 
 

@@ -64,11 +64,13 @@
 							</tr>
 							<tr>
 								<td colspan="2" class="agreement" style="width:100%;">
-									<%= check_box 'user', 'send_digest_emails' %> Send me email updates about my friends
+									<label for="user_send_digest_emails">
+										<%= check_box 'user', 'send_digest_emails' %> Send me email updates about my friends
+									</label>
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2" style="padding-right:45px;width:100%;">
+								<td colspan="2" style="padding-right:45px;text-align:right;width:100%;">
 									<%= submit_tag 'Register' %>
 								</td>
 							</tr>
