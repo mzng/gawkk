@@ -79,7 +79,7 @@
 						</table>
 					<% end %>
 					
-					<%= observe_field('user_username', :with => "username", :frequency => 0.5, :url => {:action => 'username_check'}) %>
+					<%= observe_field('user_username', :with => "username", :frequency => 0.5, :url => {:controller => 'registration', :action => 'username_check'}) %>
 				</div>
 			</td>
 		</tr>
