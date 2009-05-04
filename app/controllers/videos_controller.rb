@@ -94,7 +94,7 @@ class VideosController < ApplicationController
     @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
       Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
     }
-    @base_user = Rails.cache.fetch("users/#{params[:user]}", :expires_in => 1.day) {
+    @base_user = Rails.cache.fetch("users/#{params[:base_user]}", :expires_in => 1.day) {
       User.find_by_slug(params[:base_user])
     }
     @include_followings = params[:include_followings]
@@ -104,7 +104,7 @@ class VideosController < ApplicationController
     @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
       Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
     }
-    @base_user = Rails.cache.fetch("users/#{params[:user]}", :expires_in => 1.day) {
+    @base_user = Rails.cache.fetch("users/#{params[:base_user]}", :expires_in => 1.day) {
       User.find_by_slug(params[:base_user])
     }
     @include_followings = params[:include_followings]
