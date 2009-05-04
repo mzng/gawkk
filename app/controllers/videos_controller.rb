@@ -1,6 +1,7 @@
 class VideosController < ApplicationController
   around_filter :ensure_logged_in_user, :only => [:unlike, :edit, :update]
   around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
+  around_filter :redirect_improper_formats, :only => [:share, :watch, :comment]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   layout 'page'
   
@@ -187,6 +188,14 @@ class VideosController < ApplicationController
     else
       flash[:notice] = 'The video you are looking for does not exist.'
       redirect_to :action => "index", :popular => false
+    end
+  end
+  
+  def redirect_improper_formats
+    begin
+      yield
+    rescue ActionView::MissingTemplate
+      redirect_to :action => "discuss", :id => @video
     end
   end
 end
