@@ -13,6 +13,17 @@ function descriptiveField(field, description, focused) {
 	}
 }
 
+// forms
+function disableForm(id) {
+	$(id).hide();
+	$(id + '_disabled').show();
+}
+
+function enableForm(id) {
+	$(id + '_disabled').hide();
+	$(id).show();
+}
+
 
 // video
 function work(videoId) {

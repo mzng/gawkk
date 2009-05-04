@@ -1,6 +1,6 @@
-<% if user_logged_in? -%>
+<% if false -%>
 	<h1 class="section-header">What are you watching?</h1>
-	<% form_tag({:controller => 'submit', :action => 'index'}, {:method => :post}) do -%>
+	<% form_remote_tag(:url => {:controller => 'submit', :action => 'index'}, :before => "disableForm('submit_for_post');", :method => :post) do -%>
 		<table id="post" cellpadding="0" cellspacing="0">
 			<tr>
 				<td colspan="2" class="url">
@@ -18,8 +18,10 @@
 			<tr>
 				<td id="characters_left_for_post" class="character-count">140</td>
 				<td>
-					<%= submit_tag 'Post', :id => "submit_for_post" %>
-					<%= render :partial => "/comments/tweet", :locals => {:comment_only => true} %>
+					<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_post', :action => 'Posting'}) do -%>
+						<%= submit_tag 'Post' %>
+						<%= render :partial => "/comments/tweet", :locals => {:comment_only => true} %>
+					<% end -%>
 				</td>
 			</tr>
 		</table>

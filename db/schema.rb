@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090416162413) do
+ActiveRecord::Schema.define(:version => 20090501153722) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -472,6 +472,7 @@ ActiveRecord::Schema.define(:version => 20090416162413) do
     t.boolean  "ineligible_for_promotion", :default => false
     t.string   "short_code"
     t.integer  "likes_count",              :default => 0
+    t.string   "hashed_url"
   end
 
   add_index "videos", ["posted_by_id"], :name => "posted_by_id"
@@ -479,6 +480,7 @@ ActiveRecord::Schema.define(:version => 20090416162413) do
   add_index "videos", ["slug"], :name => "slug_del"
   add_index "videos", ["category_id", "promoted_at"], :name => "category_id"
   add_index "videos", ["category_id", "posted_at"], :name => "category_id_posted_at"
+  add_index "videos", ["hashed_url"], :name => "index_videos_on_hashed_url"
 
   create_table "views", :force => true do |t|
     t.integer  "user_id"

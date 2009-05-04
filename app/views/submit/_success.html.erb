@@ -1,0 +1,8 @@
+<div id="successful-post" class="notice">
+	<%= link_to image_tag('close.png'), '#hide', :onclick => "$('successful-post').remove();" %>
+	<% if existing -%>
+		Success! We've posted this existing video to your activity stream.
+	<% else -%>
+		Success! You can <%= link_to_remote 'edit the details of this video', {:url => {:controller => 'videos', :action => 'edit', :id => video}, :loading => "work('#{video.id}');"} %> if you'd like.
+	<% end -%>
+</div>

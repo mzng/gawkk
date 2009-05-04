@@ -1,8 +1,6 @@
+require 'digest/sha1'
+
 class SubmitController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:index, :process_video]
-  skip_before_filter :verify_authenticity_token, :only => [:suggest_thumbnails]
-  layout 'page'
-  
   
   def index
     if params[:comment] and params[:video]
@@ -13,130 +11,137 @@ class SubmitController < ApplicationController
       params[:video][:url].strip!
     end
     
-    
     if request.post?
-      @tweet_it = (params[:tweet][:it] == '1' and logged_in_user.auto_tweet?) ? true : false
+      @tweet_it = (params[:tweet] and params[:tweet][:it] == '1' and logged_in_user.auto_tweet?) ? true : false
       
-      if params[:video][:url].blank? or params[:video][:url] == 'Video URL (optional)'
+      if params[:video][:url].blank?
+        # Status update
+        
         if !params[:comment][:body].blank?
-          NewsItem.report(:type => 'status', :user_id => logged_in_user.id, :message => params[:comment][:body])
-          
-          if @tweet_it == true and Rails.env.production?
-            Twitter::Client.configure do |config|
-              config.user_agent = 'Gawkk'
-              config.application_name = 'gawkk'
-              config.application_url = 'http://gawkk.com'
-              config.source = 'gawkk'
-            end
+          if user_logged_in?
+            type = NewsItemType.cached_by_name('status')
+            @news_item = NewsItem.create :news_item_type_id => type.id, :user_id => logged_in_user.id, :message => params[:comment][:body]
             
-            twitter_account = logged_in_user.twitter_account
-            twitter = Twitter::Client.new(:login => twitter_account.username, :password => twitter_account.password)
-            twitter.status(:post, params[:comment][:body])
+            if @tweet_it and Rails.env.production?
+              Twitter::Client.configure do |config|
+                config.user_agent = 'Gawkk'
+                config.application_name = 'gawkk'
+                config.application_url = 'http://gawkk.com'
+                config.source = 'gawkk'
+              end
+              
+              twitter_account = logged_in_user.twitter_account
+              twitter = Twitter::Client.new(:login => twitter_account.username, :password => twitter_account.password)
+              twitter.status(:post, @news_item.message)
+            end
+          else
+            session[:actionable] = Hash.new
+            session[:actionable][:status] = params[:comment][:body]
+            
+            @user = User.new
+            @user.send_digest_emails = true
+            render :template => 'registration/register'
           end
         end
-        
-        redirect_to :controller => "videos", :action => "friends"
       else
-        @comment = Comment.new(params[:comment])
+        # Post a video
+        if !params[:comment][:body].blank?
+          @comment = Comment.new(params[:comment])
+          @comment.commentable_type = 'Video'
+        else
+          @comment = nil
+        end
         
         @video = Video.new
         @video.url = params[:video][:url].strip
-        if (existing_video = Video.find_by_url(@video.url)).nil?
+        
+        if (existing_video = Video.find_by_hashed_url(Digest::SHA2.hexdigest(@video.url.nil? ? '' : @video.url))).nil?
+          # Post a new video
+          
           @video.name = Util::Title.from_url(@video.url)
           @video.slug = Util::Slug.generate(@video.title)
-          @video.embed_code = Util::EmbedCode.generate(@video, @video.url)
+          @video.description  = @video.title
+          @video.embed_code   = Util::EmbedCode.generate(@video, @video.url)
+          @video.category_id  = Category.find_by_slug('uncategorized').id
           
-          @categories = Category.all_cached
-          @youtube_id = Util::YouTube.extract_id(@video.url)
-        elsif !params[:comment][:body].blank?
-          @comment = Comment.new(params[:comment])
-          @comment.user_id = logged_in_user.id
-          @comment.commentable_type = 'Video'
-          @comment.commentable_id = existing_video.id
-          @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
-          @comment.save
-          
-          if @tweet_it == true and Rails.env.production?
-            Tweet.report('make_a_comment', logged_in_user, @comment)
+          if user_logged_in?
+            @video.posted_by_id = logged_in_user.id
+            if @video.save
+              if channels = Channel.owned_by(logged_in_user) and channels.size > 0
+                SavedVideo.create(:channel_id => channels.first.id, :video_id => @video.id)
+              end
+              NewsItem.report(:type => 'submit_a_video', :reportable => @video, :user_id => logged_in_user.id)
+              
+              @video = Util::Thumbnail.replace_with_suggestion(@video)
+              
+              if !@comment.nil?
+                @comment.commentable_id = @video.id
+                @comment.user_id = logged_in_user.id
+                @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
+                
+                if @comment.save and @tweet_it
+                  Tweet.report('make_a_comment', logged_in_user, @comment)
+                end
+              end
+            end
+            
+            @existing = false
+          else
+            session[:actionable] = Hash.new
+            session[:actionable][:video] = @video
+            session[:actionable][:comment] = @comment
+            
+            @user = User.new
+            @user.send_digest_emails = true
+            render :template => 'registration/register'
           end
           
-          redirect_to :controller => "videos", :action => "friends"
-        else
-          redirect_to :controller => "videos", :action => "friends"
-        end
-      end
-    else
-      redirect_to :controller => "videos", :action => "friends"
-    end
-  end
-  
-  def process_video
-    params[:video][:title]        = '' if params[:video] and params[:video][:title] == 'Title...'
-    params[:video][:description]  = '' if params[:video] and params[:video][:description] == 'Description...'
-    params[:video][:embed_code]   = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
-    params[:comment][:body]       = '' if params[:comment] and params[:comment][:body] == 'Comment...'
-    
-    params[:comment][:body].strip!
-    
-    
-    if request.post?
-      if params[:video][:category_id] == 'Select a Category...'
-        params[:video][:category_id] = Category.find_by_slug('uncategorized').id
-      end
-      
-      @video = Video.new(params[:video])
-      @video.slug = Util::Slug.generate(@video.name)
-      @video.description  = @video.name if @video.description.blank?
-      @video.description  = Util::Scrub.html(@video.description)
-      @video.posted_by_id = logged_in_user.id
-      
-      @video = Util::Thumbnail.use_suggested_thumbnail(@video)
-      
-      @comment = Comment.new(params[:comment])
-      
-      if @video.save
-        if channels = Channel.owned_by(logged_in_user) and channels.size > 0
-          SavedVideo.create(:channel_id => channels.first.id, :video_id => @video.id)
-        end
-        NewsItem.report(:type => 'submit_a_video', :reportable => @video, :user_id => logged_in_user.id)
-        
-        if !params[:comment][:body].blank?
-          @comment.user_id = logged_in_user.id
-          @comment.commentable_type = 'Video'
+        elsif !@comment.nil?
+          # Comment on a video we already have
+          
+          @video = existing_video
           @comment.commentable_id = @video.id
-          @comment.twitter_username = logged_in_user.twitter_account.username if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?
-          @comment.save
           
-          if params[:tweet][:it] == '1' and logged_in_user.auto_tweet?
-            Tweet.report('make_a_comment', logged_in_user, @comment)
+          if user_logged_in?
+            @comment.user_id = logged_in_user.id
+            @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
+            
+            if @comment.save and @tweet_it
+              Tweet.report('make_a_comment', logged_in_user, @comment)
+            end
+            
+            @existing = true
+          else
+            session[:actionable] = @comment
+
+            @user = User.new
+            @user.send_digest_emails = true
+            render :template => 'registration/register'
+          end
+        else
+          # Like a video we already have
+          
+          @video = existing_video
+          
+          like = Like.new
+          like.video_id = @video.id
+
+          if user_logged_in?
+            like.user_id = logged_in_user.id
+            like.save
+            
+            @existing = true
+          else
+            session[:actionable] = like
+
+            @user = User.new
+            @user.send_digest_emails = true
+            render :template => 'registration/register'
           end
         end
-        
-        redirect_to :controller => "videos", :action => "friends"
-      else
-        @categories = Category.all_cached
-        render :action => "index"
       end
     else
-      redirect_to :controller => "videos", :action => "friends"
-    end
-  end
-  
-  def suggest_thumbnails
-    @image_keys = Util::Thumbnail.suggest(params[:name], params[:youtube_id])
-    
-    respond_to do |format|
-      format.js {}
-    end
-  end
-  
-  private
-  def ensure_logged_in_user
-    if user_logged_in?
-      yield
-    else
-      flash[:notice] = 'You must be logged in to do that.'
-      redirect_to :controller => "videos", :action => "friends"
+      render :nothing => true
     end
   end
 end

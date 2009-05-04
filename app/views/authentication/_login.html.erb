@@ -32,7 +32,7 @@
 				<div id="gawkk-form" class="signup_form" style="display:block;">
 					<p class="title">Sign in with Gawkk</p>
 					
-					<% form_tag({:controller => 'authentication', :action => 'login'}) do %>
+					<% form_tag({:controller => 'authentication', :action => 'login'}, :onsubmit => "disableForm('submit_for_login');") do %>
 						<%= error_messages_for 'user' %>
 						<%= hidden_field 'current', 'path', :id => 'current_path' %>
 
@@ -51,7 +51,9 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="text-align:right;">
-									<%= submit_tag 'Login' %>
+									<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_login', :action => 'Logging in'}) do -%>
+										<%= submit_tag 'Login' %>
+									<% end -%>
 								</td>
 							</tr>
 						</table>

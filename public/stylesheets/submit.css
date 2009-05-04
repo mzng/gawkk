@@ -73,6 +73,15 @@
 	color: red;
 }
 
+#successful-post {
+	margin-top: 0px !important;
+}
+
+#successful-post img {
+	float: right;
+	margin-top: -2px;
+}
+
 /* submit form (step two) */
 #submit {
 	width: 100%;

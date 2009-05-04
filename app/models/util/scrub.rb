@@ -189,4 +189,17 @@ class Util::Scrub
       return possible_youtube_url
     end
   end
+  
+  
+  def self.follow_truveo_url(url)
+    if url.downcase[/^(http|https):\/\/xml\.truveo\.com\//]
+      html = Hpricot(open(url))
+      if html.at('meta') and html.at('meta')['content']
+        url = html.at('meta')['content'][6, html.at('meta')['content'].length - 2]
+      end
+    end
+    return url
+  rescue
+    return url
+  end
 end

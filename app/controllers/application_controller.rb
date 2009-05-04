@@ -39,13 +39,36 @@ class ApplicationController < ActionController::Base
   
   # Perform any outstanding action
   def perform_outstanding_action
-    if user_logged_in?
-      if actionable = session[:actionable]
+    if user_logged_in? and actionable = session[:actionable]
+      if actionable.class == Hash
+        if actionable[:video]
+          video = actionable[:video]
+          video.posted_by_id = logged_in_user.id
+          
+          if video.save
+            if channels = Channel.owned_by(logged_in_user) and channels.size > 0
+              SavedVideo.create(:channel_id => channels.first.id, :video_id => video.id)
+            end
+            NewsItem.report(:type => 'submit_a_video', :reportable => video, :user_id => logged_in_user.id)
+            
+            video = Util::Thumbnail.replace_with_suggestion(video)
+            
+            if comment = actionable[:comment]
+              comment.commentable_id = video.id
+              comment.user_id = logged_in_user.id
+              comment.save
+            end
+          end
+        elsif actionable[:status]
+          type = NewsItemType.cached_by_name('status')
+          NewsItem.create :news_item_type_id => type.id, :user_id => logged_in_user.id, :message => actionable[:status]
+        end
+      else
         actionable.user_id = logged_in_user.id
         actionable.save
-        
-        session[:actionable] = nil
       end
+      
+      session[:actionable] = nil
     end
   end
   

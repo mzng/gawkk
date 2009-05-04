@@ -1,8 +1,0 @@
-page.replace_html 'thumbnail-container', :partial => 'thumbnails'
-
-if @image_keys.size == 0
-  page << "$('video_thumbnail').value = '';"
-else
-  page << "$('video_thumbnail').value = 'thumbnails/suggestions/#{@image_keys[0]}.jpg';"
-  page << "selectImage('#{@image_keys[0]}');"
-end

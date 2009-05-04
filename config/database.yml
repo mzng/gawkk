@@ -1,6 +1,6 @@
 development:
  adapter: mysql
- database: gawkk_refactor_development
+ database: gawkk_development
  username: root
  password:
  host: localhost

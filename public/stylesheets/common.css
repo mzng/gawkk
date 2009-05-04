@@ -144,6 +144,10 @@ p.submit a {
 	text-decoration: underline;
 }
 
+.submitting img {
+	vertical-align: middle;
+}
+
 p.refine-search {
 	font-size: 10pt;
 	line-height: 10pt;

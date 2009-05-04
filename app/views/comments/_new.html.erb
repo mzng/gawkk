@@ -1,5 +1,5 @@
 <div id="new_comment_for_<%= commentable.id %>" class="new-comment" style="display:none;">
-	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}, :condition => "$F('new_comment_area_for_#{commentable.id}').strip() != ''") do |f| %>
+	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}, :condition => "$F('new_comment_area_for_#{commentable.id}').strip() != ''", :before => "disableForm('submit_for_post_to_#{commentable.id}');") do |f| %>
 		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
 		<%= f.hidden_field 'commentable_id', :value => commentable.id %>
 		<%= f.hidden_field 'thread_id', :value => comment.thread_id %>
@@ -18,8 +18,10 @@
 					<%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %>
 				</td>
 				<td>
-					<%= submit_tag 'Post', :id => "submit_for_#{commentable.id}" %>
-					<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable} %>
+					<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => "submit_for_post_to_#{commentable.id}", :action => 'Posting'}) do -%>
+						<%= submit_tag 'Post' %>
+						<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable} %>
+					<% end -%>
 				</td>
 				<td id="inviter_link_for_<%= commentable.id %>" class="last">
 					<%= render :partial => "/comments/open_inviter", :locals => {:video_id => commentable.id} %>

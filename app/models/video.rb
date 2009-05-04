@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class Video < ActiveRecord::Base
   belongs_to  :category
   belongs_to  :posted_by, :class_name => "User", :foreign_key => "posted_by_id", :counter_cache => true
@@ -11,7 +13,7 @@ class Video < ActiveRecord::Base
   has_many :votes, :dependent => :destroy
   
   validates_presence_of   :category_id, :name, :url, :posted_by_id
-  validates_uniqueness_of :url, :on => :create, :message => "must be unique"
+  validates_uniqueness_of :hashed_url, :on => :create, :message => "must be unique"
   
   attr_accessor :master_score
   
@@ -33,6 +35,7 @@ class Video < ActiveRecord::Base
   def before_create
     self.slug         = Util::Slug.generate(self.name)
     self.url          = Util::Scrub.url(self.url)
+    self.hashed_url   = Digest::SHA2.hexdigest(self.url.nil? ? '' : self.url)
     self.description  = '' if self.description.nil?
     self.embed_code   = Util::EmbedCode.generate(self, self.url)
     self.posted_at    = Time.now
@@ -48,6 +51,7 @@ class Video < ActiveRecord::Base
   def before_save
     self.description  = '' if self.description.nil?
     self.embed_code   = Util::EmbedCode.scrub(self.embed_code)
+    self.hashed_url   = Digest::SHA2.hexdigest(self.url.nil? ? '' : self.url)
     
     Rails.cache.delete(self.cache_key)
     Rails.cache.delete(self.long_cache_key)

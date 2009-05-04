@@ -1,3 +1,4 @@
+require 'digest/sha1'
 require 'open-uri'
 
 class Feed < ActiveRecord::Base
@@ -57,7 +58,9 @@ class Feed < ActiveRecord::Base
           
           feed_rss.items.each_with_index do |feed_item, i|
             url = Util::Scrub.truveo_url(feed_item.link)
-            if (Video.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0) and (DeletedVideo.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0)
+            url = Util::Scrub.follow_truveo_url(url)
+            
+            if (Video.count(:all, :conditions => ['hashed_url = ?', Digest::SHA2.hexdigest(url.nil? ? '' : url)]) == 0) and (DeletedVideo.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0)
               oldest_item_to_import = i
             else
               break
@@ -84,13 +87,14 @@ class Feed < ActiveRecord::Base
             
             # This may be a truveo url, so let's trim it if it is
             url = Util::Scrub.truveo_url(feed_item.link)
+            url = Util::Scrub.follow_truveo_url(url)
             
             if thorough
-              if (Video.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0) and (DeletedVideo.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0)
+              if (Video.count(:all, :conditions => ['hashed_url = ?', Digest::SHA2.hexdigest(url.nil? ? '' : url)]) == 0) and (DeletedVideo.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0)
                 video = Feed.import_video(self, feed_item, word_lists, report)
                 report.thumbnail_count = report.thumbnail_count + 1 if !video.thumbnail.blank?
               else
-                if video = Video.find(:first, :conditions => ['(url = ? OR truveo_url = ?)', url, url])
+                if video = Video.find(:first, :conditions => ['hashed_url = ?', Digest::SHA2.hexdigest(url.nil? ? '' : url)])
                   # If video already exists and we don't have the thumbnail, let's try and get it one more time
                   if video.thumbnail.blank?
                     # Attempt to retrieve thumbnail for this video
@@ -182,6 +186,7 @@ class Feed < ActiveRecord::Base
   
   def self.import_video(feed, feed_item, word_lists, report = nil)
     url = Util::Scrub.truveo_url(feed_item.link)
+    url = Util::Scrub.follow_truveo_url(url)
     
     # Strip 'Video: ' prefix from feed_item.title, if present
     if !feed_item.title.nil? and feed_item.title.length > 7 and feed_item.title[/^Video: /]
