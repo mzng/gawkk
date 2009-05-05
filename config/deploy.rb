@@ -121,14 +121,6 @@ task :move_sitemaps, :roles => :web do
   run "cp /var/www/apps/gawkk/shared/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
 end
 
-# task :disable_web, :roles => :web do
-#   require 'erb'
-#   on_rollback { delete "/var/www/apps/gawkk/shared/system/maintenance.html" }
-#   template = File.read("app/views/layouts/maintenance.rhtml")
-#   page = ERB.new(template).result(binding)
-#   put page, "/var/www/apps/gawkk/shared/system/maintenance.html"
-# end
-
 namespace :app do
   namespace :symlinks do
     desc "Ensures directories for symlinking are available"
@@ -145,7 +137,27 @@ namespace :app do
       end
     end
   end
+  
+  namespace :maintenance do
+    task :enable, :roles => :web do
+      run "mv #{shared_path}/system/.maintenance.html #{shared_path}/system/maintenance.html"
+    end
+    
+    task :disable, :roles => :web do
+      run "mv #{shared_path}/system/maintenance.html #{shared_path}/system/.maintenance.html"
+    end
+  end
 end
+
+# namespace :memcached do
+#   task :start, :roles => [:web, :db] do
+#     run "sudo /etc/init.d/memcached start"
+#   end
+#   
+#   task :stop, :roles => [:web, :db] do
+#     run "sudo /etc/init.d/memcached stop"
+#   end
+# end
 
 after 'app:symlinks:setup',  'app:symlinks:setup_db'
 after 'app:symlinks:update', 'app:symlinks:update_db'
