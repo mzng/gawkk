@@ -2,6 +2,8 @@ class AuthenticationController < ApplicationController
   layout 'page'
   
   def login
+    @redirect_to = params[:redirect_to]
+    
     if request.get?
       # Logout the current user
       session[:user_id] = nil

@@ -67,6 +67,10 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	$('current_path').value = window.location.pathname + window.location.search;
+	<% if @redirect_to.blank? -%>
+		$('current_path').value = window.location.pathname + window.location.search;
+	<% else -%>
+		$('current_path').value = '<%= @redirect_to %>';
+	<% end -%>
 	$('user_email').focus();
 </script>

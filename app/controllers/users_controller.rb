@@ -125,15 +125,23 @@ class UsersController < ApplicationController
   end
   
   def load_member
-    if @user = User.find_by_slug(params[:id])
-      if !@user.feed_owner?
-        yield
-      else
-        redirect_to channel_path(:user => @user, :channel => @user.channels.first)
-      end
+    if params[:id] == 'members'
+      params[:id] = nil
+    end
+    
+    if params[:id].blank? and user_logged_in?
+      redirect_to :action => params[:action], :id => logged_in_user
     else
-      flash[:notice] = 'The user you are looking for does not exist.'
-      redirect_to :action => "index"
+      if @user = User.find_by_slug(params[:id])
+        if !@user.feed_owner?
+          yield
+        else
+          redirect_to channel_path(:user => @user, :channel => @user.channels.first)
+        end
+      else
+        flash[:notice] = 'The user you are looking for does not exist.'
+        redirect_to :action => "index"
+      end
     end
   end
   
