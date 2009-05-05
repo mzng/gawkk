@@ -106,7 +106,7 @@ class Util::Avatar
       
       if !user.friendfeed_username.blank?
         doc = Hpricot(open("http://friendfeed.com/#{user.friendfeed_username}"))
-        images = (doc/"table.feedprofile td.picture img")
+        images = (doc/".profile .header .profile img")
         
         if images.first and !images.first['src'].blank?
           image_url = images.first['src']
