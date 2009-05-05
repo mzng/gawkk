@@ -163,6 +163,10 @@ class User < ActiveRecord::Base
     self.external_services
   end
   
+  def default_avatar?
+    (!self.thumbnail.blank? and self.thumbnail[/^avatars\//]) ? true : false
+  end
+  
   
   def try_to_login
     hashed_password = User.hash_password(self.password || "")

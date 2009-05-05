@@ -39,14 +39,17 @@ class Util::Avatar
     
     if Util::Avatar.fetch_from_twitter(user)
       avatars['twitter'] = "/images/users/#{user.slug}.twitter.jpg"
+      avatars[:default] = 'twitter'
     end
     
     if Util::Avatar.fetch_from_youtube(user)
       avatars['youtube'] = "/images/users/#{user.slug}.youtube.jpg"
+      avatars[:default] = 'youtube' if avatars[:default].nil?
     end
     
     if Util::Avatar.fetch_from_friendfeed(user)
       avatars['friendfeed'] = "/images/users/#{user.slug}.friendfeed.jpg"
+      avatars[:default] = 'friendfeed' if avatars[:default].nil?
     end
     
     avatars

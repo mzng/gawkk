@@ -104,3 +104,9 @@
 		</p>
 	<% end -%>
 </div>
+
+<% if @user.default_avatar? and !@service_avatars[:default].nil? -%>
+	<script type="text/javascript" charset="utf-8">
+		selectServiceAvatar($('service-container-for-<%= @service_avatars[:default] %>'), '<%= @service_avatars[:default] %>');
+	</script>
+<% end -%>
