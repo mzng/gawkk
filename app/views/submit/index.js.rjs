@@ -13,5 +13,5 @@ elsif @video and !@video.id.blank?
   page << "reloadActivity('#{@video.id}');"
   page << "reloadComments('#{@video.id}');"
 else
-  page << "enableForm('submit_for_post');"
+  page << "enableCurrentForm();"
 end

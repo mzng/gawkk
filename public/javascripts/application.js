@@ -14,14 +14,22 @@ function descriptiveField(field, description, focused) {
 }
 
 // forms
+var currentFormId = null;
+
 function disableForm(id) {
-	$(id).hide();
-	$(id + '_disabled').show();
+	currentFormId = id;
+	
+	$(currentFormId).hide();
+	$(currentFormId + '_disabled').show();
 }
 
-function enableForm(id) {
-	$(id + '_disabled').hide();
-	$(id).show();
+function enableCurrentForm() {
+	if(currentFormId != null) {
+		$(currentFormId + '_disabled').hide();
+		$(currentFormId).show();
+		
+		currentFormId = null;
+	}
 }
 
 
