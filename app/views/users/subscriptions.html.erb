@@ -9,7 +9,7 @@
 			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => false}, 
 			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
 	<div class="grid-container">
-		<%= render @channels %>
+		<%= render @channels, :subscribable => true %>
 	</div>
 	<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
 </div>
