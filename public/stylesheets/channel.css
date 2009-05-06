@@ -19,7 +19,7 @@
 
 /* channel listing in a grid container */
 .grid-container .channel {
-	height: 104px;
+	height: 116px;
 	width: 79px;
 }
 
@@ -47,10 +47,37 @@ a.unsubscribe {
 	text-decoration: none !important;
 }
 
+.channel span {
+	position: relative;
+	top: 72px;
+	z-index: 5;
+}
+
+.channel:hover span .subscribe {
+	visibility: visible;
+}
+
+.channel span .subscribe {
+	padding: 2px 12px;
+	visibility: hidden;
+	_visibility: visible;
+}
+
+.channel span .unsubscribe {
+	padding: 2px 6px 2px 6px;
+}
+
 /* misc */
 .no-description {
 	background-color: #FFFFDD;
 	font-size: 9pt;
 	padding: 3px;
 	text-align: center;
+}
+
+/* subscription plug */
+.subscription-plug .title {
+	font-size: 12pt;
+	font-weight: bold;
+	margin-top: 15px;
 }

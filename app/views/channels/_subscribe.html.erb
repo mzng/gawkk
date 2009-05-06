@@ -6,7 +6,7 @@
 			<%= link_to_remote 'Unsubscribe', {:url => {:controller => 'channels', :action => 'unsubscribe', :id => channel.id}}, :class => 'unsubscribe' %>
 		<% end -%>
 	<% elsif !user_logged_in? -%>
-		<%= link_to 'Subscribe', {:controller => 'authentication', :action => 'login'} %>
+		<%= link_to 'Subscribe', {:controller => 'authentication', :action => 'login'}, :class => 'subscribe' %>
 	<% else -%>
 		&nbsp;
 	<% end -%>

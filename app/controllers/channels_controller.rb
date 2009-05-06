@@ -6,13 +6,31 @@ class ChannelsController < ApplicationController
   def index
     searchable
     setup_pagination(:per_page => 42)
+    setup_category_sidebar
     
-    if params[:t] and params[:t] == 'p'
-      @type = 'p'
+    conditions  = 'user_owned = false'
+    parameters  = Array.new
+    
+    # Type filter
+    if params[:t] and params[:t] == 'a'
+      @type = 'a'
     else
       @type = 'f'
+      conditions = conditions.concat(' AND featured = true')
     end
     
+    # Category filter
+    params[:c] ||= 'a'
+    @c = params[:c]
+
+    category = nil
+    if @c != 'a' and @c.match(/^[0-9]+$/)
+      category = Category.find(@c)
+      conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
+      parameters = parameters + ["#{category.id}", "#{category.id} %", "% #{category.id}", "% #{category.id} %"]
+    end
+    
+    # Order by
     if params[:s] and params[:s] == 'a'
       @sort = 'a'
       order = 'name ASC'
@@ -21,12 +39,9 @@ class ChannelsController < ApplicationController
       order = 'subscriptions_count DESC'
     end
     
-    
-    if @type == 'f'
-      @channels = collect('channels', Channel.featured.all(:order => order, :offset => @offset, :limit => @per_page))
-    else
-      @channels = collect('channels', Channel.public.all(:order => order, :offset => @offset, :limit => @per_page))
-    end
+    @channels = collect('channels', Channel.all(:conditions => [conditions] + parameters, :order => order, :offset => @offset, :limit => @per_page))
+    @count    = Channel.count(:conditions => [conditions] + parameters)
+    @entries  = WillPaginate::Collection.new(@page, @per_page, @count)
   end
   
   

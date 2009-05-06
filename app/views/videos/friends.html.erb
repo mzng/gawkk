@@ -9,10 +9,15 @@
 			:links => [{:name => 'Activity', :options => '/', :selected => true}, 
 			{:name => 'Subscriptions', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => false}]} %>
 	<div id="activity">
-		<%= render @news_items %>
+		<% if @news_items.size > 2 -%>
+			<%= render @news_items.first(2) %>
+			<%= render :partial => "/channels/plug", :locals => {:channels => @channels} %>
+			<%= render @news_items.last(@news_items.size - 2) %>
+		<% else -%>
+			<%= render @news_items %>
+		<% end -%>
 	</div>
 	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :collection => @news_items} %>
-	
 	<%= render :partial => "/news_items/setup" %>
 </div>
 

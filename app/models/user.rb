@@ -241,7 +241,12 @@ class User < ActiveRecord::Base
   def subscribed_channels(*args)
     # Speed this method up with cache
     options = args.extract_options!
-    Channel.subscribed_to_by(self).all(options)
+    
+    if !self.id.blank?
+      Channel.subscribed_to_by(self).all(options)
+    else
+      Array.new
+    end
   end
   
   def contacts(*args)

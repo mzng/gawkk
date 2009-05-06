@@ -3,14 +3,41 @@
 <div id="content-main">
 	<h1 class="section-header">Search Channels</h1>
 	<%= render :partial => "/search/search", :locals => {:link => {:controller => 'search', :action => 'channels'}, :separated => false} %>
-	
-	<h1 class="section-header">Browse Channels</h1>
-	<div class="grid-container">
-		<%= render @channels %>
-	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
 </div>
 
 <div id="content-sidebar">
 	<%= render :partial => "/channels/explanation" %>
+</div>
+
+<br class="clear"/>
+
+<div id="content-main">
+	<h1 class="section-header">Browse Channels</h1>
+	<div class="grid-container">
+		<%= render @channels, :subscribable => true %>
+	</div>
+	<br class="clear"/>
+	<%= will_paginate @entries, :class => 'paginate-single-link-set', :param_name => 'page', :inner_window => 2, :outer_window => 0 %>
+</div>
+
+<div id="content-sidebar" class="browse">
+	<h1 class="section-header">Sort</h1>
+	<ul>
+		<li><%= link_to 'Alphabetical', {:s => 'a', :t => @type, :c => @c}, :style => bold_for_option(@sort, 'a') %></li>
+		<li><%= link_to 'Most Popular', {:s => 'p', :t => @type, :c => @c}, :style => bold_for_option(@sort, 'p') %></li>
+	</ul>
+	
+	<h1 class="section-header">Type Filter</h1>
+	<ul>
+		<li><%= link_to 'All Channels', {:s => @sort, :t => 'a', :c => @c}, :style => bold_for_option(@type, 'a') %></li>
+		<li><%= link_to 'Featured Channels', {:s => @sort, :t => 'f', :c => @c}, :style => bold_for_option(@type, 'f') %></li>
+	</ul>
+	
+	<h1 class="section-header">Category Filter</h1>
+	<ul>
+		<li><%= link_to 'All Categories', {:s => @sort, :t => @type, :c => 'a'}, :style => bold_for_option(@c, 'a') %></li>
+		<% @categories.each do |category| -%>
+			<li><%= link_to category.name, {:s => @sort, :t => @type, :c => category.id}, :style => bold_for_option(@c, category.id.to_s) %></li>
+		<% end -%>
+	</ul>
 </div>

@@ -103,4 +103,14 @@ module ApplicationHelper
     
     css
   end
+  
+  def bold_for_option(compared_with, current)
+    css = ''
+    
+    if compared_with == current
+      css = 'font-weight:bold;'
+    end
+    
+    css
+  end
 end

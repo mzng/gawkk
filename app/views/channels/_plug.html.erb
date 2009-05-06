@@ -1,0 +1,7 @@
+<div class="subscription-plug">
+	<div class="title"><%= link_to 'Subscription Updates', {:action => 'subscriptions'} %></div>
+	<% channels.each do |channel| -%>
+		<%= render channel %>
+	<% end -%>
+	<br class="clear"/>
+</div>
