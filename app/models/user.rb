@@ -6,11 +6,12 @@ class User < ActiveRecord::Base
   has_one :twitter_account, :dependent => :destroy
   
   has_many :channels, :class_name => "Channel", :order => 'channels.created_at', :dependent => :destroy
+  has_many :comments, :class_name => "Comment", :foreign_key => "user_id", :dependent => :destroy
   has_many :feeds, :class_name => "Feed", :foreign_key => "owned_by_id", :dependent => :destroy
   has_many :news_items, :class_name => "NewsItem", :foreign_key => "user_id", :dependent => :destroy
   has_many :news_items_about_me, :class_name => "NewsItem", :as => :reportable, :dependent => :destroy
   has_many :subscriptions, :class_name => "Subscription", :dependent => :destroy
-  has_many :videos, :class_name => "Video", :foreign_key => "posted_by_id"
+  has_many :videos, :class_name => "Video", :foreign_key => "posted_by_id", :dependent => :destroy
   
   
   # A Friendship is actually a one way follow.

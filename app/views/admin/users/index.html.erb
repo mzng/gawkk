@@ -28,7 +28,8 @@
 					<td><%= time_ago_in_words(user.last_login_at) + ' ago' if user.last_login_at != nil %></td>
 					<td class="actions">
 						<%= link_to image_tag('email.png'), {:action => 'deliver_digest', :id => user}, :method => :post %>
-						<%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %>
+						<%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %> |
+						<%= link_to 'Delete', {:controller => 'admin/users', :action => 'destroy', :id => user}, :confirm => 'Are you sure?', :method => :post %>
 					</td>
 				</tr>
 			<% end -%>

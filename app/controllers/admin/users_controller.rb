@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  around_filter :load_member, :only => [:deliver_digest]
+  around_filter :load_member, :only => [:deliver_digest, :destroy]
   around_filter :ensure_user_can_administer
   layout 'page'
   
@@ -21,6 +21,16 @@ class Admin::UsersController < ApplicationController
     end
     
     flash[:notice] = "A digest email has been sent to #{@user.username}."
+    redirect_to :action => "index"
+  end
+  
+  def destroy
+    if @user.destroy
+      flash[:notice] = 'The user was successfully destroyed.'
+    else
+      flash[:notice] = 'Sorry, but you will have to destroy this user manually.'
+    end
+    
     redirect_to :action => "index"
   end
   
