@@ -149,15 +149,15 @@ namespace :app do
   end
 end
 
-# namespace :memcached do
-#   task :start, :roles => [:web, :db] do
-#     run "sudo /etc/init.d/memcached start"
-#   end
-#   
-#   task :stop, :roles => [:web, :db] do
-#     run "sudo /etc/init.d/memcached stop"
-#   end
-# end
+namespace :memcached do
+  task :start, :roles => [:web, :db] do
+    sudo "/etc/init.d/memcached start"
+  end
+  
+  task :stop, :roles => [:web, :db] do
+    sudo "/etc/init.d/memcached stop"
+  end
+end
 
 after 'app:symlinks:setup',  'app:symlinks:setup_db'
 after 'app:symlinks:update', 'app:symlinks:update_db'
