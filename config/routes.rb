@@ -62,6 +62,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'videos/:action',     :controller => 'videos'
   
   
+  # news items
+  map.connect 'news_items/:action', :controller => 'news_items'
+  
+  
   # comments
   map.connect 'comments/:action',   :controller => 'comments'
   

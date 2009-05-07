@@ -353,6 +353,7 @@
 }
 
 .video .inline .body .delete a {
+	color: red;
 	font-size: 8pt;
 }
 

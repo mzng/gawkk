@@ -8,6 +8,13 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="status"><%= news_item.message %></td>
+		<td class="status">
+			<%= news_item.message %>
+			<% if user_can_edit?(news_item) -%>
+				<span class="delete">
+					- <%= link_to 'Delete', {:controller => 'news_items', :action => 'destroy', :id => news_item}, :confirm => 'Are you sure?', :method => :post %>
+				</span>
+			<% end -%>
+		</td>
 	</tr>
 </table>

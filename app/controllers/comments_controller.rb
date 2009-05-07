@@ -85,7 +85,7 @@ class CommentsController < ApplicationController
     if @comment = Comment.find(params[:id])
       yield
     else
-      redirect_to :action => "index"
+      redirect_to '/'
     end
   end
 end
