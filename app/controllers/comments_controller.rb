@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:like, :comment]
+  around_filter :ensure_logged_in_user, :only => [:comment, :destroy]
+  around_filter :load_comment, :only => [:destroy]
+  
   
   def create
     @comment = Comment.new(params[:comment])
@@ -60,12 +62,30 @@ class CommentsController < ApplicationController
     end
   end
   
+  def destroy
+    if user_can_edit?(@comment)
+      @comment.destroy
+      flash[:notice] = 'The comment was successfully destroyed.'
+    end
+    
+    redirect_to request.env["HTTP_REFERER"]
+  end
+  
+  
   private
   def ensure_logged_in_user
     if user_logged_in?
       yield
     else
       render :nothing => true
+    end
+  end
+  
+  def load_comment
+    if @comment = Comment.find(params[:id])
+      yield
+    else
+      redirect_to :action => "index"
     end
   end
 end

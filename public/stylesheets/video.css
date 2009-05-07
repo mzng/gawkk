@@ -322,7 +322,6 @@
 
 .video .inline .body .reply {
 	color: gray;
-	/*display: none;*/
 	font-style: normal;
 	visibility: hidden;
 }
@@ -332,12 +331,10 @@
 }
 
 .video .inline:hover .reply {
-	/*display: inline;*/
 	visibility: visible;
 }
 
 .video .inline .like {
-	/*display: none;*/
 	visibility: hidden;
 }
 
@@ -346,7 +343,20 @@
 }
 
 .video .inline:hover .like {
-	/*display: inline;*/
+	visibility: visible;
+}
+
+.video .inline .body .delete {
+	color: gray;
+	font-style: normal;
+	visibility: hidden;
+}
+
+.video .inline .body .delete a {
+	font-size: 8pt;
+}
+
+.video .inline:hover .delete {
 	visibility: visible;
 }
 
