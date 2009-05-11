@@ -18,12 +18,18 @@ class Admin::SuggestionsController < ApplicationController
   
   def suggest
     @user.update_attribute('suggested', true) if @user
+    Rails.cache.write('users/default-followings', nil)
+    
     @channel.update_attribute('suggested', true) if @channel
+    Rails.cache.write('channels/default-subscriptions', nil)
   end
   
   def unsuggest
     @user.update_attribute('suggested', false) if @user
+    Rails.cache.write('users/default-followings', nil)
+    
     @channel.update_attribute('suggested', false) if @channel
+    Rails.cache.write('channels/default-subscriptions', nil)
     
     render :action => "suggest"
   end
