@@ -1,0 +1,53 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Suggestions", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Suggestions', :params => {:controller => 'admin/suggestions'}}], :q => @q, :include_search => true} %>
+
+<div>
+	<table id="user-list" cellpadding="3" cellspacing="0" style="float:left;width:49%;">
+		<thead>
+			<th colspan="4">Users</th>
+		</thead>
+		<tbody>
+			<% @users.each do |user| -%>
+				<tr<% if !user.description.blank? -%> class="not-separated"<% end -%>>
+					<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+					<td><%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+					<td style="text-align:right;"><%= pluralize(User.followers_of(user).count, 'Follower') %></td>
+					<td class="actions" style="width:100px;">
+						<%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %> |
+						<%= render :partial => "suggest", :locals => {:user => user, :channel => nil} %>
+					</td>
+				</tr>
+				<% if !user.description.blank? -%>
+					<tr>
+						<td></td>
+						<td colspan="3" style="text-align:justify;"><%= user.description %></td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+	
+	<table id="channel-list" cellpadding="3" cellspacing="0" style="float:right;width:49%;">
+		<thead>
+			<th colspan="4">Channels</th>
+		</thead>
+		<tbody>
+			<% @channels.each do |channel| -%>
+				<tr<% if !channel.user.description.blank? -%> class="not-separated"<% end -%>>
+					<td class="avatar-container"><%= link_to image_tag((channel.user.thumbnail.blank? ? 'g-avatar.png' : channel.user.thumbnail)), channel_path(:user => channel.user, :channel => channel), :target => "edit-#{channel.id}" %></td>
+					<td><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel), :target => "edit-#{channel.id}" %></td>
+					<td style="text-align:right;"><%= pluralize(channel.subscriptions_count, 'Subscriber') %></td>
+					<td class="actions" style="width:100px;">
+						<%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => channel.id}, :target => "edit-#{channel.id}" %> |
+						<%= render :partial => "suggest", :locals => {:user => nil, :channel => channel} %>
+					</td>
+				</tr>
+				<% if !channel.user.description.blank? -%>
+					<tr>
+						<td></td>
+						<td colspan="3" style="text-align:justify;"><%= channel.user.description %></td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+</div>

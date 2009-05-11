@@ -213,3 +213,73 @@
 .service-avatar p {
 	margin: 2px 0;
 }
+
+/* setup suggestions */
+#scrollable-suggestions-container {
+	border: 1px solid #CCCCCC;
+	border-top: 0px;
+	height: 308px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	_height: auto;
+	_overflow: visible;
+}
+
+#suggestions-container {
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+#suggestions-container th {
+	background-color: #E5E5E5;
+	border-bottom: 1px solid #CCCCCC;
+	padding: 5px 2px;
+	text-align: left;
+}
+
+#suggestions-container tbody {
+	
+}
+
+#suggestions-container td {
+	vertical-align: top;
+}
+
+#suggestions-container .suggestions {
+	width: 100%;
+}
+
+#suggestions-container .suggestions td {
+	border-bottom: 1px solid #E5E5E5;
+	font-size: 9pt;
+	height: 48px;
+	padding: 5px 5px 5px 2px;
+	vertical-align: middle;
+}
+
+#suggestions-container .suggestions td.checkbox-container {
+	width: 16px;
+}
+
+#suggestions-container .suggestions td.avatar-container {
+	width: 30px;
+}
+
+#suggestions-container .suggestions td.avatar-container img {
+	border: 1px solid #E5E5E5;
+	height: 28px;
+	width: 28px;
+}
+
+#suggestions-container .suggestions td.name {
+	white-space: nowrap;
+}
+
+#suggestions-container .suggestions td.scrollbar-offset {
+	padding-left: 9px;
+	_padding-left: 2px;
+}
+
+.not-separated td {
+	border-bottom: 0px !important;
+}

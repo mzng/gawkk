@@ -254,6 +254,31 @@ function selectServiceAvatar(container, service) {
 	}
 }
 
+// suggestions
+function selectUsers(selected) {
+	var users = $$('.user_selector');
+	
+	for(i = 0; i < users.length; i++) {
+		if(selected.checked == true) {
+			users[i].checked = 'checked';
+		} else {
+			users[i].checked = '';
+		}
+	}
+}
+
+function selectChannels(selected) {
+	var channels = $$('.channel_selector');
+	
+	for(i = 0; i < channels.length; i++) {
+		if(selected.checked == true) {
+			channels[i].checked = 'checked';
+		} else {
+			channels[i].checked = '';
+		}
+	}
+}
+
 // facebook
 function fbs_click(u) {
 	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer','toolbar=0,status=0,width=626,height=436');

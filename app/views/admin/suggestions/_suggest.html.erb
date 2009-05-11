@@ -1,0 +1,13 @@
+<% if !user.nil? -%>
+	<% if user.suggested? -%>
+		<%= link_to_remote 'Suggested', {:url => {:controller => 'admin/suggestions', :action => 'unsuggest', :user_id => user.id}}, {:id => "suggest_for_#{user.id}"} %>
+	<% else -%>
+		<%= link_to_remote 'Suggest', {:url => {:controller => 'admin/suggestions', :action => 'suggest', :user_id => user.id}}, {:id => "suggest_for_#{user.id}"} %>
+	<% end -%>
+<% else -%>
+	<% if channel.suggested? -%>
+		<%= link_to_remote 'Suggested', {:url => {:controller => 'admin/suggestions', :action => 'unsuggest', :channel_id => channel.id}}, {:id => "suggest_for_#{channel.id}"} %>
+	<% else -%>
+		<%= link_to_remote 'Suggest', {:url => {:controller => 'admin/suggestions', :action => 'suggest', :channel_id => channel.id}}, {:id => "suggest_for_#{channel.id}"} %>
+	<% end -%>
+<% end -%>

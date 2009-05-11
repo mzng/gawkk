@@ -99,6 +99,8 @@ class Channel < ActiveRecord::Base
   
   # Utility Methods
   def self.default_subscriptions
-    Channel.owned_by_many(['hulu-popular', 'comedy-central', 'the-onion', 'abc-news', 'msnbc', 'youtube-featured', 'youtube-most-viewed']).all
+    Rails.cache.fetch('channels/default-subscriptions', :expires_in => 1.week) do
+      Channel.public.all(:conditions => {:suggested => true})
+    end
   end
 end

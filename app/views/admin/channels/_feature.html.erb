@@ -1,0 +1,5 @@
+<% if channel.featured? -%>
+	<%= link_to_remote 'Featured', {:url => {:controller => 'admin/channels', :action => 'unfeature', :id => channel.id}}, {:id => "feature_for_#{channel.id}"} %>
+<% else -%>
+	<%= link_to_remote 'Feature', {:url => {:controller => 'admin/channels', :action => 'feature', :id => channel.id}}, {:id => "feature_for_#{channel.id}"} %>
+<% end -%>

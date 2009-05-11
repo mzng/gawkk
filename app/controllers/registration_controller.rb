@@ -1,5 +1,5 @@
 class RegistrationController < ApplicationController
-  around_filter :load_user, :only => [:setup_services, :setup_profile]
+  around_filter :load_user, :only => [:setup_services, :setup_profile, :setup_suggestions]
   layout 'page'
   
   
@@ -95,8 +95,34 @@ class RegistrationController < ApplicationController
       
       if @user.save
         flash[:notice] = 'Your registration is complete!'
-        redirect_to '/'
+        redirect_to :action => "setup_suggestions"
       end
+    end
+  end
+  
+  def setup_suggestions
+    # load_user or redirect
+    if request.get?
+      @users = collect('users', User.members.all(:conditions => {:suggested => true}, :order => :username))
+      @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => :name))
+    else
+      params[:users].each_key do |user_id|
+        if user = User.find(user_id) and params[:users][user_id] == '1'
+          logged_in_user.follow(user, true)
+        elsif user
+          logged_in_user.unfollow(user)
+        end
+      end
+      
+      params[:channels].each_key do |channel_id|
+        if channel = Channel.find(channel_id) and params[:channels][channel_id] == '1'
+          logged_in_user.subscribe_to(channel, true)
+        elsif channel
+          logged_in_user.unsubscribe_from(channel)
+        end
+      end
+      
+      redirect_to '/'
     end
   end
   

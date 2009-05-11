@@ -1,6 +1,9 @@
 <div id="bottom">
 	<div id="section-container">
 		<ul class="menu-container" style="float:right;">
+			<% if user_can_administer? -%>
+				<li><%= link_to 'Admin', {:controller => 'admin/overview'}, :class => 'action' %></li>
+			<% end -%>
 			<li><%= link_to 'Post a Video', '/', :class => 'action' %></li>
 		</ul>
 		<ul class="menu-container">
@@ -45,8 +48,8 @@
 					</ul>
 				</li>
 			<% end -%>
-			<% if user_can_administer? -%>
-				<li><%= link_to 'Admin' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => 'admin/overview'} %>
+			<% if false and user_can_administer? -%>
+				<li><%= link_to 'Admin', {:controller => 'admin/overview'} %>
 					<ul style="width:165px;">
 						<li><%= link_to 'Channel Manager', {:controller => 'admin/channels'} %></li>
 						<li><%= link_to 'Comment Manager', {:controller => 'admin/comments'} %></li>

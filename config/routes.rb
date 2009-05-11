@@ -6,13 +6,14 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # administration areas
-  map.connect 'admin/overview/:action',   :controller => 'admin/overview'
-  map.connect 'admin/channels/:action',   :controller => 'admin/channels'
-  map.connect 'admin/comments/:action',   :controller => 'admin/comments'
-  map.connect 'admin/import/:action',     :controller => 'admin/import'
-  map.connect 'admin/statistics/:action', :controller => 'admin/statistics'
-  map.connect 'admin/users/:action',      :controller => 'admin/users'
-  map.connect 'admin/videos/:action',     :controller => 'admin/videos'
+  map.connect 'admin/overview/:action',     :controller => 'admin/overview'
+  map.connect 'admin/channels/:action',     :controller => 'admin/channels'
+  map.connect 'admin/comments/:action',     :controller => 'admin/comments'
+  map.connect 'admin/import/:action',       :controller => 'admin/import'
+  map.connect 'admin/statistics/:action',   :controller => 'admin/statistics'
+  map.connect 'admin/suggestions/:action',  :controller => 'admin/suggestions'
+  map.connect 'admin/users/:action',        :controller => 'admin/users'
+  map.connect 'admin/videos/:action',       :controller => 'admin/videos'
   
   # nested administration areas
   map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
@@ -22,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'register',             :controller => 'registration', :action => 'register'
   map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
   map.connect 'setup/profile',        :controller => 'registration', :action => 'setup_profile'
+  map.connect 'setup/suggestions',    :controller => 'registration', :action => 'setup_suggestions'
   map.connect 'registration/:action', :controller => 'registration'
   
   

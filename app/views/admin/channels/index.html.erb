@@ -16,7 +16,9 @@
 					<td style="text-align:center;"><%= channel.saves_count %></td>
 					<td style="text-align:center;"><%= channel.subscriptions_count %></td>
 					<td><%= channel.created_at.strftime("%m/%d/%Y") if channel.created_at != nil %></td>
-					<td class="actions"><%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => channel.id}, :target => "edit-#{channel.id}" %></td>
+					<td class="actions">
+						<%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => channel.id}, :target => "edit-#{channel.id}" %>
+					</td>
 				</tr>
 			<% end -%>
 		</tbody>

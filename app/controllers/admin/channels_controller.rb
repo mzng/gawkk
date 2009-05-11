@@ -1,6 +1,6 @@
 class Admin::ChannelsController < ApplicationController
   around_filter :ensure_user_can_administer
-  around_filter :load_channel, :only => [:edit, :update, :feeds]
+  around_filter :load_channel, :only => [:edit, :update, :feeds, :feature, :unfeature]
   layout 'page'
   
   
@@ -11,7 +11,7 @@ class Admin::ChannelsController < ApplicationController
     if @q.blank?
       @channels = collect('channels', Channel.public.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
     else
-      @channels = Channel.search(@q.split.join(' | '), :page => @page, :per_page => @per_page, :conditions => {:user_owned => false}, :match_mode => :boolean)
+      @channels = Channel.search(@q.split.join(' | '), :page => @page, :per_page => @per_page, :conditions => {:user_owned => false}, :match_mode => :boolean, :retry_stale => true)
     end
   end
   
@@ -34,6 +34,16 @@ class Admin::ChannelsController < ApplicationController
   
   def feeds
     @feeds = Feed.find(:all, :conditions => {:owned_by_id => @channel.user_id})
+  end
+  
+  def feature
+    @channel.update_attribute('featured', true)
+  end
+  
+  def unfeature
+    @channel.update_attribute('featured', false)
+    
+    render :action => "feature"
   end
   
   

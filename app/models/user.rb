@@ -148,6 +148,20 @@ class User < ActiveRecord::Base
     "users/#{self.slug}"
   end
   
+  def summary_description
+    description = self.description.blank? ? '' : self.description
+    
+    if description.length > 65
+      description = description.first(65) + '...'
+    end
+    
+    if description.blank?
+      description = '&nbsp;'
+    end
+    
+    return description
+  end
+  
   def auto_tweet?
     (!self.id.nil? and self.twitter_account and self.twitter_account.authenticated?) ? true : false
   end
@@ -188,9 +202,13 @@ class User < ActiveRecord::Base
   
   
   # Relationships and Subscriptions
-  def follow(friend)
+  def follow(friend, silent = false)
     if !follows?(friend)
-      Friendship.create(:user_id => self.id, :friend_id => friend.id)
+      friendship = Friendship.new
+      friendship.user_id    = self.id
+      friendship.friend_id  = friend.id
+      friendship.silent     = silent
+      friendship.save
     end
   end
   
@@ -205,9 +223,13 @@ class User < ActiveRecord::Base
   end
   
   
-  def subscribe_to(channel)
+  def subscribe_to(channel, silent = false)
     if !subscribes_to?(channel)
-      Subscription.create(:user_id => self.id, :channel_id => channel.id)
+      subscription = Subscription.new
+      subscription.user_id    = self.id
+      subscription.channel_id = channel.id
+      subscription.silent     = subscription
+      subscription.save
     end
   end
   
@@ -310,7 +332,7 @@ class User < ActiveRecord::Base
   
   def self.default_followings
     Rails.cache.fetch('users/default-followings', :expires_in => 1.week) do
-      User.with_slugs(['gculliss', 'brianoblivion']).all
+      User.members.all(:conditions => {:suggested => true})
     end
   end
   

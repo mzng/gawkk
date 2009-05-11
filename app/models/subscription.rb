@@ -5,6 +5,8 @@ class Subscription < ActiveRecord::Base
   named_scope :recent, :order => 'created_at DESC'
   named_scope :for_channel, lambda {|channel| {:conditions => {:channel_id => channel.id}}}
   
+  validates_uniqueness_of :channel_id, :scope => :user_id
+  
   attr_accessor :silent
   
   

@@ -1,7 +1,11 @@
 <% if !@user.description.blank? or user_can_administer? -%>
 	<h1 class="section-header">
 		<% if user_can_administer? -%>
-			<span><%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => @channel.id} %></span>
+			<span>
+				<%= render :partial => "admin/channels/feature", :locals => {:channel => @channel} %> |
+				<%= render :partial => "admin/suggestions/suggest", :locals => {:user => nil, :channel => @channel} %> |
+				<%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => @channel.id} %>
+			</span>
 		<% end -%>
 		About
 	</h1>

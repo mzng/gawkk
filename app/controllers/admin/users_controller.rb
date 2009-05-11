@@ -11,7 +11,7 @@ class Admin::UsersController < ApplicationController
     if @q.blank?
       @users = collect('users', User.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
     else
-      @users = User.search(@q, :page => @page, :per_page => @per_page, :conditions => {:feed_owner => false})
+      @users = User.search(@q, :page => @page, :per_page => @per_page, :conditions => {:feed_owner => false}, :retry_stale => true)
     end
   end
   

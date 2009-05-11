@@ -1,0 +1,62 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Follow Interesting People and Channels', :description => "Discover great videos by following suggested Users and subscribing to suggested Channels."} %>
+
+<div id="content-centered">
+	<table id="registration-progress" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="inactive">Register</td>
+			<td><%= link_to 'Get Connected', {:controller => 'registration', :action => 'setup_services'} %></td>
+			<td><%= link_to 'Setup Your Profile', {:controller => 'registration', :action => 'setup_profile'} %></td>
+			<td class="active">Enjoy Gawkk!</td>
+		</tr>
+	</table>
+	
+	<h3 style="text-align:center;">Select all or some of our recommended people and channels to follow.</h3>
+	
+	<% form_for(@user, :url => {:controller => 'registration', :action => 'setup_suggestions'}) do |f| %>
+		<table id="suggestions-container" cellpadding="0" cellspacing="0" style="border-bottom:0px;">
+			<thead>
+				<tr>
+					<th style="width:50%;"><input type="checkbox" checked="checked" onclick="selectUsers(this);"/> People</th>
+					<th style="width:50%;"><input type="checkbox" checked="checked" onclick="selectChannels(this);"/> Channels</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="scrollable-suggestions-container">
+			<table id="suggestions-container" cellpadding="0" cellspacing="0" style="border:0px;">
+				<tbody>
+					<tr>
+						<td style="width:50%;">
+							<table class="suggestions" cellpadding="0" cellspacing="0">
+								<% @users.each_with_index do |user, i| -%>
+									<tr <% if i == @users.size - 1 -%>class="not-separated"<% end -%>>
+										<td class="checkbox-container"><%= check_box 'users', user.id, :class => 'user_selector', :checked => true %></td>
+										<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => user.slug %></td>
+										<td class="name"><%= link_to user.username, user_path(:id => user), :target => user.slug %></td>
+										<td class="about"><%= user.summary_description %></td>
+									</tr>
+								<% end -%>
+							</table>
+						</td>
+						<td style="width:50%;">
+							<table class="suggestions" cellpadding="0" cellspacing="0">
+								<% @channels.each_with_index do |channel, i| -%>
+									<tr <% if i == @channels.size - 1 -%>class="not-separated"<% end -%>>
+										<td class="checkbox-container scrollbar-offset"><%= check_box 'channels', channel.id, :class => 'channel_selector', :checked => true %></td>
+										<td class="avatar-container"><%= link_to image_tag((channel.user.thumbnail.blank? ? 'g-avatar.png' : channel.user.thumbnail)), channel_path(:user => channel.user, :channel => channel), :target => channel.id %></td>
+										<td class="name"><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel), :target => channel.id %></td>
+										<td class="about"><%= channel.user.summary_description %></td>
+									</tr>
+								<% end -%>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<br class="clear"/>
+		<p class="submit" style="text-align:center;">
+			<%= submit_tag("Follow &raquo;", :style => 'font-size:14pt;') %>
+		</p>
+	<% end -%>
+</div>

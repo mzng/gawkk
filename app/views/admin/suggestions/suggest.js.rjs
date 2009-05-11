@@ -1,0 +1,5 @@
+if !@user.nil?
+  page.replace("suggest_for_#{@user.id}", :partial => '/admin/suggestions/suggest', :locals => {:user => @user, :channel => nil})
+else
+  page.replace("suggest_for_#{@channel.id}", :partial => '/admin/suggestions/suggest', :locals => {:user => nil, :channel => @channel})
+end

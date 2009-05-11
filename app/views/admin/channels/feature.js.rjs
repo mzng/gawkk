@@ -1,0 +1,1 @@
+page.replace("feature_for_#{@channel.id}", :partial => 'admin/channels/feature', :locals => {:channel => @channel})
