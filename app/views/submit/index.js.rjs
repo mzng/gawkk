@@ -15,3 +15,9 @@ elsif @video and !@video.id.blank?
 else
   page << "enableCurrentForm();"
 end
+
+if @error
+  page << "$('video_url').style.borderColor = 'red';"
+else
+  page << "$('video_url').style.borderColor = '#999999';"
+end

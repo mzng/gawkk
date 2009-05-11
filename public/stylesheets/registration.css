@@ -233,6 +233,8 @@
 #suggestions-container th {
 	background-color: #E5E5E5;
 	border-bottom: 1px solid #CCCCCC;
+	font-size: 12pt;
+	font-weight: normal;
 	padding: 5px 2px;
 	text-align: left;
 }

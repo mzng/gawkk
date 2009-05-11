@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Follow Interesting People and Channels', :description => "Discover great videos by following suggested Users and subscribing to suggested Channels."} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Follow Interesting People and Channels', :description => "Discover great videos by following some suggested people and channels."} %>
 
 <div id="content-centered">
 	<table id="registration-progress" cellpadding="0" cellspacing="0">
@@ -6,11 +6,11 @@
 			<td class="inactive">Register</td>
 			<td><%= link_to 'Get Connected', {:controller => 'registration', :action => 'setup_services'} %></td>
 			<td><%= link_to 'Setup Your Profile', {:controller => 'registration', :action => 'setup_profile'} %></td>
-			<td class="active">Enjoy Gawkk!</td>
+			<td class="active">Suggested Follows</td>
 		</tr>
 	</table>
 	
-	<h3 style="text-align:center;">Select all or some of our recommended people and channels to follow.</h3>
+	<h3 style="text-align:center;">Select some of our recommended people and channels to follow.</h3>
 	
 	<% form_for(@user, :url => {:controller => 'registration', :action => 'setup_suggestions'}) do |f| %>
 		<table id="suggestions-container" cellpadding="0" cellspacing="0" style="border-bottom:0px;">

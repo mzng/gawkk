@@ -3,6 +3,8 @@ require 'digest/sha1'
 class SubmitController < ApplicationController
   
   def index
+    @error = false
+    
     if params[:comment] and params[:video]
       params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'Tell your friends about it.'
       params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'Video URL (optional)'
@@ -143,5 +145,9 @@ class SubmitController < ApplicationController
     else
       render :nothing => true
     end
+  rescue SocketError
+    @error = true
+  rescue Errno::ENOENT
+    @error = true
   end
 end
