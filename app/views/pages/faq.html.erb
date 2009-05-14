@@ -1,9 +1,68 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Frequently Asked Questions', :crumbs => [{:name => 'About', :params => {:action => 'about'}}, {:name => 'Frequent Questions'}]} %>
 
-<div id="content-main">
-	<div class="coming-soon">
-		<h2>Coming Soon</h2>
-	</div>
+<div id="content-main" class="faqs">
+	<h2><%= link_to 'What is Gawkk?', {:controller => 'pages', :action => 'faq', :anchor => '1'}, :name => '1' %></h2>
+	<p>Gawkk is a place where you can discover and discuss great videos from around the web.  Gawkk imports millions of videos from thousands of media sources and allows you to search and browse these videos within thousands of great channels.</p>
+	<p>When you find a great video, either on Gawkk or anywhere else on the web, you can share it with your friends and followers on Gawkk to start a conversation around the video.</p>
+	
+	<h2><%= link_to 'Why should I use Gawkk?', {:controller => 'pages', :action => 'faq', :anchor => '2'}, :name => '2' %></h2>
+	<p>Sometime soon you're going to find a really cool video and you'll want to tell other people about it. Gawkk let's you easily share videos with your friends and followers, as well as discover the videos shared by other similar people who are also passionate about great videos.</p>
+	
+	<h2><%= link_to 'Why sign up?', {:controller => 'pages', :action => 'faq', :anchor => '3'}, :name => '3' %></h2>
+	<p>Gawkk members can subscribe to channels, post videos, add friends and start conversations with other people on Gawkk.  Site visitors who are not members can still view videos and channels, as well as search through millions of videos from around the web.</p>
+	<p>You can <%= link_to_remote('sign up for Gawkk', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly, or through your existing Twitter or Facebook account.</p>
+	
+	<h2><%= link_to 'Why sign up for Gawkk through Twitter or Facebook?', {:controller => 'pages', :action => 'faq', :anchor => '4'}, :name => '4' %></h2>
+	<p>Signing in to Gawkk with your existing Twitter or Facebook account allows you to import certain profile information, such as your user avatar picture, so that you can immediately start using Gawkk.  You can also choose to share your activities on Gawkk with your Twitter followers or Facebook friends more easily.</p>
+	
+	<h2><%= link_to 'Does Gawkk report the videos I watch?', {:controller => 'pages', :action => 'faq', :anchor => '5'}, :name => '5' %></h2>
+	<p><strong>No</strong>, Gawkk does <strong>not</strong> report what videos you watch, or which channels or member profiles you view.  We only report to your activity stream when you post a comment, click "like" on a video, follow people or channels and invite friends to the site.</p>
+	
+	<h2><%= link_to 'How do I upload a video?', {:controller => 'pages', :action => 'faq', :anchor => '6'}, :name => '6' %></h2>
+	<p>Gawkk does not host any media.  We only link to and display embedded videos from other hosting sites around the web.  If you would like to host a video file, please visit one of the major hosting sites such as YouTube or Vimeo to upload your video.</p>
+	
+	<h2><%= link_to 'How do I post a video to Gawkk?', {:controller => 'pages', :action => 'faq', :anchor => '7'}, :name => '7' %></h2>
+	<p>All you need to post a video to Gawkk is the URL of the video or the page containing the video.  Simply copy the URL and paste it into the box on the home page.  You can then post the video along with your comment to your activity stream, where it can be viewed by your friends and followers.  Gawkk will automatically find the thumbnail photo and embed code for the video.  If your video is new to Gawkk, you can also edit the posting.</p>
+	
+	<h2><%= link_to 'What video sources are included in the Gawkk index?', {:controller => 'pages', :action => 'faq', :anchor => '8'}, :name => '8' %></h2>
+	<p>Gawkk includes videos from thousands of video sources from around the web, including all of the major sites such as YouTube, ESPN, Hulu, ABC, NBC, CBS, CW, DailyMotion, MetaCafe, Bilp.TV, 5min, Howcast, etc.</p>
+	
+	<h2><%= link_to 'Do you host any content?', {:controller => 'pages', :action => 'faq', :anchor => '9'}, :name => '9' %></h2>
+	<p>No, we do <strong>not</strong> host any of the content on our site. We link to and embed videos from other hosting sites around the web, and allow you to search and browse millions of videos from thousands of sites on the Internet.</p>
+	
+	<h2><%= link_to 'What\'s the different between friends and followers?', {:controller => 'pages', :action => 'faq', :anchor => '10'}, :name => '10' %></h2>
+	<p>When you follow someone on Gawkk, you will see their videos, likes and comments but they will not see yours unless they follow you as well.  When two people follow each other, they are considered friends (mutual followers) and can invite each other to conversations using the "invite friends" link by the comment box.</p>
+	
+	<h2><%= link_to 'How can I find more people to follow?', {:controller => 'pages', :action => 'faq', :anchor => '11'}, :name => '11'%></h2>
+	<p>Check out our list of <%= link_to 'suggested people and channels to follow', {:controller => 'registration', :action => 'setup_suggestions'} %>.</p>
+	
+	<h2><%= link_to 'What are channels?', {:controller => 'pages', :action => 'faq', :anchor => '12'}, :name => '12'%></h2>
+	<p>Gawkk includes a powerful video discovery engine that incorporates millions of videos from thousands of media sources across the Internet, including the leading network TV and cable sites, video hosts such as Hulu and YouTube, as well as independent video blogs, web shows and music sites.</p>
+	<p>These videos are organized into thousands of channels based on topics such as TV shows, movies, celebrities, comedians and more.  As a Gawkk member, you can subscribe to these channels to easily find and discuss the most interesting videos from around the web with your friends and followers, right now.</p>
+	
+	<h2><%= link_to 'Can I post my Gawkk activity to other social networks?', {:controller => 'pages', :action => 'faq', :anchor => '13'}, :name => '13'%></h2>
+	<p>Yes, you can currently cross-post your Gawkk comments and likes to your Twitter account simply by checking the "Also post to Twitter" option next to the comment box.</p>
+	
+	<h2><%= link_to 'How is Gawkk different than YouTube?', {:controller => 'pages', :action => 'faq', :anchor => '14'}, :name => '14'%></h2>
+	<p>Gawkk doesn't host videos like YouTube, but more importantly, Gawkk is a video aggregator where you can find videos from anywhere around the web. Because video is now spreading across the Internet to thousands of exclusive sites such as Hulu, NBC.com, CBS, Vimeo and other sites, it can be hard to know where to find great videos. Gawkk makes it easy to find great videos from around the web by incorporating millions of videos from thousands of video sources, all in one place.</p>
+	
+	<h2><%= link_to 'How is Gawkk different than voting sites like Digg and Reddit?', {:controller => 'pages', :action => 'faq', :anchor => '15'}, :name => '15'%></h2>
+	<p>Gawkk is all about the videos that your friends and the specific people you follow find interesting.  Rather than show you the content that all of the members of Digg and Reddit think is interesting, Gawkk narrows the sharing and conversation down to the specific videos that your friends and the people you follow think are interesting, right now.</p>
+	
+	<h2><%= link_to 'Why is Gawkk like a &quot;Twitter for videos&quot;?', {:controller => 'pages', :action => 'faq', :anchor => '16'}, :name => '16'%></h2>
+	<p>Gawkk is like a &quot;Twitter for videos&quot; because it allows you to easily broadcast out to your friends and followers the great videos that you find anywhere on the web. Gawkk is specifically optimized for videos and allows you to easily discover, share and discuss videos from around the web with your friends and followers by answering one simple question: <strong>What are you watching?</strong></p>
+	<p>While sites like <a href="http://12seconds.tv/" target="12seconds">12seconds.tv</a> and <a href="http://seesmic.com/" target="seesmic">seesmic.com</a> allow you to broadcast short-form video to your friends and followers, these sites are more like a &quot;video Twitter&quot; in that they work like Twitter but use video as the communication medium.  It may sound subtle, but Gawkk is different from these sites in that we allow people to &quot;tweet about videos&quot; rather than sending &quot;video tweets.&quot; See the difference?</p>
+	
+	<h2><%= link_to 'How is Gawkk different than Twitter?', {:controller => 'pages', :action => 'faq', :anchor => '17'}, :name => '17'%></h2>
+	<p>Twitter is great for finding out what your friends are doing, and while you can share a link to a video through Twitter or even through email, you need to click each link to even know what has been shared with you. Sometimes that experience is hard to follow and really isn't all that entertaining.</p>
+	<p>Gawkk, on the other hand, is so focused on video entertainment that we provide a thumbnail image and the embedded video directly within your activity stream so you can quickly decide what to watch, and even watch it right here on Gawkk.  The conversation with your friends and followers is threaded and shown right beneath the embedded video, making it easy to follow the discussion.</p>
+	<p>Gawkk also jump starts the conversation by incorporating millions of videos from thousands of media sources across the Internet, making it easy to discover and discuss the latest videos from around the web with your friends and followers, right now.</p>
+	
+	<h2><%= link_to 'How is Gawkk different than other social networks like Facebook and MySpace?', {:controller => 'pages', :action => 'faq', :anchor => '18'}, :name => '18'%></h2>
+	<p>Gawkk is all about discovering and sharing video with people of similar interests, so you might find that you have a different social graph of friends and followers on Gawkk than on other social networking sites.  Also, Gawkk doesn't require that you approve friendships, so anyone can follow anyone else on the site, which leads to a wider sharing of content across the network and a greater chance of discovering great videos.</p>
+	
+	<h2><%= link_to 'How can I report a problem or issue?', {:controller => 'pages', :action => 'faq', :anchor => '19'}, :name => '19'%></h2>
+	<p>Please feel free to <%= link_to 'contact us', {:controller => "pages", :action => "contact"} %> with any questions or concerns.</p>
 </div>
 
 <div id="content-sidebar">

@@ -723,6 +723,12 @@ div.paginate-single-link-set span.disabled {
 	visibility: hidden;
 }
 
+/* faq misc*/
+.faqs h2 a {
+	color: #333333;
+	text-decoration: none;
+}
+
 /* rss misc */
 a.rss, a.rss:visited, a.rss:hover {
 	margin-left: 3px;
