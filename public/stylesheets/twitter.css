@@ -1,0 +1,20 @@
+#twitter-connect-overlay #container {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	padding: 15px;
+}
+
+#twitter-connect-overlay table {
+	margin: 0 auto;
+/*width: 345px;
+	_margin-top:-10px;*/
+}
+
+#twitter-connect-overlay table td:first-child {
+	text-align: right;
+	width: 115px;
+}
+
+#twitter-connect-overlay table td input.field {
+	width: 175px;
+}

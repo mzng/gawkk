@@ -1,0 +1,2 @@
+page << "displayOverlay(230, 500);"
+page.replace_html('overlayed-content', :partial => '/twitter/connect')

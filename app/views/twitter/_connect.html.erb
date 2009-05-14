@@ -1,0 +1,57 @@
+<div id="twitter-connect-overlay" class="buffered">
+	<h1 class="section-header">Finalize Your Sign-in</h1>
+	<p style="font-size: 9pt;margin-top: 0px;padding: 0 5px;">
+		Please confirm your username and provide an email address for friend updates.
+	</p>
+	
+	<div id="container">
+		<% form_tag({:controller => 'twitter', :action => 'connect'}, :onsubmit => "disableForm('submit_for_connect');") do %>
+			<%= error_messages_for 'user' %>
+
+			<table cellpadding="3" cellspacing="0">
+				<tr>
+					<td style="text-align:center;" rowspan="5"><%= image_tag(@oauth[:twitter_image_url], :style => 'border:1px solid #E5E5E5;height:48px;width:48px;') %></td>
+					<td style="text-align:right;">Username:</td>
+					<td style="width:190px;"><%= text_field 'user', 'username', :class => 'field' %></td>
+				</tr>
+				<tr>
+					<td><span id="username_is_valid"><%= image_tag('blank.gif', :style => 'vertical-align:top;') %></span> Your URL:</td>
+					<td style="font-size:9pt;">
+						<div style="overflow-x:hidden;white-space:nowrap;width:190px;">
+							http://gawkk.com/<span id="username" style="color:gray;">username</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Email Address:</td>
+					<td><%= text_field 'user', 'email', :class => 'field' %></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="agreement" style="width:100%;">
+						I am over 13 years old and agree to the Terms &amp; Privacy
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="agreement" style="width:100%;">
+						<label for="user_send_digest_emails">
+							<%= check_box 'user', 'send_digest_emails' %> Send me email updates about my friends
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="padding-right:15px;text-align:right;">
+						<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_connect', :action => 'Submitting'}) do -%>
+							<%= submit_tag 'Submit' %>
+						<% end -%>
+					</td>
+				</tr>
+			</table>
+		<% end %>
+	</div>
+	
+	<%= observe_field('user_username', :with => "username", :frequency => 0.5, :url => {:controller => 'registration', :action => 'username_check'}) %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$('user_username').focus();
+</script>

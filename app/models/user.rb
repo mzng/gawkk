@@ -192,6 +192,30 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(password)
   end
   
+  def self.valid_username?(username)
+    if username.length < 4
+      return false
+    end
+    
+    if username.length > 15
+      return false
+    end
+    
+    if username.match(/\s/)
+      return false
+    end
+    
+    if username.match(/\./)
+      return false
+    end
+    
+    if !User.unique_username?(username)
+      return false
+    end
+    
+    return true
+  end
+  
   def self.unique_username?(username)
     (username.downcase != 'setup' and User.count(:conditions => ["lower(username) = lower(?)", username]) == 0) ? true : false
   end

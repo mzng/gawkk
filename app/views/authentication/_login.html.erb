@@ -10,13 +10,16 @@
 			<td id="twitter-selector" class="service" onclick="javascript:chooseService('twitter', '');"><%= image_tag('service_twitter.png') %></td>
 			<td rowspan="3" class="forms">
 				<div id="twitter-form" class="signup_form" style="display:none;">
-					<p class="coming-soon">Coming Soon</p>
-					<p class="title">Sign in Securely with Twitter</p>
-					<p class="explanation">
-						Soon, you'll be able to use your twitter account!<br/>For now, you can sign up 
-						for a <%= link_to 'Gawkk', '#gawkk', :onclick => "chooseService('gawkk', 'user_email');" %> account.
-					</p>
-					<p class="authorize"><%= submit_tag('Authorize with Twitter', :disabled => true) %></p>
+					<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
+						<p class="title" style="margin-top:25px;">Sign in Securely with Twitter</p>
+						<p class="explanation">
+							There's no need to sign up for an account!<br/>
+							Sign in with Twitter and instantly access Gawkk!
+						</p>
+						<p class="authorize">
+							<%= submit_tag('Authorize with Twitter') %>
+						</p>
+					<% end -%>
 				</div>
 				
 				<div id="facebook-form" class="signup_form" style="display:none;">

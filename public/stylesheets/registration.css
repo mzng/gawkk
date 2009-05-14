@@ -274,7 +274,7 @@
 }
 
 #suggestions-container .suggestions td.name {
-	white-space: nowrap;
+	width: 115px;
 }
 
 #suggestions-container .suggestions td.scrollbar-offset {
