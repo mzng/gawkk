@@ -37,6 +37,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def bake_cookie_for(user)
+    cookie_pass = [Array.new(9){rand(256).chr}.join].pack("m").chomp
+    cookie_hash = Digest::MD5.hexdigest(cookie_pass + user.salt)
+    
+    cookies[:_gawkk_login] = {:value => [user.slug, cookie_pass], :expires => 3.month.from_now}
+    
+    return cookie_hash
+  end
+  
   # Perform any outstanding action
   def perform_outstanding_action
     if user_logged_in? and actionable = session[:actionable]

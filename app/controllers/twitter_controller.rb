@@ -39,6 +39,7 @@ class TwitterController < ApplicationController
             @user = twitter_account.user
             
             # Update the user's last login time
+            @user.cookie_hash = bake_cookie_for(@user)
             @user.last_login_at = Time.new
             @user.save
 
@@ -111,6 +112,7 @@ class TwitterController < ApplicationController
       
       @user.password = Util::AuthCode.generate(32)
       @user.password_confirmation = @user.password
+      @user.cookie_hash = bake_cookie_for(@user)
       
       if @user.save
         # Fetch and set Twitter avatar

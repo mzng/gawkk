@@ -14,12 +14,7 @@ class AuthenticationController < ApplicationController
         # Setup cookies for automatic logins
         if params[:remember] == '1'
           begin
-            cookie_pass = [Array.new(9){rand(256).chr}.join].pack("m").chomp
-            cookie_hash = Digest::MD5.hexdigest(cookie_pass + @user.salt)
-            
-            cookies[:_gawkk_login] = {:value => [@user.slug, cookie_pass], :expires => 1.month.from_now}
-            
-            @user.cookie_hash = cookie_hash
+            @user.cookie_hash = bake_cookie_for(@user)
           rescue
           end
         end
