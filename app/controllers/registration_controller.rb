@@ -4,15 +4,27 @@ class RegistrationController < ApplicationController
   layout 'page'
   
   
-  def username_check
-    @valid = true
+  def check_validity
+    @valid_username = true
+    @valid_password = true
+    @valid_email = false
     
-    if !params[:username].blank?
-      @username = params[:username]
-      @valid = User.valid_username?(@username)
+    if params[:user] and !params[:user][:username].blank?
+      @username = params[:user][:username]
+      @valid_username = User.valid_username?(@username)
     else
       @username = 'username'
-      @valid   = nil
+      @valid_username = nil
+    end
+    
+    if params[:user] and !params[:user][:password].nil?
+      if params[:user][:password].length < 6
+        @valid_password = false
+      end
+    end
+    
+    if params[:user] and !params[:user][:email].blank?
+      @valid_email = User.valid_email?(params[:user][:email])
     end
   end
   

@@ -6,15 +6,22 @@
 
 #twitter-connect-overlay table {
 	margin: 0 auto;
-/*width: 345px;
-	_margin-top:-10px;*/
+	width: 100%;
 }
 
 #twitter-connect-overlay table td:first-child {
 	text-align: right;
-	width: 115px;
 }
 
 #twitter-connect-overlay table td input.field {
-	width: 175px;
+	border: 1px solid #999999;
+	padding: 2px;
+	width: 185px;
+}
+
+#twitter-connect-overlay table td.agreement {
+	font-size: 8pt;
+	font-style: italic;
+	padding-right: 20px;
+	text-align: right;
 }

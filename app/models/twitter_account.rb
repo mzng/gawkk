@@ -3,7 +3,9 @@ class TwitterAccount < ActiveRecord::Base
   # has_many :tweets, :dependent => :destroy
   
   def before_save
-    self.authenticated = Twitter::Client.new.authenticate?(self.username, self.password)
+    if self.access_token.blank?
+      self.authenticated = Twitter::Client.new.authenticate?(self.username, self.password)
+    end
     
     return true
   end
@@ -11,8 +13,6 @@ class TwitterAccount < ActiveRecord::Base
   def dispatcher
     if self.access_token.blank?
       TwitterDispatch.new(:basic, self.username, self.password)
-    else
-      TwitterDispatch.new(:oauth, Util::Twitter.config[:key], Util::Twitter.config[:secret], self.access_token, self.access_secret)
     end
   end
 end

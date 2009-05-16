@@ -25,8 +25,28 @@ class TwitterController < ApplicationController
         response = Util::Twitter.request(:get, '/account/verify_credentials.json', @access_token.token, @access_token.secret)
         
         if response['id']
-          # if this user already exists, sign them in
-          # else sign them up
+          if twitter_account = TwitterAccount.find(:first, :conditions => {:twitter_user_id => response['id'].to_s})
+            if twitter_account.access_token.blank?
+              twitter_account.authenticated = false
+              twitter_account.tweet_likes   = false
+            end
+            
+            twitter_account.username      = response['screen_name']
+            twitter_account.access_token  = @access_token.token
+            twitter_account.access_secret = @access_token.secret
+            twitter_account.save
+            
+            @user = twitter_account.user
+            
+            # Update the user's last login time
+            @user.last_login_at = Time.new
+            @user.save
+
+            # Store the logged in user's id in the session
+            session[:user_id] = @user.id
+            
+            redirect_to '/'
+          else
             oauth = Hash.new
             oauth[:access_token]  = @access_token.token
             oauth[:access_secret] = @access_token.secret
@@ -40,7 +60,7 @@ class TwitterController < ApplicationController
             session[:oauth_credentials] = oauth
 
             redirect_to :controller => 'registration', :action => 'setup_suggestions'
-          # end
+          end
         else
           flash[:notice] = 'The authentication failed. Please try again!'
           redirect_to '/'
@@ -77,7 +97,44 @@ class TwitterController < ApplicationController
         end
       end
     else
+      @oauth = session[:oauth_credentials]
       
+      @user = User.new(params[:user])
+      @user.name = @oauth[:twitter_name]
+      @user.description = @oauth[:twitter_description]
+      @user.twitter_username = @oauth[:twitter_screen_name]
+      @user.website_url   = @oauth[:website_url]
+      @user.ad_campaign   = session[:ref]
+      @user.administrator = false
+      @user.feed_owner    = false
+      @user.twitter_oauth = true
+      
+      @user.password = Util::AuthCode.generate(32)
+      @user.password_confirmation = @user.password
+      
+      if @user.save
+        # Fetch and set Twitter avatar
+        Util::Avatar.fetch_from_twitter(@user)
+        Util::Avatar.use_service_avatar(@user, 'twitter')
+        
+        # Store Twitter account information
+        twitter_account = TwitterAccount.new
+        twitter_account.user_id = @user.id
+        twitter_account.twitter_user_id = @oauth[:twitter_id]
+        twitter_account.username = @oauth[:twitter_screen_name]
+        twitter_account.access_token  = @oauth[:access_token]
+        twitter_account.access_secret = @oauth[:access_secret]
+        twitter_account.authenticated = false
+        twitter_account.tweet_likes   = false
+        
+        if twitter_account.save
+          session[:oauth_credentials] = nil
+        end
+        
+        session[:user_id] = @user.id
+      end
+      
+      redirect_to :controller => "registration", :action => "setup_suggestions"
     end
   end
   
@@ -94,8 +151,14 @@ class TwitterController < ApplicationController
   def update_credentials
     @twitter_account = logged_in_user.twitter_account ? logged_in_user.twitter_account : TwitterAccount.new
     @twitter_account.user_id  = logged_in_user.id
-    @twitter_account.username = params[:twitter_account][:username]
-    @twitter_account.password = params[:twitter_account][:password]
+    
+    if @twitter_account.access_token.blank?
+      @twitter_account.username = params[:twitter_account][:username]
+      @twitter_account.password = params[:twitter_account][:password]
+    else
+      @twitter_account.authenticated = (params[:twitter_account][:authenticated] == '1' ? true : false)
+    end
+    
     @twitter_account.tweet_likes = (params[:twitter_account][:tweet_likes] == '1' ? true : false)
     
     @twitter_account.save

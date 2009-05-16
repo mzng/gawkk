@@ -1,2 +1,3 @@
-page << "displayOverlay(230, 500);"
+page << "displayOverlay(275, 500);"
+page << "$('close').style.display = 'none';"
 page.replace_html('overlayed-content', :partial => '/twitter/connect')

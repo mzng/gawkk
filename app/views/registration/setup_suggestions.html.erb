@@ -4,13 +4,8 @@
 	<table id="registration-progress" cellpadding="0" cellspacing="0">
 		<tr>
 			<td class="inactive">Register</td>
-			<% if user_logged_in? -%>
-				<td><%= link_to 'Get Connected', {:controller => 'registration', :action => 'setup_services'} %></td>
-				<td><%= link_to 'Setup Your Profile', {:controller => 'registration', :action => 'setup_profile'} %></td>
-			<% else -%>
-				<td><%= link_to_remote('Get Connected', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %></td>
-				<td><%= link_to_remote('Setup Your Profile', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %></td>
-			<% end -%>
+			<td><%= link_to 'Get Connected', {:controller => 'registration', :action => 'setup_services'} %></td>
+			<td><%= link_to 'Setup Your Profile', {:controller => 'registration', :action => 'setup_profile'} %></td>
 			<td class="active">Suggested Follows</td>
 		</tr>
 	</table>
@@ -61,7 +56,7 @@
 		
 		<br class="clear"/>
 		<p class="submit" style="text-align:center;">
-			<%= submit_tag("Follow &raquo;", :disabled => !user_logged_in?, :style => 'font-size:14pt;') %>
+			<%= submit_tag("Follow &raquo;", :style => 'font-size:14pt;') %>
 		</p>
 	<% end -%>
 </div>

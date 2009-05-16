@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090512143659) do
+ActiveRecord::Schema.define(:version => 20090515203103) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -446,6 +446,7 @@ ActiveRecord::Schema.define(:version => 20090512143659) do
     t.string   "feed_url"
     t.integer  "digest_email_frequency",                    :default => 0,     :null => false
     t.boolean  "suggested",                                 :default => false, :null => false
+    t.boolean  "twitter_oauth",                             :default => false, :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"

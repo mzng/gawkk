@@ -1,18 +1,23 @@
 <div id="twitter-connect-overlay" class="buffered">
 	<h1 class="section-header">Finalize Your Sign-in</h1>
-	<p style="font-size: 9pt;margin-top: 0px;padding: 0 5px;">
-		Please confirm your username and provide an email address for friend updates.
-	</p>
+	
 	
 	<div id="container">
-		<% form_tag({:controller => 'twitter', :action => 'connect'}, :onsubmit => "disableForm('submit_for_connect');") do %>
+		<p style="font-size: 9pt;margin-top:0px;padding:0px;text-align;center;">
+			Please confirm your username and provide an email address for friend updates.
+		</p>
+		
+		<% form_tag({:controller => 'twitter', :action => 'connect'}, :id => 'connect_form', :onsubmit => "var valid = checkValidity(['username','email'], 'user'); if(valid){disableForm('submit_for_connect');} return valid;") do %>
 			<%= error_messages_for 'user' %>
 
 			<table cellpadding="3" cellspacing="0">
 				<tr>
-					<td style="text-align:center;" rowspan="5"><%= image_tag(@oauth[:twitter_image_url], :style => 'border:1px solid #E5E5E5;height:48px;width:48px;') %></td>
-					<td style="text-align:right;">Username:</td>
-					<td style="width:190px;"><%= text_field 'user', 'username', :class => 'field' %></td>
+					<td style="text-align:center;width:108px;" rowspan="3"><%= image_tag(@oauth[:twitter_image_url], :style => 'border:1px solid #E5E5E5;height:48px;width:48px;') %></td>
+					<td style="text-align:right;width:115px;">Username:</td>
+					<td style="width:205px;">
+						<%= text_field 'user', 'username', :value => '', :class => 'field' %> *
+						<%= hidden_field 'valid', 'username', :value => 'false' %>
+					</td>
 				</tr>
 				<tr>
 					<td><span id="username_is_valid"><%= image_tag('blank.gif', :style => 'vertical-align:top;') %></span> Your URL:</td>
@@ -24,15 +29,18 @@
 				</tr>
 				<tr>
 					<td>Email Address:</td>
-					<td><%= text_field 'user', 'email', :class => 'field' %></td>
+					<td>
+						<%= text_field 'user', 'email', :class => 'field' %> *
+						<%= hidden_field 'valid', 'email', :value => 'false' %>
+					</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="agreement" style="width:100%;">
+					<td colspan="3" class="agreement">
 						I am over 13 years old and agree to the Terms &amp; Privacy
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="agreement" style="width:100%;">
+					<td colspan="3" class="agreement">
 						<label for="user_send_digest_emails">
 							<%= check_box 'user', 'send_digest_emails' %> Send me email updates about my friends
 						</label>
@@ -41,7 +49,7 @@
 				<tr>
 					<td colspan="3" style="padding-right:15px;text-align:right;">
 						<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_connect', :action => 'Submitting'}) do -%>
-							<%= submit_tag 'Submit' %>
+							<span style="color:gray;font-size:8pt;margin-right:75px;">Required *</span> <%= submit_tag 'Submit' %>
 						<% end -%>
 					</td>
 				</tr>
@@ -49,9 +57,12 @@
 		<% end %>
 	</div>
 	
-	<%= observe_field('user_username', :with => "username", :frequency => 0.5, :url => {:controller => 'registration', :action => 'username_check'}) %>
+	<%= observe_form('connect_form', :frequency => 0.5, :url => {:controller => 'registration', :action => 'check_validity'}) %>
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	$('user_username').focus();
+	<% if !@user.username.blank? -%>
+		$('user_username').focus();
+		$('user_username').value = '<%= @user.username %>';
+	<% end -%>
 </script>
