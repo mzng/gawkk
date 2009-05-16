@@ -7,7 +7,7 @@
 	
 	<label for="tweet_it_for_<%= commentable_id %>">
 		<%= check_box 'tweet', 'it', {:id => "tweet_it_for_#{commentable_id}", :onchange => "updateCharacterCount('#{commentable_id}', $('new_comment_area_for_#{commentable_id}'));", :checked => checked} %>Also post<%= comment_only ? ' comment' : '' %> to Twitter
-		<% if !logged_in_user.twitter_account.access_token.blank? or logged_in_user.auto_tweet? -%>as <%= link_to_remote logged_in_user.twitter_account.username, :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %><% end -%>
+		<% if (logged_in_user.twitter_account and !logged_in_user.twitter_account.access_token.blank?) or logged_in_user.auto_tweet? -%>as <%= link_to_remote logged_in_user.twitter_account.username, :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %><% end -%>
 	</label>
 	<% if !logged_in_user.auto_tweet? -%>
 		<%= observe_field "tweet_it_for_#{commentable_id}", :url => {:controller => 'twitter', :action => 'request_credentials'}, :with => 'tweet_it' %>
