@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
   attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
-  attr_accessible :feed_owner
+  attr_accessible :feed_owner, :twitter_oauth
   
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"
@@ -192,8 +192,48 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(password)
   end
   
+  def self.valid_username?(username)
+    if username.length < 4
+      return false
+    end
+    
+    if username.length > 15
+      return false
+    end
+    
+    if username.match(/\s/)
+      return false
+    end
+    
+    if username.match(/\./)
+      return false
+    end
+    
+    if !User.unique_username?(username)
+      return false
+    end
+    
+    return true
+  end
+  
   def self.unique_username?(username)
     (username.downcase != 'setup' and User.count(:conditions => ["lower(username) = lower(?)", username]) == 0) ? true : false
+  end
+  
+  def self.valid_email?(email)
+    if email.blank?
+      return false
+    end
+    
+    if !email.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/)
+      return false
+    end
+    
+    if !User.unique_email?(email)
+      return false
+    end
+    
+    return true
   end
   
   def self.unique_email?(email)

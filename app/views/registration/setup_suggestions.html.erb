@@ -60,3 +60,9 @@
 		</p>
 	<% end -%>
 </div>
+
+<% if !user_logged_in? -%>
+	<script type="text/javascript" charset="utf-8">
+		new Ajax.Request('/twitter/connect', {asynchronous:true, evalScripts:true, method:'get'});
+	</script>
+<% end -%>

@@ -184,10 +184,10 @@ function updateCharacterCount(commentableId, field) {
 	$('characters_left_for_' + commentableId).update(charactersLeft);
 	
 	if(charactersLeft < 0) {
-		$('submit_for_' + commentableId).disable();
+		$('submit_button_for_' + commentableId).disable();
 		$('characters_left_for_' + commentableId).addClassName('over-limit');
 	} else {
-		$('submit_for_' + commentableId).enable();
+		$('submit_button_for_' + commentableId).enable();
 		$('characters_left_for_' + commentableId).removeClassName('over-limit');
 	}
 }
@@ -234,6 +234,21 @@ function chooseService(serviceName, focusField) {
 	
 	$(serviceName + '-selector').addClassName('selected-service');
 	$(serviceName + '-form').appear({duration: .2, afterFinish: function(){if(focusField != '') {$(focusField).focus();}}});
+}
+
+function checkValidity(fields, objectType) {
+	var valid = true;
+	
+	for(i = 0; i < fields.length; i++) {
+		if($F('valid_' + fields[i]) == 'false') {
+			$(objectType + '_' + fields[i]).style.border = '1px solid red';
+			valid = false;
+		} else {
+			$(objectType + '_' + fields[i]).style.border = '1px solid #999999';
+		}
+	}
+	
+	return valid;
 }
 
 

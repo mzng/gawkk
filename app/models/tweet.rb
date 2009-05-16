@@ -24,7 +24,7 @@ class Tweet < ActiveRecord::Base
   end
   
   def self.report(type, user, reportable)
-    if twitter_account = user.twitter_account and twitter_account.authenticated?
+    if twitter_account = user.twitter_account and (!twitter_account.access_token.blank? or twitter_account.authenticated?)
       if tweet_type = TweetType.find_by_name(type)
         tweet = Tweet.create :tweet_type_id => tweet_type.id, :twitter_account_id => twitter_account.id, :reportable_type => reportable.class.name, :reportable_id => reportable.id
       end
@@ -36,15 +36,19 @@ class Tweet < ActiveRecord::Base
     twitter_account = self.twitter_account
     status = self.render
     
-    Twitter::Client.configure do |config|
-      config.user_agent = 'Gawkk'
-      config.application_name = 'gawkk'
-      config.application_url = 'http://gawkk.com'
-      config.source = 'gawkk'
-    end
+    if twitter_account.access_token.blank?
+      Twitter::Client.configure do |config|
+        config.user_agent = 'Gawkk'
+        config.application_name = 'gawkk'
+        config.application_url = 'http://gawkk.com'
+        config.source = 'gawkk'
+      end
     
-    twitter = Twitter::Client.new(:login => twitter_account.username, :password => twitter_account.password)
-    twitter.status(:post, status)
+      twitter = Twitter::Client.new(:login => twitter_account.username, :password => twitter_account.password)
+      twitter.status(:post, status)
+    else
+      Util::Twitter.request(:post, '/statuses/update.json?status=' + CGI.escape(status), twitter_account.access_token, twitter_account.access_secret)
+    end
   end
   
   def render

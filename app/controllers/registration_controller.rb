@@ -1,36 +1,30 @@
 class RegistrationController < ApplicationController
-  around_filter :load_user, :only => [:setup_services, :setup_profile, :setup_suggestions]
+  around_filter :load_user, :only => [:setup_services, :setup_profile]
+  around_filter :load_user_or_continue_oauth_setup, :only => [:setup_suggestions]
   layout 'page'
   
   
-  def username_check
-    @valid = true
+  def check_validity
+    @valid_username = true
+    @valid_password = true
+    @valid_email = false
     
-    if !params[:username].blank?
-      @username = params[:username]
-      
-      if @username.length < 4
-        @valid = false
-      end
-      
-      if @valid and @username.length > 15
-        @valid = false
-      end
-      
-      if @valid and @username.match(/\s/)
-        @valid = false
-      end
-      
-      if @valid and @username.match(/\./)
-        @valid = false
-      end
-      
-      if @valid and !User.unique_username?(@username)
-        @valid = false
-      end
+    if params[:user] and !params[:user][:username].blank?
+      @username = params[:user][:username]
+      @valid_username = User.valid_username?(@username)
     else
       @username = 'username'
-      @valid   = nil
+      @valid_username = nil
+    end
+    
+    if params[:user] and !params[:user][:password].nil?
+      if params[:user][:password].length < 6
+        @valid_password = false
+      end
+    end
+    
+    if params[:user] and !params[:user][:email].blank?
+      @valid_email = User.valid_email?(params[:user][:email])
     end
   end
   
@@ -129,6 +123,18 @@ class RegistrationController < ApplicationController
   private
   def load_user
     if user_logged_in? and @user = User.find(logged_in_user.id)
+      yield
+    else
+      flash[:notice] = 'You must be logged in to do that.'
+      redirect_to :controller => "authentication", :action => "login"
+    end
+  end
+  
+  def load_user_or_continue_oauth_setup
+    if user_logged_in? and @user = User.find(logged_in_user.id)
+      yield
+    elsif !session[:oauth_credentials].blank?
+      @user = User.new
       yield
     else
       flash[:notice] = 'You must be logged in to do that.'

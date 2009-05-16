@@ -16,13 +16,14 @@ Rails::Initializer.run do |config|
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
-  config.gem "feedtools", :lib => "feed_tools"
-  config.gem "gchart",    :lib => "gchart"
-  config.gem "hpricot",   :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
-  config.gem "right_aws", :lib => "right_aws"
-  config.gem "rmagick",   :lib => "RMagick", :version => "~>2.8"
-  config.gem "twitter4r", :lib => "twitter"
-  config.gem "youtube-g", :lib => "youtube_g"
+  config.gem "feedtools",       :lib => "feed_tools"
+  config.gem "gchart",          :lib => "gchart"
+  config.gem "hpricot",         :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"
+  config.gem "right_aws",       :lib => "right_aws"
+  config.gem "rmagick",         :lib => "RMagick", :version => "~>2.8"
+  config.gem "twitter4r",       :lib => "twitter"
+  config.gem "twitterdispatch", :lib => "twitterdispatch"
+  config.gem "youtube-g",       :lib => "youtube_g"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

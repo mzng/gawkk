@@ -1,0 +1,27 @@
+#twitter-connect-overlay #container {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	padding: 15px;
+}
+
+#twitter-connect-overlay table {
+	margin: 0 auto;
+	width: 100%;
+}
+
+#twitter-connect-overlay table td:first-child {
+	text-align: right;
+}
+
+#twitter-connect-overlay table td input.field {
+	border: 1px solid #999999;
+	padding: 2px;
+	width: 185px;
+}
+
+#twitter-connect-overlay table td.agreement {
+	font-size: 8pt;
+	font-style: italic;
+	padding-right: 20px;
+	text-align: right;
+}

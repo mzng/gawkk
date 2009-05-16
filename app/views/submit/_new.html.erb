@@ -18,7 +18,7 @@
 			<td id="characters_left_for_post" class="character-count">140</td>
 			<td>
 				<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_post', :action => 'Posting'}) do -%>
-					<%= submit_tag 'Post' %>
+					<%= submit_tag 'Post', :id => 'submit_button_for_post' %>
 					<%= render :partial => "/comments/tweet", :locals => {:comment_only => true} %>
 				<% end -%>
 			</td>

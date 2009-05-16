@@ -14,7 +14,10 @@
 			<% @users.each do |user| -%>
 				<tr>
 					<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => "edit-#{user.slug}" %></td>
-					<td><%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+					<td>
+						<%= image_tag('favicon_twitter.png') if user.twitter_oauth %>
+						<%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %>
+					</td>
 					<td><div><%= user.email %></div></td>
 					<td><div><%= user.name %></div></td>
 					<td>

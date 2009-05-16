@@ -9,9 +9,15 @@ http://www.gawkk.com/settings/confirm-email/<%= @user.slug %>?auth=<%= @user.ema
 <% end -%>
 In case you forget, here is your login info - keep this email around for reference!
 
+<% if @user.twitter_oauth? -%>
+   Gawkk Username: <%= @user.username %>
+   Gawkk Profile: http://www.gawkk.com/<%= @user.slug %>
+   Linked Twitter Account: http://twitter.com/<%= @user.twitter_username %>
+<% else -%>
    Gawkk Username: <%= @user.username %>
    Password: <%= @user.password %>
    Your Profile: http://www.gawkk.com/<%= @user.slug %>
+<% end -%>
 
 Gawkk on!
 

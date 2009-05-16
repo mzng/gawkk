@@ -1,0 +1,21 @@
+page << "if($('username')) {"
+  page.replace_html('username', @username)
+
+  if @valid_username.nil?
+    page.replace_html('username_is_valid', image_tag('blank.gif', :style => 'vertical-align:top;'))
+    page << "$('username').style.color = 'gray';"
+    page << "$('username').style.fontWeight = 'normal';"
+  elsif @valid_username
+    page.replace_html('username_is_valid', image_tag('tick.png', :style => 'vertical-align:top;'))
+    page << "$('username').style.color = 'green';"
+    page << "$('username').style.fontWeight = 'bold';"
+  else
+    page.replace_html('username_is_valid', image_tag('cross.png', :style => 'vertical-align:top;'))
+    page << "$('username').style.color = 'red';"
+    page << "$('username').style.fontWeight = 'bold';"
+  end
+
+  page << "$('valid_username').value = '#{@valid_username.nil? ? false : @valid_username}';"
+  page << "if($('valid_password')){$('valid_password').value = '#{@valid_password}';}"
+  page << "$('valid_email').value = '#{@valid_email}';"
+page << "}"

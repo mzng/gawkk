@@ -19,7 +19,7 @@
 				</td>
 				<td>
 					<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => "submit_for_post_to_#{commentable.id}", :action => 'Posting'}) do -%>
-						<%= submit_tag 'Post' %>
+						<%= submit_tag 'Post', :id => "submit_button_for_#{commentable.id}" %>
 						<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable} %>
 					<% end -%>
 				</td>

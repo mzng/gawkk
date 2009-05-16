@@ -76,6 +76,8 @@
 }
 
 #registration-overlay #gawkk-form table td input.field {
+	border: 1px solid #999999;
+	padding: 2px;
 	width: 175px;
 }
 
@@ -274,7 +276,7 @@
 }
 
 #suggestions-container .suggestions td.name {
-	white-space: nowrap;
+	width: 115px;
 }
 
 #suggestions-container .suggestions td.scrollbar-offset {
