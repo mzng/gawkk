@@ -112,9 +112,12 @@ class TwitterController < ApplicationController
       
       @user.password = Util::AuthCode.generate(32)
       @user.password_confirmation = @user.password
-      @user.cookie_hash = bake_cookie_for(@user)
       
       if @user.save
+        # Remember this user
+        @user.cookie_hash = bake_cookie_for(@user)
+        @user.save
+        
         # Fetch and set Twitter avatar
         Util::Avatar.fetch_from_twitter(@user)
         Util::Avatar.use_service_avatar(@user, 'twitter')
