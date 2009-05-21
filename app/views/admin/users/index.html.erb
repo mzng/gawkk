@@ -16,6 +16,7 @@
 					<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => "edit-#{user.slug}" %></td>
 					<td>
 						<%= image_tag('favicon_twitter.png') if user.twitter_oauth %>
+						<%= image_tag('favicon_facebook.png') if user.facebook %>
 						<%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %>
 					</td>
 					<td><div><%= user.email %></div></td>
