@@ -1,5 +1,3 @@
-<%= render :partial => "/layouts/pitch" %>
-
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @channel.name, :channel => @channel} %>
 <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 			:crumbs => [{:name => 'Channels', :params => {:controller => 'channels'}}, 

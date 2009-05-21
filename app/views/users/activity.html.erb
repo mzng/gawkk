@@ -1,5 +1,3 @@
-<%= render :partial => "/layouts/pitch", :locals => {:title => "Hi there! #{@user.username} is using Gawkk."} %>
-
 <%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "The activity of #{@user.username}", :user => @user} %>
 <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 

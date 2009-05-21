@@ -17,7 +17,7 @@
 							Sign in with Twitter and instantly access Gawkk!
 						</p>
 						<p class="authorize">
-							<%= submit_tag('Authorize with Twitter') %>
+							<input type="image" src="/images/sign_in_with_twitter.png"/>
 						</p>
 					<% end -%>
 				</div>
@@ -29,7 +29,7 @@
 						Sign in with Facebook and instantly access Gawkk!
 					</p>
 					<p class="authorize">
-						<fb:login-button onclick="hideOverlay();" size="large" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
+						<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
 						<script type="text/javascript">
 						    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
 						</script>

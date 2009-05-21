@@ -152,6 +152,12 @@ class ApplicationController < ActionController::Base
     @q
   end
   
+  def pitch(options = {})
+    @pitch_title = (options[:title].blank? ? 'Welcome to Gawkk!' : options[:title])
+    
+    @pitch = true
+  end
+  
   def taggable(options = {})
     if options[:assume]
       params[:tagged] = true

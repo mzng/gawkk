@@ -37,6 +37,8 @@
 		<%= render :partial => "/layouts/header" %>
 		
 		<div id="outer">
+			<%= render(:partial => "/layouts/pitch") if @pitch %>
+			
 			<div id="content">
 				<% if !flash[:notice].blank? -%>
 					<p id="flash"><%= flash[:notice] %></p>
@@ -51,7 +53,6 @@
 			<%= render :partial => "/layouts/footer" %>
 		</div>
 		
-		<%= render :partial => "/layouts/feedback" %>
 		<%= render :partial => "/layouts/overlay" %>
 		<%= render :partial => "/layouts/referrers" %>
 	</body>

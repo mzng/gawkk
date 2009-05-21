@@ -10,6 +10,7 @@ class VideosController < ApplicationController
   def index
     @popular = params[:popular] ? true : false
     
+    pitch
     set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
     set_title("#{@popular ? 'Popular' : 'Newest'} Videos")
     setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
@@ -27,6 +28,7 @@ class VideosController < ApplicationController
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
       @popular = params[:popular] ? true : false
       
+      pitch
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       set_title("#{@popular ? 'Popular' : 'Newest'} Videos in The #{@category.name} Category")
       setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
@@ -45,6 +47,7 @@ class VideosController < ApplicationController
   end
   
   def friends
+    pitch
     record_ad_campaign
     setup_pagination
     setup_generic_sidebar
@@ -60,6 +63,7 @@ class VideosController < ApplicationController
   end
   
   def subscriptions
+    pitch
     setup_pagination
     setup_generic_sidebar
     setup_user_sidebar(logged_in_user) if user_logged_in?
@@ -80,6 +84,7 @@ class VideosController < ApplicationController
   
   def discuss
     # load_video or redirect
+    pitch
     set_title(@video.title)
     set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
     setup_discuss_sidebar(@video)

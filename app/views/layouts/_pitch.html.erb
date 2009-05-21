@@ -1,19 +1,27 @@
-<% title ||= 'Welcome to Gawkk!' -%>
-
 <% if !user_logged_in? -%>
-	<% form_remote_tag({:url => {:controller => 'registration', :action => 'register'}, :method => 'get'}) do -%>
-		<input type="hidden" name="f" value="pb"/>
-		<div id="pitch">
-			<span>
-				<%= submit_tag 'Join today!' %><br/>
-				or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>
-				Already a member? <%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %>
-			</span>
-			<div>
-				<p style="font-size:16pt;font-weight:bold;"><%= title %></p>
-				<p>Gawkk is like a <strong>'Twitter for videos'</strong> where members <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with their friends by answering the question: <strong>What are you watching?</strong></p>
-				<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
-			</div>
+	<div id="pitch">
+		<span style="display:none;">
+			<%= submit_tag 'Join today!' %><br/>
+			or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>
+			Already a member? <%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %>
+		</span>
+		<div id="sign-up">
+			<p id="one-click">Sign up with one click:</p>
+			<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
+				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
+			<% end -%>
+			<p>
+				<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
+				<script type="text/javascript">
+				    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
+				</script>
+			</p>
+			<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
 		</div>
-	<% end -%>
+		<div id="copy">
+			<p style="font-size:16pt;font-weight:bold;"><%= @pitch_title %></p>
+			<p>Gawkk is like a <strong>'Twitter for videos'</strong> where members <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with their friends by answering the question: <strong>What are you watching?</strong></p>
+			<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
+		</div>
+	</div>
 <% end -%>

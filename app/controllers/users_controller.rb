@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   # User Pages
   def activity
     # load_member or redirect
+    pitch(:title => "Hi there! #{@user.username} is using Gawkk.")
     set_title(@user.username + ' - Activity')
     setup_pagination
     setup_user_sidebar(@user)
