@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090515203103) do
+ActiveRecord::Schema.define(:version => 20090520174738) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -103,6 +103,15 @@ ActiveRecord::Schema.define(:version => 20090515203103) do
     t.text     "truveo_url"
     t.datetime "deleted_at"
   end
+
+  create_table "facebook_accounts", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "facebook_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "facebook_accounts", ["user_id"], :name => "user_id"
 
   create_table "feed_importer_reports", :force => true do |t|
     t.integer  "feed_id"
@@ -447,6 +456,7 @@ ActiveRecord::Schema.define(:version => 20090515203103) do
     t.integer  "digest_email_frequency",                    :default => 0,     :null => false
     t.boolean  "suggested",                                 :default => false, :null => false
     t.boolean  "twitter_oauth",                             :default => false, :null => false
+    t.boolean  "facebook",                                  :default => false, :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"
@@ -542,6 +552,8 @@ ActiveRecord::Schema.define(:version => 20090515203103) do
   add_foreign_key "comments", ["user_id"], "users", ["id"], :name => "comments_ibfk_1"
 
   add_foreign_key "contacts", ["user_id"], "users", ["id"], :name => "contacts_ibfk_1"
+
+  add_foreign_key "facebook_accounts", ["user_id"], "users", ["id"], :name => "facebook_accounts_ibfk_1"
 
   add_foreign_key "feed_importer_reports", ["feed_id"], "feeds", ["id"], :name => "feed_importer_reports_ibfk_1"
 

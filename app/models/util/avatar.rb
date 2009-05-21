@@ -119,6 +119,19 @@ class Util::Avatar
     image_fetched
   end
   
+  def self.fetch_from_facebook(user, image_url)
+    image_fetched = false
+    
+    begin
+      Util::Avatar.delete("#{user.slug}.facebook.jpg")
+      
+      image_fetched = Util::Avatar.fetch_and_write(image_url, "#{user.slug}.facebook.jpg")
+    rescue
+    end
+    
+    image_fetched
+  end
+  
   # Helper Methods
   def self.delete(path)
     if File.exists?("#{RAILS_ROOT}/public/images/users/#{path}")

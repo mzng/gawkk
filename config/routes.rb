@@ -99,6 +99,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'twitter/:action',    :controller => 'twitter'
   
   
+  # facebook
+  map.connect 'fb_callback',        :controller => 'facebook', :action => 'fb_callback'
+  map.connect 'facebook/:action',   :controller => 'facebook'
+  
+  
   # search
   map.connect 'search/:action',     :controller => 'search'
   

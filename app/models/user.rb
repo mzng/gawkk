@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   belongs_to :age_range
   
   has_one :twitter_account, :dependent => :destroy
+  has_one :facebook_account, :dependent => :destroy
   
   has_many :channels, :class_name => "Channel", :order => 'channels.created_at', :dependent => :destroy
   has_many :comments, :class_name => "Comment", :foreign_key => "user_id", :dependent => :destroy
@@ -44,7 +45,7 @@ class User < ActiveRecord::Base
   attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
   attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
-  attr_accessible :feed_owner, :twitter_oauth
+  attr_accessible :feed_owner, :twitter_oauth, :facebook
   
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"

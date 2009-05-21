@@ -82,10 +82,11 @@ class TwitterController < ApplicationController
       @oauth = session[:oauth_credentials]
       
       @user = User.new
+      @user.send_digest_emails = true
+      
       if !@oauth[:twitter_screen_name].blank?
         @user.username = @oauth[:twitter_screen_name]
-        @user.send_digest_emails = true
-      
+        
         attempt = 0
         while !User.valid_username?(@user.username) and attempt < 3 do
           if @user.username.length < 15
@@ -93,7 +94,7 @@ class TwitterController < ApplicationController
           else
             @user.username = @user.username[0, 14] + rand(10).to_s
           end
-        
+          
           attempt = attempt + 1
         end
       end

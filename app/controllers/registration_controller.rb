@@ -95,7 +95,7 @@ class RegistrationController < ApplicationController
   end
   
   def setup_suggestions
-    # load_user or redirect
+    # load_user or continue oauth setup
     if request.get?
       @users = collect('users', User.members.all(:conditions => {:suggested => true}, :order => :username))
       @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => :name))
@@ -133,7 +133,7 @@ class RegistrationController < ApplicationController
   def load_user_or_continue_oauth_setup
     if user_logged_in? and @user = User.find(logged_in_user.id)
       yield
-    elsif !session[:oauth_credentials].blank?
+    elsif !session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?
       @user = User.new
       yield
     else

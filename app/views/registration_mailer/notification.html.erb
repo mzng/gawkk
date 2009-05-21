@@ -13,6 +13,11 @@ In case you forget, here is your login info - keep this email around for referen
    Gawkk Username: <%= @user.username %>
    Gawkk Profile: http://www.gawkk.com/<%= @user.slug %>
    Linked Twitter Account: http://twitter.com/<%= @user.twitter_username %>
+<% elsif @user.facebook? -%>
+   Gawkk Username: <%= @user.username %>
+   Gawkk Profile: http://www.gawkk.com/<%= @user.slug %>
+
+Your new account is linked with Facebook Connect
 <% else -%>
    Gawkk Username: <%= @user.username %>
    Password: <%= @user.password %>

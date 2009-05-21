@@ -23,13 +23,17 @@
 				</div>
 				
 				<div id="facebook-form" class="signup_form" style="display:none;">
-					<p class="coming-soon">Coming Soon</p>
-					<p class="title">Sign in Securely with Facebook</p>
+					<p class="title" style="margin-top:25px;">Sign in Securely with Facebook</p>
 					<p class="explanation">
-						Soon, you'll be able to use your facebook account!<br/>For now, you can sign up 
-						for a <%= link_to 'Gawkk', '#gawkk', :onclick => "chooseService('gawkk', 'user_email');" %> account.
+						There's no need to sign up for an account!<br/>
+						Sign in with Facebook and instantly access Gawkk!
 					</p>
-					<p class="authorize"><%= submit_tag('Connect to Facebook', :disabled => true) %></p>
+					<p class="authorize">
+						<fb:login-button onclick="hideOverlay();" size="large" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
+						<script type="text/javascript">
+						    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
+						</script>
+					</p>
 				</div>
 				
 				<div id="gawkk-form" class="signup_form" style="display:block;">

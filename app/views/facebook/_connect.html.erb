@@ -1,4 +1,4 @@
-<div id="twitter-connect-overlay" class="buffered">
+<div id="facebook-connect-overlay" class="buffered">
 	<h1 class="section-header">Finalize Your Sign-in</h1>
 	
 	<div id="container">
@@ -6,12 +6,12 @@
 			Please confirm your username and provide an email address for friend updates.
 		</p>
 		
-		<% form_tag({:controller => 'twitter', :action => 'connect'}, :id => 'connect_form', :onsubmit => "var valid = checkValidity(['username','email'], 'user'); if(valid){disableForm('submit_for_connect');} return valid;") do %>
+		<% form_tag({:controller => 'facebook', :action => 'connect'}, :id => 'connect_form', :onsubmit => "var valid = checkValidity(['username','email'], 'user'); if(valid){disableForm('submit_for_connect');} return valid;") do %>
 			<%= error_messages_for 'user' %>
 
 			<table cellpadding="3" cellspacing="0">
 				<tr>
-					<td style="text-align:center;width:108px;" rowspan="3"><%= image_tag(@oauth[:twitter_image_url], :style => 'border:1px solid #E5E5E5;height:48px;width:48px;') %></td>
+					<td style="text-align:center;width:108px;" rowspan="3"><%= image_tag(@facebook[:image_small], :style => 'border:1px solid #E5E5E5;height:50px;width:50px;') %></td>
 					<td style="text-align:right;width:115px;">Username:</td>
 					<td style="width:205px;">
 						<%= text_field 'user', 'username', :value => '', :class => 'field' %> *

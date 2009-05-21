@@ -63,6 +63,10 @@
 
 <% if !user_logged_in? -%>
 	<script type="text/javascript" charset="utf-8">
-		new Ajax.Request('/twitter/connect', {asynchronous:true, evalScripts:true, method:'get'});
+		<% if !session[:oauth_credentials].nil? -%>
+			new Ajax.Request('/twitter/connect', {asynchronous:true, evalScripts:true, method:'get'});
+		<% elsif !session[:facebook_credentials].nil? -%>
+			new Ajax.Request('/facebook/connect', {asynchronous:true, evalScripts:true, method:'get'});
+		<% end -%>
 	</script>
 <% end -%>
