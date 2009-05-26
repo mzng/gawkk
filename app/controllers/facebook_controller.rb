@@ -34,7 +34,7 @@ class FacebookController < ApplicationController
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
         
-        redirect_to '/'
+        redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
       else
         facebook = Hash.new
         facebook[:id] = facebook_session.user.uid

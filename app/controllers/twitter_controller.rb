@@ -46,7 +46,7 @@ class TwitterController < ApplicationController
             # Store the logged in user's id in the session
             session[:user_id] = @user.id
             
-            redirect_to '/'
+            redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
           else
             oauth = Hash.new
             oauth[:access_token]  = @access_token.token

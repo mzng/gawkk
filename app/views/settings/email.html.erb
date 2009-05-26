@@ -43,14 +43,14 @@
 	
 	<% form_for(@user, :url => {:controller => 'settings', :action => 'notifications', :id => params[:id]}) do |f| %>
 		<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Change Your Notification Settings', :links => []} %>
-		<table cellpadding="0" cellspacing="0">
+		<table cellpadding="3" cellspacing="0">
 			<tr>
-				<td>
-					<p style="margin-top:0px;">
-						<label for="user_digest_email_frequency">Digest Email Frequency:</label>
-						<%= f.select 'digest_email_frequency', [['Never', 0], ['Twice a week', 2], ['Three times a week', 3]] %>
-					</p>
-				</td>
+				<td><label for="user_digest_email_frequency">Digest Email Frequency:</label></td>
+				<td><%= f.select 'digest_email_frequency', [['Three times a week', 3], ['Twice a week', 2], ['Never', 0]] %></td>
+			</tr>
+			<tr>
+				<td><label for="user_follow_notification_type">New Follower Emails:</label></td>
+				<td><%= f.select 'follow_notification_type', [['Each time someone starts following me', 2], ['A summary of new followers, once a day', 1], ['Never email me about new followers', 0]] %></td>
 			</tr>
 		</table>
 		

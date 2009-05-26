@@ -1,17 +1,40 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Login to Gawkk'} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Login to Gawkk', :description => "Don't have an account yet? #{link_to_remote('Register', {:url => {:controller => 'registration', :action => 'register'}, :method => :get})} now."} %>
 
-<div id="content-main">
-	<% form_tag do %>
-		<%= error_messages_for 'user' %>
+<div>
+	<table id="login-options" cellpadding="3" cellspacing="0">
+		<tr>
+			<td style="vertical-align:top;">
+				<% form_tag do %>
+					<%= hidden_field 'current', 'path', :value => @redirect_to %>
+					
+					<p>Email Address or Username:<br/>
+					<%= text_field('user', 'email', :size => 35) %></p>
 
-		<p>Email Address:<br/>
-		<%= text_field('user', 'email', :size => 20) %></p>
+					<p>Password:<br/>
+					<%= password_field('user', 'password', :size => 35) %></p>
 
-		<p>Password:<br/>
-		<%= password_field('user', 'password', :size => 20) %></p>
+					<p><%= check_box_tag :remember %> <label for="remember">Remember me</label></p>
 
-		<p><%= check_box_tag :remember %> <label for="remember">Remember me</label></p>
-
-		<%= submit_tag 'Login' %>
-	<% end %>
+					<%= submit_tag 'Login' %>
+				<% end %>
+			</td>
+			<td style="vertical-align:top;">
+				<p id="one-click">Or, login with one click:</p>
+				<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
+					<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
+				<% end -%>
+				<p>
+					<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
+					<script type="text/javascript">
+					    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
+					</script>
+				</p>
+				<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
+			</td>
+		</tr>
+	</table>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	$('user_email').focus();
+</script>

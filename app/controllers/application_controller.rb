@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
   before_filter [:preload_models, :check_cookie, :perform_outstanding_action]
+  after_filter  [:reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -53,15 +54,15 @@ class ApplicationController < ActionController::Base
         if actionable[:video]
           video = actionable[:video]
           video.posted_by_id = logged_in_user.id
-          
+        
           if video.save
             if channels = Channel.owned_by(logged_in_user) and channels.size > 0
               SavedVideo.create(:channel_id => channels.first.id, :video_id => video.id)
             end
             NewsItem.report(:type => 'submit_a_video', :reportable => video, :user_id => logged_in_user.id)
-            
+          
             video = Util::Thumbnail.replace_with_suggestion(video)
-            
+          
             if comment = actionable[:comment]
               comment.commentable_id = video.id
               comment.user_id = logged_in_user.id
@@ -76,9 +77,13 @@ class ApplicationController < ActionController::Base
         actionable.user_id = logged_in_user.id
         actionable.save
       end
-      
+    
       session[:actionable] = nil
     end
+  end
+  
+  def reset_redirect_to
+    session[:redirect_to] = nil unless action_name == 'login' or action_name == 'oauth_request' or action_name == 'fb_callback'
   end
   
   # Authorization

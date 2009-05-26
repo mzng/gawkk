@@ -2,7 +2,8 @@ class AuthenticationController < ApplicationController
   layout 'page'
   
   def login
-    @redirect_to = params[:redirect_to]
+    @redirect_to = (params[:redirect_to] or session[:redirect_to])
+    session[:redirect_to] = (params[:redirect_to] or session[:redirect_to])
     
     if request.get?
       # Logout the current user

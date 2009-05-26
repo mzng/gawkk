@@ -89,8 +89,9 @@ class SettingsController < ApplicationController
     # ensure_logged_in_user or redirect
     
     if request.put?
-      @user.digest_email_frequency  = params[:user][:digest_email_frequency]
-      @user.send_digest_emails      = (@user.digest_email_frequency > 0 ? true : false)
+      @user.digest_email_frequency    = params[:user][:digest_email_frequency]
+      @user.send_digest_emails        = (@user.digest_email_frequency > 0 ? true : false)
+      @user.follow_notification_type  = params[:user][:follow_notification_type]
       
       if @user.save
         flash[:notice] = 'Your notification settings have been updated successfully.'
@@ -130,7 +131,7 @@ class SettingsController < ApplicationController
       yield
     else
       flash[:notice] = 'You must be logged in to the do that.'
-      redirect_to :controller => "authentication", :aciton => "login"
+      redirect_to :controller => "authentication", :action => "login", :redirect_to => "/settings/#{params[:action]}"
     end
   end
 end

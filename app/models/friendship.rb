@@ -25,7 +25,10 @@ class Friendship < ActiveRecord::Base
     
     if self.silent == false
       spawn do
-        FollowMailer.deliver_notification(self)
+        if self.friend.receives_each_follow_notification?
+          FollowMailer.deliver_notification(friendship)
+          self.update_attribute('notification_sent', true)
+        end
       end
       
       if !User.default_followings.collect{|u| u.id}.include?(self.user_id)

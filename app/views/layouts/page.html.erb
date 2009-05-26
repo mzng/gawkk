@@ -19,7 +19,7 @@
 		
 		<title><%= @title.nil? ? 'Share Videos with Friends' : @title %> on Gawkk</title>
 		
-		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'share', 'user', 'channel', 'registration', 'twitter', 'facebook', 'settings', 'submit', 'admin.channel', 'admin.comment', 'admin.user' %>
+		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'share', 'user', 'channel', 'login', 'registration', 'twitter', 'facebook', 'settings', 'submit', 'admin.channel', 'admin.comment', 'admin.user' %>
 		<%= render :partial => "/layouts/ie7_css_overrides" %>
 		
 		<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
@@ -39,14 +39,13 @@
 		<div id="outer">
 			<%= render(:partial => "/layouts/pitch") if @pitch %>
 			
+			<% if !flash[:notice].blank? -%>
+				<p id="flash"><%= flash[:notice] %></p>
+				<% flash[:notice] = nil -%>
+			<% end -%>
+			
 			<div id="content">
-				<% if !flash[:notice].blank? -%>
-					<p id="flash"><%= flash[:notice] %></p>
-					<% flash[:notice] = nil -%>
-				<% end -%>
-				
 				<%= yield  %>
-				
 				<br class="clear"/>
 			</div>
 			

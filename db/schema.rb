@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090520174738) do
+ActiveRecord::Schema.define(:version => 20090526152813) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -167,7 +167,8 @@ ActiveRecord::Schema.define(:version => 20090520174738) do
     t.integer  "friend_id"
     t.datetime "created_at"
     t.string   "auth_code"
-    t.boolean  "mutual",     :default => false, :null => false
+    t.boolean  "mutual",            :default => false, :null => false
+    t.boolean  "notification_sent", :default => false, :null => false
   end
 
   add_index "friendships", ["user_id"], :name => "user_id"
@@ -457,6 +458,7 @@ ActiveRecord::Schema.define(:version => 20090520174738) do
     t.boolean  "suggested",                                 :default => false, :null => false
     t.boolean  "twitter_oauth",                             :default => false, :null => false
     t.boolean  "facebook",                                  :default => false, :null => false
+    t.integer  "follow_notification_type",                  :default => 2,     :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"
