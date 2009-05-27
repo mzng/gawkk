@@ -1,7 +1,7 @@
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Subscriptions', 
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Channel Stream', 
 			:links => [{:name => 'Activity', :options => '/', :selected => false}, 
-			{:name => 'Subscriptions', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => true}]} %>
+			{:name => 'Channels', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => true}]} %>
 	<%= render @videos %>
 	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Videos From Subscriptions', :collection => @videos} %>
 </div>

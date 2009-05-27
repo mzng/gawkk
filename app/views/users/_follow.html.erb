@@ -1,12 +1,12 @@
 <span id="follow_for_<%= user.id %>">
 	<% if user_logged_in? and logged_in_user.id != user.id -%>
 		<% if !logged_in_user.follows?(user) -%>
-			<%= link_to_remote 'Follow', {:url => {:controller => 'users', :action => 'follow', :id => user}}, :class => 'follow' %>
+			<%= link_to_remote '+ Follow', {:url => {:controller => 'users', :action => 'follow', :id => user}}, :class => 'follow' %>
 		<% else -%>
-			<%= link_to_remote 'Unfollow', {:url => {:controller => 'users', :action => 'unfollow', :id => user}}, :class => 'unfollow' %>
+			<%= link_to_remote 'Following!', {:url => {:controller => 'users', :action => 'unfollow', :id => user}}, :class => 'unfollow' %>
 		<% end -%>
 	<% elsif !user_logged_in? -%>
-		<%= link_to 'Follow', {:controller => 'authentication', :action => 'login'} %>
+		<%= link_to '+ Follow', {:controller => 'authentication', :action => 'login'}, :class => 'follow' %>
 	<% else -%>
 		&nbsp;
 	<% end -%>

@@ -2,10 +2,10 @@
 <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
 									{:name => @user.username, :params => user_path(:id => @user)}, 
-									{:name => 'Subscriptions', :params => {:controller => 'users', :action => 'subscriptions', :id => @user}}]} %>
+									{:name => 'Channels', :params => {:controller => 'users', :action => 'subscriptions', :id => @user}}]} %>
 
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Subscriptions of #{@user.username}", 
+	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Channels followed by #{@user.username}", 
 			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => false}, 
 			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
 	<div class="grid-container">

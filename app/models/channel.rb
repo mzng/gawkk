@@ -6,6 +6,7 @@ class Channel < ActiveRecord::Base
   
   named_scope :public, :select => 'id, name, subscriptions_count', :conditions => {:user_owned => false}
   named_scope :featured, :select => 'id, name, subscriptions_count', :conditions => {:user_owned => false, :featured => true}
+  named_scope :suggested, :select => 'id, name, subscriptions_count', :conditions => {:user_owned => false, :suggested => true}
   named_scope :with_slug, lambda {|slug| {:conditions => ['lower(slug) = lower(?)', slug]}}
   named_scope :owned_by, lambda {|user| {:conditions => ['user_id = ?', user.id]}}
   named_scope :owned_by_many, lambda {|slugs| {:include => :user, :conditions => ['users.slug IN (?)', slugs]}}

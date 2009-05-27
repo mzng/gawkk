@@ -1,6 +1,5 @@
 class RegistrationController < ApplicationController
   around_filter :load_user, :only => [:setup_services, :setup_profile]
-  around_filter :load_user_or_continue_oauth_setup, :only => [:setup_suggestions]
   layout 'page'
   
   
@@ -95,46 +94,43 @@ class RegistrationController < ApplicationController
   end
   
   def setup_suggestions
-    # load_user or continue oauth setup
-    if request.get?
-      @users = collect('users', User.members.all(:conditions => {:suggested => true}, :order => :username))
-      @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => :name))
+    if (user_logged_in? and @user = User.find(logged_in_user.id)) or ((!session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?) and @user = User.new)
+      if request.get?
+        @users = collect('users', User.members.all(:conditions => {:slug => ['brianoblivion', 'gculliss', 'tsmango']}, :order => 'rand()'))
+
+        user_count = User.count(:all, :conditions => {:feed_owner => false, :administrator => false, :suggested => true}, :order => :username)
+        @users.concat(collect('users', User.members.all(:conditions => {:administrator => false, :suggested => true}, :order => 'rand()', :limit => (user_count * 0.6).to_i)))
+
+
+        @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => :name))
+      else
+        params[:users].each_key do |user_id|
+          if user = User.find(user_id) and params[:users][user_id] == '1'
+            logged_in_user.follow(user, true)
+          elsif user
+            logged_in_user.unfollow(user)
+          end
+        end
+
+        params[:channels].each_key do |channel_id|
+          if channel = Channel.find(channel_id) and params[:channels][channel_id] == '1'
+            logged_in_user.subscribe_to(channel, true)
+          elsif channel
+            logged_in_user.unsubscribe_from(channel)
+          end
+        end
+
+        redirect_to '/'
+      end
     else
-      params[:users].each_key do |user_id|
-        if user = User.find(user_id) and params[:users][user_id] == '1'
-          logged_in_user.follow(user, true)
-        elsif user
-          logged_in_user.unfollow(user)
-        end
-      end
-      
-      params[:channels].each_key do |channel_id|
-        if channel = Channel.find(channel_id) and params[:channels][channel_id] == '1'
-          logged_in_user.subscribe_to(channel, true)
-        elsif channel
-          logged_in_user.unsubscribe_from(channel)
-        end
-      end
-      
-      redirect_to '/'
+      flash[:notice] = 'You must be logged in to do that.'
+      redirect_to :controller => "authentication", :action => "login", :redirect_to => "/setup/suggestions"
     end
   end
   
   private
   def load_user
     if user_logged_in? and @user = User.find(logged_in_user.id)
-      yield
-    else
-      flash[:notice] = 'You must be logged in to do that.'
-      redirect_to :controller => "authentication", :action => "login"
-    end
-  end
-  
-  def load_user_or_continue_oauth_setup
-    if user_logged_in? and @user = User.find(logged_in_user.id)
-      yield
-    elsif !session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?
-      @user = User.new
       yield
     else
       flash[:notice] = 'You must be logged in to do that.'

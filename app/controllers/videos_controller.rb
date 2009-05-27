@@ -57,8 +57,8 @@ class VideosController < ApplicationController
     @include_followings = true
     @news_items = collect('news_items', @base_user.followings_activity(:offset => @offset, :limit => @per_page))
     
-    if (@channels = @base_user.subscribed_channels(:order => 'rand()', :limit => 8)).size == 0
-      @channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 8))
+    if (@channels = @base_user.subscribed_channels(:order => 'rand()', :limit => 7)).size == 0
+      @channels = collect('channels', Channel.suggested.all(:order => 'rand()', :limit => 7))
     end
   end
   
