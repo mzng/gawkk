@@ -96,13 +96,8 @@ class RegistrationController < ApplicationController
   def setup_suggestions
     if (user_logged_in? and @user = User.find(logged_in_user.id)) or ((!session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?) and @user = User.new)
       if request.get?
-        @users = collect('users', User.members.all(:conditions => {:slug => ['brianoblivion', 'gculliss', 'tsmango']}, :order => 'rand()'))
-
-        user_count = User.count(:all, :conditions => {:feed_owner => false, :administrator => false, :suggested => true}, :order => :username)
-        @users.concat(collect('users', User.members.all(:conditions => {:administrator => false, :suggested => true}, :order => 'rand()', :limit => (user_count * 0.6).to_i)))
-
-
-        @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => :name))
+        @users.concat(collect('users', User.members.all(:conditions => {:suggested => true}, :order => 'rand()')))
+        @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => 'rand()'))
       else
         params[:users].each_key do |user_id|
           if user = User.find(user_id) and params[:users][user_id] == '1'
