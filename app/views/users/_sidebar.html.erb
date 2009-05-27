@@ -15,11 +15,11 @@
 	<%= render :partial => "/users/about", :locals => {:user => user} %>
 <% end -%>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Following', :description => '(people I follow)', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Following', :description => '(followed people)', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 
 		:count => @followings_count, :collection => @followings} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', :description => '(people following me)', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', :description => '(followed by)', 
 		:link => {:controller => 'users', :action => 'followers', :id => user}, 
 		:count => @followers_count, :collection => @followers} %>
 
@@ -27,6 +27,6 @@
 		:link => {:controller => 'users', :action => 'friends', :id => user}, 
 		:count => @friends_count, :collection => @friends} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Channels', :description => '(channels I follow)', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Channels', :description => '(followed channels)', 
 		:link => {:controller => 'users', :action => 'subscriptions', :id => user}, 
 		:count => @subscribed_channels_count, :collection => @subscribed_channels} %>

@@ -94,7 +94,17 @@ class RegistrationController < ApplicationController
   end
   
   def setup_suggestions
-    if (user_logged_in? and @user = User.find(logged_in_user.id)) or ((!session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?) and @user = User.new)
+    @user = nil
+    
+    if user_logged_in?
+      @user = User.find(logged_in_user.id)
+    end
+    
+    if !session[:oauth_credentials].blank? or !session[:facebook_credentials].blank?
+      @user = User.new
+    end
+    
+    if !@user.nil?
       if request.get?
         @users = collect('users', User.members.all(:conditions => {:suggested => true}, :order => 'rand()'))
         @channels = collect('channels', Channel.public.all(:conditions => {:suggested => true}, :order => 'rand()'))
