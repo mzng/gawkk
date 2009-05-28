@@ -276,6 +276,11 @@
 	font-size: 9pt;
 }
 
+.video .inline .body {
+	min-height: 0;
+	height: auto !important;
+}
+
 .video .inline .image {
 	text-align: right;
 	vertical-align: middle;
