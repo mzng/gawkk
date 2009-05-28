@@ -11,16 +11,16 @@
 
 			<table cellpadding="3" cellspacing="0">
 				<tr>
-					<td style="text-align:center;width:108px;" rowspan="3"><%= image_tag(@facebook[:image_small], :style => 'border:1px solid #E5E5E5;height:50px;width:50px;') %></td>
+					<td style="text-align:center;width:100px;" rowspan="3"><%= image_tag(@facebook[:image_small], :style => 'border:1px solid #E5E5E5;height:50px;width:50px;') %></td>
 					<td style="text-align:right;width:115px;">Username:</td>
-					<td style="width:205px;">
+					<td colspan="2" style="width:210px;">
 						<%= text_field 'user', 'username', :value => '', :class => 'field' %> *
 						<%= hidden_field 'valid', 'username', :value => 'false' %>
 					</td>
 				</tr>
 				<tr>
 					<td><span id="username_is_valid"><%= image_tag('blank.gif', :style => 'vertical-align:top;') %></span> Your URL:</td>
-					<td style="font-size:9pt;">
+					<td colspan="2" style="font-size:9pt;">
 						<div style="overflow-x:hidden;white-space:nowrap;width:190px;">
 							http://gawkk.com/<span id="username" style="color:gray;">username</span>
 						</div>
@@ -28,27 +28,30 @@
 				</tr>
 				<tr>
 					<td>Email Address:</td>
-					<td>
+					<td colspan="2">
 						<%= text_field 'user', 'email', :class => 'field' %> *
 						<%= hidden_field 'valid', 'email', :value => 'false' %>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" class="agreement">
-						I am over 13 years old and agree to the Terms &amp; Privacy
+					<td colspan="4" class="agreement">
+						I am over 13 years old and agree to the <%= link_to 'Terms', {:controller => 'pages', :action => 'terms_of_use'}, :target => 'terms' %> &amp; <%= link_to 'Privacy', {:controller => 'pages', :action => 'privacy'}, :target => 'privacy' %>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" class="agreement">
+					<td colspan="4" class="agreement">
 						<label for="user_send_digest_emails">
 							<%= check_box 'user', 'send_digest_emails' %> Send me email updates about my friends
 						</label>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" style="padding-right:15px;text-align:right;">
+					<td></td>
+					<td></td>
+					<td><span style="color:gray;font-size:8pt;">* Required</span></td>
+					<td style="padding-right:15px;text-align:right;">
 						<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_connect', :action => 'Submitting'}) do -%>
-							<span style="color:gray;font-size:8pt;margin-right:75px;">Required *</span> <%= submit_tag 'Submit' %>
+							<%= submit_tag 'Submit' %>
 						<% end -%>
 					</td>
 				</tr>

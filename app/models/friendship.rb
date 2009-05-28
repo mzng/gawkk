@@ -26,7 +26,7 @@ class Friendship < ActiveRecord::Base
     if self.silent == false
       spawn do
         if self.friend.receives_each_follow_notification?
-          FollowMailer.deliver_notification(friendship)
+          FollowMailer.deliver_notification(self)
           self.update_attribute('notification_sent', true)
         end
       end
