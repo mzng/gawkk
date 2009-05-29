@@ -358,6 +358,19 @@ class User < ActiveRecord::Base
     NewsItem.grouped_activity(user_ids, options)
   end
   
+  def followings_comments(*args)
+    # Speed and clean this method up with the caching system
+    options = args.extract_options!
+    
+    user_ids = self.followings_ids
+    if !self.id.blank? and (options[:include_self].nil? ? true : options[:include_self])
+      user_ids << self.id
+    end
+    options.delete(:include_self)
+    
+    Comment.for_commentable_type('Video').by_users(user_ids).in_reverse_order.all(options)
+  end
+  
   
   def subscription_ids
     # Speed this method up with cache

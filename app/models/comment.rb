@@ -3,12 +3,14 @@ class Comment < ActiveRecord::Base
   belongs_to  :user, :counter_cache => 'my_comments_count'
   
   named_scope :in_order, :order => 'created_at ASC'
+  named_scope :in_reverse_order, :order => 'created_at DESC'
   named_scope :threads, :select => 'DISTINCT thread_id'
   named_scope :in_thread, lambda {|thread_id| {:conditions => ['thread_id LIKE BINARY ?', thread_id]}}
   named_scope :in_threads, lambda {|thread_ids| {:conditions => ['thread_id COLLATE latin1_bin IN (?)', thread_ids]}}
   named_scope :not_user, lambda {|user_id| {:conditions => ['user_id != ?', user_id]}}
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
   named_scope :for_commentable, lambda {|commentable| {:conditions => {:commentable_type => commentable.class.name, :commentable_id => commentable.id}}}
+  named_scope :for_commentable_type, lambda {|commentable_type| {:conditions => {:commentable_type => commentable_type}}}
   
   
   def after_create

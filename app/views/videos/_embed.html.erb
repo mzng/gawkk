@@ -6,7 +6,7 @@
 				Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
 			</td>
 			<td>
-				<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+				<div class="clickable-area" onclick="watchVideo('<%= comment_id.nil? ? video.id : comment_id %>', '<%= video.slug %>');">
 					Close <%= image_tag('close.png') %>
 				</div>
 			</td>
@@ -14,7 +14,7 @@
 	</table>
 <% else -%>
 	<div class="close">
-		<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+		<div class="clickable-area" onclick="watchVideo('<%= comment_id.nil? ? video.id : comment_id %>', '<%= video.slug %>');">
 			Close <%= image_tag('close.png') %>
 		</div>
 	</div>

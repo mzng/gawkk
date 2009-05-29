@@ -1,0 +1,73 @@
+/* single comment */
+.comment {
+	margin-top: 15px;
+	width: 100%;
+}
+
+.comment:first-child {
+	margin-top: 0;
+}
+
+.comment td {
+	font-size: 9pt;
+	padding: 1px 0;
+	text-align: left;
+}
+
+.comment td + td {
+	padding-left: 5px;
+}
+
+.comment .last {
+	padding-right: 10px;
+	text-align: right;
+}
+
+.comment .last a {
+	font-size: 8pt;
+}
+
+.comment td a {
+	font-size: 9pt;
+}
+
+.comment .avatar {
+	width: 52px;
+}
+
+.comment .avatar img {
+	border: 1px solid #E5E5E5;
+	height: 50px;
+	width: 50px;
+}
+
+.comment .body {
+	vertical-align: top;
+}
+
+.comment .body span {
+	color: gray;
+	font-size: 8pt;
+	font-style: italic;
+}
+
+.comment .thumbnail {
+	width: 50px;
+}
+
+.comment .thumbnail div {
+	border: 1px solid #E5E5E5;
+	cursor: pointer;
+	float: left;
+	height: 50px;
+	width: 71px;
+}
+
+.comment .title {
+	font-weight: bold;
+	padding-left: 5px;
+}
+
+.comment .title a {
+	font-size: 10pt;
+}

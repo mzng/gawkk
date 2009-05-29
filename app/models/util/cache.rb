@@ -79,6 +79,32 @@ class Util::Cache
     return @news_items
   end
   
+  def self.collect_comments(comments)
+    # gather ids of comments no longer in cache
+    ids_of_comments_to_load = Array.new
+    comments.each do |comment|
+      if !Rails.cache.exist?(comment.cache_key)
+        ids_of_comments_to_load << comment.id
+      end
+    end
+    
+    # select all comments no longer in cache at once
+    Comment.find(ids_of_comments_to_load, :include => [:user, :commentable]).each do |comment|
+      Rails.cache.write(comment.cache_key, comment, :expires_in => 1.day)
+    end
+    
+    # collect all of the full comments from cache
+    @comments = Array.new(comments.size)
+    
+    for i in 0..(comments.size - 1)
+      @comments[i] = Rails.cache.fetch(comments[i].cache_key, :expires_in => 1.day) do
+        Comment.find(comments[i].id, :include => [:user, :commentable])
+      end
+    end
+    
+    return @comments
+  end
+  
   def self.collect_channels(channels)
     # gather ids of channels no longer in cache
     ids_of_channels_to_load = Array.new

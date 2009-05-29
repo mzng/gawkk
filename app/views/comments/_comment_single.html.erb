@@ -1,0 +1,27 @@
+<% if comment.commentable -%>
+	<% content_tag_for(:table, comment, :class => 'comment', :cellpadding => 0, :cellspacing => 0) do -%>
+		<tr>
+			<td class="avatar" rowspan="2">
+				<%= link_to image_tag(comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail), user_path(:id => comment.user) %>
+			</td>
+			<td class="body" colspan="2">
+				<%= link_to comment.user.username, user_path(:id => comment.user) %>: <%=h comment.body %>
+				<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
+			</td>
+			<td class="thumbnail" rowspan="2">
+				<div onclick="watchVideoAndScroll('<%= comment.id %>','<%= comment.commentable.slug %>', false, '<%= comment.id %>');" style="background-image:url(/images/<%= comment.commentable.thumbnail.blank? ? 'no-image.png' : comment.commentable.thumbnail %>);">
+					<%= image_tag('play-overlay-filler-small.png', :mouseover => "/images/play-overlay-hover-small.png") %>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="title">
+				<%= link_to comment.commentable.title, "javascript:watchVideoAndScroll('#{comment.id}','#{comment.commentable.slug}', false, '#{comment.id}');" %>
+			</td>
+		</tr>
+	<% end -%>
+	<div class="video" id="video_<%= comment.id %>">
+		<div id="embed_for_<%= comment.id %>" class="embed" style="display:none;"></div>
+		<div id="new_comment_for_<%= comment.id %>" style="display:none;"></div>
+	</div>
+<% end -%>

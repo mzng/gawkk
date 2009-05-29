@@ -49,10 +49,10 @@ function rest(videoId) {
 }
 
 function watchVideo(videoId, videoSlug) {
-	watchVideoAndScroll(videoId, videoSlug, true)
+	watchVideoAndScroll(videoId, videoSlug, true, null)
 }
 
-function watchVideoAndScroll(videoId, videoSlug, scroll) {
+function watchVideoAndScroll(videoId, videoSlug, scroll, commentId) {
 	if($('embed_for_' + videoId).style.display != 'none') {
 		$('embed_for_' + videoId).hide();
 		$('embed_for_' + videoId).update('');
@@ -66,7 +66,13 @@ function watchVideoAndScroll(videoId, videoSlug, scroll) {
 			$('new_comment_for_' + videoId).remove();
 		}
 	} else {
-		new Ajax.Request('/' + videoSlug + '/watch', {asynchronous:true, evalScripts:false, onLoading:function(request){
+		var commentParameter = '';
+		
+		if(commentId != null) {
+			commentParameter = '?comment_id=' + commentId;
+		}
+		
+		new Ajax.Request('/' + videoSlug + '/watch' + commentParameter, {asynchronous:true, evalScripts:false, onLoading:function(request){
 				work(videoId);
 			}, onComplete:function(request){	
 				rest(videoId);

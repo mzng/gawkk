@@ -1,1 +1,1 @@
-page.replace_html("embed_for_#{@video.id}", :partial => "/videos/embed", :locals => {:video => @video})
+page.replace_html("embed_for_#{params[:comment_id].blank? ? @video.id : params[:comment_id]}", :partial => "/videos/embed", :locals => {:video => @video, :comment_id => params[:comment_id]})
