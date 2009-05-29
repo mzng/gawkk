@@ -3,6 +3,10 @@ class Tweet < ActiveRecord::Base
   belongs_to :tweet_type
   belongs_to :reportable, :polymorphic => true
   
+  named_scope :by_system, :conditions => {:twitter_account_id => nil}
+  named_scope :of_type, lambda {|type| {:conditions => {:tweet_type_id => type.id}}}
+  named_scope :for_video, lambda {|video| {:conditions => {:reportable_type => 'Video', :reportable_id => video.id}}}
+  
   def after_create
     attempt = 0
     auth_code = ''
@@ -27,8 +31,8 @@ class Tweet < ActiveRecord::Base
     if twitter_account = user.twitter_account and (!twitter_account.access_token.blank? or twitter_account.authenticated?)
       if tweet_type = TweetType.find_by_name(type)
         tweet = Tweet.create :tweet_type_id => tweet_type.id, :twitter_account_id => twitter_account.id, :reportable_type => reportable.class.name, :reportable_id => reportable.id
+        tweet.publish if Rails.env.production?
       end
-      tweet.publish if Rails.env.production?
     end
   end
   

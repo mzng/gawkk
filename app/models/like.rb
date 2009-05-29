@@ -15,8 +15,31 @@ class Like < ActiveRecord::Base
     NewsItem.report(:type => 'like_a_video', :reportable => self.video, :user_id => self.user_id)
     
     spawn do
+      # Tweet it
       if twitter_account = self.user.twitter_account and twitter_account.tweet_likes?
         Tweet.report('liked_a_video', self.user, self.video)
+      end
+      
+      # Popularize and Tweet it if the liker is an administrator
+      begin
+        if self.user.administrator? and !self.video.popular?
+          tweet_type = TweetType.find_by_name('popularized_video')
+
+          if Tweet.by_system.of_type(tweet_type).for_video(self.video).count == 0
+            Tweet.create(:tweet_type_id => tweet_type.id, :reportable_type => 'Video', :reportable_id => self.video.id)
+
+            tweet = Tweet.new
+            tweet.tweet_type_id   = TweetType.find_by_name('liked_a_video').id
+            tweet.reportable_type = 'Video'
+            tweet.reportable_id   = self.video.id
+
+            twitter = Util::Twitter.client
+            twitter.status(:post, tweet.render)
+          end
+          
+          self.video.update_attribute('popular', true)
+        end
+      rescue
       end
     end
     
