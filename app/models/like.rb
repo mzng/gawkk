@@ -37,7 +37,7 @@ class Like < ActiveRecord::Base
             twitter.status(:post, tweet.render)
           end
           
-          self.video.update_attribute('popular', true)
+          self.video.update_attribute('promoted_at', Time.now)
         end
       rescue
       end
