@@ -1,0 +1,7 @@
+<%= Time.now.strftime("%m/%d/%Y at %I:%M%p") %>
+
+List of Channels with disabled Feeds (<%= @users.size.to_s %>):
+
+<% @users.each_with_index do |user, i| -%>
+<%= Array.new(@users.size.to_s.length - (i + 1).to_s.length).collect{|j| ' '}.join %><%= i + 1 %>: <%= user.username %> (http://gawkk.com/admin/channels/feeds/<%= user.channels.first.id %>)
+<% end -%>

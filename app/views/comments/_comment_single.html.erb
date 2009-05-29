@@ -4,14 +4,14 @@
 			<td class="avatar" rowspan="2">
 				<%= link_to image_tag(comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail), user_path(:id => comment.user) %>
 			</td>
-			<td class="body" colspan="2">
-				<%= link_to comment.user.username, user_path(:id => comment.user) %>: <%=h comment.body %>
-				<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
-			</td>
 			<td class="thumbnail" rowspan="2">
 				<div onclick="watchVideoAndScroll('<%= comment.id %>','<%= comment.commentable.slug %>', false, '<%= comment.id %>');" style="background-image:url(/images/<%= comment.commentable.thumbnail.blank? ? 'no-image.png' : comment.commentable.thumbnail %>);">
 					<%= image_tag('play-overlay-filler-small.png', :mouseover => "/images/play-overlay-hover-small.png") %>
 				</div>
+			</td>
+			<td class="body" colspan="2">
+				<%= link_to comment.user.username, user_path(:id => comment.user) %>: <%=h comment.body %>
+				<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
 			</td>
 		</tr>
 		<tr>

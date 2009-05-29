@@ -25,4 +25,10 @@ namespace :notify do
       end
     end
   end
+  
+  task :channels_with_disabled_feeds => :environment do
+    if (users = User.find(:all, :joins => :feeds, :conditions => 'feeds.active = false', :order => 'username')).size > 0
+      DisabledFeedMailer.deliver_notification(users)
+    end
+  end
 end
