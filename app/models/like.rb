@@ -32,6 +32,7 @@ class Like < ActiveRecord::Base
             tweet.tweet_type_id   = TweetType.find_by_name('liked_a_video').id
             tweet.reportable_type = 'Video'
             tweet.reportable_id   = self.video.id
+            tweet.auth_code       = self.video.short_code
 
             twitter = Util::Twitter.client
             twitter.status(:post, tweet.render)
