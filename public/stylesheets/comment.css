@@ -10,21 +10,8 @@
 
 .comment td {
 	font-size: 9pt;
-	padding: 1px 0;
+	padding: 1px 0 1px 5px;
 	text-align: left;
-}
-
-.comment td + td {
-	padding-left: 5px;
-}
-
-.comment .last {
-	padding-right: 10px;
-	text-align: right;
-}
-
-.comment .last a {
-	font-size: 8pt;
 }
 
 .comment td a {
@@ -32,6 +19,8 @@
 }
 
 .comment .avatar {
+	padding-left: 0;
+	vertical-align: top;
 	width: 52px;
 }
 
@@ -41,33 +30,24 @@
 	width: 50px;
 }
 
-.comment .body {
-	vertical-align: top;
+/* inline video listing */
+.comment .video {
+	width: 590px;
 }
 
-.comment .body span {
-	color: gray;
-	font-size: 8pt;
-	font-style: italic;
+.comment .video .title {
+	margin-top: 0;
 }
 
-.comment .thumbnail {
-	width: 50px;
+.comment .video .thumbnail {
+	height: 81px;
+	width: 115px;
 }
 
-.comment .thumbnail div {
-	border: 1px solid #E5E5E5;
-	cursor: pointer;
-	float: left;
-	height: 50px;
-	width: 71px;
+.comment .video .embed .embed-container {
+	width: 588px;
 }
 
-.comment .title {
-	font-weight: bold;
-	padding-left: 5px;
-}
-
-.comment .title a {
-	font-size: 10pt;
+.comment .video .embed .fake-embed-container {
+	width: 444px;
 }
