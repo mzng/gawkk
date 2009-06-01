@@ -330,40 +330,27 @@ div.paginate-single-link-set span.disabled {
 	text-decoration: underline;
 }
 
-#header #main #sub {
-	background-color: #195baa;
-	color: #f3f6f9;
-	float: right;
-	height: 23px;
-	line-height: 28px;
-	padding: 4px 0 3px 0;
-	width: 725px;
-	_height: 15px;
-	_line-height: 20px;
+#header #search {
+	height: 18px;
+	margin-top: 4px;
 }
 
-#header #main #sub #search {
-	float: right;
-	height: 17px;
-	margin-right: 5px;
-	text-align: right;
-	width: 215px;
+#header #search form {
+	_margin: 0;
 }
 
-#header #main #sub #search span {
-	color: gray;
-	float: left;
-	font-size: 9pt;
-	margin-left: 5px;
+#header #search input {
+	vertical-align: middle;
 }
 
-#header #main #sub #search input:first-child {
-	border: 1px solid #E5E5E5;
+#header #search input:first-child {
+	border: 1px solid #AAAAAA;
 	color: #999999;
-	padding: 2px;
-	vertical-align: top;
-	width: 150px;
+	font-size: 9pt;
+	padding: 3px;
+	width: 200px;
 }
+
 
 #header #section-container {
 	background-color: #f3f6f9;
@@ -383,7 +370,7 @@ div.paginate-single-link-set span.disabled {
 	display: block;
 	font-size: 11pt;
 	font-weight: bold;
-	padding: 7px 8px 7px 5px;
+	padding: 7px 25px 7px 25px;
 	text-decoration: none;
 	width: auto;
 }
@@ -398,6 +385,7 @@ div.paginate-single-link-set span.disabled {
 }
 
 #header .menu-container li {
+	border-left: 1px solid #E5E5E5;
 	float: left;
 	width: auto;
 }
@@ -416,6 +404,7 @@ div.paginate-single-link-set span.disabled {
 }
 
 #header .menu-container li ul li {
+	border-left: 0;
 	width: 100%;
 }
 
@@ -438,6 +427,25 @@ div.paginate-single-link-set span.disabled {
 #header .menu-container img.pull {
 	margin-top: -2px;
 	vertical-align: middle;
+}
+
+/* left side navigation bar */
+#header .menu-container + .menu-container li {
+	border-left: 0;
+}
+
+#header .menu-container + .menu-container li:first-child a {
+	padding-left: 5px;
+	padding-right: 15px;
+}
+
+/* right side navigation bar */
+#header .menu-container:first-child li.last {
+	border-right: 1px solid #E5E5E5;
+}
+
+#header .menu-container:first-child li.last ul {
+	width: 90px;
 }
 
 #outer {

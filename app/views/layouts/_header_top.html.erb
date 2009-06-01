@@ -22,14 +22,5 @@
 				</span>
 			<% end -%>
 		</div>
-
-		<div id="sub">
-			<div id="search">
-				<% form_tag({:controller => '/search'}, :name => 'search', :method => 'get') do -%>
-					<input id="search_textfield" type="text" name="q" value="Search..." onfocus="descriptiveField(this, 'Search...', true);" onblur="descriptiveField(this, 'Search...', false);">
-					<input id="search_button" type="image" src="/images/search.png" title="Click to search" alt="Click to search" style="_vertical-align:bottom;"/>
-				<% end -%>
-			</div>
-		</div>
 	</div>
 </div>

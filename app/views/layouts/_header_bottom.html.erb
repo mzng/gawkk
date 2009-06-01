@@ -1,11 +1,14 @@
 <div id="bottom">
 	<div id="section-container">
 		<ul class="menu-container" style="float:right;">
-			<li><%= link_to 'Post a Video', '/', :class => 'action' %></li>
-		</ul>
-		<ul class="menu-container">
-			<li><%= link_to 'Home', '/' %></li>
-			<li><%= link_to 'Channels' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => '/channels'} %>
+			<li><%= link_to 'Videos', {:controller => '/videos', :action => 'index', :popular => false} %>
+				<ul>
+					<li><%= link_to 'Newest Videos', {:controller => '/videos', :action => 'index', :popular => false} %></li>
+					<li><%= link_to 'Popular Videos', {:controller => '/videos', :action => 'index', :popular => true} %></li>
+					<li><%= link_to 'Channel Videos', {:controller => '/videos', :action => 'subscriptions'} %></li>
+				</ul>
+			</li>
+			<li><%= link_to 'Channels', {:controller => '/channels'} %>
 				<ul>
 					<li><%= link_to 'Featured Channels', {:controller => '/channels'} %></li>
 					<% if user_logged_in? -%>
@@ -15,36 +18,26 @@
 					<% end -%>
 				</ul>
 			</li>
-			<li><%= link_to 'Videos' + image_tag('menu-arrow.png', :class => 'pull'), {:controller => '/videos', :action => 'index', :popular => false} %>
-				<ul>
-					<li><%= link_to 'Newest Videos', {:controller => '/videos', :action => 'index', :popular => false} %></li>
-					<li><%= link_to 'Popular Videos', {:controller => '/videos', :action => 'index', :popular => true} %></li>
-					<li><%= link_to 'Channel Videos', {:controller => '/videos', :action => 'subscriptions'} %></li>
-				</ul>
-			</li>
-			<% if user_logged_in? -%>
-				<li><%= link_to 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), user_path(logged_in_user) %>
+			<% Category.allowed_in_header.each_with_index do |category, i| -%>
+				<li <% if Category.allowed_in_header.size == (i + 1) -%>class="last"<% end -%>>
+					<%= link_to category.name, {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %>
 					<ul>
-						<li><%= link_to 'My Profile', user_path(logged_in_user) %></li>
-						<li><%= link_to 'People I Follow', {:controller => '/users', :action => 'follows', :id => logged_in_user} %></li>
-						<li><%= link_to 'People Following Me', {:controller => '/users', :action => 'followers', :id => logged_in_user} %></li>
-						<li><%= link_to 'Friends', {:controller => '/users', :action => 'friends', :id => logged_in_user} %></li>
-						<li><%= link_to 'Channels I Follow', {:controller => '/users', :action => 'subscriptions', :id => logged_in_user} %></li>
-						<li><%= link_to 'Add Friends', {:controller => '/members', :action => 'find'} %></li>
-					</ul>
-				</li>
-			<% else -%>
-				<li><%= link_to_remote 'Profile' + image_tag('menu-arrow.png', :class => 'pull'), {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/activity'}, :method => :get} %>
-					<ul>
-						<li><%= link_to_remote 'My Profile', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/activity'}, :method => :get} %></li>
-						<li><%= link_to_remote 'People I Follow', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/follows'}, :method => :get} %></li>
-						<li><%= link_to_remote 'People Following Me', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/followers'}, :method => :get} %></li>
-						<li><%= link_to_remote 'Friends', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/friends'}, :method => :get} %></li>
-						<li><%= link_to_remote 'Channels I Follow', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/subscriptions'}, :method => :get} %></li>
-						<li><%= link_to_remote 'Add Friends', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/find'}, :method => :get} %></li>
+						<li><%= link_to 'Popular', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
+						<li><%= link_to 'A-Z Listing', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'a'} %></li>
 					</ul>
 				</li>
 			<% end -%>
+		</ul>
+		<ul class="menu-container">
+			<li><%= link_to 'Home', '/' %></li>
+			<li>
+				<div id="search">
+					<% form_tag({:controller => '/search'}, :name => 'search', :method => 'get') do -%>
+						<input id="search_textfield" type="text" name="q" value="Search Millions of Videos..." onfocus="descriptiveField(this, 'Search Millions of Videos...', true);" onblur="descriptiveField(this, 'Search Millions of Videos...', false);">
+						<input id="search_button" type="image" src="/images/search-button.png"/>
+					<% end -%>
+				</div>
+			</li>
 		</ul>
 	</div>
 </div>

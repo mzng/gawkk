@@ -67,7 +67,7 @@ class SearchController < ApplicationController
   private
   def ensure_query
     searchable
-    default_queries = ['Search...', 'Search Channels...', 'Search Members...', 'Search Videos...']
+    default_queries = ['Search...', 'Search Millions of Videos...', 'Search Channels...', 'Search Members...', 'Search Videos...']
     
     if @q and !@q.blank? and !default_queries.include?(@q)
       yield
