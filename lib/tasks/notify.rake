@@ -30,5 +30,7 @@ namespace :notify do
     if (users = User.find(:all, :joins => :feeds, :conditions => 'feeds.active = false', :order => 'username')).size > 0
       DisabledFeedMailer.deliver_notification(users)
     end
+    
+    Feed.update_all('active = true')
   end
 end
