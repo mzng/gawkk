@@ -40,8 +40,11 @@
 }
 
 .comment .video .thumbnail {
-	height: 81px;
-	width: 115px;
+	/*height: 81px;
+		width: 115px;*/
+	
+	height: 89px;
+	width: 127px;
 }
 
 .comment .video .embed .embed-container {
