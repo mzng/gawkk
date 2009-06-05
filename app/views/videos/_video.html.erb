@@ -34,6 +34,10 @@
 						<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
 						<%= popular_icon(video) %>
 					</div>
+				<% else -%>
+					<div class="title">
+						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+					</div>
 				<% end -%>
 				<div class="body">
 					<% if @tagged -%>
