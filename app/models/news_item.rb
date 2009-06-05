@@ -2,10 +2,14 @@ class NewsItem < ActiveRecord::Base
   belongs_to :news_item_type
   belongs_to :user
   belongs_to :reportable, :polymorphic => true
+  belongs_to :comment
   
   named_scope :recent, :select => '*, max(news_items.created_at) AS max_created_at', :order => 'max_created_at DESC'
   named_scope :grouped_by_user, :group => 'user_id'
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
+  
+  attr_accessor :latest_related_id
+  attr_accessor :latest_related
   
   
   def before_create
@@ -33,11 +37,11 @@ class NewsItem < ActiveRecord::Base
     # Speed and clean this method up with the caching system
     activity_types = NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
     
-    options[:order] = 'min_created_at DESC'
+    options[:order] = 'max_id DESC'
     
-    union([{:select => '*, min(created_at) AS min_created_at', 
+    union([{:select => '*, max(id) AS max_id', 
             :conditions => ["news_item_type_id IN (?) AND reportable_type = 'Video' AND user_id IN (?) AND hidden = false", activity_types, user_ids], :group => 'reportable_id'}, 
-           {:select => '*, created_at AS max_created_at', 
+           {:select => '*, id AS max_id', 
             :conditions => ["news_item_type_id IN (?) AND (reportable_type != 'Video' OR reportable_type IS NULL) AND user_id IN (?) AND hidden = false", activity_types, user_ids]}], 
             options)
   end
@@ -68,6 +72,22 @@ class NewsItem < ActiveRecord::Base
       html = html.gsub(/\{comment.body\}/, "<div style=\"margin:5px 0px;" + (self.message.blank? ? "width:115px;\"><div style=\"font-size:8pt;float:right;height:40px;line-height:9pt;padding-top:14px;text-align:center;\"><a href=\"#{prefix}/#{self.reportable.slug}/profile#{format}\">View<br/>Profile</a></div>" : "\">") + "<a href=\"#{prefix}/#{self.reportable.slug}/profile#{format}\"><img src=\"#{prefix}/images/#{self.reportable.thumbnail.blank? ? 'profile-pic.jpg' : self.reportable.thumbnail}\" style=\"border:1px solid #E5E5E5;float:left;height:52px;margin-right:5px;width:52px;\"/></a>#{self.message.blank? ? '' : "<em>\"" + self.message + "\"</em>"}</div>")
     end
     html = html.gsub(/\{format\}/, format)
+    
+    return html
+  end
+  
+  def render_simple
+    html = self.news_item_type.simple_template
+    html = html.gsub(/\{user\}/, "<a href=\"/#{self.user.slug}\">#{self.user.username}</a>")
+    
+    if self.message.blank?
+      html = html.gsub(/\{comment\}/, " commented on this {commentable_type}")
+      html = html.gsub(/\{commentable_type\}/, self.reportable_type.downcase)
+    else
+      html = html.gsub(/\{comment\}/, ": {comment.body}")
+      html = html.gsub(/\{comment.body\}/, self.message)
+    end
+    
     return html
   end
   

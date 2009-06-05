@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     
     @base_user = @user
     @include_followings = false
-    @news_items = @user.activity(:offset => @offset, :limit => @per_page)
+    @news_items = collect('news_items', @user.activity(:offset => @offset, :limit => @per_page))
   end
   
   def comments

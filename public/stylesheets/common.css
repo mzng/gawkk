@@ -348,7 +348,7 @@ div.paginate-single-link-set span.disabled {
 	color: #999999;
 	font-size: 9pt;
 	padding: 3px;
-	width: 200px;
+	width: 210px;
 }
 
 
@@ -444,8 +444,8 @@ div.paginate-single-link-set span.disabled {
 	border-right: 1px solid #E5E5E5;
 }
 
-#header .menu-container:first-child li.last ul {
-	width: 90px;
+#header .menu-container:first-child li.last:hover ul {
+	margin-left: -56px;
 }
 
 #outer {

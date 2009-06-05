@@ -1,18 +1,18 @@
 <table id="news_item_<%= news_item.id %>" class="item" cellpadding="0" cellspacing="0">
 	<tr>
 		<td class="image" rowspan="2">
-			<%= link_to image_tag(news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail), user_path(:id => news_item.reportable) %>
+			<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail), user_path(:id => news_item.user) %>
 		</td>
 		<td class="title" colspan="2">
-			<%= link_to news_item.reportable.username, user_path(:id => news_item.reportable) %>
+			<%= link_to news_item.user.username, user_path(:id => news_item.user) %> is now following <%= news_item.reportable.username %>
 		</td>
 	</tr>
 	<tr>
 		<td class="avatar">
-			<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail), user_path(:id => news_item.user) %>
+			<%= link_to image_tag(news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail), user_path(:id => news_item.reportable) %>
 		</td>
 		<td class="message">
-			<%= link_to news_item.user.username, user_path(:id => news_item.user) %> is now following <%= link_to news_item.reportable.username, user_path(:id => news_item.reportable) %>
+			<%= link_to news_item.reportable.username, user_path(:id => news_item.reportable) %>
 			<% if user_can_edit?(news_item) -%>
 				<span class="delete">
 					- <%= link_to 'Delete', {:controller => 'news_items', :action => 'destroy', :id => news_item}, :confirm => 'Are you sure?', :method => :post %>

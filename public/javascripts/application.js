@@ -80,7 +80,7 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, commentId) {
 				Effect.BlindDown('embed_for_' + videoId, { duration: 0.5 });
 				
 				if(scroll) {
-					Effect.ScrollTo('video_' + videoId, {offset: 5});
+					Effect.ScrollTo('video_' + videoId, {offset: -5});
 					
 					if(typeof pageTracker != 'undefined') {
 						pageTracker._trackPageview("/watched-video");
@@ -88,7 +88,7 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, commentId) {
 				}
 				
 				if(!$('new_comment_for_' + videoId)) {
-					comment(videoId, videoSlug, '!AUTO');
+					commentAndFocus(videoId, videoSlug, '!AUTO', false);
 				}
 			}}
 		);
@@ -156,6 +156,10 @@ function reloadComments(videoId) {
 }
 
 function comment(videoId, videoSlug, replyId) {
+	commentAndFocus(videoId, videoSlug, replyId, true);
+}
+
+function commentAndFocus(videoId, videoSlug, replyId, focus) {
 	if($('new_comment_for_' + videoId)) {
 		$('new_comment_for_' + videoId).remove();
 	}
@@ -174,7 +178,11 @@ function comment(videoId, videoSlug, replyId) {
 		}, onComplete:function(request){
 			rest(videoId);
 
-			Effect.BlindDown('new_comment_for_' + videoId, { duration: 0.3, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();} });
+			if(focus == true) {
+				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();}});
+			} else {
+				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3});
+			}
 		}}
 	);
 }

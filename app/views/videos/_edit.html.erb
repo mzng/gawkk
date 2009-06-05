@@ -7,7 +7,7 @@
 		<div class="body">
 			<div class="thumbnail-container">
 				<div class="thumbnail">
-					<%= image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail) %>
+					<%= image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail + '?' + Time.now.to_i.to_s) %>
 				</div>
 				<p><%= link_to 'Import a new Thumbnail', '#change', :onclick => "Effect.BlindDown('thumbnail_override_for_#{video.id}', { duration: 0.2 });" %></p>
 			</div>

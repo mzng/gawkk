@@ -5,25 +5,6 @@ class CommentsController < ApplicationController
   layout 'page'
   
   
-  def index
-    pitch
-    setup_pagination
-    setup_generic_sidebar
-    setup_user_sidebar(logged_in_user) if user_logged_in?
-    
-    @base_user = (logged_in_user or User.new)
-    @comments = collect('comments', @base_user.followings_comments(:offset => @offset, :limit => @per_page))
-  end
-  
-  def all
-    setup_pagination
-    setup_generic_sidebar
-    setup_user_sidebar(logged_in_user) if user_logged_in?
-    
-    @base_user = (logged_in_user or User.new)
-    @comments = collect('comments', Comment.for_commentable_type('Video').in_reverse_order.all(:offset => @offset, :limit => @per_page))
-  end
-  
   def create
     @comment = Comment.new(params[:comment])
     

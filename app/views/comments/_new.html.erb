@@ -6,6 +6,7 @@
 		
 		<table class="inline" cellpadding="0" cellspacing="0">
 			<tr>
+				<td class="gutter">&nbsp;</td>
 				<td class="image">
 					<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'g-avatar.png' : logged_in_user.thumbnail, :class => 'avatar') %>
 				</td>
@@ -14,6 +15,7 @@
 				</td>
 			</tr>
 			<tr id="comment_actions_for_<%= commentable.id %>">
+				<td class="gutter">&nbsp;</td>
 				<td id="characters_left_for_<%= commentable.id %>" class="character-count">
 					<%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %>
 				</td>

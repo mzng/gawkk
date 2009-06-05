@@ -22,8 +22,10 @@
 				<li <% if Category.allowed_in_header.size == (i + 1) -%>class="last"<% end -%>>
 					<%= link_to category.name, {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %>
 					<ul>
-						<li><%= link_to 'Popular', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
-						<li><%= link_to 'A-Z Listing', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'a'} %></li>
+						<li><%= link_to 'Popular Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
+						<li><%= link_to 'A - Z Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'a'} %></li>
+						<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => true} %></li>
+						<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => false} %></li>
 					</ul>
 				</li>
 			<% end -%>

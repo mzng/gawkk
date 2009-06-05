@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090526152813) do
+ActiveRecord::Schema.define(:version => 20090605164401) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -255,7 +255,8 @@ ActiveRecord::Schema.define(:version => 20090526152813) do
   create_table "news_item_types", :force => true do |t|
     t.string "name"
     t.text   "template"
-    t.string "kind",     :null => false
+    t.string "kind",                            :null => false
+    t.string "simple_template", :default => ""
   end
 
   create_table "news_items", :force => true do |t|
@@ -268,10 +269,12 @@ ActiveRecord::Schema.define(:version => 20090526152813) do
     t.boolean  "hidden",            :default => false, :null => false
     t.boolean  "mature",            :default => false, :null => false
     t.string   "thread_id"
+    t.integer  "comment_id"
   end
 
   add_index "news_items", ["news_item_type_id"], :name => "news_item_type_id"
   add_index "news_items", ["user_id"], :name => "user_id"
+  add_index "news_items", ["comment_id"], :name => "comment_id"
 
   create_table "parameters", :force => true do |t|
     t.string "name"
@@ -585,6 +588,7 @@ ActiveRecord::Schema.define(:version => 20090526152813) do
   add_foreign_key "messages", ["receiver_id"], "users", ["id"], :name => "messages_ibfk_2"
   add_foreign_key "messages", ["message_type_id"], "message_types", ["id"], :name => "messages_ibfk_3"
 
+  add_foreign_key "news_items", ["comment_id"], "comments", ["id"], :name => "news_items_ibfk_3"
   add_foreign_key "news_items", ["news_item_type_id"], "news_item_types", ["id"], :name => "news_items_ibfk_1"
   add_foreign_key "news_items", ["user_id"], "users", ["id"], :name => "news_items_ibfk_2"
 

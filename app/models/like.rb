@@ -22,7 +22,7 @@ class Like < ActiveRecord::Base
       
       # Popularize and Tweet it if the liker is an administrator
       begin
-        if self.user.administrator? and !self.video.popular?
+        if Rails.env.production? and self.user.administrator? and !self.video.popular?
           tweet_type = TweetType.find_by_name('popularized_video')
 
           if Tweet.by_system.of_type(tweet_type).for_video(self.video).count == 0

@@ -4,7 +4,7 @@
 	</div>
 	
 	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
-			:links => [{:name => 'Activity', :options => '/', :selected => true}, 
+			:links => [{:name => 'Friends', :options => '/', :selected => true}, 
 			{:name => 'Channels', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => false}]} %>
 	<div id="activity">
 		<% if @news_items.size > 2 -%>

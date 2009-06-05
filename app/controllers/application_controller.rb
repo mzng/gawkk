@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
   
   # Caching
   def collect(type, collection)
-    Util::Cache.send("collect_#{type}".to_sym, collection)
+    Util::Cache.send("collect_#{type}".to_sym, collection, logger)
   end
   
   # Miscellaneous

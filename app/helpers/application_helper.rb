@@ -50,6 +50,11 @@ module ApplicationHelper
     return (!session[:ref].blank? and session[:ref] == ref) ? true : false
   end
   
+  
+  def render_simple(news_item)
+    
+  end
+  
   def popular_icon(video)
     html = image_tag('spinner.gif', :id => "loading_for_#{video.id}", :style => 'display:none;')
     if video.popular?
