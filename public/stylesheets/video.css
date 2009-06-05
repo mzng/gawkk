@@ -23,13 +23,13 @@
 
 .action_owner {
 	vertical-align: top;
-	width: 62px;
+	width: 52px;
 }
 
 .action_owner img {
 	border: 1px solid #E5E5E5;
-	height: 60px;
-	width: 60px;
+	height: 50px;
+	width: 50px;
 }
 
 .action_description {
@@ -53,13 +53,18 @@
 
 /* listing */
 .video {
-	margin-top: 15px;
+	margin-top: 25px;
 	overflow-x: hidden;
 	width: 650px;
 }
 
+.video:first-child {
+	margin-top: 0;
+}
+
 .video .title {
 	font-size: 11pt;
+	font-weight: bold;
 }
 
 .video .title img {

@@ -47,12 +47,12 @@
 					<% end -%>
 					<div class="description">
 						<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
-						<% if video.safe_description.length > 175 -%>
+						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %>">
-								<%= video.safe_description.first(175) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}');" %>
+								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}');" %>
 							</span>
 						<% end -%>
-						<span id="full_description_for_<%= video.id %>" <% if video.safe_description.length > 175 -%>style="display:none;"<% end -%>>
+						<span id="full_description_for_<%= video.id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
 							<%= video.safe_description %>
 						</span>
 					</div>
