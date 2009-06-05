@@ -39,6 +39,7 @@ class Util::Scrub
       title = Util::Scrub.strip(title, ' | Video on TED.com', :trailing)
       title = Util::Scrub.strip(title, ' on Vimeo', :trailing)
       title = Util::Scrub.strip(title, 'YouTube - ', :leading)
+      title = Util::Scrub.strip(title, ' | Daily Video Blog - Videolicious.tv - Daily Videos', :trailing)
       
       # Cleanup html
       title = title.gsub(/&amp;/, '&')
