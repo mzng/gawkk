@@ -32,6 +32,11 @@
 .item .title a {
 	font-size: 11pt;
 	font-weight: bold;
+	text-decoration: none;
+}
+
+.item .title a:hover {
+	text-decoration: underline;
 }
 
 .item .avatar {
