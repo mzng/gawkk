@@ -147,7 +147,9 @@ class SubmitController < ApplicationController
     end
   rescue SocketError
     @error = true
+    render :nothing => true
   rescue Errno::ENOENT
     @error = true
+    render :nothing => true
   end
 end
