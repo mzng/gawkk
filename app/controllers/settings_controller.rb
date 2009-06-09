@@ -64,7 +64,7 @@ class SettingsController < ApplicationController
     # ensure_logged_in_user or redirect
     
     if request.put?
-      if !User.new(:email => @user.email, :password => params[:user][:password]).try_to_login.nil?
+      if @user.twitter_oauth? or @user.facebook? or !User.new(:email => @user.email, :password => params[:user][:password]).try_to_login.nil?
         if !params[:user][:email].blank? and params[:user][:email][/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/] and User.unique_email?(params[:user][:email])
           @user.email = params[:user][:email]
           

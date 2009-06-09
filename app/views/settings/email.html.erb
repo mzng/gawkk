@@ -40,8 +40,10 @@
 					<p><label for="user_email">New Email Address:</label><br/>
 					<%= f.text_field 'email', :value => '', :onfocus => "revealTip('user_email');", :onblur => "hideTips();" %></p>
 					
-					<p><label for="user_password">Current Gawkk Password:</label><br/>
-					<%= f.password_field 'password', :onfocus => "revealTip('user_password');", :onblur => "hideTips();" %></p>
+					<% if !@user.twitter_oauth? and !@user.facebook? -%>
+						<p><label for="user_password">Current Gawkk Password:</label><br/>
+						<%= f.password_field 'password', :onfocus => "revealTip('user_password');", :onblur => "hideTips();" %></p>
+					<% end -%>
 				</td>
 				<td class="center">
 					<div id="user_email_tip" class="tip">

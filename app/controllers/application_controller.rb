@@ -215,7 +215,6 @@ class ApplicationController < ActionController::Base
     if user_logged_in? and (session[:recommendation_countdown].blank? or session[:recommendation_countdown] < 1)
       @recommended_users = collect('users', logged_in_user.recommended(:order => 'rand()', :limit => 4))
       
-      
       session[:recommendation_countdown] = 0
       session[:recommendations] = @recommended_users.collect{|user| user.id}
     end
