@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions, :digest]
-  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow]
+  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow, :follow_recommendations, :dismiss_recommendations]
   layout 'page'
   
   # User Manager
@@ -112,6 +112,31 @@ class UsersController < ApplicationController
         render :action => "follow"
       }
     end
+  end
+  
+  
+  # Recommended User Actions
+  def follow_recommendations
+    # ensure_logged_in_user or do nothing
+    
+    if !session[:recommendations].nil?
+      User.with_ids(session[:recommendations]).all.each do |user|
+        logged_in_user.follow(user)
+      end
+    end
+    
+    session[:recommendation_countdown] = 5
+    
+    flash[:notice] = "You're now following even more interesting people!"
+    redirect_to '/'
+  end
+  
+  def dismiss_recommendations
+    # ensure_logged_in_user or do nothing
+    
+    session[:recommendation_countdown] = 5
+    
+    redirect_to '/'
   end
   
   

@@ -58,7 +58,7 @@ class Channel < ActiveRecord::Base
   end
   
   def after_save
-    Rails.cache.write(self.cache_key, Channel.find(self.id, :include => :user), 1.week)
+    Rails.cache.write(self.cache_key, Channel.find(self.id, :include => :user), :expires_in => 1.week)
     
     return true
   end

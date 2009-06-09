@@ -51,6 +51,7 @@ class VideosController < ApplicationController
     record_ad_campaign
     setup_pagination
     setup_generic_sidebar
+    setup_recommendation_sidebar
     setup_user_sidebar(logged_in_user) if user_logged_in?
     
     @base_user = (logged_in_user or User.new)
@@ -97,6 +98,7 @@ class VideosController < ApplicationController
   
   def watch
     # load_video or redirect
+    affects_recommendation_countdown
   end
   
   def reload_activity
@@ -120,6 +122,8 @@ class VideosController < ApplicationController
   end
   
   def like
+    affects_recommendation_countdown
+    
     like = Like.new
     like.video_id = @video.id
     
@@ -136,6 +140,8 @@ class VideosController < ApplicationController
   end
   
   def unlike
+    affects_recommendation_countdown
+    
     # load_video or redirect
     if like = Like.by_user(logged_in_user).for_video(@video).first
       like.destroy

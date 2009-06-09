@@ -1,0 +1,17 @@
+<% if @recommended_users and @recommended_users.size > 0 -%>
+	<% form_tag({:controller => 'users', :action => 'follow_recommendations'}) do %>
+		<div id="recommended-people">
+			<h1 class="section-header">
+				<span><%= link_to 'Dismiss', {:controller => 'users', :action => 'dismiss_recommendations'} %></span>
+				Recommended People
+			</h1>
+			<div class="set">
+				<% @recommended_users.each do |user| -%>
+					<%= render user %>
+				<% end -%>
+				<br class="clear"/>
+			</div>
+			<p id="follow-all"><%= submit_tag('Follow These People &raquo;') %></p>
+		</div>
+	<% end -%>
+<% end -%>

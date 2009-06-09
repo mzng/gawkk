@@ -6,6 +6,8 @@ class CommentsController < ApplicationController
   
   
   def create
+    affects_recommendation_countdown
+    
     @comment = Comment.new(params[:comment])
     
     if user_logged_in?

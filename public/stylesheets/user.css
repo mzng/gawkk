@@ -45,6 +45,7 @@
 }
 
 .user-statistics td .user {
+	height: 78px;
 	margin-top: 0px;
 }
 
@@ -75,6 +76,29 @@
 
 .user-about .elsewhere a {
 	font-size: 9pt;
+}
+
+/* recommended people */
+#recommended-people .section-header {
+	background-color: #FFFFDD;
+	margin-bottom: 0;
+	padding: 5px 3px 0 3px;
+}
+
+#recommended-people .set {
+	background-color: #FFFFDD;
+	padding: 2px 0 0 2px;
+}
+
+#recommended-people .set .user {
+	height: 78px;
+}
+
+#recommended-people #follow-all {
+	background-color: #FFFFDD;
+	margin-top: 0;
+	padding-bottom: 8px;
+	text-align: center;
 }
 
 /* follow buttons */

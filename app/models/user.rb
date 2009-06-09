@@ -30,11 +30,14 @@ class User < ActiveRecord::Base
   
   
   named_scope :members, :select => 'id, username, last_login_at', :conditions => {:feed_owner => false}
+  named_scope :with_ids, lambda {|user_ids| {:conditions => ['id IN (?)', user_ids]}}
   named_scope :with_slug, lambda {|slug| {:conditions => ['lower(slug) = lower(?)', slug]}}
   named_scope :with_slugs, lambda {|slugs| {:conditions => ['slug IN (?)', slugs]}}
   named_scope :followings_of, lambda {|user| {:joins => 'LEFT OUTER JOIN `friendships` ON friendships.friend_id = users.id', :conditions => ['friendships.user_id = ?', user.id]}}
   named_scope :followers_of, lambda {|user| {:joins => :friendships, :conditions => ['friendships.friend_id = ?', user.id]}}
   named_scope :friends_of, lambda {|user| {:joins => 'LEFT OUTER JOIN `friendships` ON friendships.friend_id = users.id', :conditions => ['friendships.user_id = ? AND friendships.mutual = true', user.id]}}
+  named_scope :except, lambda {|user_ids| {:conditions => ['id NOT IN (?)', user_ids]}}
+  named_scope :member_since_at_least, lambda {|timestamp| {:conditions => ['feed_owner = false AND created_at > ?', timestamp]}}
   
   
   attr_accessor   :password, :password_confirmation, :external_services
@@ -308,6 +311,13 @@ class User < ActiveRecord::Base
   def friends(*args)
     options = args.extract_options!
     User.friends_of(self).all(options)
+  end
+  
+  def recommended(*args)
+    # Speed this method up with cache
+    options = args.extract_options!
+    
+    User.member_since_at_least((Rails.env.production? ? 2.weeks.ago : 6.months.ago)).except(self.followings_ids).all(options)
   end
   
   def subscribed_channels(*args)

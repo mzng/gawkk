@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
   
   # Caching
   def collect(type, collection)
-    Util::Cache.send("collect_#{type}".to_sym, collection, logger)
+    Util::Cache.send("collect_#{type}".to_sym, collection)
   end
   
   # Miscellaneous
@@ -141,6 +141,12 @@ class ApplicationController < ActionController::Base
     if !params[:ref].blank?
       session[:ref] = params[:ref]
     end
+  end
+  
+  def pitch(options = {})
+    @pitch_title = (options[:title].blank? ? 'Welcome to Gawkk!' : options[:title])
+    
+    @pitch = true
   end
   
   def searchable(options = {})
@@ -157,18 +163,20 @@ class ApplicationController < ActionController::Base
     @q
   end
   
-  def pitch(options = {})
-    @pitch_title = (options[:title].blank? ? 'Welcome to Gawkk!' : options[:title])
-    
-    @pitch = true
-  end
-  
   def taggable(options = {})
     if options[:assume]
       params[:tagged] = true
     end
     
     @tagged = params[:tagged] ? params[:tagged] : nil
+  end
+  
+  def affects_recommendation_countdown
+    if !session[:recommendation_countdown].nil?
+      session[:recommendation_countdown] = session[:recommendation_countdown] - 1
+    else
+      session[:recommendation_countdown] = 0
+    end
   end
   
   def set_feed_url(feed_url)
@@ -200,8 +208,16 @@ class ApplicationController < ActionController::Base
   def setup_generic_sidebar
     setup_category_sidebar
     
-    @active_members     = collect('users_from_news_items', NewsItem.grouped_by_user.recent.all(:limit => 4))
-    @featured_channels  = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 4))
+    @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 4))
+  end
+  
+  def setup_recommendation_sidebar
+    if user_logged_in? and (session[:recommendation_countdown].blank? or session[:recommendation_countdown] < 1)
+      @recommended_users = collect('users', logged_in_user.recommended(:order => 'rand()', :limit => 4))
+      
+      session[:recommendation_countdown] = 0
+      session[:recommendations] = @recommended_users.collect{|user| user.id}
+    end
   end
   
   def setup_user_sidebar(user)

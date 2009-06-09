@@ -1,5 +1,5 @@
 class Util::Cache
-  def self.collect_videos(videos, logger)
+  def self.collect_videos(videos)
     # gather ids of videos no longer in cache
     ids_of_videos_to_load = Array.new
     videos.each do |video|
@@ -26,7 +26,7 @@ class Util::Cache
     return @videos
   end
   
-  def self.collect_saved_videos(saved_videos, logger)
+  def self.collect_saved_videos(saved_videos)
     # gather ids of videos no longer in cache
     ids_of_videos_to_load = Array.new
     saved_videos.each do |saved_video|
@@ -53,14 +53,13 @@ class Util::Cache
     return @videos
   end
   
-  def self.collect_news_items(news_items, logger)
+  def self.collect_news_items(news_items)
     related_news_items = Hash.new
     
     # if we have max_ids let's cache those related news_items as well
     ids_of_news_items_to_load = Array.new
     news_items.each do |news_item|
       if !(news_item.latest_related_id = news_item.max_id.to_i).nil?
-        logger.debug '! ' + news_item.latest_related_id.to_s
         if !Rails.cache.exist?("news_items/#{news_item.latest_related_id}")
           ids_of_news_items_to_load << news_item.latest_related_id
         end
@@ -76,14 +75,12 @@ class Util::Cache
     end
     
     news_items.each do |news_item|
-      logger.debug '+ ' + news_item.latest_related_id.to_s
       if !news_item.latest_related_id.nil?
         news_item.latest_related = Rails.cache.fetch("news_items/#{news_item.latest_related_id}", :expires_in => 1.day) do
           NewsItem.find(news_item.latest_related_id, :include => :user)
         end
         related_news_items[news_item.id.to_s] = news_item.latest_related
       end
-      logger.debug '~ ' + news_item.latest_related.id.to_s
     end
     
     
@@ -116,7 +113,7 @@ class Util::Cache
     return @news_items
   end
   
-  def self.collect_comments(comments, logger)
+  def self.collect_comments(comments)
     # gather ids of comments no longer in cache
     ids_of_comments_to_load = Array.new
     comments.each do |comment|
@@ -142,7 +139,7 @@ class Util::Cache
     return @comments
   end
   
-  def self.collect_channels(channels, logger)
+  def self.collect_channels(channels)
     # gather ids of channels no longer in cache
     ids_of_channels_to_load = Array.new
     channels.each do |channel|
@@ -168,7 +165,7 @@ class Util::Cache
     return @channels
   end
   
-  def self.collect_channels_from_saved_videos(saved_videos, logger)
+  def self.collect_channels_from_saved_videos(saved_videos)
     # gather ids of channels no longer in cache
     ids_of_channels_to_load = Array.new
     saved_videos.each do |saved_video|
@@ -194,7 +191,7 @@ class Util::Cache
     return @channels
   end
   
-  def self.collect_users(users, logger)
+  def self.collect_users(users)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
     users.each do |user|
@@ -221,7 +218,7 @@ class Util::Cache
     return @users
   end
   
-  def self.collect_users_from_news_items(news_items, logger)
+  def self.collect_users_from_news_items(news_items)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
     news_items.each do |news_item|
@@ -247,7 +244,7 @@ class Util::Cache
     return @users
   end
   
-  def self.collect_users_from_subscriptions(subscriptions, logger)
+  def self.collect_users_from_subscriptions(subscriptions)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
     subscriptions.each do |subscription|
@@ -273,7 +270,7 @@ class Util::Cache
     return @users
   end
   
-  def self.collect_users_from_comments(comments, logger)
+  def self.collect_users_from_comments(comments)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
     comments.each do |comment|
@@ -299,7 +296,7 @@ class Util::Cache
     return @users
   end
   
-  def self.collect_users_from_likes(likes, logger)
+  def self.collect_users_from_likes(likes)
     # gather ids of users no longer in cache
     ids_of_users_to_load = Array.new
     likes.each do |like|
