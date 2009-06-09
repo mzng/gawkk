@@ -41,6 +41,10 @@
 	margin-top: 10px;
 }
 
+#settings-profile td span {
+	font-size: 8pt;
+}
+
 #settings-profile textarea {
 	height: 75px;
 	padding: 2px;

@@ -22,8 +22,8 @@ class User < ActiveRecord::Base
   # followings  - Who this user is following
   # friends     - The intersection of followers and followings
   # 
-  # These relationships are complex and architectually based on a one way follow. Rather
-  # than defining simple has_many relationships here, utility methods will be available.
+  # These relationships are complex and architectually based on a one way follow.
+  # Rather than defining simple has_many relationships here, utility methods are available.
   
   has_many :friendships, :class_name => "Friendship", :foreign_key => "user_id", :dependent => :destroy
   has_many :friendships_with_me, :class_name => "Friendship", :foreign_key => "friend_id", :dependent => :destroy
@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"
   validates_confirmation_of :password, :on => :save, :message => "should match confirmation"
+  validates_length_of       :description, :maximum => 160, :message => "must be less than 160 characters"
   validates_format_of       :website_url, :with => URI.regexp, :allow_blank => true, :on => :save
   
   

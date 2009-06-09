@@ -27,7 +27,7 @@
 					<p><label for="user_zip_code">Zip Code:</label><br/>
 					<%= f.text_field 'zip_code', :onfocus => "revealTip('user_zip_code');", :onblur => "hideTips();", :style => 'width:100px;' %></p>
 					
-					<p><label for="user_description">Bio:</label><br/>
+					<p><label for="user_description">Bio: <span>(Fewer than 160 characters)</span></label><br/>
 					<%= text_area 'user', 'description', :onfocus => "revealTip('user_description');", :onblur => "hideTips();" %></p>
 				</td>
 				<td class="center">
