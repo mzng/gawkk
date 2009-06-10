@@ -429,6 +429,15 @@
 	font-size: 8pt;
 }
 
+.video .inline .more-comments {
+	font-style: italic;
+}
+
+/* hidden comment */
+.video .hidden {
+	display: none;
+}
+
 /* statistics */
 .video-statistics {
 	background-color: #f9f9f9;

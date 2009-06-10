@@ -101,6 +101,6 @@
 	<div id="share_for_<%= video.id %>" class="share" style="display:none;"></div>
 	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
-	<%= render :partial => "/comments/list", :locals => {:video => video, :load_comments => load_comments} %>
+	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments} %>
 	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
 <% end -%>

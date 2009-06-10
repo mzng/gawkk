@@ -87,6 +87,8 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, commentId) {
 					}
 				}
 				
+				showAllCommentsFor(videoId);
+				
 				if(!$('new_comment_for_' + videoId)) {
 					commentAndFocus(videoId, videoSlug, '!AUTO', false);
 				}
@@ -140,6 +142,17 @@ function reloadActivity(videoId) {
 
 
 // comments
+function showAllCommentsFor(videoId) {
+	if($('show_all_comments_for_' + videoId)) {
+		$('show_all_comments_for_' + videoId).hide();
+	}
+	
+	comments = $$('#video_' + videoId + ' .hidden');
+	for(i = 0; i < comments.length; i++) {
+		comments[i].removeClassName('hidden');
+	}
+}
+
 function reloadComments(videoId) {
 	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
 		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings;
