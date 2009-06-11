@@ -16,6 +16,10 @@
 	width: 127px;
 }
 
+#content-sidebar .small-video {
+	margin: 5px 0 5px 10px;
+}
+
 /* anchored container */
 .anchored_container {
 	width: 100%;
