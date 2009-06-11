@@ -18,13 +18,13 @@
 					<%= render comments[1] %>
 				<% end -%>
 				
-				<% if comments.size - 3 > 0 -%>
+				<% if comments.size - 2 > 0 -%>
 					<table id="show_all_comments_for_<%= video.id %>" class="inline" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="gutter">&nbsp;</td>
-							<td class="image-small">&nbsp;</td>
+							<td class="image">&nbsp;</td>
 							<td colspan="2" class="body more-comments">
-								<%= link_to pluralize(comments.size - 3, 'more comment') + '...', "javascript:showAllCommentsFor('#{video.id}');" %>
+								<%= link_to pluralize(comments.size - 2, 'more comment') + '...', "javascript:showAllCommentsFor('#{video.id}');" %>
 							</td>
 						</tr>
 					</table>

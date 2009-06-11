@@ -51,7 +51,6 @@
 .action_description span {
 	color: gray;
 	font-size: 8pt;
-	font-style: italic;
 }
 
 .action_body {
@@ -296,6 +295,7 @@
 
 /* inline activity and comments */
 .video .inline {
+	margin-bottom: 5px;
 	width: 100%;
 }
 
@@ -324,6 +324,7 @@
 
 .video .inline .body {
 	min-height: 0;
+	padding-left: 5px;
 	height: auto !important;
 }
 
@@ -332,7 +333,7 @@
 }
 
 .video .inline .image {
-	vertical-align: middle;
+	vertical-align: top;
 	width: 30px;
 }
 
@@ -346,7 +347,7 @@
 .video .inline .image-small {
 	text-align: center;
 	vertical-align: middle;
-	width: 30px;
+	width: 16px;
 }
 
 .video .inline .body textarea {
@@ -377,7 +378,6 @@
 .video .inline .body span {
 	color: gray;
 	font-size: 8pt;
-	font-style: italic;
 }
 
 .video .inline .body .reply {
