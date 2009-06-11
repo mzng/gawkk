@@ -362,9 +362,9 @@ class User < ActiveRecord::Base
   def followings_ids
     # Speed this method up with cache
     if !self.id.blank?
-      Rails.cache.fetch("users/#{self.id}/followings", :expires_in => 1.week) do
+      # Rails.cache.fetch("users/#{self.id}/followings", :expires_in => 1.week) do
         self.friendships.collect{|friendship| friendship.friend_id}
-      end
+      # end
     else
       User.default_followings.collect{|user| user.id}
     end
