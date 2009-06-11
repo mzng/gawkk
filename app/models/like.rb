@@ -33,9 +33,11 @@ class Like < ActiveRecord::Base
             tweet.reportable_type = 'Video'
             tweet.reportable_id   = self.video.id
             tweet.auth_code       = self.video.short_code
-
-            twitter = Util::Twitter.client
-            twitter.status(:post, tweet.render)
+            
+            access_token = '7820152-NpYUAyBrM5Zf0JFo9U0enpZgRz8RtrCrILomnmqEQ'
+            access_secret = 'b1k8hpHiVktwJbo40zhzigH9dUlTNFduiFEUXSko'
+            
+            Util::Twitter.request(:post, '/statuses/update.json?status=' + CGI.escape(tweet.render), access_token, access_secret)
           end
           
           self.video.update_attribute('promoted_at', Time.now)
