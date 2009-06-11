@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"
   validates_confirmation_of :password, :on => :save, :message => "should match confirmation"
-  validates_length_of       :description, :maximum => 160, :message => "must be less than 160 characters"
+  validates_length_of       :description, :maximum => 160, :allow_blank => true, :message => "must be less than 160 characters"
   validates_format_of       :website_url, :with => URI.regexp, :allow_blank => true, :on => :save
   
   

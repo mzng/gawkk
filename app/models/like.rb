@@ -35,7 +35,7 @@ class Like < ActiveRecord::Base
             tweet.auth_code       = self.video.short_code
 
             twitter = Util::Twitter.client
-            twitter.status(:post, CGI.escape(tweet.render))
+            twitter.status(:post, tweet.render)
           end
           
           self.video.update_attribute('promoted_at', Time.now)
