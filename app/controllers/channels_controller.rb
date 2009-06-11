@@ -50,6 +50,8 @@ class ChannelsController < ApplicationController
     # load_channel or redirect
     pitch
     set_feed_url("http://www.gawkk.com/#{@user.slug}/#{@channel.slug}.rss")
+    set_meta_description(@channel.proper_name + (@user.description.blank? ? '' : ': ' + @user.description))
+    set_meta_keywords(@channel.keywords)
     set_title(@channel.proper_name)
     setup_pagination
     setup_channel_sidebar(@channel)

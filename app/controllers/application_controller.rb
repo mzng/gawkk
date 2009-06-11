@@ -183,6 +183,14 @@ class ApplicationController < ActionController::Base
     @feed_url = feed_url
   end
   
+  def set_meta_description(description)
+    @meta_description = description
+  end
+  
+  def set_meta_keywords(keywords)
+    @meta_keywords = keywords
+  end
+  
   def set_title(title)
     @title = title
   end

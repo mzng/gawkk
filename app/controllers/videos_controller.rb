@@ -49,6 +49,8 @@ class VideosController < ApplicationController
   def friends
     pitch
     record_ad_campaign
+    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
+    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
     setup_pagination
     setup_generic_sidebar
     setup_recommendation_sidebar
@@ -86,6 +88,8 @@ class VideosController < ApplicationController
   def discuss
     # load_video or redirect
     pitch
+    set_meta_description(@video.safe_description.first(156))
+    set_meta_keywords(@video.tags.join(','))
     set_title(@video.title)
     set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
     setup_discuss_sidebar(@video)
