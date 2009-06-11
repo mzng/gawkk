@@ -3,7 +3,7 @@
 			:links => [{:name => 'Friends', :options => '/', :selected => false}, 
 			{:name => 'Channels', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => true}]} %>
 	<%= render @videos %>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Videos From Subscriptions', :collection => @videos} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Videos From Subscriptions', :collection => @videos, :options => {:max_id => @max_id}} %>
 </div>
 
 <div id="content-sidebar">

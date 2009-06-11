@@ -70,8 +70,14 @@ class VideosController < ApplicationController
     setup_pagination
     setup_generic_sidebar
     setup_user_sidebar(logged_in_user) if user_logged_in?
-  
-    @videos = collect('saved_videos', (logged_in_user or User.new).subscription_videos(:offset => @offset, :limit => @per_page))
+    
+    saved_videos = (logged_in_user or User.new).subscription_videos(:max_id => @max_id, :offset => @offset, :limit => @per_page)
+    
+    if @page == 1 and saved_videos.size > 0
+      @max_id = saved_videos.first.id
+    end
+    
+    @videos = collect('saved_videos', saved_videos)
   end
   
   

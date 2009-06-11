@@ -206,6 +206,7 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_pagination(options = {})
+    @max_id   = params[:max_id]
     @per_page = options[:per_page].nil? ? 25 : options[:per_page]
     
     parse_page

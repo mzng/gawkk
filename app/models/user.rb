@@ -115,6 +115,10 @@ class User < ActiveRecord::Base
         subscription.save
       end
       
+      # Ensure the follow and subscription caches are clean
+      Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{self.id}/subscriptions")
+      
       # Process existing invitations
       
       # Setup YouTube feed for importer
@@ -262,12 +266,16 @@ class User < ActiveRecord::Base
       friendship.friend_id  = friend.id
       friendship.silent     = silent
       friendship.save
+      
+      Rails.cache.delete("users/#{self.id}/followings")
     end
   end
   
   def unfollow(friend)
     if follows?(friend)
       Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.id, friend.id]).destroy
+      
+      Rails.cache.delete("users/#{self.id}/followings")
     end
   end
   
@@ -283,12 +291,16 @@ class User < ActiveRecord::Base
       subscription.channel_id = channel.id
       subscription.silent     = subscription
       subscription.save
+      
+      Rails.cache.delete("users/#{self.id}/subscriptions")
     end
   end
   
   def unsubscribe_from(channel)
     if subscribes_to?(channel)
       Subscription.find(:first, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id]).destroy
+      
+      Rails.cache.delete("users/#{self.id}/subscriptions")
     end
   end
   
@@ -350,7 +362,9 @@ class User < ActiveRecord::Base
   def followings_ids
     # Speed this method up with cache
     if !self.id.blank?
-      self.friendships.collect{|friendship| friendship.friend_id}
+      Rails.cache.fetch("users/#{self.id}/followings", :expires_in => 1.week) do
+        self.friendships.collect{|friendship| friendship.friend_id}
+      end
     else
       User.default_followings.collect{|user| user.id}
     end
@@ -386,7 +400,9 @@ class User < ActiveRecord::Base
   def subscription_ids
     # Speed this method up with cache
     if !self.id.blank?
-      self.subscriptions.collect{|subscription| subscription.channel_id}
+      Rails.cache.fetch("users/#{self.id}/subscriptions", :expires_in => 1.week) do
+        self.subscriptions.collect{|subscription| subscription.channel_id}
+      end
     else
       Channel.default_subscriptions.collect{|channel| channel.id}
     end
@@ -395,7 +411,13 @@ class User < ActiveRecord::Base
   def subscription_videos(*args)
     # Speed and clean this method up with the caching system
     options = args.extract_options!
-    SavedVideo.in_channels(self.subscription_ids).all(options)
+    max_id = options.delete(:max_id)
+    
+    if max_id.nil?
+      SavedVideo.in_channels(self.subscription_ids).all(options)
+    else
+      SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
+    end
   end
   
   # Utility Methods
