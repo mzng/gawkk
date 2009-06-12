@@ -56,6 +56,12 @@ class VideosController < ApplicationController
     setup_recommendation_sidebar
     setup_user_sidebar(logged_in_user) if user_logged_in?
     
+    # Videos from Followed Channels
+    saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
+    @max_id = saved_videos.first.id
+    @videos = collect('saved_videos', saved_videos)
+    
+    # Friends Activity
     @base_user = (logged_in_user or User.new)
     @include_followings = true
     @news_items = collect('news_items', @base_user.followings_activity(:offset => @offset, :limit => @per_page))
@@ -64,16 +70,18 @@ class VideosController < ApplicationController
   def subscriptions
     pitch
     setup_pagination
-    setup_generic_sidebar
-    setup_user_sidebar(logged_in_user) if user_logged_in?
     
+    # Videos from Followed Channels
     saved_videos = (logged_in_user or User.new).subscription_videos(:max_id => @max_id, :offset => @offset, :limit => @per_page)
     
-    if @page == 1 and saved_videos.size > 0
+    if @max_id.nil? and @page == 1 and saved_videos.size > 0
       @max_id = saved_videos.first.id
     end
     
     @videos = collect('saved_videos', saved_videos)
+    
+    # Followed Channels
+    @channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'name ASC'))
   end
   
   

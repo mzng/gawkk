@@ -41,6 +41,10 @@ h1.section-header span.description {
 	font-weight: normal;
 }
 
+h1.light-header {
+	border-color: #E5E5E5;
+}
+
 h2 {
 	font-size: 14pt;
 	margin: 4px 0;
@@ -114,6 +118,11 @@ img {
 
 .buffered {
 	padding: 5px 15px;
+}
+
+.set img.follow {
+	float: left;
+	margin: 5px 5px 5px 0;
 }
 
 /* blank slate container */

@@ -1,4 +1,6 @@
+<% style_id			||= '' -%>
 <% title 				||= '&nbsp;' -%>
+<% light				||= false -%>
 <% description	||= '' -%>
 <% link 				||= '#' -%>
 <% count				||= 0 -%>
@@ -7,8 +9,8 @@
 <% collection		||= Array.new -%>
 
 <% if collection.size > 0 -%>
-	<%= render :partial => "/layouts/set_header", :locals => {:title => title, :description => description, :count => count, :set_size => set_size, :link => link, :force_link => force_link} %>
-	<div class="set">
+	<%= render :partial => "/layouts/set_header", :locals => {:title => title, :light => light, :description => description, :count => count, :set_size => set_size, :link => link, :force_link => force_link} %>
+	<div <% if !style_id.blank? -%>id="<%= style_id %>"<% end -%> class="set">
 		<% collection.each do |object| -%>
 			<% if object.class == Video -%>
 				<%= render :partial => "/videos/video_small", :locals => {:video => object} %>

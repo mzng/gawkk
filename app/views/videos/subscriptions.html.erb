@@ -1,18 +1,18 @@
+<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => (user_logged_in? ? logged_in_user.thumbnail : nil), :title => 'Channel Videos', :description => "Newest Videos from #{user_logged_in? ? 'Followed' : 'Suggested'} Channels", :user => (user_logged_in? ? logged_in_user : nil)} %>
+<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, :crumbs => [{:name => 'Channel Videos', :params => {:controller => 'videos', :action => 'subscriptions'}}]} %>
+
 <div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
-			:links => [{:name => 'Friends', :options => '/', :selected => false}, 
-			{:name => 'Channels', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => true}]} %>
 	<%= render @videos %>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Videos From Subscriptions', :collection => @videos, :options => {:max_id => @max_id}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Channel Videos', :collection => @videos, :options => {:max_id => @max_id}} %>
 </div>
 
 <div id="content-sidebar">
-	<% if user_logged_in? -%>
-		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :user => logged_in_user} %>
-	<% end -%>
-	
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
-			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', 
-			:link => {:controller => 'videos', :popular => false}, :force_link => true, :collection => @categories} %>
+	<%= render :partial => "/channels/explanation" %>
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Channels', :description => "(#{user_logged_in? ? 'followed' : 'suggested'} channels)", :collection => @channels} %>
 </div>
+
+<% if !params[:video_id].blank? and !params[:video_slug].blank? -%>
+	<script type="text/javascript" charset="utf-8">
+		watchVideo('<%= params[:video_id] %>', '<%= params[:video_slug] %>');
+	</script>
+<% end -%>

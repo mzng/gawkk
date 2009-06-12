@@ -3,9 +3,18 @@
 		<%= render :partial => "/submit/new" %>
 	</div>
 	
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
-			:links => [{:name => 'Friends', :options => '/', :selected => true}, 
-			{:name => 'Channels', :options => {:controller => 'videos', :action => 'subscriptions'}, :selected => false}]} %>
+	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Channel Videos', :light => true} %>
+	<% if @videos.size > 0 -%>
+		<div id="subscription-preview" class="set">
+			<% @videos.each do |video| -%>
+				<%= render :partial => "/videos/video_small", :locals => {:video => video, :options => {:action => 'subscriptions', :id => nil, :max_id => @max_id, :video_id => video.id, :video_slug => video.slug}} %>
+			<% end -%>
+			<%= link_to(image_tag('follow-arrow.gif', :class => 'follow'), {:controller => 'videos', :action => 'subscriptions', :max_id => @max_id}) %>
+			<br class="clear"/>
+		</div>
+	<% end -%>
+	
+	<h1 class="section-header light-header">Activity Stream</h1>
 	<div id="activity">
 		<%= render @news_items %>
 	</div>

@@ -340,7 +340,7 @@ class User < ActiveRecord::Base
     if !self.id.blank?
       Channel.subscribed_to_by(self).all(options)
     else
-      Array.new
+      Channel.suggested.all(options)
     end
   end
   

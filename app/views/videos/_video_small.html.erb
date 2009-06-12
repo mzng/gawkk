@@ -1,4 +1,6 @@
+<% options ||= Hash.new -%>
+
 <div id="video_<%= video.id %>" class="small-video">
-	<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %><br/>
+	<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video}.merge(options) %><br/>
 	<%= link_to video.title, {:controller => 'videos', :action => 'discuss', :id => video} %>
 </div>

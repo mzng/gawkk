@@ -16,6 +16,17 @@
 	width: 127px;
 }
 
+#subscription-preview .small-video {
+	height: 105px;
+	margin: 5px 5px 5px 0;
+	width: 120px;
+}
+
+#subscription-preview .small-video img {
+	height: 75px;
+	width: 107px;
+}
+
 #content-sidebar .small-video {
 	margin: 5px 0 5px 10px;
 }
