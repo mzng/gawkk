@@ -256,7 +256,7 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_discuss_sidebar(video)
-    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 16))
+    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 4))
   end
   
   def setup_related_videos(video)
@@ -268,10 +268,10 @@ class ApplicationController < ActionController::Base
     end
     
     @channel = video.first_channel
-    @channel_videos = (@channel.nil? ? Array.new : collect('saved_videos', @channel.videos(:limit => 4)))
+    @channel_videos = (@channel.nil? ? Array.new : collect('saved_videos', @channel.videos(:limit => 2)))
     
     @category = video.category
-    @category_videos = (@category.nil? ? Array.new : collect('videos', Video.newest.in_category(@category).all(:limit => 4)))
+    @category_videos = (@category.nil? ? Array.new : collect('videos', Video.newest.in_category(@category).all(:limit => 2)))
   end
   
   def setup_channel_sidebar(channel)

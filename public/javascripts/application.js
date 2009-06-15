@@ -180,10 +180,10 @@ function commentAndFocus(videoId, videoSlug, replyId, focus) {
 	var q = '';
 	if(replyId == '!AUTO') {
 		if($('last_comment_id_for_' + videoId) && $('last_comment_id_for_' + videoId).value != '') {
-			q = "?reply_id=" + $('last_comment_id_for_' + videoId).value;
+			q = "?reply_id=" + $('last_comment_id_for_' + videoId).value + '&explicit_reply=false';
 		}
 	} else if(replyId != null) {
-		q = "?reply_id=" + replyId;
+		q = "?reply_id=" + replyId + '&explicit_reply=true';
 	}
 
 	new Ajax.Request('/' + videoSlug + '/comment' + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
@@ -192,7 +192,10 @@ function commentAndFocus(videoId, videoSlug, replyId, focus) {
 			rest(videoId);
 
 			if(focus == true) {
-				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3, afterFinish: function(){$('new_comment_area_for_' + videoId).focus();}});
+				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3, afterFinish: function(){
+					$('new_comment_area_for_' + videoId).focus();
+					$('new_comment_area_for_' + videoId).value = $('new_comment_area_text_for_' + videoId).value;
+				}});
 			} else {
 				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3});
 			}

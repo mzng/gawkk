@@ -63,6 +63,16 @@ class Util::Scrub
     return title
   end
   
+  def self.autolink_usernames(html)
+    autolinked_html = html
+    
+    autolinked_html.gsub!(/(^\/([A-Za-z0-9_]+)| \/([A-Za-z0-9_]+))/, '<a href="\1">\1</a>'.strip)
+    
+    autolinked_html
+  rescue
+    html
+  end
+  
   def self.html(html, okTags='a href, b, br, i, p')
     # no closing tag necessary for these
     soloTags = ["br","hr"]

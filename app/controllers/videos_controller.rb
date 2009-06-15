@@ -170,6 +170,9 @@ class VideosController < ApplicationController
     
     if params[:reply_id] and params[:reply_id] != '' and @reply = Comment.find(params[:reply_id])
       @comment.thread_id = @reply.thread_id
+      @explicit_reply = (!params[:explicit_reply].blank? and params[:explicit_reply] == 'true') ? true : false
+    else
+      @explicit_reply = false
     end
   end
   

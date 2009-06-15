@@ -88,6 +88,8 @@ class NewsItem < ActiveRecord::Base
       html = html.gsub(/\{comment.body\}/, self.message)
     end
     
+    html = Util::Scrub.autolink_usernames(html)
+    
     return html
   end
   

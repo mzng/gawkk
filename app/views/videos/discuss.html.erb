@@ -5,9 +5,6 @@
 
 <div id="content-main">
 	<%= render @video, :visible_title => false, :load_comments => true %>
-	
-	<%= render :partial => "/layouts/set", :locals => {:title => "More Videos in #{@category.name}", :collection => @category_videos, 
-				:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
 </div>
 
 <div id="content-sidebar">
@@ -17,11 +14,19 @@
 				:link => {:controller => 'search', :action => 'videos', :q => @q}, :force_link => true} %>
 	
 	<% if !@channel.nil? -%>
-		<%= render :partial => "/layouts/set", :locals => {:title => "More Videos in this Channel", :collection => @channel_videos, 
+		<%= render :partial => "/layouts/set", :locals => {:title => @channel.name, :collection => @channel_videos, 
 					:link => channel_path(@channel.user, @channel), :force_link => true} %>
 	<% end -%>
 	
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
+	<% if !@category.nil? -%>
+		<%= render :partial => "/layouts/set", :locals => {:title => @category.name, :collection => @category_videos, 
+					:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
+		
+		<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels, 
+						:link => {:controller => 'channels', :c => @category.id, :s => 'p', :t => 'a'}, :force_link => true} %>
+	<% else -%>
+		<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
+	<% end -%>
 	
 	<h1 class="section-header">Videos by Tag</h1>
 	<div>

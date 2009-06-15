@@ -51,8 +51,12 @@ module ApplicationHelper
   end
   
   
-  def render_simple(news_item)
+  def auto_link_usernames(body)
+    html = h(body)
     
+    html = Util::Scrub.autolink_usernames(html)
+    
+    html
   end
   
   def popular_icon(video)

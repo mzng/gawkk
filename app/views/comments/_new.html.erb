@@ -1,3 +1,5 @@
+<% in_reply_to ||= nil -%>
+
 <div id="new_comment_for_<%= commentable.id %>" class="new-comment" style="display:none;">
 	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create'}, :condition => "$F('new_comment_area_for_#{commentable.id}').strip() != ''", :before => "disableForm('submit_for_post_to_#{commentable.id}');") do |f| %>
 		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
@@ -12,6 +14,7 @@
 				</td>
 				<td colspan="2" class="body">
 					<%= f.text_area 'body', :value => '', :id => "new_comment_area_for_#{commentable.id}", :onkeyup => "updateCharacterCount('#{commentable.id}', this);" %>
+					<input id="new_comment_area_text_for_<%= commentable.id %>" type="hidden" value="<%= (in_reply_to.nil? ? '' : "Hey /#{in_reply_to.user.username}, ") %>"/>
 				</td>
 			</tr>
 			<tr id="comment_actions_for_<%= commentable.id %>">

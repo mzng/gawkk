@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<td class="body" colspan="2">
-			<%=h comment.body %>
+			<%= auto_link_usernames(comment.body) %>
 		</td>
 	</tr>
 <% end -%>

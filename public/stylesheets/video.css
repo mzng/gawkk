@@ -48,17 +48,15 @@
 }
 
 .action_description {
-	padding: 0 0 5px 5px;
+	padding: 0 0 0 5px;
 }
 
 .action_description a {
-	font-size: 11pt;
 	font-weight: bold;
 	text-decoration: none;
 }
 
 .action_description a:hover {
-	font-size: 11pt;
 	font-weight: bold;
 	text-decoration: underline;
 }
