@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   attr_accessible :salt, :cookie_hash, :password_reset_auth_code, :password_reset_expires_at, :email_confirmation_auth_code, :email_confirmed_at
   attr_accessible :description, :age_range_id, :age_range, :location, :sex, :zip_code
   attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
-  attr_accessible :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency, :follow_notification_type
+  attr_accessible :consumes_grouped_activity, :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency, :follow_notification_type
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
   attr_accessible :feed_owner, :twitter_oauth, :facebook
   

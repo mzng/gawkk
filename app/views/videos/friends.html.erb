@@ -14,7 +14,14 @@
 		</div>
 	<% end -%>
 	
-	<h1 class="section-header light-header">Activity Stream</h1>
+	<h1 class="section-header light-header">
+		<% if user_logged_in? and logged_in_user.consumes_grouped_activity? -%>
+			<span>By Video | <%= link_to 'By Action', {:controller => 'settings', :action => 'ungroup_activity'} %></span>
+		<% elsif user_logged_in? -%>
+			<span><%= link_to 'By Video', {:controller => 'settings', :action => 'group_activity'} %> | By Action</span>
+		<% end -%>
+		Activity Stream
+	</h1>
 	<div id="activity">
 		<%= render @news_items %>
 	</div>

@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :notifications, :password]
+  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :notifications, :password, :group_activity, :ungroup_activity]
   layout 'page'
   
   
@@ -121,6 +121,20 @@ class SettingsController < ApplicationController
         flash[:notice] = 'The password you entered was incorrect.'
       end
     end
+  end
+  
+  def group_activity
+    # ensure_logged_in_user or redirect
+    
+    @user.update_attribute('consumes_grouped_activity', true)
+    redirect_to '/'
+  end
+  
+  def ungroup_activity
+    # ensure_logged_in_user or redirect
+    
+    @user.update_attribute('consumes_grouped_activity', false)
+    redirect_to '/'
   end
   
   

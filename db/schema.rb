@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090605164401) do
+ActiveRecord::Schema.define(:version => 20090616195156) do
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -462,6 +462,7 @@ ActiveRecord::Schema.define(:version => 20090605164401) do
     t.boolean  "twitter_oauth",                             :default => false, :null => false
     t.boolean  "facebook",                                  :default => false, :null => false
     t.integer  "follow_notification_type",                  :default => 2,     :null => false
+    t.boolean  "consumes_grouped_activity",                 :default => true,  :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"
@@ -588,9 +589,9 @@ ActiveRecord::Schema.define(:version => 20090605164401) do
   add_foreign_key "messages", ["receiver_id"], "users", ["id"], :name => "messages_ibfk_2"
   add_foreign_key "messages", ["message_type_id"], "message_types", ["id"], :name => "messages_ibfk_3"
 
-  add_foreign_key "news_items", ["comment_id"], "comments", ["id"], :name => "news_items_ibfk_3"
   add_foreign_key "news_items", ["news_item_type_id"], "news_item_types", ["id"], :name => "news_items_ibfk_1"
   add_foreign_key "news_items", ["user_id"], "users", ["id"], :name => "news_items_ibfk_2"
+  add_foreign_key "news_items", ["comment_id"], "comments", ["id"], :name => "news_items_ibfk_3"
 
   add_foreign_key "playlist_items", ["playlist_id"], "playlists", ["id"], :name => "playlist_items_ibfk_1"
   add_foreign_key "playlist_items", ["video_id"], "videos", ["id"], :name => "playlist_items_ibfk_2"

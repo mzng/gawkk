@@ -28,7 +28,9 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # settings
-  map.connect 'settings/:action',   :controller => 'settings'
+  map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
+  map.connect 'settings/activity/ungroup',  :controller => 'settings', :action => 'ungroup_activity'
+  map.connect 'settings/:action',           :controller => 'settings'
   
   
   # submit

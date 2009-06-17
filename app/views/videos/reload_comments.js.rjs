@@ -1,1 +1,9 @@
-page.insert_html(:bottom, "video_#{@video.id}", :partial => "/comments/list", :locals => {:video => @video, :load_comments => true})
+page << "if($('reply_link_for_#{@video.id}')) {"
+  page.remove("reply_link_for_#{@video.id}")
+page << "}"
+
+page << "if($('last_comment_id_for_#{@video.id}')) {"
+  page.remove("last_comment_id_for_#{@video.id}")
+page << "}"
+
+page.replace("comment_container_for_#{@video.id}", :partial => "/comments/list", :locals => {:video => @video, :load_comments => true})

@@ -1,4 +1,5 @@
 <script type="text/javascript" charset="utf-8">
 	var baseUser = '<%= @base_user.slug %>';
 	var includeFollowings = <%= @include_followings %>;
+	var consumesGroupedActivity = <%= (logged_in_user or User.new).consumes_grouped_activity? %>;
 </script>

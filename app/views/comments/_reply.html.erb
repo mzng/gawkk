@@ -1,5 +1,5 @@
 <% if user_logged_in? -%>
-	<table class="inline" cellpadding="0" cellspacing="0">
+	<table id="reply_link_for_<%= video.id %>" class="inline" cellpadding="0" cellspacing="0">
 		<tr>
 			<td class="gutter">&nbsp;</td>
 			<td class="image-small"><%= image_tag('comment.png') %></td>
