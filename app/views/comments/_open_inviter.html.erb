@@ -1,3 +1,5 @@
+<% container_id ||= '' -%>
+
 <% if user_logged_in? -%>
-	<%= link_to_remote 'Invite Friends', :url => {:controller => 'invitation', :action => 'new', :id => video_id}, :complete => "Effect.BlindDown('inviter_for_#{video_id}', {duration: 0.3});" %><%= image_tag('menu-arrow.png') %>
+	<%= link_to_remote 'Invite Friends', :url => {:controller => 'invitation', :action => 'new', :id => video_id, :container_id => container_id}, :complete => "Effect.BlindDown('inviter_for_#{video_id}#{container_id}', {duration: 0.3});" %><%= image_tag('menu-arrow.png') %>
 <% end -%>

@@ -108,14 +108,18 @@ class VideosController < ApplicationController
   
   def share
     # load_video or redirect
+    containerable
   end
   
   def watch
     # load_video or redirect
     affects_recommendation_countdown
+    containerable
   end
   
   def reload_activity
+    containerable
+    
     @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
       Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
     }
@@ -126,6 +130,8 @@ class VideosController < ApplicationController
   end
   
   def reload_comments
+    containerable
+    
     @video = Rails.cache.fetch("videos/#{params[:id]}", :expires_in => 1.day) {
       Video.find(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
     }
@@ -137,6 +143,7 @@ class VideosController < ApplicationController
   
   def like
     affects_recommendation_countdown
+    containerable
     
     like = Like.new
     like.video_id = @video.id
@@ -155,6 +162,7 @@ class VideosController < ApplicationController
   
   def unlike
     affects_recommendation_countdown
+    containerable
     
     # load_video or redirect
     if like = Like.by_user(logged_in_user).for_video(@video).first
@@ -166,6 +174,8 @@ class VideosController < ApplicationController
   
   def comment
     # load_video or redirect
+    containerable
+    
     @comment = Comment.new
     
     if params[:reply_id] and params[:reply_id] != '' and @reply = Comment.find(params[:reply_id])
@@ -178,11 +188,15 @@ class VideosController < ApplicationController
   
   def edit
     # load_video or redirect
+    containerable
+    
     @categories = Category.all_cached
   end
   
   def update
     # load_video or redirect
+    containerable
+    
     params[:video][:embed_code]     = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
     params[:thumbnail][:for_video]  = '' if params[:thumbnail] and params[:thumbnail][:for_video] == 'Enter a Thumbnail URL...'
     

@@ -1,3 +1,4 @@
-<% value ||= '' -%>
+<% value				||= '' -%>
+<% container_id	||= '' -%>
 
-<%= hidden_field 'last_comment_id_for_', video.id, :value => value %>
+<%= hidden_field 'last_comment_id_for_', video.id.to_s + container_id, :value => value %>

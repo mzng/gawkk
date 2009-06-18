@@ -1,3 +1,3 @@
-page.replace("video_#{@video.id}", :partial => "/videos/video", :locals => {:video => @video, :refresh_thumbnail => true})
-page << "reloadActivity('#{@video.id}');"
-page << "reloadComments('#{@video.id}');"
+page.replace("video_#{@video.id}#{@container_id}", :partial => "/videos/video", :locals => {:video => @video, :refresh_thumbnail => true, :container_id => @container_id})
+page << "reloadActivity('#{@video.id}','#{@container_id}');"
+page << "reloadComments('#{@video.id}','#{@container_id}');"

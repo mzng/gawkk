@@ -1,5 +1,7 @@
-<% content_tag_for(:div, video, :class => 'video video-edit', :style => 'display:none;') do -%>
-	<% remote_form_for(video, :url => {:controller => 'videos', :action => 'update', :id => video}) do |f| %>
+<% container_id ||= '' -%>
+
+<div id="video_<%= video.id %><%= container_id %>" class="video video-edit" style="display:none;">
+	<% remote_form_for(video, :url => {:controller => 'videos', :action => 'update', :id => video, :container_id => container_id}) do |f| %>
 		<div class="about">Edit this Video:</div>
 		<div class="title">
 			<%= f.text_field 'name' %>
@@ -9,7 +11,7 @@
 				<div class="thumbnail">
 					<%= image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail + '?' + Time.now.to_i.to_s) %>
 				</div>
-				<p><%= link_to 'Import a new Thumbnail', '#change', :onclick => "Effect.BlindDown('thumbnail_override_for_#{video.id}', { duration: 0.2 });" %></p>
+				<p><%= link_to 'Import a new Thumbnail', '#change', :onclick => "Effect.BlindDown('thumbnail_override_for_#{video.id}#{container_id}', { duration: 0.2 });" %></p>
 			</div>
 			<div class="field-container">
 				<div class="description">
@@ -19,17 +21,17 @@
 					Posted in <%= f.select 'category_id', @categories.collect{|category| [category.name, category.id]}, {} %>
 					on <%= video.posted_at.strftime("%B %d, %Y") %>
 				</div>
-				<div id="thumbnail_override_for_<%= video.id %>" class="thumbnail_url" style="display:none;">
+				<div id="thumbnail_override_for_<%= video.id %><%= container_id %>" class="thumbnail_url" style="display:none;">
 					<%= text_field 'thumbnail', 'for_video', {:value => 'Enter a Thumbnail URL...', :onfocus => "descriptiveField(this, 'Enter a Thumbnail URL...', true);", :onblur => "descriptiveField(this, 'Enter a Thumbnail URL...', false);", :style => 'color:gray;'} %>
 				</div>
 				<div class="embed_code">
 					<%= f.text_area 'embed_code', {:value => (video.embed_code.blank? ? 'Embed Code...' : video.embed_code), :onfocus => "descriptiveField(this, 'Embed Code...', true);", :onblur => "descriptiveField(this, 'Embed Code...', false);", :style => (video.embed_code.blank? ? 'color:gray' : '')} %>
 				</div>
 				<p class="submit">
-					<%= submit_tag 'Update' %> or <%= link_to_remote 'Cancel', {:url => {:controller => 'videos', :action => 'update', :id => video}, :method => :get, :loading => "work('#{video.id}');"} %>
+					<%= submit_tag 'Update' %> or <%= link_to_remote 'Cancel', {:url => {:controller => 'videos', :action => 'update', :id => video, :container_id => container_id}, :method => :get, :loading => "work('#{video.id}','#{container_id}');"} %>
 				</p>
 			</div>
 			<br class="clear"/>
 		</div>
 	<% end -%>
-<% end -%>
+</div>

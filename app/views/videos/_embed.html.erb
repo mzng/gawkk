@@ -1,3 +1,5 @@
+<% container_id ||= '' -%>
+
 <% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
 	<table class="trouble-close" cellpadding="0" cellspacing="0">
 		<tr>
@@ -6,7 +8,7 @@
 				Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
 			</td>
 			<td>
-				<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+				<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');">
 					Close <%= image_tag('close.png') %>
 				</div>
 			</td>
@@ -14,7 +16,7 @@
 	</table>
 <% else -%>
 	<div class="close">
-		<div class="clickable-area" onclick="watchVideo('<%= video.id %>', '<%= video.slug %>');">
+		<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');">
 			Close <%= image_tag('close.png') %>
 		</div>
 	</div>
@@ -35,7 +37,7 @@
 		</div>
 		<% if user_can_administer? -%>
 			<div>
-				<% remote_form_for(video, :url => {:controller => 'admin/videos', :action => 'update_embed_code', :id => video}, :loading => "watchVideo('#{video.id}','#{video.slug}');work('#{video.id}');") do |f| -%>
+				<% remote_form_for(video, :url => {:controller => 'admin/videos', :action => 'update_embed_code', :id => video, :container_id => container_id}, :loading => "watchVideo('#{video.id}','#{video.slug}','#{container_id}');work('#{video.id}','#{container_id}');") do |f| -%>
 					<%= f.text_field 'embed_code', :value => 'Enter embed code...', :onfocus => "descriptiveField(this, 'Enter embed code...', true);", :onblur => "descriptiveField(this, 'Enter embed code...', false);", :style => 'color:gray;' %>
 				<% end -%>
 			</div>

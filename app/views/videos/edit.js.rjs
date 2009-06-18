@@ -1,4 +1,4 @@
 if user_can_edit?(@video)
-  page.replace("video_#{@video.id}", :partial => "/videos/edit", :locals => {:video => @video})
-  page.visual_effect(:blind_down, "video_#{@video.id}", :duration => '.5')
+  page.replace("video_#{@video.id}#{@container_id}", :partial => "/videos/edit", :locals => {:video => @video, :container_id => @container_id})
+  page.visual_effect(:blind_down, "video_#{@video.id}#{@container_id}", :duration => '.5')
 end

@@ -36,66 +36,66 @@ function enableCurrentForm() {
 // video
 var consumesGroupedActivity = true;
 
-function work(videoId) {
-	if($('loading_for_' + videoId)) {
-		$('popular_for_' + videoId).style.display = 'none';
-		$('loading_for_' + videoId).style.display = 'inline';
+function work(videoId, containerId) {
+	if($('loading_for_' + videoId + containerId)) {
+		$('popular_for_' + videoId + containerId).style.display = 'none';
+		$('loading_for_' + videoId + containerId).style.display = 'inline';
 	}
 }
 
-function rest(videoId) {
-	if($('loading_for_' + videoId)) {
-		$('loading_for_' + videoId).style.display = 'none';
-		$('popular_for_' + videoId).style.display = 'inline';
+function rest(videoId, containerId) {
+	if($('loading_for_' + videoId + containerId)) {
+		$('loading_for_' + videoId + containerId).style.display = 'none';
+		$('popular_for_' + videoId + containerId).style.display = 'inline';
 	}
 }
 
-function watchVideo(videoId, videoSlug) {
-	watchVideoAndScroll(videoId, videoSlug, true)
+function watchVideo(videoId, videoSlug, containerId) {
+	watchVideoAndScroll(videoId, videoSlug, true, containerId)
 }
 
-function watchVideoAndScroll(videoId, videoSlug, scroll) {
-	if($('embed_for_' + videoId).style.display != 'none') {
-		$('embed_for_' + videoId).hide();
-		$('embed_for_' + videoId).update('');
+function watchVideoAndScroll(videoId, videoSlug, scroll, containerId) {
+	if($('embed_for_' + videoId + containerId).style.display != 'none') {
+		$('embed_for_' + videoId + containerId).hide();
+		$('embed_for_' + videoId + containerId).update('');
 		
-		if($('short_description_for_' + videoId) && $('short_description_for_' + videoId).style.display == 'none') {
-			$('full_description_for_' + videoId).hide();
-			$('short_description_for_' + videoId).show();
+		if($('short_description_for_' + videoId + containerId) && $('short_description_for_' + videoId + containerId).style.display == 'none') {
+			$('full_description_for_' + videoId + containerId).hide();
+			$('short_description_for_' + videoId + containerId).show();
 		}
 		
 		if(consumesGroupedActivity == true) {
-			if($('new_comment_for_' + videoId) && $('new_comment_area_for_' + videoId).value == '') {
-				$('new_comment_for_' + videoId).remove();
+			if($('new_comment_for_' + videoId + containerId) && $('new_comment_area_for_' + videoId + containerId).value == '') {
+				$('new_comment_for_' + videoId + containerId).remove();
 			}
 		} else {
-			if($('activity_for_' + videoId)) {
-				$('activity_for_' + videoId).update('');
+			if($('activity_for_' + videoId + containerId)) {
+				$('activity_for_' + videoId + containerId).update('');
 			}
 		
-			if($('reply_link_for_' + videoId)) {
-				$('reply_link_for_' + videoId).remove();
+			if($('reply_link_for_' + videoId + containerId)) {
+				$('reply_link_for_' + videoId + containerId).remove();
 			}
 		
-			if($('new_comment_for_' + videoId) && $('new_comment_area_for_' + videoId).value == '') {
-				$('new_comment_for_' + videoId).remove();
+			if($('new_comment_for_' + videoId + containerId) && $('new_comment_area_for_' + videoId + containerId).value == '') {
+				$('new_comment_for_' + videoId + containerId).remove();
 			
-				if($('comment_container_for_' + videoId)) {
-					$('comment_container_for_' + videoId).update('');
+				if($('comment_container_for_' + videoId + containerId)) {
+					$('comment_container_for_' + videoId + containerId).update('');
 				}
 			}
 		}
 		
 	} else {
-		new Ajax.Request('/' + videoSlug + '/watch', {asynchronous:true, evalScripts:false, onLoading:function(request){
-				work(videoId);
+		new Ajax.Request('/' + videoSlug + '/watch?container_id=' + containerId, {asynchronous:true, evalScripts:false, onLoading:function(request){
+				work(videoId, containerId);
 			}, onComplete:function(request){	
-				rest(videoId);
+				rest(videoId, containerId);
 				
-				Effect.BlindDown('embed_for_' + videoId, { duration: 0.5 });
+				Effect.BlindDown('embed_for_' + videoId + containerId, { duration: 0.5 });
 				
 				if(scroll) {
-					Effect.ScrollTo('video_' + videoId, {offset: -5});
+					Effect.ScrollTo('video_' + videoId + containerId, {offset: -5});
 					
 					if(typeof pageTracker != 'undefined') {
 						pageTracker._trackPageview("/watched-video");
@@ -103,16 +103,16 @@ function watchVideoAndScroll(videoId, videoSlug, scroll) {
 				}
 				
 				if(consumesGroupedActivity == true) {
-					showAllCommentsFor(videoId);
+					showAllCommentsFor(videoId, containerId);
 					
-	        if(!$('new_comment_for_' + videoId)) {
-	          commentAndFocus(videoId, videoSlug, '!AUTO', false);
+	        if(!$('new_comment_for_' + videoId + containerId)) {
+	          commentAndFocus(videoId, videoSlug, '!AUTO', false, containerId);
 	        }
 				} else {
-					reloadActivity(videoId);
+					reloadActivity(videoId, containerId);
 					
-					if(!$('new_comment_for_' + videoId)) {
-						reloadCommentsAndComment(videoId, videoSlug, true, false);
+					if(!$('new_comment_for_' + videoId + containerId)) {
+						reloadCommentsAndComment(videoId, videoSlug, true, false, containerId);
 					}
 				}
 			}}
@@ -120,17 +120,17 @@ function watchVideoAndScroll(videoId, videoSlug, scroll) {
 	}
 }
 
-function readMore(videoId) {
-	if($('short_description_for_' + videoId)) {
-		$('short_description_for_' + videoId).hide();
-		$('full_description_for_' + videoId).show();
+function readMore(videoId, containerId) {
+	if($('short_description_for_' + videoId + containerId)) {
+		$('short_description_for_' + videoId + containerId).hide();
+		$('full_description_for_' + videoId + containerId).show();
 	}
 }
 
-function read(videoId, videoSlug) {
-	readMore(videoId);
-	if($('embed_for_' + videoId).style.display == 'none') {
-		watchVideo(videoId, videoSlug);
+function read(videoId, videoSlug, containerId) {
+	readMore(videoId, containerId);
+	if($('embed_for_' + videoId + containerId).style.display == 'none') {
+		watchVideo(videoId, videoSlug, containerId);
 	}
 }
 
@@ -148,108 +148,108 @@ function watchYouTubeVideo(youTubeUnqiueId) {
 
 
 // activity
-function reloadActivity(videoId) {
+function reloadActivity(videoId, containerId) {
 	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
-		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings;
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings + '&container_id=' + containerId;
 		
 		new Ajax.Request('/videos/reload_activity/' + videoId + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
-				work(videoId);
+				work(videoId, containerId);
 			}, onComplete:function(request){
-				rest(videoId);
+				rest(videoId, containerId);
 			}}
 		);
 	} else {
-		rest(videoId);
+		rest(videoId, containerId);
 	}
 }
 
 
 // comments
-function showAllCommentsFor(videoId) {
-	if($('show_all_comments_for_' + videoId)) {
-		$('show_all_comments_for_' + videoId).hide();
+function showAllCommentsFor(videoId, containerId) {
+	if($('show_all_comments_for_' + videoId + containerId)) {
+		$('show_all_comments_for_' + videoId + containerId).hide();
 	}
 	
-	comments = $$('#video_' + videoId + ' .hidden');
+	comments = $$('#video_' + videoId + containerId + ' .hidden');
 	for(i = 0; i < comments.length; i++) {
 		comments[i].removeClassName('hidden');
 	}
 }
 
-function reloadComments(videoId) {
-	reloadCommentsAndComment(videoId, null, false, false);
+function reloadComments(videoId, containerId) {
+	reloadCommentsAndComment(videoId, null, false, false, containerId);
 }
 
-function reloadCommentsAndComment(videoId, videoSlug, comment, focus) {
+function reloadCommentsAndComment(videoId, videoSlug, comment, focus, containerId) {
 	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
-		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings;
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings + '&container_id=' + containerId;
 		
 		new Ajax.Request('/videos/reload_comments/' + videoId + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
-				work(videoId);
+				work(videoId, containerId);
 			}, onComplete:function(request){
-				rest(videoId);
+				rest(videoId, containerId);
 				
-				if(comment == true && !$('new_comment_for_' + videoId)) {
-					commentAndFocus(videoId, videoSlug, '!AUTO', focus);
+				if(comment == true && !$('new_comment_for_' + videoId + containerId)) {
+					commentAndFocus(videoId, videoSlug, '!AUTO', focus, containerId);
 				}
 			}}
 		);
 	} else {
-		rest(videoId);
+		rest(videoId, containerId);
 	}
 }
 
-function comment(videoId, videoSlug, replyId) {
-	commentAndFocus(videoId, videoSlug, replyId, true);
+function comment(videoId, videoSlug, replyId, containerId) {
+	commentAndFocus(videoId, videoSlug, replyId, true, containerId);
 }
 
-function commentAndFocus(videoId, videoSlug, replyId, focus) {
-	if($('new_comment_for_' + videoId)) {
-		$('new_comment_for_' + videoId).remove();
+function commentAndFocus(videoId, videoSlug, replyId, focus, containerId) {
+	if($('new_comment_for_' + videoId + containerId)) {
+		$('new_comment_for_' + videoId + containerId).remove();
 	}
 	
 	var q = '';
 	if(replyId == '!AUTO') {
-		if($('last_comment_id_for_' + videoId) && $('last_comment_id_for_' + videoId).value != '') {
-			q = "?reply_id=" + $('last_comment_id_for_' + videoId).value + '&explicit_reply=false';
+		if($('last_comment_id_for_' + videoId + containerId) && $('last_comment_id_for_' + videoId + containerId).value != '') {
+			q = "?reply_id=" + $('last_comment_id_for_' + videoId + containerId).value + '&explicit_reply=false' + '&container_id=' + containerId;
 		}
 	} else if(replyId != null) {
-		q = "?reply_id=" + replyId + '&explicit_reply=true';
+		q = "?reply_id=" + replyId + '&explicit_reply=true' + '&container_id=' + containerId;
 	}
 
 	new Ajax.Request('/' + videoSlug + '/comment' + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
-			work(videoId);
+			work(videoId, containerId);
 		}, onComplete:function(request){
-			rest(videoId);
+			rest(videoId, containerId);
 
 			if(focus == true) {
-				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3, afterFinish: function(){
-					$('new_comment_area_for_' + videoId).focus();
-					$('new_comment_area_for_' + videoId).value = $('new_comment_area_text_for_' + videoId).value;
+				Effect.BlindDown('new_comment_for_' + videoId + containerId, {duration: 0.3, afterFinish: function(){
+					$('new_comment_area_for_' + videoId + containerId).focus();
+					$('new_comment_area_for_' + videoId + containerId).value = $('new_comment_area_text_for_' + videoId + containerId).value;
 				}});
 			} else {
-				Effect.BlindDown('new_comment_for_' + videoId, {duration: 0.3});
+				Effect.BlindDown('new_comment_for_' + videoId + containerId, {duration: 0.3});
 			}
 		}}
 	);
 }
 
-function updateCharacterCount(commentableId, field) {
+function updateCharacterCount(commentableId, field, containerId) {
 	var charactersLeft = 140 - field.value.length;
 	
-	var tweetIt = $('tweet_it_for_' + commentableId);
+	var tweetIt = $('tweet_it_for_' + commentableId + containerId);
 	if(tweetIt != null && tweetIt.checked) {
 		charactersLeft = charactersLeft - 26;
 	}
 	
-	$('characters_left_for_' + commentableId).update(charactersLeft);
+	$('characters_left_for_' + commentableId + containerId).update(charactersLeft);
 	
 	if(charactersLeft < 0) {
-		$('submit_button_for_' + commentableId).disable();
-		$('characters_left_for_' + commentableId).addClassName('over-limit');
+		$('submit_button_for_' + commentableId + containerId).disable();
+		$('characters_left_for_' + commentableId + containerId).addClassName('over-limit');
 	} else {
-		$('submit_button_for_' + commentableId).enable();
-		$('characters_left_for_' + commentableId).removeClassName('over-limit');
+		$('submit_button_for_' + commentableId + containerId).enable();
+		$('characters_left_for_' + commentableId + containerId).removeClassName('over-limit');
 	}
 }
 

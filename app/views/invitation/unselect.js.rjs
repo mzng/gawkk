@@ -1,17 +1,17 @@
 if !@friend.nil?
-  page.remove("friend_for_#{@video_id}_#{@friend.id}_link")
-  page.remove("friend_for_#{@video_id}_#{@friend.id}_extra")
-  page.remove("friend_for_#{@video_id}_#{@friend.id}")
-  page.insert_html(:bottom, "friend_for_#{@video_id}", "<option id=\"user_#{@friend.id}_for_#{@video_id}\" value=\"user_#{@friend.id}_for_#{@video_id}\">#{@friend.username}</option>")
+  page.remove("friend_for_#{@video_id}#{@container_id}_#{@friend.id}_link")
+  page.remove("friend_for_#{@video_id}#{@container_id}_#{@friend.id}_extra")
+  page.remove("friend_for_#{@video_id}#{@container_id}_#{@friend.id}")
+  page.insert_html(:bottom, "friend_for_#{@video_id}#{@container_id}", "<option id=\"user_#{@friend.id}_for_#{@video_id}#{@container_id}\" value=\"user_#{@friend.id}_for_#{@video_id}#{@container_id}\">#{@friend.username}</option>")
 elsif !@contact.nil?
-  page.remove("contact_for_#{@video_id}_#{@contact.id}_link")
-  page.remove("contact_for_#{@video_id}_#{@contact.id}_extra")
-  page.remove("contact_for_#{@video_id}_#{@contact.id}")
-  page.insert_html(:bottom, "friend_for_#{@video_id}", "<option id=\"contact_#{@contact.id}_for_#{@video_id}\" value=\"contact_#{@contact.id}_for_#{@video_id}\">#{@contact.email}</option>")
+  page.remove("contact_for_#{@video_id}#{@container_id}_#{@contact.id}_link")
+  page.remove("contact_for_#{@video_id}#{@container_id}_#{@contact.id}_extra")
+  page.remove("contact_for_#{@video_id}#{@container_id}_#{@contact.id}")
+  page.insert_html(:bottom, "friend_for_#{@video_id}#{@container_id}", "<option id=\"contact_#{@contact.id}_for_#{@video_id}#{@container_id}\" value=\"contact_#{@contact.id}_for_#{@video_id}#{@container_id}\">#{@contact.email}</option>")
 elsif !@email.nil?
-  page.remove("email_for_#{@video_id}_#{@email}_link")
-  page.remove("email_for_#{@video_id}_#{@email}_extra")
-  page.remove("email_for_#{@video_id}_#{@email}")
+  page.remove("email_for_#{@video_id}#{@container_id}_#{@email}_link")
+  page.remove("email_for_#{@video_id}#{@container_id}_#{@email}_extra")
+  page.remove("email_for_#{@video_id}#{@container_id}_#{@email}")
 end
 
-page << "$('friend_for_#{@video_id}').selectedIndex = 0;"
+page << "$('friend_for_#{@video_id}#{@container_id}').selectedIndex = 0;"

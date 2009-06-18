@@ -59,12 +59,12 @@ module ApplicationHelper
     html
   end
   
-  def popular_icon(video)
-    html = image_tag('spinner.gif', :id => "loading_for_#{video.id}", :style => 'display:none;')
+  def popular_icon(video, container_id)
+    html = image_tag('spinner.gif', :id => "loading_for_#{video.id}#{container_id}", :style => 'display:none;')
     if video.popular?
-      html = html + image_tag('star.png', :id => "popular_for_#{video.id}", :title => "Popular #{time_ago_in_words(video.promoted_at)} ago")
+      html = html + image_tag('star.png', :id => "popular_for_#{video.id}#{container_id}", :title => "Popular #{time_ago_in_words(video.promoted_at)} ago")
     else
-      html = html + image_tag('spacer.gif', :id => "popular_for_#{video.id}")
+      html = html + image_tag('spacer.gif', :id => "popular_for_#{video.id}#{container_id}")
     end
     html
   end

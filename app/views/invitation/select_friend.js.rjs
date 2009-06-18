@@ -1,11 +1,11 @@
 if !@friend.nil?
-  page << "$('friend_for_#{@video_id}').selectedIndex = 0;"
-  page.remove("user_#{@friend.id}_for_#{@video_id}")
-  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", link_to_remote(@friend.username, {:url => {:controller => 'invitation', :action => 'unselect', :video_id => @video_id, :friend_id => @friend.id}}, :id => "friend_for_#{@video_id}_#{@friend.id}_link", :class => 'invitee') + "<span id=\"friend_for_#{@video_id}_#{@friend.id}_extra\">, </span>")
-  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", check_box("friend_for_#{@video_id}", @friend.id, {:checked => true, :style => 'display:none;'}))
+  page << "$('friend_for_#{@video_id}#{@container_id}').selectedIndex = 0;"
+  page.remove("user_#{@friend.id}_for_#{@video_id}#{@container_id}")
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}#{@container_id}", link_to_remote(@friend.username, {:url => {:controller => 'invitation', :action => 'unselect', :video_id => @video_id, :friend_id => @friend.id, :container_id => @container_id}}, :id => "friend_for_#{@video_id}#{@container_id}_#{@friend.id}_link", :class => 'invitee') + "<span id=\"friend_for_#{@video_id}#{@container_id}_#{@friend.id}_extra\">, </span>")
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}#{@container_id}", check_box("friend_for_#{@video_id}#{@container_id}", @friend.id, {:checked => true, :style => 'display:none;'}))
 elsif !@contact.nil?
-  page << "$('friend_for_#{@video_id}').selectedIndex = 0;"
-  page.remove("contact_#{@contact.id}_for_#{@video_id}")
-  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", link_to_remote(@contact.email, {:url => {:controller => 'invitation', :action => 'unselect', :video_id => @video_id, :contact_id => @contact.id}}, :id => "contact_for_#{@video_id}_#{@contact.id}_link", :class => 'invitee') + "<span id=\"contact_for_#{@video_id}_#{@contact.id}_extra\">, </span>")
-  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}", check_box("contact_for_#{@video_id}", @contact.id, {:checked => true, :style => 'display:none;'}))
+  page << "$('friend_for_#{@video_id}#{@container_id}').selectedIndex = 0;"
+  page.remove("contact_#{@contact.id}_for_#{@video_id}#{@container_id}")
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}#{@container_id}", link_to_remote(@contact.email, {:url => {:controller => 'invitation', :action => 'unselect', :video_id => @video_id, :contact_id => @contact.id, :container_id => @container_id}}, :id => "contact_for_#{@video_id}#{@container_id}_#{@contact.id}_link", :class => 'invitee') + "<span id=\"contact_for_#{@video_id}#{@container_id}_#{@contact.id}_extra\">, </span>")
+  page.insert_html(:bottom, "addresses_to_invite_for_#{@video_id}#{@container_id}", check_box("contact_for_#{@video_id}#{@container_id}", @contact.id, {:checked => true, :style => 'display:none;'}))
 end

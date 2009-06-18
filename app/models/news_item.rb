@@ -46,6 +46,13 @@ class NewsItem < ActiveRecord::Base
             options)
   end
   
+  def self.ungrouped_activity(user_ids, options = {})
+    # Speed and clean this method up with the caching system
+    activity_types = NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
+    
+    find(:all, :select => '*, id AS max_id', :conditions => ['news_item_type_id IN (?) AND user_id IN (?) AND hidden = false', activity_types, user_ids], :order => 'id DESC', :offset => options[:offset], :limit => options[:limit])
+  end
+  
   
   def render(link_user = true, absolute = false, format = '')
     prefix = absolute ? 'http://www.gawkk.com' : ''

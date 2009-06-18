@@ -1,1 +1,3 @@
-| <%= link_to_remote 'More', :url => {:controller => 'videos', :action => 'share', :id => video}, :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');" %><%= image_tag("menu-arrow#{open ? '' : '-up'}.png", :id => "more_link_arrow_for_#{video.id}", :class => 'pull') %>
+<% container_id ||= '' -%>
+
+| <%= link_to_remote 'More', :url => {:controller => 'videos', :action => 'share', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');", :complete => "rest('#{video.id}','#{container_id}');" %><%= image_tag("menu-arrow#{open ? '' : '-up'}.png", :id => "more_link_arrow_for_#{video.id}#{container_id}", :class => 'pull') %>

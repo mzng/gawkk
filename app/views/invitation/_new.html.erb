@@ -1,25 +1,27 @@
-<tr id="inviter_container_for_<%= params[:id] %>">
+<% container_id ||= '' -%>
+
+<tr id="inviter_container_for_<%= params[:id] %><%= container_id %>">
 	<td class="gutter">&nbsp;</td>
 	<td>&nbsp;</td>
 	<td colspan="2">
-		<div id="inviter_for_<%= params[:id] %>" style="border:1px solid #DDDDDD;background-color:#f3f6f9;display:none;padding:5px 8px;width:492px;">
+		<div id="inviter_for_<%= params[:id] %><%= container_id %>" style="border:1px solid #DDDDDD;background-color:#f3f6f9;display:none;padding:5px 8px;width:492px;">
 			Invite friends to this discussion:
-			<span id="email_for_<%= params[:id] %>" style="margin:0 3px;">
+			<span id="email_for_<%= params[:id] %><%= container_id %>" style="margin:0 3px;">
 				<input type="hidden" name="video_id" value="<%= params[:id] %>"/>
-				<input type="text" id="email_field_for_<%= params[:id] %>" name="email_to_add" value="Enter an Email..." onfocus="descriptiveField(this, 'Enter an Email...', true);" onblur="descriptiveField(this, 'Enter an Email...', false);" onkeypress="if(event.keyCode == 13){return false;}" style="border:1px solid #999999;color:gray;width:125px;"/>
-				<%= link_to_remote image_tag('share-add.png', :style => 'border:1px solid #999999;margin-bottom:2px;'), :url => {:controller => 'invitation', :action => 'add_email'}, :submit => "email_for_#{params[:id]}" %>
+				<input type="text" id="email_field_for_<%= params[:id] %><%= container_id %>" name="email_to_add" value="Enter an Email..." onfocus="descriptiveField(this, 'Enter an Email...', true);" onblur="descriptiveField(this, 'Enter an Email...', false);" onkeypress="if(event.keyCode == 13){return false;}" style="border:1px solid #999999;color:gray;width:125px;"/>
+				<%= link_to_remote image_tag('share-add.png', :style => 'border:1px solid #999999;margin-bottom:2px;'), :url => {:controller => 'invitation', :action => 'add_email', :container_id => container_id}, :submit => "email_for_#{params[:id]}#{container_id}" %>
 			</span>
-			or <select id="friend_for_<%= params[:id] %>" name="friend" style="margin:0 3px;width:135px;">
+			or <select id="friend_for_<%= params[:id] %><%= container_id %>" name="friend" style="margin:0 3px;width:135px;">
 				<option value="Select a Friend...">Select a Friend...</option>
 				<% friends.each do |friend| -%>
-					<option id="user_<%= friend.id %>_for_<%= params[:id] %>" value="user_<%= friend.id %>_for_<%= params[:id] %>"><%= friend.username %></option>
+					<option id="user_<%= friend.id %>_for_<%= params[:id] %><%= container_id %>" value="user_<%= friend.id %>_for_<%= params[:id] %><%= container_id %>"><%= friend.username %></option>
 				<% end -%>
 				<% contacts.each do |contact| -%>
-					<option id="contact_<%= contact.id %>_for_<%= params[:id] %>" value="contact_<%= contact.id %>_for_<%= params[:id] %>"><%= contact.email %></option>
+					<option id="contact_<%= contact.id %>_for_<%= params[:id] %><%= container_id %>" value="contact_<%= contact.id %>_for_<%= params[:id] %><%= container_id %>"><%= contact.email %></option>
 				<% end -%>
 			</select>
-			<div id="addresses_to_invite_for_<%= params[:id] %>" style="margin:4px;width:492px;"></div>
-			<%= observe_field "friend_for_#{params[:id]}", :url => {:controller => 'invitation', :action => 'select_friend'}, :with => 'friend' %>
+			<div id="addresses_to_invite_for_<%= params[:id] %><%= container_id %>" style="margin:4px;width:492px;"></div>
+			<%= observe_field "friend_for_#{params[:id]}#{container_id}", :url => {:controller => 'invitation', :action => 'select_friend', :container_id => container_id}, :with => 'friend' %>
 		</div>
 	</td>
 </tr>

@@ -1,30 +1,31 @@
-<% news_item = nil if news_item.nil? -%>
+<% news_item		= nil if news_item.nil? -%>
+<% container_id	||= '' -%>
 
 <% if load_comments -%>
 	<% video.comments_by(@base_user, @include_followings) do |comments| -%>
-		<div id="comment_container_for_<%= video.id %>" class="comments">
+		<div id="comment_container_for_<%= video.id %><%= container_id %>" class="comments">
 			<% anchored_comment_id = (news_item.nil? ? nil : news_item.comment_id) -%>
 			
 			<% if comments.size < 4 -%>
 				<% comments.each do |comment| -%>
-					<%= render comment, :hidden => ((comment.id == anchored_comment_id) ? true : false) %>
+					<%= render comment, :container_id => container_id, :hidden => ((comment.id == anchored_comment_id) ? true : false) %>
 				<% end -%>
 			<% else -%>
 				<% if comments.first.id != anchored_comment_id -%>
-					<%= render comments[0] %>
-					<%= render comments[1], :hidden => true %>
+					<%= render comments[0], :container_id => container_id %>
+					<%= render comments[1], :container_id => container_id, :hidden => true %>
 				<% else -%>
-					<%= render comments[0], :hidden => true %>
-					<%= render comments[1] %>
+					<%= render comments[0], :container_id => container_id, :hidden => true %>
+					<%= render comments[1], :container_id => container_id %>
 				<% end -%>
 				
 				<% if comments.size - 2 > 0 -%>
-					<table id="show_all_comments_for_<%= video.id %>" class="inline" cellpadding="0" cellspacing="0">
+					<table id="show_all_comments_for_<%= video.id %><%= container_id %>" class="inline" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="gutter">&nbsp;</td>
 							<td class="image">&nbsp;</td>
 							<td colspan="2" class="body more-comments">
-								<%= link_to pluralize(comments.size - 2, 'more comment') + '...', "javascript:showAllCommentsFor('#{video.id}');" %>
+								<%= link_to pluralize(comments.size - 2, 'more comment') + '...', "javascript:showAllCommentsFor('#{video.id}','#{container_id}');" %>
 							</td>
 						</tr>
 					</table>
@@ -32,25 +33,25 @@
 				
 				<% if comments.size > 4 -%>
 					<% comments[2, comments.size - 4].each do |comment| -%>
-						<%= render comment, :hidden => true %>
+						<%= render comment, :container_id => container_id, :hidden => true %>
 					<% end -%>
 				<% end -%>
 				
 				<% if comments.last.id != anchored_comment_id -%>
-					<%= render comments[comments.size - 2], :hidden => true %>
-					<%= render comments[comments.size - 1] %>
+					<%= render comments[comments.size - 2], :container_id => container_id, :hidden => true %>
+					<%= render comments[comments.size - 1], :container_id => container_id %>
 				<% else -%>
-					<%= render comments[comments.size - 2] %>
-					<%= render comments[comments.size - 1], :hidden => true %>
+					<%= render comments[comments.size - 2], :container_id => container_id %>
+					<%= render comments[comments.size - 1], :container_id => container_id, :hidden => true %>
 				<% end -%>
 			<% end -%>
 		</div>
-		<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : ''} %>
+		<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : '', :container_id => container_id} %>
 		<% if comments.size > 0 -%>
-			<%= render :partial => "/comments/reply", :locals => {:video => video} %>
+			<%= render :partial => "/comments/reply", :locals => {:video => video, :container_id => container_id} %>
 		<% end -%>
 	<% end -%>
 <% else -%>
-	<div id="comment_container_for_<%= video.id %>" class="comments"></div>
-	<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => ''} %>
+	<div id="comment_container_for_<%= video.id %><%= container_id %>" class="comments"></div>
+	<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => '', :container_id => container_id} %>
 <% end -%>

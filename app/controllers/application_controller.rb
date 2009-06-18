@@ -149,6 +149,10 @@ class ApplicationController < ActionController::Base
     @pitch = true
   end
   
+  def containerable
+    @container_id = params[:container_id].nil? ? '' : params[:container_id]
+  end
+  
   def searchable(options = {})
     @q = params[:q] ? params[:q] : ''
     

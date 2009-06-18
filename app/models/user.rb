@@ -380,7 +380,11 @@ class User < ActiveRecord::Base
     end
     options.delete(:include_self)
     
-    NewsItem.grouped_activity(user_ids, options)
+    if self.consumes_grouped_activity?
+      NewsItem.grouped_activity(user_ids, options)
+    else
+      NewsItem.ungrouped_activity(user_ids, options)
+    end
   end
   
   def followings_comments(*args)

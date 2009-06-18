@@ -1,1 +1,1 @@
-page << "watchVideo('#{@video.id}','#{@video.slug}');"
+page << "watchVideo('#{@video.id}','#{@video.slug}','#{@container_id}');"

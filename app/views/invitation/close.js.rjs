@@ -1,2 +1,2 @@
-page.visual_effect(:blind_up, "inviter_container_for_#{@video_id}", :duration => '0.3')
-page.replace_html("inviter_link_for_#{@video_id}", :partial => '/comments/open_inviter', :locals => {:video_id => @video_id})
+page.visual_effect(:blind_up, "inviter_container_for_#{@video_id}#{@container_id}", :duration => '0.3')
+page.replace_html("inviter_link_for_#{@video_id}#{@container_id}", :partial => '/comments/open_inviter', :locals => {:video_id => @video_id, :container_id => @container_id})

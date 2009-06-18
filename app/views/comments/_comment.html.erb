@@ -1,6 +1,7 @@
 <% hidden = false if hidden.nil? -%>
+<% container_id	||= '' -%>
 
-<% content_tag_for(:table, comment, :class => 'inline' + (hidden ? ' hidden' : ''), :cellpadding => 0, :cellspacing => 0) do -%>
+<table id="comment_<%= comment.id %><%= container_id %>" class="inline<%= hidden ? ' hidden' : '' %>" cellpadding="0" cellspacing="0">
 	<tr>
 		<td class="gutter" rowspan="2">&nbsp;</td>
 		<td class="image" rowspan="2">
@@ -10,7 +11,7 @@
 			<%= link_to comment.user.username, user_path(:id => comment.user) %>
 			<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
 			<% if !comment.twitter_username.blank? -%><span>- Also posted to <%= link_to "@#{comment.twitter_username}", "http://twitter.com/#{comment.twitter_username}", :target => 'twitter', :style => 'font-size:8pt;' %> on Twitter</span><% end -%>
-			<span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}');" %></span>
+			<span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}','#{container_id}');" %></span>
 			<% if user_can_edit?(comment) -%><span class="delete">| <%= link_to 'Delete', {:controller => 'comments', :action => 'destroy', :id => comment}, :confirm => 'Are you sure?', :method => :post %></span><% end -%>
 		</td>
 	</tr>
@@ -19,4 +20,4 @@
 			<%= auto_link_usernames(comment.body) %>
 		</td>
 	</tr>
-<% end -%>
+</table>

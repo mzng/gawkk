@@ -4,7 +4,8 @@
 <% load_activity			= false	if load_activity.nil? -%>
 <% load_comments			= false	if load_comments.nil? -%>
 
-<% content_tag_for(:div, video) do -%>
+<% container_id ||= (news_item.nil? ? '' : "_#{news_item.id}") -%>
+<div id="video_<%= video.id %><%= container_id %>" class="video">
 	<table class="anchored_container" cellpadding="0" cellspacing="0">
 		<tr>
 			<% if !news_item.nil? -%>
@@ -30,13 +31,13 @@
 			<td class="action_body">
 				<% if visible_title -%>
 					<div class="title">
-						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
 						<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
-						<%= popular_icon(video) %>
+						<%= popular_icon(video, container_id) %>
 					</div>
 				<% else -%>
 					<div class="title">
-						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}');" %>
+						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
 					</div>
 				<% end -%>
 				<div class="body">
@@ -45,18 +46,18 @@
 							<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 						</div>
 					<% else -%>
-						<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %><%= refresh_thumbnail ? '?' + Time.now.to_i.to_s : '' %>);">
+						<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail %><%= refresh_thumbnail ? '?' + Time.now.to_i.to_s : '' %>);">
 							<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
 					<div class="description">
 						<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
 						<% if video.safe_description.length > 160 -%>
-							<span id="short_description_for_<%= video.id %>">
-								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}');" %>
+							<span id="short_description_for_<%= video.id %><%= container_id %>">
+								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
 							</span>
 						<% end -%>
-						<span id="full_description_for_<%= video.id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
+						<span id="full_description_for_<%= video.id %><%= container_id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
 							<%= video.safe_description %>
 						</span>
 					</div>
@@ -70,25 +71,25 @@
 					<div class="actions">
 						<table cellpadding="0" cellspacing="0">
 							<tr>
-								<td><%= render :partial => "/videos/comment", :locals => {:video => video} %></td>
+								<td><%= render :partial => "/videos/comment", :locals => {:video => video, :container_id => container_id} %></td>
 								<td>
 									<span class="like_for_<%= video.id %>">
-										<%= render :partial => "/videos/like", :locals => {:video => video} %>
+										<%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %>
 									</span>
 								</td>
 								<% if user_can_edit?(video) -%>
-									<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video}, :loading => "work('#{video.id}');"} %></td>
+									<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');"} %></td>
 								<% end -%>
 								<% if user_can_administer? -%>
 									<td>
-										<span id="del_link_for_<%= video.id %>">
-											| <%= link_to_remote 'Del', {:url => {:controller => 'admin/videos', :action => 'destroy', :id => video}, :confirm => "Are you sure?", :loading => "work('#{video.id}');", :complete => "rest('#{video.id}');"}, {:method => :post, :class => 'destructive'} %>
+										<span id="del_link_for_<%= video.id %><%= container_id %>">
+											| <%= link_to_remote 'Del', {:url => {:controller => 'admin/videos', :action => 'destroy', :id => video, :container_id => container_id}, :confirm => "Are you sure?", :loading => "work('#{video.id}','#{container_id}');", :complete => "rest('#{video.id}','#{container_id}');"}, {:method => :post, :class => 'destructive'} %>
 										</span>
 									</td>
 								<% end -%>
 								<td>
-									<span id="more_link_for_<%= video.id %>">
-										<%= render :partial => "/videos/more_link", :locals => {:video => video, :open => true} %>
+									<span id="more_link_for_<%= video.id %><%= container_id %>">
+										<%= render :partial => "/videos/more_link", :locals => {:video => video, :open => true, :container_id => container_id} %>
 									</span>
 								</td>
 							</tr>
@@ -98,9 +99,9 @@
 			</td>
 		</tr>
 	</table>
-	<div id="share_for_<%= video.id %>" class="share" style="display:none;"></div>
-	<div id="embed_for_<%= video.id %>" class="embed" style="display:none;"></div>
-	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity} %>
-	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments} %>
+	<div id="share_for_<%= video.id %><%= container_id %>" class="share" style="display:none;"></div>
+	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
+	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
 	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
-<% end -%>
+</div>

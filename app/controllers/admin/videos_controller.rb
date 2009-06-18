@@ -5,6 +5,8 @@ class Admin::VideosController < ApplicationController
   
   
   def update_embed_code
+    containerable
+    
     params[:video][:embed_code] = '' if params[:video] and params[:video][:embed_code] == 'Enter embed code...'
     
     @video.embed_code = Util::EmbedCode.scrub(params[:video][:embed_code], true)
@@ -12,6 +14,8 @@ class Admin::VideosController < ApplicationController
   end
   
   def destroy
+    containerable
+    
     begin
       ActiveRecord::Base.transaction do
         DeletedVideo.create :name => @video.name, :url => @video.url, :truveo_url => @video.truveo_url, :deleted_at => Time.now
