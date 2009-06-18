@@ -355,7 +355,12 @@ class User < ActiveRecord::Base
   def activity(*args)
     # Speed and clean this method up with the caching system
     options = args.extract_options!
-    NewsItem.grouped_activity([self.id], options)
+    
+    if self.consumes_grouped_activity?
+      NewsItem.grouped_activity([self.id], options)
+    else
+      NewsItem.ungrouped_activity([self.id], options)
+    end
   end
   
   
