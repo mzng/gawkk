@@ -13,6 +13,6 @@
 
 <% if !params[:video_id].blank? and !params[:video_slug].blank? -%>
 	<script type="text/javascript" charset="utf-8">
-		watchVideo('<%= params[:video_id] %>', '<%= params[:video_slug] %>');
+		watchVideo('<%= params[:video_id] %>', '<%= params[:video_slug] %>', '');
 	</script>
 <% end -%>
