@@ -212,9 +212,13 @@ function commentAndFocus(videoId, videoSlug, replyId, focus, containerId) {
 	if(replyId == '!AUTO') {
 		if($('last_comment_id_for_' + videoId + containerId) && $('last_comment_id_for_' + videoId + containerId).value != '') {
 			q = "?reply_id=" + $('last_comment_id_for_' + videoId + containerId).value + '&explicit_reply=false' + '&container_id=' + containerId;
+		} else {
+			q = "?container_id=" + containerId;
 		}
 	} else if(replyId != null) {
 		q = "?reply_id=" + replyId + '&explicit_reply=true' + '&container_id=' + containerId;
+	} else {
+		q = "?container_id=" + containerId;
 	}
 
 	new Ajax.Request('/' + videoSlug + '/comment' + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
