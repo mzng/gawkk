@@ -67,11 +67,11 @@ class Util::Scrub
     autolinked_html = html
     
     autolinked_html.gsub!(/(^\/([A-Za-z0-9_]+))/) {
-      "<a href=\"#{$1}\">#{$1}</a>"
+      "/<a href=\"#{$1}\">#{$1[1, $1.length - 1]}</a>"
     }
     
     autolinked_html.gsub!(/( \/([A-Za-z0-9_]+))/) {
-      " <a href=\"#{$1.strip}\">#{$1.strip}</a>"
+      " /<a href=\"#{$1.strip}\">#{$1.strip[1, $1.strip.length - 1]}</a>"
     }
     
     autolinked_html
