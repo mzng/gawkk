@@ -188,14 +188,14 @@ function reloadCommentsAndComment(videoId, videoSlug, comment, focus, containerI
 				work(videoId, containerId);
 			}, onComplete:function(request){
 				rest(videoId, containerId);
-				
+
 				if(comment == true && !$('new_comment_for_' + videoId + containerId)) {
 					commentAndFocus(videoId, videoSlug, '!AUTO', focus, containerId);
 				}
 			}}
 		);
-	} else {
-		rest(videoId, containerId);
+	} else if(comment == true) {
+		commentAndFocus(videoId, videoSlug, '!AUTO', focus, containerId);
 	}
 }
 
