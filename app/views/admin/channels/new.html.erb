@@ -1,0 +1,27 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Create a Channel", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Channels', :params => {:controller => 'admin/channels'}}, {:name => 'Create'}]} %>
+
+<div id="content-main">
+	<div id="channel-edit">
+		<%= error_messages_for 'user' %>
+		<% form_for(@user, :url => {:controller => 'admin/channels', :action => 'create'}) do |f| %>
+			<p>
+				Important:
+				<ul>
+					<li>Don't start with "The"</li>
+					<li>Don't end with "Channel"</li>
+				</ul>
+			</p>
+			
+			<p><label for="user_username">Choose a Name:</label><br/>
+			<%= f.text_field 'username' %></p>
+			
+			<p class="submit">
+				<%= submit_tag("Continue to Step 2") %> or <%= link_to 'Cancel', {:controller => 'admin/channels'} %>
+			</p>
+		<% end -%>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	
+</div>

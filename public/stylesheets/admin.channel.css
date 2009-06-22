@@ -1,4 +1,12 @@
 /* channel list */
+#create-channel-action img {
+	vertical-align: top;
+}
+
+#create-channel-action a {
+	font-size: 9pt;
+}
+
 #channel-list {
 	width: 100%;
 }

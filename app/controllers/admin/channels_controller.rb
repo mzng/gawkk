@@ -15,6 +15,25 @@ class Admin::ChannelsController < ApplicationController
     end
   end
   
+  def new
+    @user = User.new
+  end
+  
+  def create
+    @user = User.new(params[:user])
+    @user.administrator = false
+    @user.feed_owner    = true
+    @user.email         = "feed-owner+#{Util::Slug.generate(@user.username, false)}@gawkk.com"
+    @user.password      = Util::AuthCode.generate
+    @user.password_confirmation = @user.password
+    
+    if @user.save
+      redirect_to :action => 'edit', :id => (@user.reload).channels.first.id
+    else
+      render :action => 'new'
+    end
+  end
+  
   def edit
     
   end
