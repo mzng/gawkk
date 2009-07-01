@@ -31,7 +31,8 @@ Rails::Initializer.run do |config|
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
   config.plugins = [:redhillonrails_core, :foreign_key_migrations, :ar_fixtures, :union, 
                     :backup_fu, :spawn, :exception_notification, 'thinking-sphinx', 
-                    :acts_as_list, :browser_detect, :country_select, :white_list, :will_paginate]
+                    :acts_as_list, :acts_as_state_machine, :browser_detect, :country_select, 
+                    :white_list, :will_paginate]
 
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.

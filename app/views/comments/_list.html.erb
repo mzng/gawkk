@@ -4,7 +4,7 @@
 <% if load_comments -%>
 	<% video.comments_by(@base_user, @include_followings) do |comments| -%>
 		<div id="comment_container_for_<%= video.id %><%= container_id %>" class="comments">
-			<% anchored_comment_id = (news_item.nil? ? nil : news_item.comment_id) -%>
+			<% anchored_comment_id = ((!news_item.nil? and news_item.actionable_type == 'Comment') ? news_item.actionable_id : nil) -%>
 			
 			<% if comments.size < 4 -%>
 				<% comments.each do |comment| -%>

@@ -3,8 +3,8 @@
 		<%= render :partial => "/submit/new" %>
 	</div>
 	
-	<%= render :partial => "/layouts/set_header", :locals => {:title => 'Channel Videos', :light => true} %>
 	<% if @videos.size > 0 -%>
+		<%= render :partial => "/layouts/set_header", :locals => {:title => 'Channel Videos', :light => true} %>
 		<div id="subscription-preview" class="set">
 			<% @videos.each do |video| -%>
 				<%= render :partial => "/videos/video_small", :locals => {:video => video, :options => {:action => 'subscriptions', :id => nil, :max_id => @max_id, :video_id => video.id, :video_slug => video.slug}} %>

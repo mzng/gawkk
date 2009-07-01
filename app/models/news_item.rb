@@ -1,11 +1,14 @@
 class NewsItem < ActiveRecord::Base
   belongs_to :news_item_type
   belongs_to :user
+  belongs_to :actionable, :polymorphic => true
   belongs_to :reportable, :polymorphic => true
-  belongs_to :comment
+  
+  has_many :activity_messages
   
   named_scope :recent, :select => '*, max(news_items.created_at) AS max_created_at', :order => 'max_created_at DESC'
   named_scope :grouped_by_user, :group => 'user_id'
+  named_scope :by_user, lambda {|user| {:conditions => ['user_id = ?', user.id]}}
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
   
   attr_accessor :latest_related_id
@@ -16,6 +19,49 @@ class NewsItem < ActiveRecord::Base
     self.message = '' if self.message.nil?
   end
   
+  def after_create
+    # 1. Generate ActivityMessage for self.user
+    self.generate_message_for_user!
+    
+    # 2. Queue up a Job to generate ActivityMessages for all followers of self.user
+    Job.enqueue(:processable => self)
+    
+    return true
+  end
+  
+  def before_destroy
+    ActivityMessage.delete_all(:news_item_id => self.id)
+    
+    return true
+  end
+  
+  
+  def generate_message_for_user!(user = nil)
+    user = self.user if user.nil?
+    
+    if self.reportable_type == 'Video'
+      ActivityMessage.update_all 'hidden = true', ['user_id = ? AND hidden = false AND reportable_type = ? AND reportable_id = ?', user.id, 'Video', self.reportable_id]
+    end
+  
+    ActivityMessage.create :user_id => user.id, :news_item_id => self.id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id
+  end
+  
+  def generate_messages_for_followers!
+    follower_ids = Rails.cache.fetch("users/#{self.user_id}/followers", :expires_in => 1.week) do
+      User.followers_of(self.user).all.collect{|follower| follower.id}
+    end
+    
+    follower_ids.each do |follower_id|
+      if self.reportable_type == 'Video'
+        ActivityMessage.update_all 'hidden = true', ['user_id = ? AND hidden = false AND reportable_type = ? AND reportable_id = ?', follower_id, 'Video', self.reportable_id]
+      end
+      
+      ActivityMessage.create :user_id => follower_id, :news_item_id => self.id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id
+    end
+  rescue Exception => e
+    raise e
+  end
+  
   
   def self.report(*args)
     options = args.extract_options!
@@ -23,6 +69,11 @@ class NewsItem < ActiveRecord::Base
     if options[:type] and type = NewsItemType.cached_by_name(options[:type])
       options.merge!(:news_item_type_id => type.id)
       options.delete(:type)
+      
+      if options[:actionable]
+        options.merge!({:actionable_type => options[:actionable].class.name, :actionable_id => options[:actionable].id})
+        options.delete(:actionable)
+      end
       
       if options[:reportable]
         options.merge!({:reportable_type => options[:reportable].class.name, :reportable_id => options[:reportable].id})

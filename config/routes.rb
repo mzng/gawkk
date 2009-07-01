@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/channels/:action',     :controller => 'admin/channels'
   map.connect 'admin/comments/:action',     :controller => 'admin/comments'
   map.connect 'admin/import/:action',       :controller => 'admin/import'
+  map.connect 'admin/parameters/:action',   :controller => 'admin/parameters'
   map.connect 'admin/statistics/:action',   :controller => 'admin/statistics'
   map.connect 'admin/suggestions/:action',  :controller => 'admin/suggestions'
   map.connect 'admin/users/:action',        :controller => 'admin/users'

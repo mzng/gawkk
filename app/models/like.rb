@@ -2,6 +2,8 @@ class Like < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :video, :counter_cache => true
   
+  has_one :news_item, :as => :actionable, :dependent => :destroy
+  
   named_scope :by_user, lambda {|user| {:conditions => {:user_id => user.id}}}
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
   named_scope :not_user, lambda {|user_id| {:conditions => ['user_id != ?', user_id]}}
@@ -12,7 +14,7 @@ class Like < ActiveRecord::Base
   
   
   def after_create
-    NewsItem.report(:type => 'like_a_video', :reportable => self.video, :user_id => self.user_id)
+    NewsItem.report(:type => 'like_a_video', :reportable => self.video, :user_id => self.user_id, :actionable => self)
     
     spawn do
       # Tweet it

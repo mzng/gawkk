@@ -9,7 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616195156) do
+ActiveRecord::Schema.define(:version => 20090701161709) do
+
+  create_table "activity_messages", :id => false, :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "news_item_id"
+    t.string   "reportable_type"
+    t.integer  "reportable_id"
+    t.boolean  "hidden",          :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activity_messages", ["news_item_id"], :name => "news_item_id"
+  add_index "activity_messages", ["user_id", "hidden", "reportable_type", "reportable_id"], :name => "index_activity_messages_update"
+  add_index "activity_messages", ["user_id", "hidden", "news_item_id"], :name => "index_activity_messages_select"
 
   create_table "age_ranges", :force => true do |t|
     t.integer "position"
@@ -204,19 +218,23 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
   add_index "invitations", ["host_id"], :name => "host_id"
   add_index "invitations", ["invitee_id"], :name => "invitee_id"
 
-  create_table "job_categories", :force => true do |t|
-    t.integer "position"
-    t.string  "name",     :null => false
+  create_table "job_types", :force => true do |t|
+    t.string "name"
+    t.text   "description"
   end
 
   create_table "jobs", :force => true do |t|
-    t.integer "job_category_id"
-    t.integer "position"
-    t.string  "title",           :null => false
-    t.text    "description",     :null => false
+    t.string   "state"
+    t.integer  "job_type_id"
+    t.string   "processable_type"
+    t.integer  "processable_id"
+    t.datetime "enqueued_at"
+    t.datetime "dequeued_at"
+    t.datetime "completed_at"
   end
 
-  add_index "jobs", ["job_category_id"], :name => "job_category_id"
+  add_index "jobs", ["job_type_id"], :name => "job_type_id"
+  add_index "jobs", ["state"], :name => "index_jobs_on_state"
 
   create_table "likes", :force => true do |t|
     t.integer  "user_id"
@@ -227,30 +245,6 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
 
   add_index "likes", ["user_id"], :name => "user_id"
   add_index "likes", ["video_id"], :name => "video_id"
-
-  create_table "message_types", :force => true do |t|
-    t.string "name"
-  end
-
-  create_table "messages", :force => true do |t|
-    t.string   "thread_id"
-    t.integer  "sender_id"
-    t.string   "sender_email"
-    t.integer  "receiver_id"
-    t.string   "receiver_email"
-    t.string   "shareable_type"
-    t.integer  "shareable_id"
-    t.text     "body"
-    t.boolean  "read",                 :default => false, :null => false
-    t.boolean  "archived_by_sender",   :default => false, :null => false
-    t.boolean  "archived_by_receiver", :default => false, :null => false
-    t.datetime "created_at"
-    t.integer  "message_type_id"
-  end
-
-  add_index "messages", ["sender_id"], :name => "sender_id"
-  add_index "messages", ["receiver_id"], :name => "receiver_id"
-  add_index "messages", ["message_type_id"], :name => "message_type_id"
 
   create_table "news_item_types", :force => true do |t|
     t.string "name"
@@ -269,12 +263,12 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
     t.boolean  "hidden",            :default => false, :null => false
     t.boolean  "mature",            :default => false, :null => false
     t.string   "thread_id"
-    t.integer  "comment_id"
+    t.string   "actionable_type"
+    t.integer  "actionable_id"
   end
 
   add_index "news_items", ["news_item_type_id"], :name => "news_item_type_id"
   add_index "news_items", ["user_id"], :name => "user_id"
-  add_index "news_items", ["comment_id"], :name => "comment_id"
 
   create_table "parameters", :force => true do |t|
     t.string "name"
@@ -310,20 +304,6 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
   end
 
   add_index "promotion_schedules", ["category_id"], :name => "category_id"
-
-  create_table "question_categories", :force => true do |t|
-    t.integer "position"
-    t.string  "name",     :null => false
-  end
-
-  create_table "questions", :force => true do |t|
-    t.integer "question_category_id"
-    t.integer "position"
-    t.string  "title",                :null => false
-    t.text    "answer",               :null => false
-  end
-
-  add_index "questions", ["question_category_id"], :name => "question_category_id"
 
   create_table "ratings", :force => true do |t|
     t.integer  "user_id"
@@ -546,6 +526,9 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
 
   add_index "you_tube_categories", ["category_id"], :name => "category_id"
 
+  add_foreign_key "activity_messages", ["user_id"], "users", ["id"], :name => "activity_messages_ibfk_1"
+  add_foreign_key "activity_messages", ["news_item_id"], "news_items", ["id"], :name => "activity_messages_ibfk_2"
+
   add_foreign_key "categories", ["earliest_popular_video_id"], "videos", ["id"], :name => "categories_ibfk_2"
   add_foreign_key "categories", ["earliest_video_id"], "videos", ["id"], :name => "categories_ibfk_3"
   add_foreign_key "categories", ["latest_popular_video_id"], "videos", ["id"], :name => "categories_ibfk_4"
@@ -580,18 +563,13 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
   add_foreign_key "invitations", ["host_id"], "users", ["id"], :name => "invitations_ibfk_1"
   add_foreign_key "invitations", ["invitee_id"], "users", ["id"], :name => "invitations_ibfk_2"
 
-  add_foreign_key "jobs", ["job_category_id"], "job_categories", ["id"], :name => "jobs_ibfk_1"
+  add_foreign_key "jobs", ["job_type_id"], "job_types", ["id"], :name => "jobs_ibfk_1"
 
   add_foreign_key "likes", ["user_id"], "users", ["id"], :name => "likes_ibfk_1"
   add_foreign_key "likes", ["video_id"], "videos", ["id"], :name => "likes_ibfk_2"
 
-  add_foreign_key "messages", ["sender_id"], "users", ["id"], :name => "messages_ibfk_1"
-  add_foreign_key "messages", ["receiver_id"], "users", ["id"], :name => "messages_ibfk_2"
-  add_foreign_key "messages", ["message_type_id"], "message_types", ["id"], :name => "messages_ibfk_3"
-
   add_foreign_key "news_items", ["news_item_type_id"], "news_item_types", ["id"], :name => "news_items_ibfk_1"
   add_foreign_key "news_items", ["user_id"], "users", ["id"], :name => "news_items_ibfk_2"
-  add_foreign_key "news_items", ["comment_id"], "comments", ["id"], :name => "news_items_ibfk_3"
 
   add_foreign_key "playlist_items", ["playlist_id"], "playlists", ["id"], :name => "playlist_items_ibfk_1"
   add_foreign_key "playlist_items", ["video_id"], "videos", ["id"], :name => "playlist_items_ibfk_2"
@@ -600,8 +578,6 @@ ActiveRecord::Schema.define(:version => 20090616195156) do
   add_foreign_key "playlists", ["channel_id"], "channels", ["id"], :name => "playlists_ibfk_2"
 
   add_foreign_key "promotion_schedules", ["category_id"], "categories", ["id"], :name => "promotion_schedules_ibfk_1"
-
-  add_foreign_key "questions", ["question_category_id"], "question_categories", ["id"], :name => "questions_ibfk_1"
 
   add_foreign_key "ratings", ["user_id"], "users", ["id"], :name => "ratings_ibfk_1"
   add_foreign_key "ratings", ["channel_id"], "channels", ["id"], :name => "ratings_ibfk_2"

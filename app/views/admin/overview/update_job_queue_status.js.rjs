@@ -1,0 +1,2 @@
+page.replace_html('actual_job_queue_size', @actual_job_queue_size)
+page.replace_html('cached_job_queue_size', (@cached_job_queue_size.nil? ? 'nil' : @cached_job_queue_size))

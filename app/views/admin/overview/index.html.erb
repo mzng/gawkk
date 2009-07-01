@@ -1,7 +1,28 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Overview'}]} %>
 
 <div id="content-main">
+	<table cellpadding="3" cellspacing="0" style="margin:15px 0 0 15px;">
+		<tr>
+			<th></th>
+			<th style="padding:2px 15px;">
+				Actual Size
+			</th>
+			<th style="padding:2px 15px;">
+				Cached Size
+			</th>
+		</tr>
+		<tr>
+			<td>Job Queue:</td>
+			<td id="actual_job_queue_size" style="text-align:center;">
+				<%= @actual_job_queue_size %>
+			</td>
+			<td id="cached_job_queue_size" style="text-align:center;">
+				<%= @cached_job_queue_size.nil? ? 'nil' : @cached_job_queue_size %>
+			</td>
+		</tr>
+	</table>
 	
+	<%= periodically_call_remote(:url => {:action => 'update_job_queue_status'}, :frequency => '5') %>
 </div>
 
 <div id="content-sidebar">

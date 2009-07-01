@@ -2,7 +2,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true, :counter_cache => true
   belongs_to :user, :counter_cache => 'my_comments_count'
   
-  has_one :news_item, :dependent => :destroy
+  has_one :news_item, :as => :actionable, :dependent => :destroy
   
   named_scope :in_order, :order => 'created_at ASC'
   named_scope :in_reverse_order, :order => 'created_at DESC'
@@ -42,7 +42,7 @@ class Comment < ActiveRecord::Base
       end
     end
     
-    NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :comment_id => self.id)
+    NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :actionable => self)
     return true
   end
   

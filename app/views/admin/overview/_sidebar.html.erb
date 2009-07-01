@@ -15,10 +15,24 @@
 
 <h1 class="section-header">Actions</h1>
 <p>
-	<%= link_to 'Fix Recent Thumbnails', {:controller => 'admin/import', :action => 'fix_thumbnails'}, :confirm => 'Are you sure?' %><br/>
-	<% if Parameter.status?('feed_importer_status') -%>
-		<%= link_to 'Shutdown Feed Importers', {:controller => 'admin/import', :action => 'shutdown'}, :confirm => 'Are you sure?' %>
+	<% if Parameter.status?('messaging_layer_enabled') -%>
+		<%= link_to 'Disable Messaging Layer', {:controller => 'admin/parameters', :action => 'disable', :id => 'messaging_layer'}, :confirm => 'Are you sure?' %><br/>
 	<% else -%>
-		<span style="text-decoration:line-through;">Shutdown Feed Importers</span>
+		<%= link_to 'Enable Messaging Layer', {:controller => 'admin/parameters', :action => 'enable', :id => 'messaging_layer'}, :confirm => 'Are you sure?' %><br/>
 	<% end -%>
+	
+	<% if Parameter.status?('job_queue_enabled') -%>
+		<%= link_to 'Disable Job Queue', {:controller => 'admin/parameters', :action => 'disable', :id => 'job_queue'}, :confirm => 'Are you sure?' %><br/>
+	<% else -%>
+		<%= link_to 'Enable Job Queue', {:controller => 'admin/parameters', :action => 'enable', :id => 'job_queue'}, :confirm => 'Are you sure?' %><br/>
+	<% end -%>
+</p>
+<p>
+	<% if Parameter.status?('feed_importer_status') -%>
+		<%= link_to 'Shutdown Feed Importers', {:controller => 'admin/import', :action => 'shutdown'}, :confirm => 'Are you sure?' %><br/>
+	<% else -%>
+		<span style="text-decoration:line-through;">Shutdown Feed Importers</span><br/>
+	<% end -%>
+	
+	<%= link_to 'Fix Recent Thumbnails', {:controller => 'admin/import', :action => 'fix_thumbnails'}, :confirm => 'Are you sure?' %><br/>
 </p>

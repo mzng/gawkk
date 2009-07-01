@@ -13,7 +13,7 @@
 		</td>
 		<td class="message">
 			<%= link_to news_item.reportable.proper_name, channel_path(:user => news_item.reportable.user, :channel => news_item.reportable) %>
-			<% if user_can_edit?(news_item) -%>
+			<% if false and user_can_edit?(news_item) -%>
 				<span class="delete">
 					- <%= link_to 'Delete', {:controller => 'news_items', :action => 'destroy', :id => news_item}, :confirm => 'Are you sure?', :method => :post %>
 				</span>

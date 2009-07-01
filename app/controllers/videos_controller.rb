@@ -57,14 +57,18 @@ class VideosController < ApplicationController
     setup_user_sidebar(logged_in_user) if user_logged_in?
     
     # Videos from Followed Channels
-    saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
-    @max_id = saved_videos.first.id
-    @videos = collect('saved_videos', saved_videos)
+    if Parameter.status?('messaging_layer_enabled') and (logged_in_user or User.new).administrator?
+      @videos = Array.new
+    else
+      saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
+      @max_id = saved_videos.first.id
+      @videos = collect('saved_videos', saved_videos)
+    end
     
     # Friends Activity
     @base_user = (logged_in_user or User.new)
     @include_followings = true
-    @news_items = collect('news_items', @base_user.followings_activity(:offset => @offset, :limit => @per_page))
+    @news_items = @base_user.followings_activity(:offset => @offset, :limit => @per_page)
   end
   
   def subscriptions

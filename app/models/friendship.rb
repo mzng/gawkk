@@ -2,6 +2,10 @@ class Friendship < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, :class_name => "User", :foreign_key => "friend_id"
   
+  has_one :news_item, :as => :actionable, :dependent => :destroy
+  
+  named_scope :by_user, lambda {|user| {:conditions => ['user_id = ?', user.id]}}
+  
   validates_presence_of   :user_id, :friend_id
   validates_uniqueness_of :friend_id, :scope => :user_id
   
@@ -32,7 +36,11 @@ class Friendship < ActiveRecord::Base
       end
       
       if !User.default_followings.collect{|u| u.id}.include?(self.user_id)
-        NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id)
+        NewsItem.report(:type => 'add_a_friend', :reportable => self.friend, :user_id => self.user_id, :actionable => self)
+      end
+      
+      if news_item = self.friend.last_action
+        news_item.generate_message_for_user!(self.user)
       end
     end
     

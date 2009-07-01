@@ -2,6 +2,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :channel, :counter_cache => true
   
+  has_one :news_item, :as => :actionable, :dependent => :destroy
+  
   named_scope :recent, :order => 'created_at DESC'
   named_scope :for_channel, lambda {|channel| {:conditions => {:channel_id => channel.id}}}
   
@@ -16,7 +18,7 @@ class Subscription < ActiveRecord::Base
   
   def after_create
     if self.silent == false and !User.default_followings.collect{|u| u.id}.include?(self.user_id)
-      NewsItem.report(:type => 'subscribe_to_channel', :reportable => self.channel, :user_id => self.user_id)
+      NewsItem.report(:type => 'subscribe_to_channel', :reportable => self.channel, :user_id => self.user_id, :actionable => self)
     end
     
     return true

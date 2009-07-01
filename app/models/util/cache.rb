@@ -1,4 +1,25 @@
 class Util::Cache
+  def self.increment(key, amount = 1)
+    if (value = Rails.cache.read(key)).nil?
+      Rails.cache.write(key, (value = amount), :expires_in => 1.week)
+    else
+      Rails.cache.write(key, (value = value + amount), :expires_in => 1.week)
+    end
+    
+    return value
+  end
+  
+  def self.decrement(key, amount = 1)
+    if (value = Rails.cache.read(key)).nil?
+      value = 0
+    else
+      Rails.cache.write(key, (value = value - amount), :expires_in => 1.week)
+    end
+    
+    return value
+  end
+  
+  
   def self.collect_videos(videos)
     # gather ids of videos no longer in cache
     ids_of_videos_to_load = Array.new
@@ -108,6 +129,36 @@ class Util::Cache
     
     @news_items.each do |news_item|
       news_item.latest_related = related_news_items[news_item.id.to_s]
+    end
+    
+    return @news_items
+  end
+  
+  def self.collect_news_items_from_activity_messages(activity_messages)
+    # gather ids of news_items no longer in cache
+    ids_of_news_items_to_load = Array.new
+    activity_messages.each do |activity_message|
+      if !Rails.cache.exist?("news_items/#{activity_message.news_item_id}")
+        ids_of_news_items_to_load << activity_message.news_item_id
+      end
+    end
+    
+    # select all news_items no longer in cache at once
+    NewsItem.find(ids_of_news_items_to_load, :include => :user).each do |news_item|
+      Rails.cache.write(news_item.cache_key, news_item, :expires_in => 1.day)
+    end
+    
+    # collect all of the full news_items from cache
+    @news_items = Array.new(activity_messages.size)
+    
+    for i in 0..(activity_messages.size - 1)
+      @news_items[i] = Rails.cache.fetch("news_items/#{activity_messages[i].news_item_id}", :expires_in => 1.day) do
+        NewsItem.find(activity_messages[i].news_item_id, :include => :user)
+      end
+    end
+    
+    @news_items.each do |news_item|
+      news_item.latest_related = news_item
     end
     
     return @news_items

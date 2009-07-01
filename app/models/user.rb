@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_one :twitter_account, :dependent => :destroy
   has_one :facebook_account, :dependent => :destroy
   
+  has_many :activity_messages, :class_name => "ActivityMessage", :dependent => :destroy
   has_many :channels, :class_name => "Channel", :order => 'channels.created_at', :dependent => :destroy
   has_many :comments, :class_name => "Comment", :foreign_key => "user_id", :dependent => :destroy
   has_many :feeds, :class_name => "Feed", :foreign_key => "owned_by_id", :dependent => :destroy
@@ -268,7 +269,11 @@ class User < ActiveRecord::Base
       friendship.silent     = silent
       friendship.save
       
+      # Generate ActivityMessage for this user about the friend's last NewsItem
+      # Ensure to hide existing news items for this user and video
+      
       Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{friend.id}/followers")
     end
   end
   
@@ -277,6 +282,7 @@ class User < ActiveRecord::Base
       Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.id, friend.id]).destroy
       
       Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{friend.id}/followers")
     end
   end
   
@@ -290,7 +296,7 @@ class User < ActiveRecord::Base
       subscription = Subscription.new
       subscription.user_id    = self.id
       subscription.channel_id = channel.id
-      subscription.silent     = subscription
+      subscription.silent     = silent
       subscription.save
       
       Rails.cache.delete("users/#{self.id}/subscriptions")
@@ -331,7 +337,11 @@ class User < ActiveRecord::Base
     # Speed this method up with cache
     options = args.extract_options!
     
-    User.member_since_at_least((Rails.env.production? ? 2.weeks.ago : 6.months.ago)).except(self.followings_ids).all(options)
+    if friendship = Friendship.by_user(self).first(:order => 'created_at DESC') and friendship.created_at
+      User.member_since_at_least(friendship.created_at).all(options)
+    else
+      User.member_since_at_least((Rails.env.production? ? 2.weeks.ago : 6.months.ago)).except(self.followings_ids).all(options)
+    end
   end
   
   def subscribed_channels(*args)
@@ -364,6 +374,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def last_action
+    NewsItem.by_user(self).first(:order => 'created_at DESC')
+  end
+  
   
   def followings_ids
     # Speed this method up with cache
@@ -377,19 +391,30 @@ class User < ActiveRecord::Base
   end
   
   def followings_activity(*args)
-    # Speed and clean this method up with the caching system
     options = args.extract_options!
     
-    user_ids = self.followings_ids.collect{|user_id| user_id}
-    if !self.id.blank? and (options[:include_self].nil? ? true : options[:include_self])
-      user_ids << self.id
-    end
-    options.delete(:include_self)
-    
-    if self.consumes_grouped_activity?
-      NewsItem.grouped_activity(user_ids, options)
+    if Parameter.status?('messaging_layer_enabled') and self.administrator?
+      if self.consumes_grouped_activity?
+        activity_messages = ActivityMessage.for_user(self).grouped.recent.all(options)
+      else
+        activity_messages = ActivityMessage.for_user(self).recent.all(options)
+      end
+      
+      return Util::Cache.collect_news_items_from_activity_messages(activity_messages)
     else
-      NewsItem.ungrouped_activity(user_ids, options)
+      user_ids = self.followings_ids.collect{|user_id| user_id}
+      if !self.id.blank? and (options[:include_self].nil? ? true : options[:include_self])
+        user_ids << self.id
+      end
+      options.delete(:include_self)
+      
+      if self.consumes_grouped_activity?
+        news_items = NewsItem.grouped_activity(user_ids, options)
+      else
+        news_items = NewsItem.ungrouped_activity(user_ids, options)
+      end
+
+      return Util::Cache.collect_news_items(news_items)
     end
   end
   
