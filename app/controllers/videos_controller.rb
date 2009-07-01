@@ -52,14 +52,12 @@ class VideosController < ApplicationController
     set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
     set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
     setup_pagination
-    setup_generic_sidebar
-    setup_recommendation_sidebar
-    setup_user_sidebar(logged_in_user) if user_logged_in?
     
-    # Videos from Followed Channels
-    if Parameter.status?('messaging_layer_enabled') and (logged_in_user or User.new).administrator?
-      @videos = Array.new
-    else
+    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
+      setup_generic_sidebar
+      setup_recommendation_sidebar
+      setup_user_sidebar(logged_in_user) if user_logged_in?
+      
       saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
       @max_id = saved_videos.first.id
       @videos = collect('saved_videos', saved_videos)

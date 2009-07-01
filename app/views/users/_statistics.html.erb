@@ -3,18 +3,20 @@
 		<td rowspan="3">
 			<%= render user %>
 		</td>
-		<td>
-			<span><%= @followings_count %></span><br/>
-			<%= link_to 'Following', {:controller => 'users', :action => 'follows', :id => user} %>
-		</td>
-		<td>
-			<span><%= @followers_count %></span><br/>
-			<%= link_to 'Followers', {:controller => 'users', :action => 'followers', :id => user} %>
-		</td>
-		<td>
-			<span><%= @posts_count %></span><br/>
-			<%= link_to 'Posts', user_path(user) %>
-		</td>
+		<% if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator? -%>
+			<td>
+				<span><%= @followings_count %></span><br/>
+				<%= link_to 'Following', {:controller => 'users', :action => 'follows', :id => user} %>
+			</td>
+			<td>
+				<span><%= @followers_count %></span><br/>
+				<%= link_to 'Followers', {:controller => 'users', :action => 'followers', :id => user} %>
+			</td>
+			<td>
+				<span><%= @posts_count %></span><br/>
+				<%= link_to 'Posts', user_path(user) %>
+			</td>
+		<% end -%>
 	</tr>
 	<tr><td colspan="3"></td></tr>
 	<tr><td colspan="3"></td></tr>
