@@ -57,7 +57,9 @@ class VideosController < ApplicationController
       setup_generic_sidebar
       setup_recommendation_sidebar
       setup_user_sidebar(logged_in_user) if user_logged_in?
-      
+    end
+    
+    if Parameter.status?('front_page_subscription_preview_enabled') or !(logged_in_user or User.new).administrator?
       saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
       @max_id = saved_videos.first.id
       @videos = collect('saved_videos', saved_videos)

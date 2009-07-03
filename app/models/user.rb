@@ -106,6 +106,8 @@ class User < ActiveRecord::Base
         friendship.friend_id  = user.id
         friendship.silent     = true
         friendship.save
+        
+        Rails.cache.delete("users/#{user.id}/followers")
       end
       
       # Setup default subscriptions
@@ -119,6 +121,15 @@ class User < ActiveRecord::Base
       
       # Ensure the follow and subscription caches are clean
       Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{self.id}/followings/count")
+      Rails.cache.delete("users/#{self.id}/followings/random")
+      
+      Rails.cache.delete("users/#{self.id}/followers/count")
+      Rails.cache.delete("users/#{self.id}/followers/random")
+      
+      Rails.cache.delete("users/#{self.id}/friends/count")
+      Rails.cache.delete("users/#{self.id}/friends/random")
+      
       Rails.cache.delete("users/#{self.id}/subscriptions")
       
       # Process existing invitations
@@ -273,6 +284,15 @@ class User < ActiveRecord::Base
       # Ensure to hide existing news items for this user and video
       
       Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{self.id}/followings/count")
+      Rails.cache.delete("users/#{self.id}/followings/random")
+      
+      Rails.cache.delete("users/#{self.id}/followers/count")
+      Rails.cache.delete("users/#{self.id}/followers/random")
+      
+      Rails.cache.delete("users/#{self.id}/friends/count")
+      Rails.cache.delete("users/#{self.id}/friends/random")
+      
       Rails.cache.delete("users/#{friend.id}/followers")
     end
   end
@@ -282,6 +302,15 @@ class User < ActiveRecord::Base
       Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.id, friend.id]).destroy
       
       Rails.cache.delete("users/#{self.id}/followings")
+      Rails.cache.delete("users/#{self.id}/followings/count")
+      Rails.cache.delete("users/#{self.id}/followings/random")
+      
+      Rails.cache.delete("users/#{self.id}/followers/count")
+      Rails.cache.delete("users/#{self.id}/followers/random")
+      
+      Rails.cache.delete("users/#{self.id}/friends/count")
+      Rails.cache.delete("users/#{self.id}/friends/random")
+      
       Rails.cache.delete("users/#{friend.id}/followers")
     end
   end
@@ -300,6 +329,8 @@ class User < ActiveRecord::Base
       subscription.save
       
       Rails.cache.delete("users/#{self.id}/subscriptions")
+      Rails.cache.delete("users/#{self.id}/subscriptions/count")
+      Rails.cache.delete("users/#{self.id}/subscriptions/random")
     end
   end
   

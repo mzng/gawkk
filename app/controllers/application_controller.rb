@@ -221,7 +221,11 @@ class ApplicationController < ActionController::Base
   def setup_generic_sidebar
     setup_category_sidebar
     
-    @featured_channels = collect('channels', Channel.featured.all(:order => 'rand()', :limit => 4))
+    @featured_channels = Rails.cache.fetch("channels/featured/random", :expires_in => 6.hours) do
+      collect('channels', Channel.featured.all(:order => 'rand()', :limit => 16))
+    end
+    
+    @featured_channels = @featured_channels.rand(4)
   end
   
   def setup_recommendation_sidebar
@@ -234,21 +238,57 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_user_sidebar(user)
-    # Speed this up with caching
-    @followings_count = User.followings_of(user).count
-    @followings = user.followings(:order => 'rand()', :limit => 4)
+    @followings_count = Rails.cache.fetch("users/#{user.id}/followings/count", :expires_in => 6.hours) do
+      User.followings_of(user).count
+    end
     
-    @followers_count = User.followers_of(user).count
-    @followers = user.followers(:order => 'rand()', :limit => 4)
+    @followings = Rails.cache.fetch("users/#{user.id}/followings/random", :expires_in => 6.hours) do
+      user.followings(:order => 'rand()', :limit => 16)
+    end
     
-    @friends_count = User.friends_of(user).count
-    @friends = user.friends(:order => 'rand()', :limit => 4)
+    @followings = @followings.rand(4)
     
-    @subscribed_channels_count = Channel.subscribed_to_by(user).count
-    @subscribed_channels = user.subscribed_channels(:order => 'rand()', :limit => 4)
     
-    activity_types = NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
-    @posts_count = NewsItem.count(:all, :conditions => ['news_item_type_id IN (?) AND user_id = ?', activity_types, user.id])
+    @followers_count = Rails.cache.fetch("users/#{user.id}/followers/count", :expires_in => 6.hours) do
+      User.followers_of(user).count
+    end
+    
+    @followers = Rails.cache.fetch("users/#{user.id}/followers/random", :expires_in => 6.hours) do
+      user.followers(:order => 'rand()', :limit => 16)
+    end
+    
+    @followers = @followers.rand(4)
+    
+    
+    @friends_count = Rails.cache.fetch("users/#{user.id}/friends/count", :expires_in => 6.hours) do
+      User.friends_of(user).count
+    end
+    
+    @friends = Rails.cache.fetch("users/#{user.id}/friends/random", :expires_in => 6.hours) do
+      user.friends(:order => 'rand()', :limit => 16)
+    end
+    
+    @friends = @friends.rand(4)
+    
+    
+    @subscribed_channels_count = Rails.cache.fetch("users/#{user.id}/subscriptions/count", :expires_in => 6.hours) do
+      Channel.subscribed_to_by(user).count
+    end
+    
+    @subscribed_channels = Rails.cache.fetch("users/#{user.id}/subscriptions/random", :expires_in => 6.hours) do
+      user.subscribed_channels(:order => 'rand()', :limit => 16)
+    end
+    
+    @subscribed_channels = @subscribed_channels.rand(4)
+    
+    
+    activity_types = Rails.cache.fetch("news_item_types/activity/set", :expires_in => 6.hours) do
+      NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
+    end
+    
+    @posts_count = Rails.cache.fetch("users/#{user.id}/activity/count", :expires_in => 6.hours) do
+      NewsItem.count(:all, :conditions => ['news_item_type_id IN (?) AND user_id = ?', activity_types, user.id])
+    end
   end
   
   def setup_category_sidebar(category = nil)
