@@ -17,7 +17,7 @@ class Video < ActiveRecord::Base
   
   attr_accessor :master_score
   
-  named_scope :newest, :select => 'id, posted_at', :order => 'posted_at DESC'
+  named_scope :newest, :select => 'id, posted_at', :order => 'id DESC'
   named_scope :popular, :select => 'id, promoted_at', :conditions => 'promoted_at IS NOT NULL', :order => 'promoted_at DESC'
   named_scope :allowed_on_front_page, lambda {{:select => 'id, category_id', :conditions => ['category_id IN (?)', Category.allowed_on_front_page_ids]}}
   named_scope :in_category, lambda {|category| {:select => 'id, category_id', :conditions => {:category_id => category.id}}}
