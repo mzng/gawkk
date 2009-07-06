@@ -55,6 +55,7 @@ class Video < ActiveRecord::Base
     
     Rails.cache.delete(self.cache_key)
     Rails.cache.delete(self.long_cache_key)
+    Rails.cache.delete("videos/#{self.id}/first-channel")
     
     return true
   end
@@ -62,6 +63,7 @@ class Video < ActiveRecord::Base
   def before_destroy
     Rails.cache.delete(self.cache_key)
     Rails.cache.delete(self.long_cache_key)
+    Rails.cache.delete("videos/#{self.id}/first-channel")
     
     return true
   end
@@ -97,10 +99,18 @@ class Video < ActiveRecord::Base
   end
   
   def first_channel
-    if self.saved_videos.first
-      self.saved_videos.first.channel
-    else
-      nil
+    Rails.cache.fetch("videos/#{self.id}/first-channel", :expires_in => 1.week) do
+      if self.saved_videos.first
+        self.saved_videos.first.channel
+      else
+        nil
+      end
+    end
+  end
+  
+  def cached_category
+    Rails.cache.fetch("categories/#{self.category_id}", :expries_in => 1.week) do
+      Category.find(self.category_id)
     end
   end
   
@@ -155,7 +165,7 @@ class Video < ActiveRecord::Base
       comments = Comment.for_commentable(self).in_order.all
     end
     
-    yield comments
+    yield Util::Cache.collect_comments(comments)
   end
   
   def tags(*args)

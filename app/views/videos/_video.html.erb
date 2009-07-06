@@ -62,7 +62,7 @@
 						</span>
 					</div>
 					<div class="posted">
-						Posted in <%= link_to video.category.name, {:controller => 'videos', :action => 'category', :category => video.category, :popular => video.popular?} %>
+						Posted in <%= link_to video.cached_category.name, {:controller => 'videos', :action => 'category', :category => video.cached_category, :popular => video.popular?} %>
 						on <%= video.posted_at.strftime("%B %d, %Y") %>
 						<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
 							via <%= link_to video.host, video.url, :target => video.slug %>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090703150324) do
+ActiveRecord::Schema.define(:version => 20090706144343) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(:version => 20090703150324) do
   end
 
   add_index "comments", ["user_id"], :name => "user_id"
+  add_index "comments", ["commentable_type", "commentable_id", "user_id"], :name => "index_comments_type_user"
 
   create_table "contacts", :force => true do |t|
     t.integer  "user_id"
@@ -245,6 +246,7 @@ ActiveRecord::Schema.define(:version => 20090703150324) do
 
   add_index "likes", ["user_id"], :name => "user_id"
   add_index "likes", ["video_id"], :name => "video_id"
+  add_index "likes", ["video_id", "user_id", "created_at"], :name => "index_likes_on_video_id_and_user_id_and_created_at"
 
   create_table "news_item_types", :force => true do |t|
     t.string "name"

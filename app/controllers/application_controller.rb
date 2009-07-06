@@ -276,7 +276,7 @@ class ApplicationController < ActionController::Base
     end
     
     @subscribed_channels = Rails.cache.fetch("users/#{user.id}/subscriptions/random", :expires_in => 6.hours) do
-      user.subscribed_channels(:order => 'rand()', :limit => 16)
+      collect('channels', user.subscribed_channels(:order => 'rand()', :limit => 16))
     end
     
     @subscribed_channels = @subscribed_channels.rand(4)

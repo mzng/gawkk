@@ -91,14 +91,14 @@ class Util::Cache
     ids_of_news_items_to_load.uniq!
     
     # select all news_items no longer in cache at once
-    NewsItem.find(ids_of_news_items_to_load, :include => :user).each do |news_item|
+    NewsItem.find(ids_of_news_items_to_load, :include => [:news_item_type, :user, :reportable]).each do |news_item|
       Rails.cache.write(news_item.cache_key, news_item, :expires_in => 1.day)
     end
     
     news_items.each do |news_item|
       if !news_item.latest_related_id.nil?
         news_item.latest_related = Rails.cache.fetch("news_items/#{news_item.latest_related_id}", :expires_in => 1.day) do
-          NewsItem.find(news_item.latest_related_id, :include => :user)
+          NewsItem.find(news_item.latest_related_id, :include => [:news_item_type, :user, :reportable])
         end
         related_news_items[news_item.id.to_s] = news_item.latest_related
       end
@@ -114,7 +114,7 @@ class Util::Cache
     end
     
     # select all news_items no longer in cache at once
-    NewsItem.find(ids_of_news_items_to_load, :include => :user).each do |news_item|
+    NewsItem.find(ids_of_news_items_to_load, :include => [:news_item_type, :user, :reportable]).each do |news_item|
       Rails.cache.write(news_item.cache_key, news_item, :expires_in => 1.day)
     end
     
@@ -123,7 +123,7 @@ class Util::Cache
     
     for i in 0..(news_items.size - 1)
       @news_items[i] = Rails.cache.fetch(news_items[i].cache_key, :expires_in => 1.day) do
-        NewsItem.find(news_items[i].id, :include => :user)
+        NewsItem.find(news_items[i].id, :include => [:news_item_type, :user, :reportable])
       end
     end
     
@@ -144,7 +144,7 @@ class Util::Cache
     end
     
     # select all news_items no longer in cache at once
-    NewsItem.find(ids_of_news_items_to_load, :include => :user).each do |news_item|
+    NewsItem.find(ids_of_news_items_to_load, :include => [:news_item_type, :user, :reportable]).each do |news_item|
       Rails.cache.write(news_item.cache_key, news_item, :expires_in => 1.day)
     end
     
@@ -153,7 +153,7 @@ class Util::Cache
     
     for i in 0..(activity_messages.size - 1)
       @news_items[i] = Rails.cache.fetch("news_items/#{activity_messages[i].news_item_id}", :expires_in => 1.day) do
-        NewsItem.find(activity_messages[i].news_item_id, :include => :user)
+        NewsItem.find(activity_messages[i].news_item_id, :include => [:news_item_type, :user, :reportable])
       end
     end
     

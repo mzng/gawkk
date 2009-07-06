@@ -3,6 +3,12 @@ class Category < ActiveRecord::Base
   
   has_many :videos
   
+  def before_save
+    Rails.cache.delete(self.cache_key)
+    
+    return true
+  end
+  
   def to_param
     self.slug
   end
