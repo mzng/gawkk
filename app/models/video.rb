@@ -57,6 +57,10 @@ class Video < ActiveRecord::Base
     Rails.cache.delete(self.long_cache_key)
     Rails.cache.delete("videos/#{self.id}/first-channel")
     
+    self.news_items.each do |news_item|
+      Rails.cache.delete(news_item.cache_key)
+    end
+    
     return true
   end
   
