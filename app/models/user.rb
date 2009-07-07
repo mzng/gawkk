@@ -424,11 +424,13 @@ class User < ActiveRecord::Base
   def followings_activity(*args)
     options = args.extract_options!
     
-    if Parameter.status?('messaging_layer_enabled') and self.administrator?
+    if Parameter.status?('messaging_layer_enabled')
+      user = (self.id.blank? ? User.find_by_username('default') : self)
+      
       if self.consumes_grouped_activity?
-        activity_messages = ActivityMessage.for_user(self).grouped.recent.all(options)
+        activity_messages = ActivityMessage.for_user(user).grouped.recent.all(options)
       else
-        activity_messages = ActivityMessage.for_user(self).recent.all(options)
+        activity_messages = ActivityMessage.for_user(user).recent.all(options)
       end
       
       return Util::Cache.collect_news_items_from_activity_messages(activity_messages)

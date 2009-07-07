@@ -151,7 +151,7 @@ class UsersController < ApplicationController
   end
   
   def load_member
-    if params[:id] == 'members'
+    if params[:id] == 'members' or params[:id] == 'default'
       params[:id] = nil
     end
     

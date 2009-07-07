@@ -58,6 +58,10 @@ class NewsItem < ActiveRecord::Base
       
       ActivityMessage.create :user_id => follower_id, :news_item_id => self.id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id
     end
+    
+    if self.user.suggested?
+      generate_message_for_user!(User.find_by_slug('default'))
+    end
   rescue Exception => e
     raise e
   end
