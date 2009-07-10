@@ -60,9 +60,7 @@ class VideosController < ApplicationController
     end
     
     if Parameter.status?('front_page_subscription_preview_enabled') or !(logged_in_user or User.new).administrator?
-      saved_videos = (logged_in_user or User.new).subscription_videos(:limit => 5)
-      @max_id = saved_videos.first.id
-      @videos = collect('saved_videos', saved_videos)
+      @videos, @max_id = (logged_in_user or User.new).subscription_videos(:limit => 5)
     end
     
     # Friends Activity
@@ -76,13 +74,11 @@ class VideosController < ApplicationController
     setup_pagination
     
     # Videos from Followed Channels
-    saved_videos = (logged_in_user or User.new).subscription_videos(:max_id => @max_id, :offset => @offset, :limit => @per_page)
+    @videos, max_id = (logged_in_user or User.new).subscription_videos(:max_id => @max_id, :offset => @offset, :limit => @per_page)
     
-    if @max_id.nil? and @page == 1 and saved_videos.size > 0
-      @max_id = saved_videos.first.id
+    if @max_id.nil? and @page == 1 and @videos.size > 0
+      @max_id = max_id
     end
-    
-    @videos = collect('saved_videos', saved_videos)
     
     # Followed Channels
     @channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'name ASC'))

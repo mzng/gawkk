@@ -110,7 +110,8 @@ class Feed < ActiveRecord::Base
                   # If the video hasn't been saved by this channel yet, let's save it there also
                   default_channel = Channel.owned_by(self.owned_by).first
                   if SavedVideo.count_by_sql(['SELECT COUNT(*) FROM saved_videos WHERE channel_id = ? AND video_id = ?', default_channel.id, video.id]) == 0
-                    SavedVideo.create(:channel_id => default_channel.id, :video_id => video.id)
+                    saved_video = SavedVideo.create(:channel_id => default_channel.id, :video_id => video.id)
+                    saved_video.generate_messages_for_subscribers!
                   end
                 end
               end
@@ -220,7 +221,8 @@ class Feed < ActiveRecord::Base
     if !foreign
       begin
         if video.save
-          SavedVideo.create(:channel_id => Channel.owned_by(feed.owned_by).first.id, :video_id => video.id)
+          saved_video = SavedVideo.create(:channel_id => Channel.owned_by(feed.owned_by).first.id, :video_id => video.id)
+          saved_video.generate_messages_for_subscribers!
 
           # Hack for non auto-incrementing saves_count cache on video import
           video.reload

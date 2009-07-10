@@ -481,11 +481,27 @@ class User < ActiveRecord::Base
     options = args.extract_options!
     max_id = options.delete(:max_id)
     
-    if max_id.nil?
-      SavedVideo.in_channels(self.subscription_ids).all(options)
+    if Parameter.status?('messaging_layer_enabled')
+      user = (self.id.blank? ? User.find_by_username('default') : self)
+      
+      if max_id.nil?
+        subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
+      else
+        subscription_messages = SubscriptionMessage.for_user(user).recent.with_max_id_of(max_id).all(options)
+      end
+      
+      videos = Util::Cache.collect_videos_from_subscription_messages(subscription_messages)
     else
-      SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
+      if max_id.nil?
+        saved_videos = SavedVideo.in_channels(self.subscription_ids).all(options)
+      else
+        saved_videos = SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
+      end
+      
+      videos = Util::Cache.collect_saved_videos(saved_videos)
     end
+    
+    return videos, max_id
   end
   
   # Utility Methods

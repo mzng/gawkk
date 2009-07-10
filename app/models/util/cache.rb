@@ -74,6 +74,33 @@ class Util::Cache
     return @videos
   end
   
+  def self.collect_videos_from_subscription_messages(subscription_messages)
+    # gather ids of videos no longer in cache
+    ids_of_videos_to_load = Array.new
+    subscription_messages.each do |subscription_message|
+      if !Rails.cache.exist?("videos/#{subscription_message.video_id}")
+        ids_of_videos_to_load << subscription_message.video_id
+      end
+    end
+
+    # select all videos no longer in cache at once
+    Video.find(ids_of_videos_to_load, :include => [:category, {:saved_videos => {:channel => :user}}]).each do |video|
+      Rails.cache.write(video.cache_key, video, :expires_in => 1.day)
+      Rails.cache.write(video.long_cache_key, video, :expires_in => 1.day)
+    end
+
+    # collect all of the full videos from cache
+    @videos = Array.new(subscription_messages.size)
+
+    for i in 0..(subscription_messages.size - 1)
+      @videos[i] = Rails.cache.fetch("videos/#{subscription_messages[i].video_id}", :expires_in => 1.day) do
+        Video.find(subscription_messages[i].video_id, :include => [:category, {:saved_videos => {:channel => :user}}])
+      end
+    end
+
+    return @videos
+  end
+  
   def self.collect_news_items(news_items)
     related_news_items = Hash.new
     

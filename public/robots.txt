@@ -3,5 +3,6 @@ Sitemap: http://gawkk.com/sitemaps/sitemap_index.xml.gz
 User-agent: *
 Disallow: /images/*
 Disallow: /search*
+Disallow: /subscriptions*
 Disallow: /*/like$
 Disallow: /*/share$
