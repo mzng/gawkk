@@ -425,7 +425,7 @@ class User < ActiveRecord::Base
     options = args.extract_options!
     
     if Parameter.status?('messaging_layer_enabled')
-      user = (self.id.blank? ? User.find_by_username('default') : self)
+      user = (self.id.blank? ? User.default_user : self)
       
       if self.consumes_grouped_activity?
         activity_messages = ActivityMessage.for_user(user).grouped.recent.all(options)
@@ -482,7 +482,7 @@ class User < ActiveRecord::Base
     max_id = options.delete(:max_id)
     
     if Parameter.status?('messaging_layer_enabled')
-      user = (self.id.blank? ? User.find_by_username('default') : self)
+      user = (self.id.blank? ? User.default_user : self)
       
       if max_id.nil?
         subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
@@ -507,6 +507,12 @@ class User < ActiveRecord::Base
   # Utility Methods
   def liked?(video)
     (Like.by_user(self).for_video(video).count > 0) ? true : false
+  end
+  
+  def self.default_user
+    Rails.cache.fetch('users/default-user', :expires_in => 1.week) do
+      User.find_by_slug('default')
+    end
   end
   
   def self.default_followings

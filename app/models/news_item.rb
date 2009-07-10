@@ -51,16 +51,14 @@ class NewsItem < ActiveRecord::Base
       User.followers_of(self.user).all.collect{|follower| follower.id}
     end
     
+    follower_ids << User.default_user.id if self.user.suggested?
+    
     follower_ids.each do |follower_id|
       if self.reportable_type == 'Video'
         ActivityMessage.update_all 'hidden = true', ['user_id = ? AND hidden = false AND reportable_type = ? AND reportable_id = ?', follower_id, 'Video', self.reportable_id]
       end
       
       ActivityMessage.create :user_id => follower_id, :news_item_id => self.id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id
-    end
-    
-    if self.user.suggested?
-      generate_message_for_user!(User.find_by_slug('default'))
     end
   rescue Exception => e
     raise e

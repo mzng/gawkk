@@ -19,7 +19,7 @@ class SavedVideo < ActiveRecord::Base
         Subscription.for_channel(channel).all.collect{|subscriber| subscriber.user_id}
       end
       
-      subscriber_ids << User.find_by_slug('default').id if self.channel.suggested?
+      subscriber_ids << User.default_user.id if self.channel.suggested?
       
       subscriber_ids.each do |subscriber_id|
         SubscriptionMessage.create :user_id => subscriber_id, :saved_video_id => self.id, :video_id => self.video_id
