@@ -1,27 +1,23 @@
 namespace :jobs do
 	task :process => :environment do
     while true
-      begin
-        # Find a queued Job to process
-        if Parameter.status?('job_queue_enabled') and (job = Job.dequeue)
-          begin
-            # Place the Job in the 'process' state
-            job.process!
+      # Find a queued Job to process
+      if Parameter.status?('job_queue_enabled') and (job = Job.dequeue)
+        begin
+          # Place the Job in the 'process' state
+          job.process!
 
-            # For now, there's only a single JobType
-            job.processable.generate_messages_for_followers!
+          # For now, there's only a single JobType
+          job.processable.generate_messages_for_followers!
 
-            # Place this Job in the 'completed' state
-            job.complete!
-          rescue
-            # Place this Job in the 'failed' state
-            job.fail!
-          end
-        else
-          sleep(15)
+          # Place this Job in the 'completed' state
+          job.complete!
+        rescue
+          # Place this Job in the 'failed' state
+          job.fail!
         end
-      rescue
-        sleep(30)
+      else
+        sleep(15)
       end
     end
   end
