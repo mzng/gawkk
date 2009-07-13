@@ -163,6 +163,7 @@ class User < ActiveRecord::Base
   
   def before_destroy
     ActivityMessage.delete_all(:user_id => self.id)
+    SubscriptionMessage.delete_all(:user_id => self.id)
     
     return true
   end
