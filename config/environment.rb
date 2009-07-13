@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
+  config.gem "newrelic_rpm"
   config.gem "feedtools",       :lib => "feed_tools"
   config.gem "gchart",          :lib => "gchart"
   config.gem "hpricot",         :lib => "hpricot", :version => "0.6", :source => "http://code.whytheluckystiff.net"

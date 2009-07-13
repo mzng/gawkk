@@ -139,15 +139,19 @@ class Video < ActiveRecord::Base
   end
   
   
-  def likes_by(user, include_friends = true)
-    user_ids = Array.new
-    
-    user_ids << user.id
-    if include_friends
-      user_ids.concat(user.followings_ids)
+  def likes_by(user = nil, include_friends = true)
+    if user.nil?
+      likes = Like.for_video(self).in_order.all
+    else
+      user_ids = Array.new
+      
+      user_ids << user.id
+      if include_friends
+        user_ids.concat(user.followings_ids)
+      end
+      
+      likes = Like.by_users(user_ids).for_video(self).in_order.all
     end
-    
-    likes = Like.by_users(user_ids).for_video(self).in_order.all
     
     if likes.size > 0
       yield likes

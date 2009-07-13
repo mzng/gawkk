@@ -1,7 +1,7 @@
 <% container_id ||= '' -%>
 
 <div id="likes_for_<%= video.id %><%= container_id %>" class="activity">
-	<% video.likes_by(@base_user, @include_followings) do |likes| -%>
+	<% video.likes_by do |likes| -%>
 		<table class="inline" cellpadding="0" cellspacing="0">
 			<tr>
 				<td class="gutter">&nbsp;</td>
