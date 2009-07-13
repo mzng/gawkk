@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_one :twitter_account, :dependent => :destroy
   has_one :facebook_account, :dependent => :destroy
   
-  has_many :activity_messages, :class_name => "ActivityMessage", :dependent => :destroy
+  has_many :activity_messages, :class_name => "ActivityMessage"
   has_many :channels, :class_name => "Channel", :order => 'channels.created_at', :dependent => :destroy
   has_many :comments, :class_name => "Comment", :foreign_key => "user_id", :dependent => :destroy
   has_many :feeds, :class_name => "Feed", :foreign_key => "owned_by_id", :dependent => :destroy
@@ -159,6 +159,12 @@ class User < ActiveRecord::Base
     self.channels.each do |channel|
       Rails.cache.delete(channel.cache_key)
     end
+  end
+  
+  def before_destroy
+    ActivityMessage.delete_all(:user_id => self.id)
+    
+    return true
   end
   
   
