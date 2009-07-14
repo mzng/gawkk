@@ -141,7 +141,9 @@ class Video < ActiveRecord::Base
   
   def likes_by(user = nil, include_friends = true)
     if user.nil?
-      likes = Like.for_video(self).in_order.all
+      likes = Rails.cache.fetch("videos/#{self.id}/likes", :expires_in => 1.day) do
+        Like.for_video(self).in_order.all
+      end
     else
       user_ids = Array.new
       

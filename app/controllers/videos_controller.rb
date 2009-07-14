@@ -229,7 +229,7 @@ class VideosController < ApplicationController
   end
   
   def load_video
-    if params[:id] and @video = Rails.cache.fetch("videos/#{params[:id].first(225)}", :expires_in => 1.day) {Video.find_by_slug(params[:id])}
+    if params[:id] and @video = Rails.cache.fetch("videos/#{params[:id].first(225)}", :expires_in => 1.day) {Video.find_by_slug(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])}
       yield
     else
       flash[:notice] = 'The video you are looking for does not exist.'

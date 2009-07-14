@@ -48,11 +48,14 @@ class Like < ActiveRecord::Base
       end
     end
     
+    Rails.cache.delete("videos/#{self.video_id}/likes")
+    
     return true
   end
   
   def before_destroy
-    Rails.cache.delete("videos/#{video_id}")
+    Rails.cache.delete("videos/#{self.video_id}")
+    Rails.cache.delete("videos/#{self.video_id}/likes")
     return true
   end
 end

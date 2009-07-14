@@ -300,7 +300,11 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_discuss_sidebar(video)
-    @related_channels = collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 4))
+    @related_channels = Rails.cache.fetch("channels/related-to/category/#{video.category_id}", :expires_in => 6.hours) do
+      collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 16))
+    end
+    
+    @related_channels = @related_channels.rand(4)
   end
   
   def setup_related_videos(video)
@@ -312,10 +316,22 @@ class ApplicationController < ActionController::Base
     end
     
     @channel = video.first_channel
-    @channel_videos = (@channel.nil? ? Array.new : collect('saved_videos', @channel.videos(:limit => 2)))
+    if !@channel.nil?
+      @channel_videos = Rails.cache.fetch("channels/#{@channel.id}/preview", :expires_in => 6.hours) do
+        collect('saved_videos', @channel.videos(:limit => 2))
+      end
+    else
+      @channel_videos = Array.new
+    end
     
     @category = video.category
-    @category_videos = (@category.nil? ? Array.new : collect('videos', Video.newest.in_category(@category).all(:limit => 2)))
+    if !@category.nil?
+      @category_videos = Rails.cache.fetch("categories/#{@category.id}/preview", :expires_in => 6.hours) do
+        collect('videos', Video.newest.in_category(@category).all(:limit => 2))
+      end
+    else
+      @category_videos = Array.new
+    end
   end
   
   def setup_channel_sidebar(channel)
