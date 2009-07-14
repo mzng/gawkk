@@ -1,0 +1,30 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - effects
+  - dragdrop
+  - controls
+  - application
+  - overlay
+stylesheets: 
+- base: 
+  - scaffold
+  - common
+  - tour
+  - overlay
+  - category
+  - activity
+  - video
+  - share
+  - user
+  - channel
+  - login
+  - registration
+  - twitter
+  - facebook
+  - settings
+  - submit
+  - admin.channel
+  - admin.comment
+  - admin.user

@@ -28,12 +28,12 @@
 		
 		<title><%= @title.nil? ? 'Share Videos with Friends' : @title %> on Gawkk</title>
 		
-		<%= stylesheet_link_tag 'scaffold', 'common', 'tour', 'overlay', 'category', 'activity', 'video', 'share', 'user', 'channel', 'login', 'registration', 'twitter', 'facebook', 'settings', 'submit', 'admin.channel', 'admin.comment', 'admin.user' %>
+		<%= stylesheet_link_merged :base %>
 		<%= render :partial => "/layouts/ie7_css_overrides" %>
 		<%= render :partial => "/layouts/ie8_css_overrides" %>
 		
 		<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
-		<%= javascript_include_tag :all %>
+		<%= javascript_include_merged :base %>
 		
 		<% if Rails.env.production? and !user_logged_in? or (user_logged_in? and !user_can_administer?) -%>
 			<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>

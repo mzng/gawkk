@@ -121,6 +121,15 @@ task :move_sitemaps, :roles => :web do
   run "cp /var/www/apps/gawkk/shared/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
 end
 
+namespace :deploy do
+  desc "Runs asset:packager"
+  task :after_update_code, :roles => :web do
+    run <<-EOF
+      cd #{release_path} && rake RAILS_ENV=production asset:packager:build_all
+    EOF
+  end
+end
+
 namespace :app do
   namespace :symlinks do
     desc "Ensures directories for symlinking are available"
