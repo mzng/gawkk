@@ -50,9 +50,9 @@ class Admin::StatisticsController < ApplicationController
     
     registrations_past_month = User.find(:all, :select => "count(*) as registrations, year(convert_tz(created_at, '+00:00', '-04:00')) as year, month(convert_tz(created_at, '+00:00', '-04:00')) as month, day(convert_tz(created_at, '+00:00', '-04:00')) as day, dayofyear(convert_tz(created_at, '+00:00', '-04:00')) as dayofyear", :conditions => ["feed_owner = false and convert_tz(created_at, '+00:00', '-04:00') > date_sub(curdate(), interval 1 month)"], :group => 'year, dayofyear', :order => 'created_at')
     registration_counts_past_month = registrations_past_month.collect{|summary| summary.registrations.to_i}
-    registration_days_past_month = registrations_past_month.collect{|summary| summary.month + '/' + summary.day}
+    registration_days_past_month = registrations_past_month.collect{ |summary| (Date.parse("#{summary.month}/#{summary.day}/#{summary.year}").wday == 0) ? summary.month + '/' + summary.day : ''}
     
-    @past_month = GChart.bar(:data => [registration_counts_past_month], :extras => {'chtt' => 'Per Day, Past Month', 'chs' => '900x300', 'chxt' => 'x,y', 'chxl' => "0:|#{registration_days_past_month.join('|')}|", 'chxr' => "1,0,#{registration_counts_past_month.max}"})
+    @past_month = GChart.bar(:data => [registration_counts_past_month], :extras => {'chtt' => 'Per Day, Past Month (Sundays are Marked)', 'chs' => '900x300', 'chxt' => 'x,y', 'chxl' => "0:|#{registration_days_past_month.join('|')}|", 'chxr' => "1,0,#{registration_counts_past_month.max}"})
     @past_month.orientation = :vertical
     
     
