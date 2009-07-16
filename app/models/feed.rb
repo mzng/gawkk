@@ -127,15 +127,15 @@ class Feed < ActiveRecord::Base
             
             begin
               open("http://www.gawkk.com/images/#{video.thumbnail}")
-            rescue OpenURI::HTTPError
-              if retry_count > 1
-                ImportMailer.deliver_automatic_shutdown_notification(video)
-                Parameter.set('feed_importer_status', 'false')
-              else
-                retry_count = retry_count + 1
-                sleep(3 * retry_count)
-                retry
-              end
+            # rescue OpenURI::HTTPError
+            #   if retry_count > 1
+            #     ImportMailer.deliver_automatic_shutdown_notification(video)
+            #     Parameter.set('feed_importer_status', 'false')
+            #   else
+            #     retry_count = retry_count + 1
+            #     sleep(3 * retry_count)
+            #     retry
+            #   end
             end
           end
           
@@ -160,23 +160,23 @@ class Feed < ActiveRecord::Base
         self.update_attribute('last_video_imported_at', report.created_at) if report.videos_count > 0
         
         logger.debug " done"
-      rescue
-        # something went wrong, the report's completed_succesffully field will be left as false
-        deactivate = true
-        reports = FeedImporterReport.find(:all, :conditions => ['feed_id = ? AND scheduled = false', self.id], :order => 'created_at desc', :limit => 3)
-        if reports.size == 3
-          reports.each do |report|
-            deactivate = false if report.completed_successfully?
-          end
-          
-          if deactivate
-            if self.update_attribute('active', false)
-              spawn do
-                # FeedManagerMailer.deliver_deactivation_notice(self)
-              end
-            end
-          end
-        end
+      # rescue
+      #   # something went wrong, the report's completed_succesffully field will be left as false
+      #   deactivate = true
+      #   reports = FeedImporterReport.find(:all, :conditions => ['feed_id = ? AND scheduled = false', self.id], :order => 'created_at desc', :limit => 3)
+      #   if reports.size == 3
+      #     reports.each do |report|
+      #       deactivate = false if report.completed_successfully?
+      #     end
+      #     
+      #     if deactivate
+      #       if self.update_attribute('active', false)
+      #         spawn do
+      #           # FeedManagerMailer.deliver_deactivation_notice(self)
+      #         end
+      #       end
+      #     end
+      #   end
       end
       
       return report
@@ -237,7 +237,7 @@ class Feed < ActiveRecord::Base
           # Attempt to generate embed code for this video
           video = Feed.retrieve_embed(video, feed_item)
         end
-      rescue
+      # rescue
         # to prevent from byte encoding error
       end
       
@@ -261,7 +261,7 @@ class Feed < ActiveRecord::Base
         feed.locked = true
         feed.save
         feed.import(word_lists, keep_fresh)
-      rescue
+      # rescue
         # handled inside feed.import
       ensure
         feed.channel_videos_count = Video.count(:all, :joins => 'LEFT JOIN feed_importer_reports ON videos.feed_importer_report_id = feed_importer_reports.id', :conditions => ['feed_importer_reports.feed_id = ?', feed.id])
@@ -291,6 +291,16 @@ class Feed < ActiveRecord::Base
   def self.retrieve_thumbnail(video, feed_item)
     # Attempt to retrieve thumbnail image from rss feed
     begin
+      if video.thumbnail.blank? and video.url.downcase[/^(http|https):\/\/(.*)?youtube\.com\//]
+        if !video.url.index('v=', video.url.index('?') + 1).nil?
+          id = video.url[/v=[\w-]+/][2, video.url[/v=[\w-]+/].length]
+          thumbnail_url = "http://img.youtube.com/vi/#{id}/#{(rand(3) + 1).to_s}.jpg"
+          
+          Util::Thumbnail.fetch_from_url(video.posted_at, video.slug, thumbnail_url)
+          video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
+        end
+      end
+      
       if video.thumbnail.blank? and !feed_item.media_thumbnail_link.blank? and !feed_item.media_thumbnail_link.downcase[/^(http|https):\/\/serve\.castfire\.com\//]
         thumbnail_link = feed_item.media_thumbnail_link
         if thumbnail_link != 'http://www.todaysbigthing.com/'
@@ -423,7 +433,7 @@ class Feed < ActiveRecord::Base
             url = url[0, url.index('video_') + 6] + 'cp.jpg'
             Util::Thumbnail.fetch_from_url(video.posted_at, video.slug, url)
             video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
-          rescue
+          # rescue
           end
         end
       end
@@ -499,7 +509,7 @@ class Feed < ActiveRecord::Base
           video.update_attribute('embed_code', "<object width=\"464\" height=\"392\"><param name=\"movie\" value=\"#{embed_link}\"></param><embed src=\"#{embed_link}\" type=\"application/x-shockwave-flash\" width=\"464\" height=\"392\"></embed></object>")
         end
       end
-    rescue
+    # rescue
       # something went wrong, so we don't have a thumbnail
     ensure
       return video
@@ -555,7 +565,7 @@ class Feed < ActiveRecord::Base
           video.save
         end
       end
-    rescue
+    # rescue
       # something went wrong, so we don't have the embed code
     ensure
       return video
@@ -598,7 +608,7 @@ class Feed < ActiveRecord::Base
           report.embed_code_from_rss = true
         end
       end
-    rescue
+    # rescue
       # something went wrong, we couldn't get the swf url
     end
   end
