@@ -71,6 +71,11 @@ class VideosController < ApplicationController
   
   def subscriptions
     pitch
+    if user_logged_in?
+      set_title("#{logged_in_user.username} - Newest Videos from Followed Channels")
+    else
+      set_title("Newest Videos from Suggested Channels")
+    end
     setup_pagination
     
     # Videos from Followed Channels
@@ -87,8 +92,12 @@ class VideosController < ApplicationController
   
   # Single Video
   def follow
+    if !params[:id].nil? and params[:id][/%20$/]
+      params[:id].gsub(/%20$/, '')
+    end
+    
     if params[:id] and video = Video.find(Util::BaseConverter.to_base10(params[:id]))
-      redirect_to :action => "discuss", :id => video, :thread_id => params[:thread_id]
+      redirect_to :action => "discuss", :id => video, :nid => params[:nid], :thread_id => params[:thread_id]
     else
       flash[:notice] = 'The video you are looking for does not exist.'
       redirect_to :action => "index", :popular => false
@@ -97,13 +106,25 @@ class VideosController < ApplicationController
   
   def discuss
     # load_video or redirect
-    pitch
+    pitch(:sidebar => true)
     set_meta_description(@video.safe_description.first(156))
     set_meta_keywords(@video.tags.join(','))
     set_title(@video.title)
     set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
     setup_discuss_sidebar(@video)
     setup_related_videos(@video)
+    
+    begin
+      @news_item = nil
+      
+      if params[:nid] and params[:nid].to_s.match(/^[0-9]+$/)
+        if @news_item = NewsItem.find(params[:nid].to_i)
+          @news_item = nil unless @news_item.reportable_type == 'Video' and @news_item.reportable_id == @video.id
+        end
+      end
+    rescue
+      # Finding an associated NewsItem is not necessary.
+    end
   end
   
   def share

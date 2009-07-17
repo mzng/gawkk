@@ -63,15 +63,16 @@ class Util::Scrub
     return title
   end
   
-  def self.autolink_usernames(html)
+  def self.autolink_usernames(html, absolute = false)
+    prefix = absolute ? 'http://www.gawkk.com' : ''
     autolinked_html = html
     
     autolinked_html.gsub!(/(^\/([A-Za-z0-9_]+))/) {
-      "/<a href=\"#{$1}\">#{$1[1, $1.length - 1]}</a>"
+      "/<a href=\"#{prefix}#{$1}\">#{$1[1, $1.length - 1]}</a>"
     }
     
     autolinked_html.gsub!(/( \/([A-Za-z0-9_]+))/) {
-      " /<a href=\"#{$1.strip}\">#{$1.strip[1, $1.strip.length - 1]}</a>"
+      " /<a href=\"#{prefix}#{$1.strip}\">#{$1.strip[1, $1.strip.length - 1]}</a>"
     }
     
     autolinked_html

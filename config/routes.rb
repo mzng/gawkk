@@ -87,6 +87,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/follow',         :controller => 'users', :action => 'follow'
   map.connect ':id/unfollow',       :controller => 'users', :action => 'unfollow'
   
+  map.connect ':id/activity.rss',   :controller => 'users', :action => 'activity', :format => 'rss'
+  
   map.connect 'members/:action',    :controller => 'users'
   
   

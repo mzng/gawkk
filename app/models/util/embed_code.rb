@@ -22,7 +22,7 @@ class Util::EmbedCode
         elsif url[/^(http|https):\/\/(.*)?youtube\.com\//] # *.youtube.com
           if !url.index('v=', url.index('?') + 1).nil?
             id = url[/v=[\w-]+/][2, url[/v=[\w-]+/].length]
-            video.embed_code  = "<object width=\"500\" height=\"415\"><param name=\"movie\" value=\"http://www.youtube.com/v/#{id}\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/#{id}\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"500\" height=\"415\"></embed></object>"
+            video.embed_code  = "<object width=\"640\" height=\"385\"><param name=\"movie\" value=\"http://www.youtube.com/v/#{id}\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/#{id}\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"640\" height=\"385\"></embed></object>"
             video.swf_url     = "http://www.youtube.com/v/#{id}"
           end
         elsif url[/^(http|https):\/\/video\.google\.([a-z]*)\//] # video.google.*

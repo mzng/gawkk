@@ -1,0 +1,14 @@
+<p>
+	<%= link_to news_item.user.username, "http://www.gawkk.com/#{news_item.user.slug}" %> is now following 
+	<%= link_to news_item.reportable.username, "http://www.gawkk.com/#{news_item.reportable.slug}" %>
+</p>
+
+<p>
+	<a href="<%= "http://www.gawkk.com/#{news_item.reportable.slug}" %>">
+		<img src="http://gawkk.local/images/<%= news_item.reportable.thumbnail.blank? ? 'profile-pic.jpg' : news_item.reportable.thumbnail %>"/>
+	</a>
+</p>
+
+<% if !news_item.reportable.description.blank? -%>
+	<p><%= simple_format(auto_link(news_item.reportable.description)) %></p>
+<% end -%>

@@ -64,6 +64,14 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId) {
 			$('short_description_for_' + videoId + containerId).show();
 		}
 		
+		if($('share_for_' + videoId + containerId).style.display != 'none') {
+			Effect.BlindUp('share_for_' + videoId + containerId, { duration: 0.3 });
+			
+			if($('more_link_arrow_for_' + videoId + containerId)) {
+				$('more_link_arrow_for_' + videoId + containerId).src = '/images/menu-arrow.png';
+			}
+		}
+		
 		if(consumesGroupedActivity == true) {
 			if($('new_comment_for_' + videoId + containerId) && $('new_comment_area_for_' + videoId + containerId).value == '') {
 				$('new_comment_for_' + videoId + containerId).remove();

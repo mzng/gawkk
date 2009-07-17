@@ -4,10 +4,12 @@
 			{:name => @video.title}]} %>
 
 <div id="content-main">
-	<%= render @video, :visible_title => false, :load_activity => true, :load_comments => true %>
+	<%= render @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true %>
 </div>
 
 <div id="content-sidebar">
+	<%= render(:partial => "/layouts/pitch_sidebar") if @pitch_sidebar %>
+	
 	<%= render :partial => "statistics", :locals => {:video => @video} %>
 	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Videos', :collection => @related_videos, 
@@ -37,5 +39,5 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	watchVideoAndScroll('<%= @video.id %>','<%= @video.slug %>', false, '');
+	watchVideoAndScroll('<%= @video.id %>','<%= @video.slug %>', false, '<%= @news_item.nil? ? '' : '_' + @news_item.id.to_s %>');
 </script>

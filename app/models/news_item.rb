@@ -32,6 +32,8 @@ class NewsItem < ActiveRecord::Base
   def before_destroy
     ActivityMessage.delete_all(:news_item_id => self.id)
     
+    # Unhide previous ActivityMessages
+    
     return true
   end
   
@@ -109,6 +111,7 @@ class NewsItem < ActiveRecord::Base
   
   def render(link_user = true, absolute = false, format = '')
     prefix = absolute ? 'http://www.gawkk.com' : ''
+    
     html = self.news_item_type.template
     html = html.gsub(/\{channel\}/, "<a href=\"#{prefix}/#{self.reportable.user.slug}/#{self.reportable.slug}#{format}\">#{channel_name(self.reportable.name)}</a>") if self.reportable and self.reportable.class == Channel
     html = html.gsub(/\{channel.listing\}/, "<div style=\"height:54px;margin:5px 0px;width:105px;\"><div style=\"font-size:8pt;float:right;height:40px;line-height:9pt;padding-top:14px;text-align:center;\"><a href=\"#{prefix}/#{self.reportable.user.slug}/#{self.reportable.slug}#{format}\">View<br/>Channel</a></div><a href=\"#{prefix}/#{self.reportable.user.slug}/#{self.reportable.slug}#{format}\"><img src=\"#{prefix}/images/#{self.reportable.user.thumbnail.blank? ? 'profile-pic.jpg' : self.reportable.user.thumbnail}\" style=\"border:1px solid #E5E5E5;float:left;height:52px;width:52px;\"/></a></div>") if self.reportable and self.reportable.class == Channel
@@ -136,9 +139,11 @@ class NewsItem < ActiveRecord::Base
     return html
   end
   
-  def render_simple
+  def render_simple(absolute = false)
+    prefix = absolute ? 'http://www.gawkk.com' : ''
+    
     html = self.news_item_type.simple_template
-    html = html.gsub(/\{user\}/, "<a href=\"/#{self.user.slug}\">#{self.user.username}</a>")
+    html = html.gsub(/\{user\}/, "<a href=\"#{prefix}/#{self.user.slug}\">#{self.user.username}</a>")
     
     if self.message.blank?
       html = html.gsub(/\{comment\}/, " commented on this {commentable_type}")
@@ -148,7 +153,7 @@ class NewsItem < ActiveRecord::Base
       html = html.gsub(/\{comment.body\}/, self.message)
     end
     
-    html = Util::Scrub.autolink_usernames(html)
+    html = Util::Scrub.autolink_usernames(html, absolute)
     
     return html
   end

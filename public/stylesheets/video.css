@@ -333,6 +333,11 @@
 
 .video .inline td a {
 	font-size: 9pt;
+	text-decoration: none;
+}
+
+.video .inline td a:hover {
+	text-decoration: underline;
 }
 
 .video .inline .body {
@@ -341,8 +346,12 @@
 	height: auto !important;
 }
 
+.video .inline .adjusted-line-height {
+	line-height: 10pt;
+}
+
 .video .inline .gutter {
-	width: 62px;
+	width: 52px;
 }
 
 .video .inline .image {

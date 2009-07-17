@@ -1,2 +1,8 @@
-<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+<% news_item ||= nil -%>
+
+<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), "http://www.gawkk.com/#{video.slug}/discuss" %>
 <p><%= video.description %></p>
+
+<% if !news_item.nil? -%>
+	<p><%= news_item.render_simple(true) %></p>
+<% end -%>

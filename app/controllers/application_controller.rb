@@ -146,7 +146,11 @@ class ApplicationController < ActionController::Base
   def pitch(options = {})
     @pitch_title = (options[:title].blank? ? 'Welcome to Gawkk!' : options[:title])
     
-    @pitch = true
+    if options[:sidebar]
+      @pitch_sidebar = true
+    else
+      @pitch = true
+    end
   end
   
   def containerable

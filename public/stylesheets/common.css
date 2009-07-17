@@ -204,18 +204,6 @@ p.refine-search span {
 	text-align: center;
 }
 
-/*#pitch span {
-	border: 1px solid green;
-	float: right;
-	text-align: center;
-}*/
-
-/*#pitch span input {
-	font-size: 18pt;
-	padding: 10px;
-	margin-top: 32px;
-}*/
-
 #pitch #sign-up {
 	float: right;
 	margin-top: 8px;
@@ -229,6 +217,31 @@ p.refine-search span {
 	font-size: 11pt;
 	font-weight: bold;
 	margin-bottom: 10px;
+}
+
+#pitch-sidebar {
+	background-color: #FFFFCC;
+	border: 1px solid #FFFF00;
+	margin-bottom: 10px;
+	padding:10px 15px;
+}
+
+#pitch-sidebar h2 {
+	text-align: center;
+}
+
+#pitch-sidebar p {
+	font-size: 11pt;
+	margin: 10px 0 0 0;
+	text-align: justify;
+}
+
+#pitch-sidebar #learn-more {
+	text-align: center;
+}
+
+#pitch-sidebar #learn-more a {
+	font-weight: bold;
 }
 
 /* coming soon */

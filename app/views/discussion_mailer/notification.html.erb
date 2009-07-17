@@ -3,9 +3,9 @@
 
 To catch up on the discussion, follow this link:
 <% if @details[:video].short_code.blank? -%>
-http://www.gawkk.com/<%= @details[:video].slug %>/discuss
+http://www.gawkk.com/<%= @details[:video].slug %>/discuss<%= "?nid=#{@details[:nid].to_s}" if !@details[:nid].blank? %>
 <% else -%>
-http://www.gawkk.com/v/<%= @details[:video].short_code %>
+http://www.gawkk.com/v/<%= @details[:video].short_code %><%= "?nid=#{@details[:nid].to_s}" if !@details[:nid].blank? %>
 <% end -%>
 
 

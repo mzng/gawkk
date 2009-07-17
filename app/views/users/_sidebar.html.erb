@@ -17,11 +17,11 @@
 
 <%= render :partial => "/users/recommendations" %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Following', :description => '(followed people)', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 
 		:count => @followings_count, :collection => @followings} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', :description => '(followed by)', 
+<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', 
 		:link => {:controller => 'users', :action => 'followers', :id => user}, 
 		:count => @followers_count, :collection => @followers} %>
 

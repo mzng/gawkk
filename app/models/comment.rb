@@ -21,6 +21,8 @@ class Comment < ActiveRecord::Base
       self.update_attribute('thread_id', Util::BaseConverter.to_base54(self.id))
     end
     
+    news_item = NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :actionable => self)
+    
     spawn do
       if self.commentable_type == 'Video'
         likers      = Util::Cache.collect_users_from_likes(Like.for_video(self.commentable).not_user(self.user_id).all)
@@ -35,6 +37,7 @@ class Comment < ActiveRecord::Base
           details[:sender]    = self.user
           details[:recipient] = user
           details[:video]     = self.commentable
+          details[:nid]       = news_item.id if news_item
           details[:thread_id] = self.thread_id
           
           DiscussionMailer.deliver_notification(details)
@@ -42,7 +45,6 @@ class Comment < ActiveRecord::Base
       end
     end
     
-    NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :actionable => self)
     return true
   end
   
