@@ -3,6 +3,13 @@ class Admin::ImportController < ApplicationController
   layout 'page'
   
   
+  def restart
+    Parameter.set('feed_importer_status', 'true')
+    
+    flash[:notice] = 'All feed importers have been instructed to restart.'
+    redirect_to request.env["HTTP_REFERER"]
+  end
+  
   def shutdown
     Parameter.set('feed_importer_status', 'false')
     

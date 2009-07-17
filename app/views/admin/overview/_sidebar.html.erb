@@ -48,7 +48,7 @@
 	<% if Parameter.status?('feed_importer_status') -%>
 		<%= link_to 'Shutdown Feed Importers', {:controller => 'admin/import', :action => 'shutdown'}, :confirm => 'Are you sure?' %><br/>
 	<% else -%>
-		<span style="text-decoration:line-through;">Shutdown Feed Importers</span><br/>
+		<%= link_to 'Restart Feed Importers', {:controller => 'admin/import', :action => 'restart'}, :style => 'color:red;', :confirm => 'Are you sure?' %><br/>
 	<% end -%>
 	
 	<%= link_to 'Fix Recent Thumbnails', {:controller => 'admin/import', :action => 'fix_thumbnails'}, :confirm => 'Are you sure?' %><br/>
