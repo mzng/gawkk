@@ -1,10 +1,12 @@
-<div id="pitch-sidebar">
-	<h2>What is Gawkk?</h2>
-	<p>
-		Gawkk is the easiest way to <strong>share</strong> and <strong>discuss</strong> 
-		the best <strong>videos</strong> from around the web with your friends.
-	</p>
-	<p id="learn-more">
-		<%= link_to 'Learn More &raquo;', '/?ref=ds' %>
-	</p>
-</div>
+<% if !user_logged_in? -%>
+	<div id="pitch-sidebar">
+		<h2>What is Gawkk?</h2>
+		<p>
+			Gawkk is the easiest way to <strong>share</strong> and <strong>discuss</strong> 
+			the best <strong>videos</strong> from around the web with your friends.
+		</p>
+		<p id="learn-more">
+			<%= link_to 'Learn More &raquo;', '/?ref=ds' %>
+		</p>
+	</div>
+<% end -%>

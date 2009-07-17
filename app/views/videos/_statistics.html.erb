@@ -1,23 +1,25 @@
-<table class="video-statistics" cellpadding="2" cellspacing="0">
-	<tr>
-		<td>Category:</td>
-		<td><%= link_to video.category.name, {:controller => 'videos', :action => 'category', :category => video.category, :popular => video.popular?} %></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>Permalink:</td>
-		<td><input type="text" value="http://www.gawkk.com/<%= video.slug %>/discuss" readonly="readonly" onfocus="this.select();" /></td>
-	</tr>
-	<% if !video.short_code.blank? -%>
+<% if user_logged_in? -%>
+	<table class="video-statistics" cellpadding="2" cellspacing="0">
 		<tr>
-			<td>Shortlink:</td>
-			<td><input type="text" value="http://gawkk.com/v/<%= video.short_code %>" readonly="readonly" onfocus="this.select();" /></td>
+			<td>Category:</td>
+			<td><%= link_to video.category.name, {:controller => 'videos', :action => 'category', :category => video.category, :popular => video.popular?} %></td>
+			<td></td>
 		</tr>
-	<% end -%>
-	<% if !video.embed_code.blank? -%>
-	<tr>
-		<td>Embed:</td>
-		<td><input type="text" value='<%= video.safe_embed_code %>' readonly="readonly" onfocus="this.select();" /></td>
-	</tr>
-	<% end -%>
-</table>
+		<tr>
+			<td>Permalink:</td>
+			<td><input type="text" value="http://www.gawkk.com/<%= video.slug %>/discuss" readonly="readonly" onfocus="this.select();" /></td>
+		</tr>
+		<% if !video.short_code.blank? -%>
+			<tr>
+				<td>Shortlink:</td>
+				<td><input type="text" value="http://gawkk.com/v/<%= video.short_code %>" readonly="readonly" onfocus="this.select();" /></td>
+			</tr>
+		<% end -%>
+		<% if !video.embed_code.blank? -%>
+		<tr>
+			<td>Embed:</td>
+			<td><input type="text" value='<%= video.safe_embed_code %>' readonly="readonly" onfocus="this.select();" /></td>
+		</tr>
+		<% end -%>
+	</table>
+<% end -%>

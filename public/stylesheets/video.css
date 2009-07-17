@@ -416,6 +416,20 @@
 	visibility: visible;
 }
 
+.video .inline .body .permalink {
+	color: gray;
+	font-style: normal;
+	visibility: hidden;
+}
+
+.video .inline .body .permalink a {
+	font-size: 8pt;
+}
+
+.video .inline:hover .permalink {
+	visibility: visible;
+}
+
 .video .inline .like {
 	visibility: hidden;
 }

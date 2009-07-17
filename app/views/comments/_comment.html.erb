@@ -12,6 +12,7 @@
 			<span title="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
 			<% if !comment.twitter_username.blank? -%><span>- Also posted to <%= link_to "@#{comment.twitter_username}", "http://twitter.com/#{comment.twitter_username}", :target => 'twitter', :style => 'font-size:8pt;' %> on Twitter</span><% end -%>
 			<span class="reply">- <%= link_to 'Reply', "javascript:comment('#{comment.commentable_id}','#{comment.commentable.slug}','#{comment.id}','#{container_id}');" %></span>
+			<span class="permalink">| <%= link_to 'Link', {:controller => 'videos', :action => 'discuss', :id => comment.commentable, :cid => comment.id} %></span>
 			<% if user_can_edit?(comment) -%><span class="delete">| <%= link_to 'Delete', {:controller => 'comments', :action => 'destroy', :id => comment}, :confirm => 'Are you sure?', :method => :post %></span><% end -%><br/>
 			<%= auto_link_usernames(comment.body) %>
 		</td>

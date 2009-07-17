@@ -97,7 +97,7 @@ class VideosController < ApplicationController
     end
     
     if params[:id] and video = Video.find(Util::BaseConverter.to_base10(params[:id]))
-      redirect_to :action => "discuss", :id => video, :nid => params[:nid], :thread_id => params[:thread_id]
+      redirect_to :action => "discuss", :id => video, :nid => params[:nid], :cid => params[:cid], :thread_id => params[:thread_id]
     else
       flash[:notice] = 'The video you are looking for does not exist.'
       redirect_to :action => "index", :popular => false
@@ -119,7 +119,15 @@ class VideosController < ApplicationController
       
       if params[:nid] and params[:nid].to_s.match(/^[0-9]+$/)
         if @news_item = NewsItem.find(params[:nid].to_i)
-          @news_item = nil unless @news_item.reportable_type == 'Video' and @news_item.reportable_id == @video.id
+          if @news_item.reportable_type != 'Video' or @news_item.reportable_id != @video.id
+            @news_item = nil
+          end
+        end
+      elsif params[:cid] and params[:cid].to_s.match(/^[0-9]+$/)
+        if comment = Comment.find(params[:cid].to_i)
+          if comment.commentable_type == 'Video' and comment.commentable_id == @video.id
+            @news_item = NewsItem.find(:first, :conditions => {:actionable_type => 'Comment', :actionable_id => comment.id})
+          end
         end
       end
     rescue
