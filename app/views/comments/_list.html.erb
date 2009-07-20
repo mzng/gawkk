@@ -47,7 +47,7 @@
 		</div>
 		<%= render :partial => "/comments/thread_tracking", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : '', :container_id => container_id} %>
 		<% if comments.size > 0 -%>
-			<%= render :partial => "/comments/reply", :locals => {:video => video, :container_id => container_id} %>
+			<%= render :partial => "/comments/new", :locals => {:commentable => video, :comment => comments.last.new_reply, :container_id => container_id} %>
 		<% end -%>
 	<% end -%>
 <% else -%>

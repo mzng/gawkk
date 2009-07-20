@@ -4,16 +4,18 @@ namespace :jobs do
       # Find a queued Job to process
       if Parameter.status?('job_queue_enabled') and (job = Job.dequeue)
         begin
-          # Place the Job in the 'process' state
           job.process!
-
-          # For now, there's only a single JobType
-          job.processable.generate_messages_for_followers!
-
-          # Place this Job in the 'completed' state
+          
+          case job.job_type.name
+          when 'activity'
+            job.processable.generate_messages_for_followers!
+          when 'activity_reversal'
+            job.processable.prepare_to_destroy_activity_messages!
+            job.processable.destroy
+          end
+          
           job.complete!
         rescue
-          # Place this Job in the 'failed' state
           job.fail!
         end
       else

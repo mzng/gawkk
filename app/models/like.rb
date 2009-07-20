@@ -2,7 +2,7 @@ class Like < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :video, :counter_cache => true
   
-  has_one :news_item, :as => :actionable, :dependent => :destroy
+  has_one :news_item, :as => :actionable
   
   named_scope :by_user, lambda {|user| {:conditions => {:user_id => user.id}}}
   named_scope :by_users, lambda {|user_ids| {:conditions => ['user_id IN (?)', user_ids]}}
@@ -54,8 +54,22 @@ class Like < ActiveRecord::Base
   end
   
   def before_destroy
+    if self.news_item
+      if ActivityMessage.count(:all, :conditions => {:user_id => self.user_id, :news_item_id => self.news_item.id}) > 0
+        # 1. Reverse ActivityMessage for self.user
+        self.news_item.prepare_to_destroy_activity_messages!(self.user)
+
+        # 2. Queue up a Job to generate ActivityMessages for all followers of self.user
+        Job.enqueue(:type => JobType.find_by_name('activity_reversal'), :processable => self.news_item)
+        
+        # 3. Delete the activity message for self.user and self.news_item
+        ActivityMessage.delete_all(:user_id => self.user_id, :news_item_id => self.news_item.id)
+      end
+    end
+    
     Rails.cache.delete("videos/#{self.video_id}")
     Rails.cache.delete("videos/#{self.video_id}/likes")
+    
     return true
   end
 end

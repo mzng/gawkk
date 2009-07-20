@@ -1,38 +1,49 @@
 <% in_reply_to	||= nil -%>
 <% container_id	||= '' -%>
 
-<div id="new_comment_for_<%= commentable.id %><%= container_id %>" class="new-comment" style="display:none;">
+<div id="new_comment_for_<%= commentable.id %><%= container_id %>" class="new-comment">
 	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create', :container_id => container_id}, :condition => "$F('new_comment_area_for_#{commentable.id}#{container_id}').strip() != ''", :before => "disableForm('submit_for_post_to_#{commentable.id}#{container_id}');") do |f| %>
 		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
 		<%= f.hidden_field 'commentable_id', :value => commentable.id %>
 		<%= f.hidden_field 'thread_id', :value => comment.thread_id %>
 		
-		<table class="inline" cellpadding="0" cellspacing="0">
+		<table id="placeholder_comment_for_<%= commentable.id %><%= container_id %>" class="inline" cellpadding="0" cellspacing="0">
 			<tr>
 				<td class="gutter">&nbsp;</td>
-				<td class="image">
-					<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'g-avatar.png' : logged_in_user.thumbnail, :class => 'avatar') %>
-				</td>
-				<td colspan="2" class="body">
-					<%= f.text_area 'body', :value => '', :id => "new_comment_area_for_#{commentable.id}#{container_id}", :onkeyup => "updateCharacterCount('#{commentable.id}', this, '#{container_id}');" %>
-					<input id="new_comment_area_text_for_<%= commentable.id %><%= container_id %>" type="hidden" value="<%= (in_reply_to.nil? ? '' : "Hey /#{in_reply_to.user.username}, ") %>"/>
-				</td>
-			</tr>
-			<tr id="comment_actions_for_<%= commentable.id %><%= container_id %>">
-				<td class="gutter">&nbsp;</td>
-				<td id="characters_left_for_<%= commentable.id %><%= container_id %>" class="character-count">
-					<%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %>
-				</td>
-				<td>
-					<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => "submit_for_post_to_#{commentable.id}#{container_id}", :action => 'Posting'}) do -%>
-						<%= submit_tag 'Post', :id => "submit_button_for_#{commentable.id}#{container_id}" %>
-						<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable, :container_id => container_id} %>
-					<% end -%>
-				</td>
-				<td id="inviter_link_for_<%= commentable.id %><%= container_id %>" class="last">
-					<%= render :partial => "/comments/open_inviter", :locals => {:video_id => commentable.id, :container_id => container_id} %>
+				<td colspan="3" class="body">
+					<input class="placeholder-comment" type="text" value="Write a comment..." onfocus="revealActualCommentForm('<%= commentable.id %>','<%= container_id %>');"/>
 				</td>
 			</tr>
 		</table>
+		
+		<div id="actual_comment_for_<%= commentable.id %><%= container_id %>" style="display:none;">
+			<table class="inline" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="gutter">&nbsp;</td>
+					<td class="image">
+						<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'g-avatar.png' : logged_in_user.thumbnail, :class => 'avatar') %>
+					</td>
+					<td colspan="2" class="body">
+						<%= f.text_area 'body', :value => '', :id => "new_comment_area_for_#{commentable.id}#{container_id}", :onblur => "revealPlaceholderCommentForm('#{commentable.id}','#{container_id}');", :onkeyup => "updateCharacterCount('#{commentable.id}', this, '#{container_id}');" %>
+						<input id="new_comment_area_text_for_<%= commentable.id %><%= container_id %>" type="hidden" value="<%= (in_reply_to.nil? ? '' : "Hey /#{in_reply_to.user.username}, ") %>"/>
+					</td>
+				</tr>
+				<tr id="comment_actions_for_<%= commentable.id %><%= container_id %>">
+					<td class="gutter">&nbsp;</td>
+					<td id="characters_left_for_<%= commentable.id %><%= container_id %>" class="character-count">
+						<%= (logged_in_user or User.new).auto_tweet? ? 114 : 140 %>
+					</td>
+					<td>
+						<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => "submit_for_post_to_#{commentable.id}#{container_id}", :action => 'Posting'}) do -%>
+							<%= submit_tag 'Post', :id => "submit_button_for_#{commentable.id}#{container_id}" %>
+							<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable, :container_id => container_id} %>
+						<% end -%>
+					</td>
+					<td id="inviter_link_for_<%= commentable.id %><%= container_id %>" class="last">
+						<%= render :partial => "/comments/open_inviter", :locals => {:video_id => commentable.id, :container_id => container_id} %>
+					</td>
+				</tr>
+			</table>
+		</div>
 	<% end -%>
 </div>

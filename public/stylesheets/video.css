@@ -323,7 +323,7 @@
 }
 
 .video .inline .last {
-	padding-right: 10px;
+	padding-right: 50px;
 	text-align: right;
 }
 
@@ -575,6 +575,15 @@ span.tag {
 	height: 43px;
 	padding: 3pt;
 	width: 480px;
+}
+
+/* misc comment */
+.placeholder-comment {
+	color: gray;
+	border: 1px solid #CCCCCC;
+	font-size: 9pt;
+	padding: 3px 5px;
+	width: 200px;
 }
 
 /* inviter */

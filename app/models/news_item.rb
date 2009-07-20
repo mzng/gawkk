@@ -32,8 +32,6 @@ class NewsItem < ActiveRecord::Base
   def before_destroy
     ActivityMessage.delete_all(:news_item_id => self.id)
     
-    # Unhide previous ActivityMessages
-    
     return true
   end
   
@@ -64,6 +62,16 @@ class NewsItem < ActiveRecord::Base
     end
   rescue Exception => e
     raise e
+  end
+  
+  def prepare_to_destroy_activity_messages!(user = nil)
+    if user.nil?
+      self.activity_messages.find(:all, :conditions => {:hidden => false}).each do |activity_message|
+        ActivityMessage.update_all('hidden = false', {:user_id => activity_message.user_id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id, :hidden => true}, :order => 'created_at DESC', :limit => 1)
+      end
+    else
+      ActivityMessage.update_all('hidden = false', {:user_id => user.id, :reportable_type => self.reportable_type, :reportable_id => self.reportable_id, :hidden => true}, :order => 'created_at DESC', :limit => 1)
+    end
   end
   
   
