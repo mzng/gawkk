@@ -54,7 +54,7 @@ namespace :backup do
     
     if files.size > 10
       files.first(files.size - 10).each do |filename|
-        `rm -f /tmp/#{filename}`
+        `rm -f #{filename}`
       end
     end
     
