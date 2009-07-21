@@ -15,6 +15,9 @@ namespace :backup do
     end
     Util::AWS.clean(bucket)
     
+    # Remove Old Backup Files in /tmp
+    Rake::Task['backup:clean_up_that_damn_tmp_dir'].invoke
+    
     
     # Process Images
     files[:images] = Array.new
@@ -39,5 +42,26 @@ namespace :backup do
     
     # Deliver Status Update
     BackupMailer.deliver_status_update(files)
+  end
+  
+  task :clean_up_that_damn_tmp_dir => :environment do
+    puts 'Before'
+    files = `ls /tmp/gawkk_*_db.tar*`.split
+    files.each do |filename|
+      puts ' - ' + filename
+    end
+    puts ''
+    
+    if files.size > 10
+      files.first(files.size - 10).each do |filename|
+        `rm -f /tmp/#{filename}`
+      end
+    end
+    
+    puts 'After'
+    files = `ls /tmp/gawkk_*_db.tar*`.split
+    files.each do |filename|
+      puts ' - ' + filename
+    end
   end
 end
