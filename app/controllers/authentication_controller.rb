@@ -26,6 +26,7 @@ class AuthenticationController < ApplicationController
         
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
+        accept_outstanding_invitation
         
         flash[:notice] = nil
         redirect_to (params[:current] and !params[:current][:path].blank?) ? params[:current][:path] : '/'

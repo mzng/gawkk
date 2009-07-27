@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :check_cookie, :perform_outstanding_action]
+  before_filter [:preload_models, :check_cookie, :check_for_invitation, :perform_outstanding_action]
   after_filter  [:reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   def preload_models
     Category
     Channel
+    Invitation
     NewsItem
     NewsItemType
     SavedVideo
@@ -45,6 +46,30 @@ class ApplicationController < ActionController::Base
     cookies[:_gawkk_login] = {:value => [user.slug, cookie_pass], :expires => 3.month.from_now}
     
     return cookie_hash
+  end
+  
+  # Check for an incoming invitee
+  def check_for_invitation
+    if params[:follow] and params[:i]
+      if invitation = Invitation.find(params[:i]) and !invitation.accepted? and invitation.host.slug == params[:follow]
+        session[:invitation_id] = invitation.id
+      end
+    end
+  end
+  
+  def outstanding_invitation
+    return nil if session[:invitation_id].blank?
+    
+    Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do
+      Invitation.find(session[:invitation_id])
+    end
+  end
+  
+  def accept_outstanding_invitation
+    if user_logged_in? and outstanding_invitation
+      Invitation.find(outstanding_invitation.id).accepted_by(logged_in_user)
+      session[:invitation_id] = nil
+    end
   end
   
   # Perform any outstanding action

@@ -1,0 +1,202 @@
+#login-credentials {
+	background-color: #f3f6f9;
+	border:1px solid #E5E5E5;
+	height: 211px;
+	margin: 10px auto 0 auto;
+	width: 528px;
+}
+
+#login-credentials td {
+	padding: 15px 25px;
+}
+
+#login-credentials td + td {
+	border-left: 1px solid #E5E5E5;
+}
+
+#login-credentials #privacy {
+	font-size: 8pt;
+}
+
+#login-credentials #privacy img {
+	vertical-align: top;
+}
+
+#login-credentials #gmail {
+	margin-bottom: 10px;
+	height: 35px;
+	width: 85px;
+}
+
+#login-credentials #yahoo {
+	margin-bottom: 10px;
+	height: 25px;
+	width: 148px;
+}
+
+#login-credentials #live {
+	margin-bottom: 10px;
+}
+
+#login-credentials #aol {
+	height: 35px;
+	width: 125px;
+}
+
+
+#login-credentials table {
+	background-color: #FFFFCC;
+	border: 1px solid #FFFF00;
+	width: 240px;
+}
+
+#login-credentials table td {
+	padding: 4px 3px;
+}
+
+#login-credentials table td + td {
+	border-left: 0px solid #E5E5E5;
+	padding-left: 1px;
+}
+
+#not-importable {
+	width: 240px;
+}
+
+#not-importable td {
+	font-size: 9pt;
+}
+
+#not-importable #exclamation {
+	vertical-align: top;
+}
+
+#not-importable #dismiss {
+	text-align: center;
+}
+
+#not-importable #dismiss input {
+	margin-bottom: 5px;
+}
+
+#invite-link-container {
+	margin: 35px auto 0 auto;
+	width: 528px;
+}
+
+#invite-link-container td {
+	padding: 2px 25px;
+}
+
+#invite-link-container #invite-link input {
+	padding: 3px;
+	width: 458px;
+}
+
+#invite-link-container #cancel {
+	text-align: right;
+}
+
+#importer #error-message {
+	background-color: #FFFFCC;
+	border: 1px solid #FFFF00;
+	color: #333;
+	font-size: 9pt;
+	margin: 0 auto;
+	padding: 2px 5px;
+	text-align: center;
+	width: 518px;
+}
+
+#contact-list {
+	margin: 0 auto;
+	width: 600px;
+}
+
+#contact-list #heading {
+	background-color: #E5E5E5;
+	border: 1px solid #AAAAAA;
+	font-weight: bold;
+	padding: 3px 5px;
+}
+
+#contact-list #heading div {
+	float: left;
+	text-align: center;
+	width: 25px;
+}
+
+#contact-list #character-list {
+	color: #BBBBBB;
+	padding: 3px;
+	text-align: center;
+}
+
+#contact-list #character-list a {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#contact-list #outer-contact-container {
+	border: 1px solid #AAAAAA;
+	border-top: 0px;
+	width: 568px;
+}
+
+#contact-list #inner-contact-container {
+	height: 535px;
+	overflow-y: scroll;
+	width: 566px;
+}
+
+#contact-list #inner-contact-container table {
+	width: 550px;
+}
+
+#contact-list .section .descriptor {
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: center;
+	width: 25px;
+}
+
+#contact-list .section .break {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+#contact-list .separated td {
+	border-top: 1px solid #E5E5E5;
+}
+
+#contact-list .contact:hover, #contact-list .contact:hover label {
+	cursor: pointer;
+}
+
+#contact-list .contact:hover td {
+	background-color: #FFFFEE;
+}
+
+#contact-list .contact .select {
+	text-align: center;
+}
+
+#contact-list .contact .name, #contact-list .contact .email {
+	width: 228px;
+}
+
+#contact-list .contact .name label, #contact-list .contact .email label {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 215px;
+}
+
+#contact-list .contact .member {
+	text-align: center;
+	width: 18px;
+}
+
+#contact-list #submit-row {
+	padding-right: 5px;
+	text-align: right;
+}

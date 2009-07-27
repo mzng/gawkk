@@ -383,6 +383,33 @@ function selectChannels(selected) {
 	}
 }
 
+// contact importer
+function allowLoginOrShowMessage(importable) {
+	if(importable == false) {
+		$('importable').hide();
+		$('not-importable').show();
+	} else {
+		$('not-importable').hide();
+		$('importable').show();
+	}
+}
+
+function hideErrorMessage() {
+	new Effect.Opacity('error-message', { from: 1.0, to: 0, duration: 0.5 });
+}
+
+function selectContacts(selected) {
+	var contacts = $$('.contact_selector');
+	
+	for(i = 0; i < contacts.length; i++) {
+		if(selected.checked == true) {
+			contacts[i].checked = 'checked';
+		} else {
+			contacts[i].checked = '';
+		}
+	}
+}
+
 // facebook
 function fbs_click(u) {
 	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer','toolbar=0,status=0,width=626,height=436');

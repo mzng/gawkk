@@ -21,6 +21,7 @@ stylesheets:
   - channel
   - login
   - registration
+  - contact_importer
   - twitter
   - facebook
   - settings

@@ -1,0 +1,5 @@
+if @importable and @error.blank?
+  page.replace_html('importer', :partial => '/registration/invite_friends')
+else
+  page.replace_html('importer', :partial => '/registration/import_friends')
+end

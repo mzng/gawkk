@@ -33,6 +33,7 @@ class FacebookController < ApplicationController
 
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
+        accept_outstanding_invitation
         
         redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
       else
@@ -110,6 +111,7 @@ class FacebookController < ApplicationController
         end
         
         session[:user_id] = @user.id
+        accept_outstanding_invitation
       end
       
       redirect_to :controller => "registration", :action => "setup_suggestions"

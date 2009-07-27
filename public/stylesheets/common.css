@@ -141,16 +141,20 @@ div.search-container {
 	border-bottom: 1px solid #E5E5E5;
 }
 
-p.submit {
+p.submit, div.submit {
 	font-size: 8pt;
 }
 
-p.submit input, p.refine-search input {
+p.submit input, div.submit input, p.refine-search input {
 	vertical-align: middle;
 }
 
-p.submit a {
+p.submit a, div.submit a {
 	text-decoration: underline;
+}
+
+div.submit {
+	margin: 5px 0;
 }
 
 .submitting img {

@@ -1,5 +1,5 @@
 class RegistrationController < ApplicationController
-  around_filter :load_user, :only => [:setup_services, :setup_profile]
+  around_filter :load_user, :only => [:setup_services, :setup_profile, :setup_friends, :invite_friends]
   layout 'page'
   
   
@@ -44,6 +44,8 @@ class RegistrationController < ApplicationController
         
         if @user.save
           session[:user_id] = @user.id
+          accept_outstanding_invitation
+          
           redirect_to :action => "setup_services"
         end
       end
@@ -62,7 +64,6 @@ class RegistrationController < ApplicationController
       @user.feed_url            = params[:user][:feed_url]
       
       if @user.save
-        session[:user_id] = @user.id
         redirect_to :action => "setup_profile"
       end
     end
@@ -131,6 +132,118 @@ class RegistrationController < ApplicationController
       flash[:notice] = 'You must be logged in to do that.'
       redirect_to :controller => "authentication", :action => "login", :redirect_to => "/setup/suggestions"
     end
+  end
+  
+  def setup_friends
+    # load_user or redirect
+    if request.get?
+      @importable = Octazen::SimpleAddressBookImporter.create_importer(@user.email).nil? ? false : true
+    else
+      @error = ''
+      @user = User.new(params[:user])
+      
+      if @importable = Octazen::SimpleAddressBookImporter.create_importer(@user.email)
+        begin
+          # Import contacts
+          contacts = Octazen::SimpleAddressBookImporter.fetch_contacts(@user.email, @user.password)
+          
+          # Remove any contacts without a valid email address
+          @contacts = Array.new
+          contacts.each do |contact|
+            @contacts << contact if contact.email.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
+          end
+          
+          # Sort the remaining, valid contacts
+          Util::Sort.sort_contacts(@contacts, 0, @contacts.size - 1)
+          
+          # Move any contact with a name not from A to Z to the end of the Array
+          if @contacts.size > 0
+            count = 0
+            while !('A'..'Z').include?(@contacts[0].name.first(1).upcase) and count < @contacts.size
+              @contacts << @contacts.delete_at(0)
+              count += 1
+            end
+          end
+          
+          # Build character list and confirm whether or not each character has related contacts
+          @characters = (('A'..'Z').to_a << '#')
+          @first_characters = Hash.new
+          @contacts.each do |contact|
+            if @characters.include?(contact.name.first(1).upcase)
+              @first_characters[contact.name.first(1).upcase] = true
+            else
+              @first_characters['#'] = true
+            end
+          end
+          
+          # Collect existing members
+          @current_members = Hash.new
+          User.find(:all, :conditions => ['lower(email) IN (?)', @contacts.collect{|contact| contact.email.downcase}]).each do |user|
+            @current_members[user.email.downcase] = user
+          end
+          
+        rescue Octazen::AuthenticationError => err
+          @error = "The email address or password you entered is incorrect. Please try again."
+          @importable = true
+          @user.password = ''
+        end
+      else
+        @error = "We don't support that email address. Please try again or just send the link below to your friends."
+        @user = User.new
+      end
+    end
+  end
+  
+  def invite_friends
+    recipients = Array.new
+    params[:email_address].each do |key, value|
+      recipients << key if value == '1' and key.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
+    end
+    
+    if recipients.size > 0
+      current_members = Hash.new
+      User.find(:all, :conditions => ['lower(email) IN (?)', recipients.collect{|recipient| recipient.downcase}]).each do |user|
+        current_members[user.email.downcase] = user
+      end
+    
+      spawn do
+        recipients.each do |email_address|
+          if current_members[email_address].nil?
+            Invitation.create :host_id => logged_in_user.id, :invitee_email => email_address, :invited_at => Time.now
+          else
+            logged_in_user.friend(current_members[email_address])
+          end
+        end
+      end
+      
+      if (recipients.size - current_members.size) == 0
+        flash[:notice] = "Good work! You've started following #{current_members.size} #{current_members.size == 1 ? 'person' : 'people'}!"
+      elsif (recipients.size - current_members.size) == 1
+        flash[:notice] = "Good work! That friend has been invited to join you on Gawkk!"
+      else
+        flash[:notice] = "Good work! Those #{recipients.size - current_members.size} friends have been invited to join you on Gawkk!"
+      end
+    else
+      flash[:notice] = "If you decide that you'd like to invite your friends to join you on Gawkk, just head back to the <a href=\"/setup/friends\">Find Your Friends</a> page."
+    end
+    
+    redirect_to '/'
+  end
+  
+  def invitation_test
+    if Rails.env.development?
+      invitation = Invitation.new
+      invitation.host_id = logged_in_user.id
+      invitation.invitee_email = 'nmango@gmail.com'
+
+      render :text => InvitationMailer.create_invitation(invitation).body
+    else
+      redirect_to :action => 'setup_friends'
+    end
+  end
+  
+  def confirm_domain
+    @importable = (params[:email.blank?] or !Util::Email.valid?(params[:email]) or !Octazen::SimpleAddressBookImporter.create_importer(params[:email]).nil?) ? true : false
   end
   
   private

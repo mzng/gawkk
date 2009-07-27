@@ -1,0 +1,49 @@
+<% form_tag({:controller => 'registration', :action => 'invite_friends'}, :method => 'post') do |f| %>
+	<table id="contact-list" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>&nbsp;</td>
+			<td id="heading">
+				<div><input type="checkbox" checked="checked" onclick="selectContacts(this);"/></div> Select Contacts to Invite to Gawkk
+			</td>
+		</tr>
+		<tr>
+			<td id="character-list">
+				<%= @characters.collect{|char| @first_characters[char] ? "<a href=\"##{char}\">#{char}</a>" : char}.join('<br/>') %>
+			</td>
+			<td id="outer-contact-container">
+				<div id="inner-contact-container">
+					<table cellpadding="3" cellspacing="0">
+						<% letter = '' -%>
+						<% @contacts.each do |contact| -%>
+							<% first_of_section = false -%>
+							<% if letter != first_letter(contact.name) -%>
+								<tr class="section">
+									<% first_of_section = true -%>
+									<% letter = first_letter(contact.name) -%>
+									<td id="<%= letter %>" class="descriptor" rowspan="2">
+										<%= letter %>
+									</td>
+									<td class="break" colspan="3">&nbsp;</td>
+								</tr>
+								<tr><td colspan="3">&nbsp;</td></tr>
+							<% end -%>
+							<tr class="contact <% if !first_of_section -%>separated<% end -%>">
+								<td class="select"><%= check_box("email_address", contact.email, {:class => 'contact_selector', :checked => true}) %></td>
+								<td class="name"><label for="email_address_<%= contact.email %>"><%= contact.name %></label></td>
+								<td class="email"><label for="email_address_<%= contact.email %>"><%= contact.email %></label></td>
+								<td class="member"><%= image_tag('favicon.png') if @current_members[contact.email] %></td>
+							</tr>
+						<% end -%>
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td id="submit-row" colspan="2">
+				<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_invite', :klass => 'submit', :action => 'Inviting'}) do -%>
+					<%= submit_tag("Invite Friends", :id => 'submit_button_for_invite') %> or <%= link_to 'Try Again', {:controller => 'registration', :action => 'setup_friends'} %>
+				<% end -%>
+			</td>
+		</tr>
+	</table>
+<% end -%>

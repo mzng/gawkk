@@ -25,6 +25,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
   map.connect 'setup/profile',        :controller => 'registration', :action => 'setup_profile'
   map.connect 'setup/suggestions',    :controller => 'registration', :action => 'setup_suggestions'
+  map.connect 'setup/friends',        :controller => 'registration', :action => 'setup_friends'
+  map.connect 'setup/friends/invite', :controller => 'registration', :action => 'invite_friends'
   map.connect 'registration/:action', :controller => 'registration'
   
   

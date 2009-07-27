@@ -1,0 +1,71 @@
+<div id="error-message" <%= "style=\"visibility:hidden;\"" if @error.blank? %>>
+	<%= @error.blank? ? '&nbsp;' : @error %>
+</div>
+
+<% form_remote_tag(:url => {:controller => 'registration', :action => 'setup_friends'}, :before => "disableForm('submit_for_find');", :method => 'post') do |f| %>
+	<table id="login-credentials" cellpadding="3" cellspacing="0">
+		<tr>
+			<td style="vertical-align:top;">
+				<p>Your Email:<br/>
+				<%= text_field('user', 'email', :onfocus => 'allowLoginOrShowMessage(true);', :value => (@importable ? @user.email : ''), :style => 'width:235px;') %></p>
+				
+				<div id="importable">
+					<p>Email Password:<br/>
+					<%= password_field('user', 'password', :style => 'width:235px;') %></p>
+					
+					<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_find', :klass => 'submit', :action => 'Finding'}) do -%>
+						<%= submit_tag("Find Friends", :id => 'submit_button_for_find') %> or <%= link_to 'Cancel', '/' %>
+					<% end -%>
+					
+					<p id="privacy">
+						<%= image_tag('lock.png') %> Your password will <strong>not</strong> be stored.
+					</p>
+				</div>
+				
+				<table id="not-importable" cellpadding="0" cellspacing="0" style="display:none;">
+					<tr>
+						<td id="exclamation"><%= image_tag('exclamation.png') %></td>
+						<td>
+							Sorry, but we don't support that email address. Please 
+							try again or just send the link below to your friends.
+						</td>
+					</tr>
+					<tr>
+						<td id="dismiss" colspan="2">
+							<input type="button" value="Okay" onclick="$('user_email').focus();"/>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<%= image_tag 'email_provider_gmail.png', :id => 'gmail' %><br/>
+				<%= image_tag 'email_provider_yahoo.gif', :id => 'yahoo' %><br/>
+				<%= image_tag 'email_provider_live.png', :id => 'live' %><br/>
+				<%= image_tag 'email_provider_aol.gif', :id => 'aol' %>
+			</td>
+		</tr>
+	</table>
+<% end -%>
+
+<table id="invite-link-container" cellpadding="3" cellspacing="0">
+	<tr>
+		<td>Or, just send this link to invite your friends to join you at Gawkk:</td>
+	</tr>
+	<tr id="invite-link">
+		<td><input type="text" value="http://gawkk.com/register?follow=<%= logged_in_user.slug %>" readonly="readonly" onfocus="this.select();"/></td>
+	</tr>
+</table>
+
+<%= observe_field 'user_email', :url => {:controller => 'registration', :action => 'confirm_domain'}, :with => 'email' %>
+
+<script type="text/javascript" charset="utf-8">
+	<% if @importable -%>
+		$('user_password').focus();
+	<% else -%>
+		$('user_email').focus();
+	<% end -%>
+	
+	<% if !@error.blank? -%>
+		window.setTimeout('hideErrorMessage()', 5000);
+	<% end -%>
+</script>

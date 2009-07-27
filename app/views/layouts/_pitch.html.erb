@@ -19,9 +19,22 @@
 			<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
 		</div>
 		<div id="copy">
-			<p style="font-size:16pt;font-weight:bold;"><%= @pitch_title %></p>
+			<p style="font-size:16pt;font-weight:bold;">
+				<% if outstanding_invitation -%>
+					You've been invited to join <%= (outstanding_invitation.host.name or outstanding_invitation.host.username) %> on Gawkk!
+				<% else -%>
+					<%= @pitch_title %>
+				<% end -%>
+			</p>
 			<p>Gawkk is the best place to <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with your friends by answering the question: <strong>What are you watching?</strong></p>
-			<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
+			<% if outstanding_invitation -%>
+				<p>
+					<%= link_to_remote('Join the conversation today', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %>
+					to start following your friend, <%= link_to (outstanding_invitation.host.name or outstanding_invitation.host.username), user_path(:id => outstanding_invitation.host) , {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}%>!
+				</p>
+			<% else -%>
+				<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
+			<% end -%>
 		</div>
 	</div>
 <% end -%>

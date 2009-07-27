@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090720201528) do
+ActiveRecord::Schema.define(:version => 20090727142913) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -213,7 +213,6 @@ ActiveRecord::Schema.define(:version => 20090720201528) do
     t.integer  "invitee_id"
     t.datetime "accepted_at"
     t.datetime "queued_at"
-    t.boolean  "for_quiz",      :default => false, :null => false
   end
 
   add_index "invitations", ["host_id"], :name => "host_id"

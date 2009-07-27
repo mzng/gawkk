@@ -107,6 +107,10 @@ class User < ActiveRecord::Base
         friendship.silent     = true
         friendship.save
         
+        if news_item = user.last_action
+          news_item.generate_message_for_user!(self)
+        end
+        
         Rails.cache.delete("users/#{user.id}/followers")
       end
       
@@ -287,8 +291,9 @@ class User < ActiveRecord::Base
       friendship.silent     = silent
       friendship.save
       
-      # Generate ActivityMessage for this user about the friend's last NewsItem
-      # Ensure to hide existing news items for this user and video
+      if news_item = friend.last_action
+        news_item.generate_message_for_user!(self)
+      end
       
       Rails.cache.delete("users/#{self.id}/followings")
       Rails.cache.delete("users/#{self.id}/followings/count")

@@ -1,7 +1,9 @@
-<div id="<%= id %>">
+<% klass ||= '' -%>
+
+<div id="<%= id %>" class="<%= klass %>">
 	<%= yield  %>
 </div>
-<div id="<%= id %>_disabled" class="submitting" style="display:none;">
+<div id="<%= id %>_disabled" class="submitting <%= klass %>" style="display:none;">
 	<%= submit_tag("#{action}...", :disabled => true) %>
 	<%= image_tag('spinner.gif') %>
 </div>
