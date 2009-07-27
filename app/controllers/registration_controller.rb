@@ -186,6 +186,10 @@ class RegistrationController < ApplicationController
           @error = "The email address or password you entered is incorrect. Please try again."
           @importable = true
           @user.password = ''
+        rescue
+          @error = "Whoops, it looks like something broke! Please try again."
+          @importable = true
+          @user.password = ''
         end
       else
         @error = "We don't support that email address. Please try again or just send the link below to your friends."
