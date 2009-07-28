@@ -138,6 +138,10 @@ class RegistrationController < ApplicationController
     # load_user or redirect
     if request.get?
       @importable = Octazen::SimpleAddressBookImporter.create_importer(@user.email).nil? ? false : true
+      
+      if params[:f] and params[:f] == 'fpn'
+        @user.update_attribute('invite_friends_notice_dismissed', true)
+      end
     else
       @error = ''
       @user = User.new(params[:user])

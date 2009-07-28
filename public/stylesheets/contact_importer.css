@@ -1,3 +1,14 @@
+#contact-importer-plug {
+	background-color: #ffffdd;
+	font-size: 9pt;
+	margin-top: -8px;
+	padding: 10px;
+}
+
+#contact-importer-plug img {
+	float: right;
+}
+
 #login-credentials {
 	background-color: #f3f6f9;
 	border:1px solid #E5E5E5;

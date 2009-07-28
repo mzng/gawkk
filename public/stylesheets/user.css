@@ -80,13 +80,13 @@
 
 /* recommended people */
 #recommended-people .section-header {
-	background-color: #FFFFDD;
+/*	background-color: #FFFFDD;*/
 	margin-bottom: 0;
 	padding: 5px 3px 0 3px;
 }
 
 #recommended-people .set {
-	background-color: #FFFFDD;
+/*	background-color: #FFFFDD;*/
 	padding: 2px 0 0 2px;
 }
 
@@ -95,7 +95,7 @@
 }
 
 #recommended-people #follow-all {
-	background-color: #FFFFDD;
+/*	background-color: #FFFFDD;*/
 	margin-top: 0;
 	padding-bottom: 8px;
 	text-align: center;

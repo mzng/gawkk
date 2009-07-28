@@ -1,5 +1,5 @@
 <% if @recommended_users and @recommended_users.size > 0 -%>
-	<% form_tag({:controller => 'users', :action => 'follow_recommendations'}) do %>
+	<% form_remote_tag(:url => {:controller => 'users', :action => 'follow_recommendations'}, :before => "$('recommended-people').remove();") do %>
 		<div id="recommended-people">
 			<h1 class="section-header">
 				<span><%= link_to 'Dismiss', {:controller => 'users', :action => 'dismiss_recommendations'} %></span>

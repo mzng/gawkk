@@ -54,21 +54,34 @@ class ApplicationController < ActionController::Base
       if invitation = Invitation.find(params[:i]) and !invitation.accepted? and invitation.host.slug == params[:follow]
         session[:invitation_id] = invitation.id
       end
+    elsif params[:follow]
+      if host = User.find_by_slug(params[:follow])
+        session[:host_id] = host.id
+      end
     end
   end
   
   def outstanding_invitation
-    return nil if session[:invitation_id].blank?
-    
-    Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do
-      Invitation.find(session[:invitation_id])
+    if !session[:invitation_id].blank?
+      Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do
+        Invitation.find(session[:invitation_id])
+      end
+    elsif !session[:host_id].blank?
+      Invitation.new(:host_id => session[:host_id])
+    else
+      return nil
     end
   end
   
   def accept_outstanding_invitation
     if user_logged_in? and outstanding_invitation
-      Invitation.find(outstanding_invitation.id).accepted_by(logged_in_user)
-      session[:invitation_id] = nil
+      if !session[:invitation_id].blank?
+        Invitation.find(outstanding_invitation.id).accepted_by(logged_in_user)
+        session[:invitation_id] = nil
+      elsif !session[:host_id].blank?
+        logged_in_user.follow(User.find(session[:host_id]))
+        session[:host_id] = nil
+      end
     end
   end
   

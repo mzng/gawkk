@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :notifications, :password, :group_activity, :ungroup_activity]
+  around_filter :ensure_logged_in_user, :only => [:profile, :services, :avatar, :email, :notifications, :password, :group_activity, :ungroup_activity, :dismiss_invite_friends_notice]
   layout 'page'
   
   
@@ -135,6 +135,13 @@ class SettingsController < ApplicationController
     
     @user.update_attribute('consumes_grouped_activity', false)
     redirect_to '/'
+  end
+  
+  def dismiss_invite_friends_notice
+    # ensure_logged_in_user or redirect
+    
+    @user.update_attribute('invite_friends_notice_dismissed', true)
+    render :nothing => true
   end
   
   

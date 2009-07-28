@@ -48,7 +48,8 @@ class User < ActiveRecord::Base
   attr_accessible :salt, :cookie_hash, :password_reset_auth_code, :password_reset_expires_at, :email_confirmation_auth_code, :email_confirmed_at
   attr_accessible :description, :age_range_id, :age_range, :location, :sex, :zip_code
   attr_accessible :twitter_username, :youtube_username, :friendfeed_username, :website_url, :feed_url, :external_services
-  attr_accessible :consumes_grouped_activity, :safe_search, :category_notice_dismissed, :send_digest_emails, :digest_email_frequency, :follow_notification_type
+  attr_accessible :consumes_grouped_activity, :safe_search, :category_notice_dismissed, :invite_friends_notice_dismissed
+  attr_accessible :send_digest_emails, :digest_email_frequency, :follow_notification_type
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
   attr_accessible :feed_owner, :twitter_oauth, :facebook
   
@@ -498,6 +499,7 @@ class User < ActiveRecord::Base
       
       if max_id.nil?
         subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
+        max_id = subscription_messages.first.saved_video_id if subscription_messages.size > 0
       else
         subscription_messages = SubscriptionMessage.for_user(user).recent.with_max_id_of(max_id).all(options)
       end
@@ -506,6 +508,7 @@ class User < ActiveRecord::Base
     else
       if max_id.nil?
         saved_videos = SavedVideo.in_channels(self.subscription_ids).all(options)
+        max_id = saved_videos.first.id if saved_videos.size > 0
       else
         saved_videos = SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
       end

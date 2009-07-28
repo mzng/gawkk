@@ -1,0 +1,7 @@
+<% if user_logged_in? and !logged_in_user.invite_friends_notice_dismissed? -%>
+	<div id="contact-importer-plug">
+		<%= link_to_remote image_tag('close.png'), {:url => {:controller => 'settings', :action => 'dismiss_invite_friends_notice'}, :before => "$('contact-importer-plug').remove();"} %>
+		Gawkk is more fun with friends, so we made it really easy to send them invitations! Go ahead, 
+		<%= link_to 'invite yours', {:controller => 'registration', :action => 'setup_friends', :f => 'fpn'} %> today.
+	</div>
+<% end -%>

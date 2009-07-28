@@ -81,12 +81,14 @@
 }
 
 #successful-post {
-	margin-top: 0px !important;
+	background-color: #ffffdd;
+	font-size: 9pt;
+	margin-top: -8px;
+	padding: 10px;
 }
 
 #successful-post img {
 	float: right;
-	margin-top: -2px;
 }
 
 /* submit form (step two) */

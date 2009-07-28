@@ -123,8 +123,7 @@ class UsersController < ApplicationController
     
     session[:recommendation_countdown] = 5
     
-    flash[:notice] = "You're now following even more interesting people!"
-    redirect_to '/'
+    render :nothing => true
   end
   
   def dismiss_recommendations

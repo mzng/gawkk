@@ -1,10 +1,14 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def outstanding_invitation
-    return nil if session[:invitation_id].blank?
-    
-    Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do
-      Invitation.find(session[:invitation_id])
+    if !session[:invitation_id].blank?
+      Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do
+        Invitation.find(session[:invitation_id])
+      end
+    elsif !session[:host_id].blank?
+      Invitation.new(:host_id => session[:host_id])
+    else
+      return nil
     end
   end
   

@@ -22,6 +22,7 @@
 		<% end -%>
 		Activity Stream
 	</h1>
+	<%= render :partial => "/registration/contact_importer_plug" %>
 	<div id="activity">
 		<%= render @news_items %>
 	</div>
@@ -31,7 +32,7 @@
 
 <div id="content-sidebar">
 	<% if user_logged_in? -%>
-		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :user => logged_in_user} %>
+		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :invite_or_recommend => true, :user => logged_in_user} %>
 	<% end -%>
 	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090727142913) do
+ActiveRecord::Schema.define(:version => 20090728183312) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -407,7 +407,7 @@ ActiveRecord::Schema.define(:version => 20090727142913) do
   add_index "twitter_accounts", ["user_id"], :name => "user_id"
 
   create_table "users", :force => true do |t|
-    t.boolean  "administrator",                             :default => false
+    t.boolean  "administrator",                                :default => false
     t.string   "username"
     t.string   "hashed_password"
     t.string   "name"
@@ -415,47 +415,48 @@ ActiveRecord::Schema.define(:version => 20090727142913) do
     t.string   "location"
     t.datetime "last_login_at"
     t.datetime "created_at"
-    t.boolean  "feed_owner",                                :default => false, :null => false
+    t.boolean  "feed_owner",                                   :default => false, :null => false
     t.text     "description"
-    t.integer  "comments_count",                            :default => 0,     :null => false
-    t.integer  "my_comments_count",                         :default => 0,     :null => false
-    t.integer  "videos_count",                              :default => 0,     :null => false
-    t.integer  "flags_count",                               :default => 0,     :null => false
-    t.integer  "views_count",                               :default => 0,     :null => false
+    t.integer  "comments_count",                               :default => 0,     :null => false
+    t.integer  "my_comments_count",                            :default => 0,     :null => false
+    t.integer  "videos_count",                                 :default => 0,     :null => false
+    t.integer  "flags_count",                                  :default => 0,     :null => false
+    t.integer  "views_count",                                  :default => 0,     :null => false
     t.integer  "age_range_id"
-    t.string   "youtube_username",                                             :null => false
-    t.boolean  "send_digest_emails",                        :default => false, :null => false
+    t.string   "youtube_username",                                                :null => false
+    t.boolean  "send_digest_emails",                           :default => false, :null => false
     t.string   "email_confirmation_auth_code"
     t.datetime "email_confirmed_at"
     t.string   "password_reset_auth_code"
     t.datetime "password_reset_expires_at"
-    t.integer  "friends_version",                           :default => 0,     :null => false
+    t.integer  "friends_version",                              :default => 0,     :null => false
     t.string   "slug"
     t.string   "thumbnail"
     t.string   "salt"
     t.string   "cookie_hash"
-    t.string   "sex",                          :limit => 1
-    t.string   "zip_code",                     :limit => 5
+    t.string   "sex",                             :limit => 1
+    t.string   "zip_code",                        :limit => 5
     t.text     "friends_channels_cache"
     t.text     "subscribed_channels_cache"
-    t.boolean  "beta_views",                                :default => false, :null => false
+    t.boolean  "beta_views",                                   :default => false, :null => false
     t.integer  "myspace_id"
-    t.boolean  "safe_search",                               :default => true,  :null => false
-    t.boolean  "age_verified",                              :default => false, :null => false
-    t.boolean  "using_default_friends",                     :default => false, :null => false
-    t.boolean  "using_default_subscriptions",               :default => false, :null => false
+    t.boolean  "safe_search",                                  :default => true,  :null => false
+    t.boolean  "age_verified",                                 :default => false, :null => false
+    t.boolean  "using_default_friends",                        :default => false, :null => false
+    t.boolean  "using_default_subscriptions",                  :default => false, :null => false
     t.string   "ad_campaign"
-    t.boolean  "category_notice_dismissed",                 :default => false, :null => false
+    t.boolean  "category_notice_dismissed",                    :default => false, :null => false
     t.string   "twitter_username"
     t.string   "friendfeed_username"
     t.string   "website_url"
     t.string   "feed_url"
-    t.integer  "digest_email_frequency",                    :default => 0,     :null => false
-    t.boolean  "suggested",                                 :default => false, :null => false
-    t.boolean  "twitter_oauth",                             :default => false, :null => false
-    t.boolean  "facebook",                                  :default => false, :null => false
-    t.integer  "follow_notification_type",                  :default => 2,     :null => false
-    t.boolean  "consumes_grouped_activity",                 :default => true,  :null => false
+    t.integer  "digest_email_frequency",                       :default => 0,     :null => false
+    t.boolean  "suggested",                                    :default => false, :null => false
+    t.boolean  "twitter_oauth",                                :default => false, :null => false
+    t.boolean  "facebook",                                     :default => false, :null => false
+    t.integer  "follow_notification_type",                     :default => 2,     :null => false
+    t.boolean  "consumes_grouped_activity",                    :default => true,  :null => false
+    t.boolean  "invite_friends_notice_dismissed",              :default => false, :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"

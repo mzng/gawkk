@@ -1,4 +1,6 @@
-<div id="successful-post" class="notice">
+<% existing ||= false -%>
+
+<div id="successful-post">
 	<%= link_to image_tag('close.png'), '#hide', :onclick => "$('successful-post').remove();" %>
 	<% if existing -%>
 		Success! We've posted this existing video to your activity stream.

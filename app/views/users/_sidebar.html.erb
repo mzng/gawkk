@@ -1,5 +1,6 @@
 <% welcome = false if welcome.nil? -%>
-<% about = true if about.nil? -%>
+<% about	 = true if about.nil? -%>
+<% invite_or_recommend = false if welcome.nil? -%>
 
 <h1 class="section-header">
 	<% if welcome -%>
@@ -15,7 +16,13 @@
 	<%= render :partial => "/users/about", :locals => {:user => user} %>
 <% end -%>
 
-<%= render :partial => "/users/recommendations" %>
+<% if invite_or_recommend -%>
+	<% if (!logged_in_user.invite_friends_notice_dismissed? or rand(2) == 0) and @recommended_users and @recommended_users.size > 0  -%>
+		<%= render :partial => "/users/recommendations" %>
+	<% elsif logged_in_user.invite_friends_notice_dismissed? -%>
+		<%= render :partial => "/registration/contact_importer_plug_sidebar" %>
+	<% end -%>
+<% end -%>
 
 <%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 
