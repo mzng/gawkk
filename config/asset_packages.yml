@@ -28,4 +28,5 @@ stylesheets:
   - submit
   - admin.channel
   - admin.comment
+  - admin.like
   - admin.user

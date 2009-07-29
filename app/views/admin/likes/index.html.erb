@@ -1,0 +1,21 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Likes", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Likes', :params => {:controller => 'admin/likes'}}]} %>
+
+<div>
+	<table id="like-list" cellpadding="3" cellspacing="0">
+		<thead>
+			<th colspan="2">User</th>
+			<th colspan="2" style="width:275px;">Video</th>
+		</thead>
+		<tbody>
+			<% @likes.each do |like| -%>
+				<tr>
+					<td class="avatar-container"><%= link_to image_tag((like.user.thumbnail.blank? ? 'g-avatar.png' : like.user.thumbnail)), user_path(:id => like.user), :target => "user-#{like.user.slug}" %></td>
+					<td><%= link_to like.user.username, user_path(:id => like.user), :target => "user-#{like.user.slug}" %></td>
+					<td><%= link_to like.video.title, {:controller => '/videos', :action => 'discuss', :id => like.video}, :target => "video-#{like.video.slug}" %></td>
+					<td><%= time_ago_in_words(like.created_at) + ' ago' if like.created_at != nil %></td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @likes} %>
+</div>
