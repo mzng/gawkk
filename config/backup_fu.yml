@@ -7,3 +7,4 @@ enable_nice: true
 nice_level: 15
 keep_backups: 10
 verbose: true
+mysqldump_options: --complete-insert --skip-extended-insert --ignore-table=gawkk_production.activity_messages --ignore-table=gawkk_production.subscription_messages
