@@ -1,0 +1,40 @@
+<div id="errors_for_video_post"></div>
+<div id="video_preview" class="video video-edit" style="display:none;">
+	<% form_remote_for(video, :url => {:controller => 'submit', :action => 'complete'}, :before => "$('errors_for_video_post').hide();disableForm('submit_for_post');", :method => :post) do |f| %>
+		<%= text_area 'comment', 'body', :value => (comment.nil? ? '' : comment.body), :style => 'display:none;' %>
+		<%= check_box 'tweet', 'it', :checked => @tweet_it, :style => 'display:none;' %>
+		
+		<%= f.hidden_field 'url' %>
+		<%= f.hidden_field 'thumbnail' %>
+		
+		<div class="title">
+			<%= f.text_field 'name' %>
+		</div>
+		<div class="body">
+			<div class="thumbnail-container">
+				<div id="thumbnail_for_video_preview_container" class="thumbnail" style="background-image:url(/images/<%= video.thumbnail.blank? ? 'no-image.png' : video.thumbnail + '?' + Time.now.to_i.to_s %>);">
+					<%= hidden_field 'thumbnail', 'for_video', :id => "thumbnail_for_video_preview" %>
+					<%= link_to_remote image_tag('choose-a-thumbnail-overlay.png', :id => "thumbnail_for_video_preview_preview"), {:url => {:controller => 'videos', :action => 'thumbnail_search', :title => video.title, :video_id => 'preview', :container_id => ''}} %>
+				</div>
+				<div id="loading_selected_thumbnail_preview" class="loading">
+					<%= image_tag('spinner.gif') %> Loading...
+				</div>
+			</div>
+			<div class="field-container">
+				<div class="description">
+					<%= f.text_area 'description' %>
+				</div>
+				<div class="posted">
+					Posted in <%= f.select 'category_id', Category.all_cached.collect{|category| [category.name, category.id]}, {} %>
+				</div>
+				<div class="embed_code">
+					<%= f.text_area 'embed_code', {:value => (video.embed_code.blank? ? 'Embed Code...' : video.embed_code), :onfocus => "descriptiveField(this, 'Embed Code...', true);", :onblur => "descriptiveField(this, 'Embed Code...', false);", :style => (video.embed_code.blank? ? 'color:gray' : '')} %>
+				</div>
+				<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => 'submit_for_post', :action => 'Posting', :klass => 'submit'}) do -%>
+					<%= submit_tag 'Post', :id => 'submit_button_for_post' %> or <%= link_to_remote 'Cancel', {:url => {:controller => 'submit', :action => 'cancel'}} %>
+				<% end -%>
+			</div>
+			<br class="clear"/>
+		</div>
+	<% end -%>
+</div>

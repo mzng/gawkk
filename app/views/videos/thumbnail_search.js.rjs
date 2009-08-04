@@ -1,0 +1,2 @@
+page << "displayOverlay(285, 565);"
+page.replace_html('overlayed-content', :partial => '/videos/thumbnail_search', :locals => {:title => params[:title], :video_id => params[:video_id], :container_id => params[:container_id]})

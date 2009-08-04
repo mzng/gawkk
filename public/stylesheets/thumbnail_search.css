@@ -1,0 +1,53 @@
+body {
+	background-color: #f3f6f9;
+}
+
+/* thumbnail search overlay */
+table.search-control {
+	width : 100%;
+}
+
+table.search-control .gsc-control {
+	width : 100%;
+}
+
+table.search-control td {
+	vertical-align : top;
+}
+
+/* custom css overrides to the search control*/
+form.gsc-search-box {
+	clear: both !important;
+}
+
+table.gsc-search-box {
+	float: left !important;
+	width: 345px !important;
+}
+
+table.gsc-branding {
+	float: right !important;
+	margin-top: 5px !important;
+	width: 156px !important;
+}
+
+.gsc-tabsArea {
+	display: none;
+}
+
+.gsc-imageResult {
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+}
+
+.gs-image, .gs-image img {
+	border: 1px solid #E5E5E5 !important;
+}
+
+.gs-text-box {
+	display: none;
+}
+
+.gsc-trailing-more-results {
+	display: none !important;
+}

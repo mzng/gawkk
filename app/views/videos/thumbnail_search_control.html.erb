@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<%= stylesheet_link_tag 'common', 'thumbnail_search'  %>
+		
+		<%= javascript_include_tag 'prototype' %>
+		<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+		<script type="text/javascript">
+			google.load('search', '1');
+
+			function searchControlSetup() {
+				var leftScDiv = document.getElementById("searchControl");
+
+				this.leftControl = new google.search.SearchControl();
+				this.leftControl.setResultSetSize(GSearch.LARGE_RESULTSET);
+
+				this.leftControl.addSearcher(new google.search.ImageSearch());
+				this.leftControl.setNoResultsString(GSearchControl.NO_RESULTS_DEFAULT_STRING);
+				this.leftControl.setSearchCompleteCallback(this, overrideThumbnailOnclick);
+
+				var drawOptions = new google.search.DrawOptions();
+				drawOptions.setDrawMode(GSearchControl.DRAW_MODE_TABBED);
+				this.leftControl.draw(leftScDiv, drawOptions);
+
+				this.leftControl.execute("<%= params[:title] %>");
+			}
+
+			function overrideThumbnailOnclick() {
+				var results = $$('a.gs-image');
+				for(i = 0; i < results.length; i++) {
+					Element.replace(results[i], "<a href=\"#\" onclick=\"chooseThumbnail('" + results[i].href + "');return false;\">" + results[i].innerHTML + "</a>");
+				}
+			}
+
+			function chooseThumbnail(thumbnailUrl) {
+				window.top.setThumbnail('<%= params[:video_id] %>', '<%= params[:container_id] %>', thumbnailUrl);
+			}
+
+			function onThumbnailSearchContainerLoad() {
+				new searchControlSetup();
+			}
+
+			google.setOnLoadCallback(onThumbnailSearchContainerLoad, true);
+		</script>
+	</head>
+	<body>
+		<table class="search-control">
+			<tr>
+				<td>
+					<div id="searchControl" class="search-control">Loading...</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

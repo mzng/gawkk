@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-  around_filter :ensure_logged_in_user, :only => [:unlike, :edit, :update]
+  around_filter :ensure_logged_in_user, :only => [:unlike, :edit, :thumbnail_search, :update]
   around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
   around_filter :redirect_improper_formats, :only => [:share, :watch, :comment]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
@@ -220,6 +220,14 @@ class VideosController < ApplicationController
     containerable
     
     @categories = Category.all_cached
+  end
+  
+  def thumbnail_search
+    
+  end
+  
+  def thumbnail_search_control
+    render :layout => false
   end
   
   def update

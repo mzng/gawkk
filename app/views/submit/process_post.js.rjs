@@ -1,0 +1,27 @@
+if @news_item
+  page.replace_html('postbox-container', :partial => '/submit/new')
+  page.insert_html(:top, 'activity', :partial => "/news_items/status", :locals => {:news_item => @news_item})
+elsif @video and !@video.id.blank?
+  page.replace_html('postbox-container', :partial => '/submit/new')
+  
+  page << "if($('video_#{@video.id}') != null){$('video_#{@video.id}').remove();}"
+  page.insert_html(:top, 'activity', :partial => "/videos/video", :locals => {:video => @video})
+  
+  page << "if($('contact-importer-plug') != null) {$('contact-importer-plug').remove();}"
+  page << "if($('successful-post') != null) {$('successful-post').remove();}"
+  page.insert_html(:before, 'activity', :partial => '/submit/success', :locals => {:video => @video, :existing => @existing})
+  
+  page << "reloadActivity('#{@video.id}','');"
+  page << "reloadComments('#{@video.id}','');"
+elsif @video
+  page.replace_html('postbox-container', :partial => '/submit/preview', :locals => {:video => @video, :comment => @comment})
+  page.visual_effect(:blind_down, 'video_preview', :duration => '.3')
+else
+  page << "enableCurrentForm();"
+  
+  if @error
+    page << "$('video_url').style.borderColor = 'red';"
+  else
+    page << "$('video_url').style.borderColor = '#999999';"
+  end
+end

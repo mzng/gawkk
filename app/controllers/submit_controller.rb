@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class SubmitController < ApplicationController
   
-  def index
+  def process_post
     @error = false
     
     if params[:comment] and params[:video]
@@ -67,26 +67,7 @@ class SubmitController < ApplicationController
           @video.category_id  = Category.find_by_slug('uncategorized').id
           
           if user_logged_in?
-            @video.posted_by_id = logged_in_user.id
-            if @video.save
-              if channels = Channel.owned_by(logged_in_user) and channels.size > 0
-                SavedVideo.create(:channel_id => channels.first.id, :video_id => @video.id)
-              end
-              NewsItem.report(:type => 'submit_a_video', :reportable => @video, :user_id => logged_in_user.id)
-              
-              @video = Util::Thumbnail.replace_with_suggestion(@video)
-              
-              if !@comment.nil?
-                @comment.commentable_id = @video.id
-                @comment.user_id = logged_in_user.id
-                @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
-                
-                if @comment.save and @tweet_it
-                  Tweet.report('make_a_comment', logged_in_user, @comment)
-                end
-              end
-            end
-            
+            @video = Util::Thumbnail.suggest(@video)
             @existing = false
           else
             session[:actionable] = Hash.new
@@ -151,5 +132,53 @@ class SubmitController < ApplicationController
   rescue Errno::ENOENT
     @error = true
     render :nothing => true
+  end
+  
+  def complete
+    if user_logged_in? and request.post?
+      @video = Video.new(params[:video])
+      
+      if (existing_video = Video.find_by_hashed_url(Digest::SHA2.hexdigest(@video.url.nil? ? '' : @video.url))).nil?
+        @video.posted_by_id = logged_in_user.id
+        if @video.save
+          if channels = Channel.owned_by(logged_in_user) and channels.size > 0
+            SavedVideo.create(:channel_id => channels.first.id, :video_id => @video.id)
+          end
+          NewsItem.report(:type => 'submit_a_video', :reportable => @video, :user_id => logged_in_user.id)
+          
+          if !params[:thumbnail][:for_video].blank?
+            Util::Thumbnail.use_url_thumbnail(@video, params[:thumbnail][:for_video])
+          else
+            @video = Util::Thumbnail.use_suggested_thumbnail(@video)
+            @video.save
+          end
+          
+          if params[:comment] and !params[:comment][:body].blank?
+            @comment = Comment.new
+            @comment.body = params[:comment][:body]
+            @comment.commentable_type = 'Video'
+            @comment.commentable_id   = @video.id
+            @comment.user_id = logged_in_user.id
+            @comment.twitter_username = logged_in_user.twitter_account.username if @tweet_it
+            
+            if @comment.save and (params[:tweet] and params[:tweet][:it] == '1' and logged_in_user.auto_tweet?)
+              Tweet.report('make_a_comment', logged_in_user, @comment)
+            end
+          end
+        end
+        
+        @existing = false
+      else
+        @video = existing_video
+        @existing = true
+      end
+    elsif !user_logged_in?
+      flash[:notice] = 'You must be logged in to do that.'
+      redirect_to '/'
+    end
+  end
+  
+  def cancel
+    
   end
 end

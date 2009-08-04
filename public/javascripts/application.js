@@ -281,6 +281,25 @@ function revealPlaceholderCommentForm(commentableId, containerId) {
 	}
 }
 
+// thumbnail search
+function setThumbnail(videoId, containerId, thumbnailUrl) {
+	if($('thumbnail_for_video_' + videoId + containerId) != null) {
+		$('thumbnail_for_video_' + videoId + containerId).value = thumbnailUrl;
+	}
+	
+	if($('thumbnail_for_video_' + videoId + containerId + '_container') != null) {
+		$('thumbnail_for_video_' + videoId + containerId + '_container').style.backgroundImage = 'none';
+		$('thumbnail_for_video_' + videoId + containerId + '_preview').src = thumbnailUrl;
+	}
+	
+	if($('loading_selected_thumbnail_' + videoId + containerId) != null) {
+		$('loading_selected_thumbnail_' + videoId + containerId).style.visibility = 'visible';
+		window.setTimeout(function(){$('loading_selected_thumbnail_' + videoId + containerId).style.visibility = 'hidden';}, 2500);
+	}
+	
+	hideOverlay();
+}
+
 // tips
 function revealTip(fieldId) {
 	revealTipWithOffset(fieldId, 0);

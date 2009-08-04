@@ -505,6 +505,7 @@ span.tag {
 .video-edit {
 	background-color: #f3f6f9;
 	padding: 5px 5px 0 5px;
+	width: 640px;
 }
 
 .video-edit .about {
@@ -520,7 +521,7 @@ span.tag {
 	border: 1px solid #999999;
 	font-size: 11pt;
 	padding: 3pt;
-	width: 625px;
+	width: 620px;
 }
 
 .video-edit .thumbnail-container {
@@ -539,14 +540,15 @@ span.tag {
 	width: 127px;
 }
 
-.video-edit .thumbnail-container a {
+.video-edit .thumbnail-container .loading {
 	font-size: 8pt;
-	margin-left: 2px;
+	text-align: center;
+	visibility: hidden;
 }
 
 .video-edit .field-container {
 	float: right;
-	width: 505px;
+	width: 500px;
 }
 
 .video-edit .description textarea {

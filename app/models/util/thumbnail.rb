@@ -208,12 +208,18 @@ class Util::Thumbnail
     return video
   end
   
-  def self.suggest(name, youtube_id)
-    if !name.nil?
-      Util::Thumbnail.suggest_for_name(name)
+  def self.suggest(video)
+    if !(youtube_id = Util::YouTube.extract_id(video.url)).nil?
+      image_keys = Util::Thumbnail.suggest_for_youtube_id(youtube_id)
     else
-      Util::Thumbnail.suggest_for_youtube_id(youtube_id)
+      image_keys = Util::Thumbnail.suggest_for_name(video.title)
     end
+    
+    if image_keys.size > 0
+      video.thumbnail = 'thumbnails/suggestions/' + image_keys[0] + '.jpg'
+    end
+    
+    return video
   end
   
   def self.suggest_for_name(name = '')
