@@ -30,12 +30,14 @@
 		<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
 	<% end -%>
 	
-	<h1 class="section-header">Videos by Tag</h1>
-	<div>
-		<% @video.tags(:generate_phrases => true).each do |tag| -%>
-			<span class="tag"><%= image_tag('tag_green.png') %> <%= render :partial => 'tags/tag', :object => tag %></span>&nbsp;
-		<% end -%>
-	</div>
+	<% if rand(2) == 0 -%>
+		<h1 class="section-header">Videos by Tag</h1>
+		<div>
+			<% @video.tags(:generate_phrases => true).each do |tag| -%>
+				<span class="tag"><%= image_tag('tag_green.png') %> <%= render :partial => 'tags/tag', :object => tag %></span>&nbsp;
+			<% end -%>
+		</div>
+	<% end -%>
 </div>
 
 <script type="text/javascript" charset="utf-8">

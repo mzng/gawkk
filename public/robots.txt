@@ -1,6 +1,9 @@
 Sitemap: http://gawkk.com/sitemaps/sitemap_index.xml.gz
 
 User-agent: *
+Disallow: /
+
+User-agent: Googlebot
 Disallow: /images/*
 Disallow: /search*
 Disallow: /subscriptions*

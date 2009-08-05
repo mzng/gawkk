@@ -1,4 +1,4 @@
-<% if user_logged_in? -%>
+<% if user_logged_in? or params[:force] -%>
 	<table class="video-statistics" cellpadding="2" cellspacing="0">
 		<tr>
 			<td>Category:</td>
