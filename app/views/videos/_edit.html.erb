@@ -2,7 +2,9 @@
 
 <div id="video_<%= video.id %><%= container_id %>" class="video video-edit" style="display:none;">
 	<% remote_form_for(video, :url => {:controller => 'videos', :action => 'update', :id => video, :container_id => container_id}) do |f| %>
-		<%= hidden_field 'thumbnail', 'for_video', :id => "thumbnail_for_video_#{video.id}#{container_id}" %>
+		<% if !user_can_administer? -%>
+			<%= hidden_field 'thumbnail', 'for_video', :id => "thumbnail_for_video_#{video.id}#{container_id}" %>
+		<% end -%>
 		
 		<div class="about">Edit this Video:</div>
 		<div class="title">
@@ -25,6 +27,11 @@
 					Posted in <%= f.select 'category_id', @categories.collect{|category| [category.name, category.id]}, {} %>
 					on <%= video.posted_at.strftime("%B %d, %Y") %>
 				</div>
+				<% if user_can_administer? -%>
+					<div class="thumbnail_url">
+						<%= text_field 'thumbnail', 'for_video', :value => 'Enter a Thumbnail URL...', :id => "thumbnail_for_video_#{video.id}#{container_id}", :onfocus => "descriptiveField(this, 'Enter a Thumbnail URL...', true);", :onblur => "descriptiveField(this, 'Enter a Thumbnail URL...', false);", :style => 'color:gray;' %>
+					</div>
+				<% end -%>
 				<div class="embed_code">
 					<%= f.text_area 'embed_code', {:value => (video.embed_code.blank? ? 'Embed Code...' : video.embed_code), :onfocus => "descriptiveField(this, 'Embed Code...', true);", :onblur => "descriptiveField(this, 'Embed Code...', false);", :style => (video.embed_code.blank? ? 'color:gray' : '')} %>
 				</div>
