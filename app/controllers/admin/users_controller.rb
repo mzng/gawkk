@@ -8,7 +8,9 @@ class Admin::UsersController < ApplicationController
     searchable
     setup_pagination(:per_page => 50)
     
-    if @q.blank?
+    if !params[:ip_address].blank?
+      @users = collect('users', User.members.all(:conditions => ['ip_address = ?', params[:ip_address]], :order => 'created_at DESC', :offset => @offset, :limit => @per_page))
+    elsif @q.blank?
       @users = collect('users', User.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
     else
       @users = User.search(@q, :page => @page, :per_page => @per_page, :conditions => {:feed_owner => false}, :retry_stale => true)

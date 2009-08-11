@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   attr_accessible :send_digest_emails, :digest_email_frequency, :follow_notification_type
   attr_accessible :friends_version, :friends_channels_cache, :subscribed_channels_cache, :using_default_friends, :using_default_subscriptions
   attr_accessible :feed_owner, :twitter_oauth, :facebook
+  attr_accessible :ip_address
   
   validates_presence_of     :username
   validates_presence_of     :password, :on => :create, :message => "can't be blank"

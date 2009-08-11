@@ -1,6 +1,6 @@
 <% if !user.description.blank? or user.services.size > 0 or user_can_edit?(user) -%>
 	<h1 class="section-header">
-		<% if user_can_administer? -%><span>Joined <%= user.created_at.strftime("%m/%d/%Y") %></span><% end -%>
+		<% if user_can_administer? -%><span>Joined <%= user.created_at.strftime("%m/%d/%Y") %><%= ' from ' + link_to(user.ip_address, {:controller => '/admin/users', :ip_address => user.ip_address}) if !user.ip_address.blank? %></span><% end -%>
 		About
 	</h1>
 

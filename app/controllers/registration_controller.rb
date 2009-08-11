@@ -42,6 +42,11 @@ class RegistrationController < ApplicationController
         @user.administrator = false
         @user.feed_owner    = false
         
+        begin
+          @user.ip_address = request.remote_ip
+        rescue
+        end
+        
         if @user.save
           session[:user_id] = @user.id
           accept_outstanding_invitation

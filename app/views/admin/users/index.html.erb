@@ -28,7 +28,14 @@
 						<%= render :partial => "service_avatar", :locals => {:service => 'website_url',	:value => user.website_url} %>
 						<%= render :partial => "service_avatar", :locals => {:service => 'feed_url',		:value => user.feed_url} %>
 					</td>
-					<td><%= user.created_at.strftime("%m/%d/%Y") if user.created_at != nil %></td>
+					<td>
+						<% if user.ip_address.blank? -%>
+							<%= user.created_at.strftime("%m/%d/%Y") if user.created_at != nil %>
+						<% else -%>
+							<div style="font-size:8pt;width:75px;"><%= user.created_at.strftime("%m/%d/%Y") if user.created_at != nil %></div>
+							<div style="font-size:8pt;width:75px;"><%= link_to user.ip_address, {:ip_address => user.ip_address}, :style => 'color:#333333;' %></div>
+						<% end -%>
+					</td>
 					<td><%= time_ago_in_words(user.last_login_at) + ' ago' if user.last_login_at != nil %></td>
 					<td class="actions">
 						<%= link_to image_tag('email.png'), {:action => 'deliver_digest', :id => user}, :method => :post %>
