@@ -7,7 +7,7 @@ RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 require 'open-uri'
 require 'lib/abimporter/abi.rb'
-require 'lib/facebooker.rb'
+# require 'lib/facebooker.rb'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -34,7 +34,7 @@ Rails::Initializer.run do |config|
   config.plugins = [:redhillonrails_core, :foreign_key_migrations, :ar_fixtures, :rand, :union, 
                     :asset_packager, :backup_fu, :spawn, :exception_notification, 'thinking-sphinx', 
                     :acts_as_list, :acts_as_state_machine, :browser_detect, :country_select, 
-                    :white_list, :will_paginate]
+                    :facebooker, :white_list, :will_paginate]
 
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.
@@ -52,18 +52,18 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-ExceptionNotifier.exception_recipients  = %w(errors@gawkk.com)
-ExceptionNotifier.sender_address        = %("Gawkk" <notifier@gawkk.com>)
-ExceptionNotifier.email_prefix          = "[Gawkk ERROR] "
-
-WhiteListHelper.bad_tags.merge %w(div a img h1 h2 h3 h4 h5 h6 p)
-WhiteListHelper.tags.delete 'div'
-WhiteListHelper.tags.delete 'a'
-WhiteListHelper.tags.delete 'img'
-WhiteListHelper.tags.delete 'h1'
-WhiteListHelper.tags.delete 'h2'
-WhiteListHelper.tags.delete 'h3'
-WhiteListHelper.tags.delete 'h4'
-WhiteListHelper.tags.delete 'h5'
-WhiteListHelper.tags.delete 'h6'
-WhiteListHelper.tags.delete 'p'
+# ExceptionNotifier.exception_recipients  = %w(errors@gawkk.com)
+# ExceptionNotifier.sender_address        = %("Gawkk" <notifier@gawkk.com>)
+# ExceptionNotifier.email_prefix          = "[Gawkk ERROR] "
+# 
+# WhiteListHelper.bad_tags.merge %w(div a img h1 h2 h3 h4 h5 h6 p)
+# WhiteListHelper.tags.delete 'div'
+# WhiteListHelper.tags.delete 'a'
+# WhiteListHelper.tags.delete 'img'
+# WhiteListHelper.tags.delete 'h1'
+# WhiteListHelper.tags.delete 'h2'
+# WhiteListHelper.tags.delete 'h3'
+# WhiteListHelper.tags.delete 'h4'
+# WhiteListHelper.tags.delete 'h5'
+# WhiteListHelper.tags.delete 'h6'
+# WhiteListHelper.tags.delete 'p'

@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :check_cookie, :check_for_invitation, :perform_outstanding_action]
+  before_filter [:preload_models, :require_login_for_facebook, :check_cookie, :check_for_invitation, :perform_outstanding_action]
   after_filter  [:reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -22,6 +22,13 @@ class ApplicationController < ActionController::Base
     SavedVideo
     User
     Video
+  end
+  
+  # Requests coming from Facebook are just different, okay?
+  def require_login_for_facebook
+    if params[:format] == 'fbml' and !session[:facebook_session].nil?
+      ensure_authenticated_to_facebook
+    end
   end
   
   # Check for a remember cookie and autologin
@@ -175,6 +182,10 @@ class ApplicationController < ActionController::Base
   end
   
   # Miscellaneous
+  def layout_based_on_format
+    (params[:format] and params[:format] == 'fbml') ? 'facebook' : 'page'
+  end
+  
   def record_ad_campaign
     if !params[:ref].blank?
       session[:ref] = params[:ref]

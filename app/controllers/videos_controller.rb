@@ -3,7 +3,8 @@ class VideosController < ApplicationController
   around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
   around_filter :redirect_improper_formats, :only => [:share, :watch, :comment]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
-  layout 'page'
+  
+  layout :layout_based_on_format
   
   
   # Streams
