@@ -1,12 +1,16 @@
 <fb:fbml>
-	<fb:header>Gawkk</fb:header>
-	<fb:tabs>
-	  <fb:tab-item href="#" title="Friends' Activity" selected="true"/>
-	  <fb:tab-item href="#" title="Followed Channels" />
-		<fb:tab-item href="#" title="News" />
-		<fb:tab-item href="#" title="TV Shows" />
-		<fb:tab-item href="#" title="Movies" />
-		<fb:tab-item href="#" title="Music" />
-	 </fb:tabs>
+	<% if false -%>
+		<% fb_dashboard do -%>
+			<%= fb_action "Invite your friends", {:controller => 'registration', :action => 'setup_friends'} %>
+			<%= fb_help "About", fb_about_url %>
+			<%= fb_help "Help & Feedback", {:controller => 'pages', :action => 'contact'} %>
+		<% end -%>
+	<% end -%>
+	<%= fb_dashboard %>
+	<% fb_tabs do -%>
+		<%= fb_tab_item "Friends",	'#', :selected => false %>
+	  <%= fb_tab_item "Subscriptions",			'#', :selected => false %>
+		<%= fb_tab_item "Videos",							'#', :selected => false %>
+	<% end -%>
 	<%= yield  %>
 </fb:fbml>

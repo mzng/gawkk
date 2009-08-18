@@ -1,1 +1,5 @@
 <p>Well, that was easy.</p>
+<%= session[:facebook_session].to_yaml %>
+<% if true -%>
+	<p>Welcome to gawkk, <%= session[:facebook_session].user.name %> (<%= session[:facebook_session].user.uid %>).</p>
+<% end -%>

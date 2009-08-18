@@ -11,7 +11,7 @@
 development:
   api_key: 093158e95304546cd3277069c250b15b
   secret_key: b226ec7a3b9dc98743ddf35bcba581e2
-  canvas_page_name: gawkkvideo
+  canvas_page_name: gawkk-videos
   callback_url: http://web1.tunnlr.com:10581/
   pretty_errors: true
   set_asset_host_to_callback_url: true
