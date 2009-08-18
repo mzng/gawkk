@@ -135,6 +135,8 @@ class SubmitController < ApplicationController
   end
   
   def complete
+    params[:video][:embed_code] = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
+    
     if user_logged_in? and request.post?
       @video = Video.new(params[:video])
       
