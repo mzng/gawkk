@@ -26,10 +26,9 @@ class ApplicationController < ActionController::Base
   
   # Requests coming from Facebook are just different, okay?
   def require_login_for_facebook
-    logger.debug "!! session[:facebook_session] !!"
-    logger.debug session[:facebook_session].class.name
-    logger.debug session[:facebook_session]
-    logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    if true # and subdomain == 'facebook'
+      params[:format] = 'fbml'
+    end
     
     if params[:format] == 'fbml'
       ensure_authenticated_to_facebook
