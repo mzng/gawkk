@@ -4,7 +4,7 @@ class VideosController < ApplicationController
   around_filter :redirect_improper_formats, :only => [:share, :watch, :comment]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   
-  layout :layout_based_on_format
+  layout 'page'
   
   
   # Streams
@@ -145,6 +145,10 @@ class VideosController < ApplicationController
     # load_video or redirect
     affects_recommendation_countdown
     containerable
+    
+    if params[:format] == 'fbml'
+      render :layout => false
+    end
   end
   
   def reload_activity

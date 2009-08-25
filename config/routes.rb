@@ -137,6 +137,8 @@ ActionController::Routing::Routes.draw do |map|
   map.channel_rss ':user/:channel.rss',         :controller => 'channels', :action => 'show', :format => 'rss'
   map.subscribers ':user/:channel/subscribers', :controller => 'channels', :action => 'subscribers'
   
+  map.facebook_connect 'facebook/connect',      :controller => 'facebook', :action => 'connect'
+  
   
   # front page
   map.root :controller => 'videos', :action => 'friends'

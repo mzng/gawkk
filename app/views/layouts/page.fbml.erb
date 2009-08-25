@@ -1,0 +1,21 @@
+<link href="http://web1.tunnlr.com:10581/stylesheets/facebook.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css"/>
+<script src="http://web1.tunnlr.com:10581/javascripts/facebooker.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+
+<fb:fbml>
+	<% if false -%>
+		<% fb_dashboard do -%>
+			<%= fb_action "Invite your friends", {:controller => 'registration', :action => 'setup_friends'} %>
+			<%= fb_help "About", fb_about_url %>
+			<%= fb_help "Help & Feedback", {:controller => 'pages', :action => 'contact'} %>
+		<% end -%>
+	<% end -%>
+	<%= fb_dashboard %>
+	<% if false -%>
+		<% fb_tabs do -%>
+			<%= fb_tab_item "Friends",	'#', :selected => false %>
+		  <%= fb_tab_item "Subscriptions",			'#', :selected => false %>
+			<%= fb_tab_item "Videos",							'#', :selected => false %>
+		<% end -%>
+	<% end -%>
+	<%= yield  %>
+</fb:fbml>

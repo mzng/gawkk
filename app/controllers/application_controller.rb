@@ -26,47 +26,44 @@ class ApplicationController < ActionController::Base
   
   # Requests coming from Facebook are just different, okay?
   def require_login_for_facebook
-    if params[:format] == 'fbml' and session[:facebook_session].nil?
+    logger.debug "!! session[:facebook_session] !!"
+    logger.debug session[:facebook_session].class.name
+    logger.debug session[:facebook_session]
+    logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    
+    if params[:format] == 'fbml'
       ensure_authenticated_to_facebook
       
-      unless controller_name == 'facebook' and action_name == 'connect'
-        facebook_session = session[:facebook_session]
-        if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => facebook_session.user.uid.to_s})
-          @user = facebook_account.user
-
-          # Update the user's last login time
-          @user.cookie_hash = bake_cookie_for(@user)
-          @user.last_login_at = Time.new
-          @user.save
-
-          # Store the logged in user's id in the session
-          session[:user_id] = @user.id
-        else
-          facebook = Hash.new
-          facebook[:id] = facebook_session.user.uid
-          facebook[:name] = facebook_session.user.name
-          facebook[:description] = facebook_session.user.about_me
-          facebook[:image_small] = facebook_session.user.pic_square_with_logo
-          facebook[:image_large] = facebook_session.user.pic_big
-
-          session[:facebook_credentials] = facebook
-
-          redirect_to :controller => 'facebook', :action => 'connect'
+      if !session[:facebook_session].nil?
+        unless user_logged_in? or (controller_name == 'facebook' and action_name == 'connect')
+          facebook_session = session[:facebook_session]
+          if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => facebook_session.user.uid.to_s})
+            @user = facebook_account.user
+    
+            # Update the user's last login time
+            @user.cookie_hash = bake_cookie_for(@user)
+            @user.last_login_at = Time.new
+            @user.save
+    
+            # Store the logged in user's id in the session
+            session[:user_id] = @user.id
+          else
+            facebook = Hash.new
+            facebook[:id] = facebook_session.user.uid
+            facebook[:name] = facebook_session.user.name
+            facebook[:description] = facebook_session.user.about_me
+            facebook[:image_small] = facebook_session.user.pic_square_with_logo
+            facebook[:image_large] = facebook_session.user.pic_big
+            facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+    
+            session[:facebook_credentials] = facebook
+    
+            redirect_to :controller => 'facebook', :action => 'connect'
+          end
         end
       end
     end
   end
-  
-  # def get_that_fucking_facebook_session
-  #   logger.debug 'are you kiddig me?'
-  #   if session[:facebook_session]
-  #     session[:facebook_session]
-  #   elsif params[:fb_sig_user]
-  #     logger.debug 'what the'
-  #     set_facebook_session
-  #     logger.debug 'fuck'
-  #   end
-  # end
   
   # Check for a remember cookie and autologin
   def check_cookie

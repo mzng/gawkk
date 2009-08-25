@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.wzhu.devrs002.facebook.com/2008/fbml"> 
+	<head></head> 
+	<body> 
+	  <% if !@video.embed_code.blank? -%>
+			<div class="embed-container">
+				<%= @video.embed_code %>
+			</div>
+		<% else -%>
+			<div class="fake-embed-container">
+				<p>[FAKE EMBED GOES HERE]</p>
+			</div>
+		<% end -%>
+		
+	  <script src="http://static.ak.facebook.com/js/api_lib/v0.3/FeatureLoader.js " type="text/javascript"></script>
+	  <script type="text/javascript"> 
+	    FB_RequireFeatures(["CanvasUtil"], function()
+	    {
+	      FB.XdComm.Server.init("/xd_receiver.htm?v=2");
+	      FB.CanvasClient.startTimerToSizeToContent();
+	    });
+		</script>
+	</body> 
+</html>

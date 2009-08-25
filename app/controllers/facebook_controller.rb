@@ -1,7 +1,7 @@
 class FacebookController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:connect]
   
-  layout :layout_based_on_format
+  layout 'page'
   
   
   def fb_callback
@@ -65,10 +65,14 @@ class FacebookController < ApplicationController
       
       @user = User.new
       @user.send_digest_emails = true
-      
+
       if !@facebook[:name].blank?
-        @user.username = @facebook[:name].first(15).gsub(/\s/, '')
-        
+        if !@facebook[:profile_url].blank? and !@facebook[:profile_url][/^profile.php/]
+          @user.username = @facebook[:profile_url].first(15).gsub(/\s/, '').gsub(/\./, '')
+        else
+          @user.username = @facebook[:name].first(15).gsub(/\s/, '').gsub(/\./, '')
+        end
+  
         attempt = 0
         while !User.valid_username?(@user.username) and attempt < 3 do
           if @user.username.length < 15
@@ -76,7 +80,7 @@ class FacebookController < ApplicationController
           else
             @user.username = @user.username[0, 14] + rand(10).to_s
           end
-          
+    
           attempt = attempt + 1
         end
       end
@@ -93,6 +97,10 @@ class FacebookController < ApplicationController
       
       @user.password = Util::AuthCode.generate(32)
       @user.password_confirmation = @user.password
+      
+      if params[:format] == 'fbml'
+        @user.email = "fb-app-user+#{Util::Slug.generate(@user.username, false)}@gawkk.com"
+      end
       
       if @user.save
         # Remember this user
@@ -116,11 +124,16 @@ class FacebookController < ApplicationController
         accept_outstanding_invitation
       end
       
-      redirect_to :controller => "registration", :action => "setup_suggestions"
+      if params[:format] == 'fbml'
+        redirect_to :controller => "videos", :action => "friends"
+      else
+        redirect_to :controller => "registration", :action => "setup_suggestions"
+      end
     end
   end
   
   private
+  # This collides with with the verify_signatures inside of the facebooker plugin
   # def verify_signature(facebook_sig_params, expected_signature)
   #   raw_string = facebook_sig_params.map{ |*args| args.join('=') }.sort.join
   #   actual_sig = Digest::MD5.hexdigest([raw_string, Util::Facebook.config[:secret]].join)

@@ -4,7 +4,7 @@
 	</fb:success>
 </div>
 
-<% facebook_form_for(:user, @user, :url => {:controller => 'facebook', :action => 'connect'}) do |f| %>
+<% facebook_form_for(:user, @user, :url => facebook_connect_path) do |f| %>
 	<table cellpadding="3" cellspacing="0" class="editorkit" style="background-color:#f7f7f7;margin:10px auto 0 auto;">
 		<tr>
 			<td colspan="3" style="background-color:#dedede;font-weight:bold;padding:5px;">
