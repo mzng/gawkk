@@ -144,11 +144,8 @@ class VideosController < ApplicationController
   def watch
     # load_video or redirect
     affects_recommendation_countdown
+    coerce_back_to_js_if_fbjs
     containerable
-    
-    if params[:format] == 'fbml'
-      render :layout => false
-    end
   end
   
   def reload_activity

@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :require_login_for_facebook, :check_cookie, :check_for_invitation, :perform_outstanding_action]
+  before_filter [:preload_models, :handle_facebook_request, :check_cookie, :check_for_invitation, :perform_outstanding_action]
   after_filter  [:reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -25,42 +25,33 @@ class ApplicationController < ActionController::Base
   end
   
   # Requests coming from Facebook are just different, okay?
-  def require_login_for_facebook
-    if true # and subdomain == 'facebook'
-      params[:format] = 'fbml'
+  def handle_facebook_request
+    if request_for_facebook?
+      coerce_into_fbml_or_fbjs
+      require_login_for_facebook
     end
+  end
+  
+  def request_for_facebook?
+    (request.subdomains.first == 'facebook') ? true : false
+  end
+  
+  # We want to use our fbml and fbjs templates if the request is for the facebook application
+  def coerce_into_fbml_or_fbjs
+    request.format = ((request.format == 'text/javascript') ? :fbjs : :fbml)
+  end
+  
+  # Some ajax requests via facebook will use the standard rjs templates and associated views
+  def coerce_back_to_js_if_fbjs
+    request.format = :js
+  end
+  
+  # Ensure the current user has a Facebook session
+  def require_login_for_facebook
+    logger.debug "user_logged_in? = #{user_logged_in?.to_s}"
     
-    if params[:format] == 'fbml'
-      ensure_authenticated_to_facebook
-      
-      if !session[:facebook_session].nil?
-        unless user_logged_in? or (controller_name == 'facebook' and action_name == 'connect')
-          facebook_session = session[:facebook_session]
-          if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => facebook_session.user.uid.to_s})
-            @user = facebook_account.user
-    
-            # Update the user's last login time
-            @user.cookie_hash = bake_cookie_for(@user)
-            @user.last_login_at = Time.new
-            @user.save
-    
-            # Store the logged in user's id in the session
-            session[:user_id] = @user.id
-          else
-            facebook = Hash.new
-            facebook[:id] = facebook_session.user.uid
-            facebook[:name] = facebook_session.user.name
-            facebook[:description] = facebook_session.user.about_me
-            facebook[:image_small] = facebook_session.user.pic_square_with_logo
-            facebook[:image_large] = facebook_session.user.pic_big
-            facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
-    
-            session[:facebook_credentials] = facebook
-    
-            redirect_to :controller => 'facebook', :action => 'connect'
-          end
-        end
-      end
+    if request_for_facebook? and !user_logged_in?
+      redirect_to :controller => 'facebook', :action => 'fb_callback'
     end
   end
   

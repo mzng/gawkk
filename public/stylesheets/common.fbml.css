@@ -1,0 +1,46 @@
+/* fb filter list */
+#fb-filter-list {
+	float: left;
+	font-size: 11px;
+	width: 126px;
+}
+
+#fb-filter-list div {
+	border-bottom: 1px solid #ffffff;
+	border-top: 1px solid #d6d9de;
+	padding: 6px 6px 5px 12px;
+}
+
+#fb-filter-list div:hover {
+	background-color: #eceef4;
+	border-bottom: 1px solid #eceef4;
+	cursor: pointer;
+}
+
+#fb-filter-list div img {
+	margin-right: 2px;
+	vertical-align: bottom;
+}
+
+#fb-filter-list div#filler:hover {
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	cursor: default;
+}
+
+#fb-filter-list .selected {
+	background-color: #6d84b4;
+	border: 1px solid #3b5998;
+	color: #FFFFFF;
+}
+
+#fb-filter-list .selected:hover {
+	background-color: #6d84b4;
+	border: 1px solid #3b5998;
+}
+
+/* fb stream */
+#fb-stream {
+	float: right;
+	width: 620px;
+}

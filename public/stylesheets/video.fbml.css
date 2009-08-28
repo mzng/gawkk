@@ -1,0 +1,162 @@
+/* video */
+.video {
+	border-top: 1px solid #efefef;
+	margin-top: 6px;
+	padding-top: 10px;
+}
+
+.video:first-child {
+	border-top: 0px;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+.video table {
+	width: 100%;
+}
+
+.video .anchored_container td {
+	vertical-align: top;
+}
+
+.video .action_owner {
+	width: 50px;
+}
+
+.video .action_owner img.avatar {
+	height: 50px;
+	width: 50px;
+}
+
+.video .action_description {
+	font-size: 13px;
+	padding: 2px 0 0 10px;
+}
+
+.video .action_description a {
+	font-weight: bold;
+}
+
+.video .action_body {
+	padding: 0 0 5px 10px;
+}
+
+.video .thumbnail {
+	border: 1px solid #E5E5E5;
+	cursor: pointer;
+	float: left;
+	height: 89px;
+	margin-right: 5px;
+	width: 127px;
+}
+
+.video .title {
+	font-size: 12px;
+}
+
+.video .title a {
+	font-weight: bold;
+}
+
+.video .body {
+	padding-top: 2px;
+}
+
+.video .body div {
+	line-height: 14px;
+}
+
+.video .actions {
+	color: #837d87;
+	padding: 0 0 5px 10px;
+}
+
+/* embedded video */
+.video .embed {
+	background-color: #f3f6f9;
+	border: 0px;
+	margin-top: 5px;
+	padding-bottom: 15px;
+	text-align: center;
+}
+
+.video .trouble-close td {
+	text-align: right;
+	width: 125px;
+}
+
+.video .trouble-close td.trouble {
+	font-size: 9pt;
+	text-align: center;
+	width: 400px;
+}
+
+.video .embed .close {
+	text-align: right;
+}
+
+.video .embed .clickable-area {
+	color: #a2a4a4;
+	cursor: pointer;
+	float: right;
+	font-size: 8pt;
+	padding: 5px 5px 5px 10px;
+	width: 50px;
+}
+
+.video .embed .clickable-area:hover {
+	color: #333;
+}
+
+.video .embed .clickable-area img {
+	margin-top: -1px;
+	vertical-align: top;
+}
+
+.video .embed .embed-container {
+	background-image: url(/images/embed-loading.gif);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	overflow-x: hidden;
+	width: 648px;
+}
+
+.video .embed .fake-embed-container {
+	background-color: #333333;
+	height: 285px;
+	margin: 0 auto 15px auto;
+	text-align: center;
+	width: 504px;
+}
+
+.video .embed .fake-embed-container .about {
+	clear: both;
+	color: #FFFFFF;
+	font-size: 12pt;
+	padding: 25px 2px;
+}
+
+.video .embed .fake-embed-container .image {
+	border: 2px solid #FFFFFF;
+	clear: both;
+	height: 140px;
+	width: 200px;
+}
+
+.video .embed .fake-embed-container .play {
+	clear: both;
+	padding: 25px 2px;
+}
+
+.video .embed .fake-embed-container .play a {
+	color: #FFFFFF;
+	font-size: 18pt;
+}
+
+.video .embed .fake-embed-container .play img {
+	margin-left: 10px;
+}
+
+.video .embed .admin-fake-embed-container {
+	height: 325px;
+}

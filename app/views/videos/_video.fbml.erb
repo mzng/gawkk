@@ -12,7 +12,6 @@
 				<td class="action_owner" rowspan="2">
 					<span style="height:50px;overflow:hidden;width:50px;">
 						<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail, :class => 'avatar'), user_path(:id => news_item.user) %>
-						<img src="http://web1.tunnlr.com:10581/images/fb-avatar-large-rounded-corner-overlay.png" style="display:block;left:0px;overflow:hidden;position:relative;top:-52px;"/>
 					</span>
 				</td>
 				<td class="action_description">
@@ -22,7 +21,6 @@
 				<td class="action_owner" rowspan="2">
 					<span style="height:50px;overflow:hidden;width:50px;">
 						<%= link_to image_tag(video.posted_by.thumbnail.blank? ? 'profile-pic.jpg' : video.posted_by.thumbnail, :class => 'avatar'), user_path(:id => video.posted_by) %>
-						<img src="http://web1.tunnlr.com:10581/images/fb-avatar-large-rounded-corner-overlay.png" style="display:block;left:0px;overflow:hidden;position:relative;top:-52px;"/>
 					</span>
 				</td>
 				<td class="action_description">
@@ -36,12 +34,12 @@
 		<tr>
 			<td class="action_body">
 				<div class="title">
-					<%= link_to_function video.title, "$('embed_for_#{video.id}#{container_id}').setInnerFBML(embed_code_for_#{video.id}#{container_id});$('embed_for_#{video.id}#{container_id}').show();" %>
+					<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
 					<%= popular_icon(video, container_id) %>
 				</div>
 				<div class="body">
 					<div class="thumbnail">
-						<%= link_to_function image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), "$('embed_for_#{video.id}#{container_id}').setInnerFBML(embed_code_for_#{video.id}#{container_id});$('embed_for_#{video.id}#{container_id}').show();" %>
+						<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
 					</div>
 					<div class="description">
 						<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
@@ -78,11 +76,4 @@
 		</tr>
 	</table>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
-	<fb:js-string var="embed_code_for_<%= video.id %><%= container_id %>">
-		<% if !video.embed_code.blank? -%>
-			<fb:iframe name="embed_container_for_<%= video.id %><%= container_id %>" src="http://web1.tunnlr.com:10581/<%= video.slug %>/watch?format=fbml" frameborder="0" scrolling="no" resizeable="true" width="100%"></fb:iframe>
-		<% else -%>
-			<fb:iframe name="embed_container_for_<%= video.id %><%= container_id %>" src="http://web1.tunnlr.com:10581/<%= video.slug %>/watch?format=fbml" frameborder="0" scrolling="no" resizeable="true" width="100%"></fb:iframe>
-		<% end -%>
-	</fb:js-string>
 </div>

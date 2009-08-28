@@ -54,9 +54,9 @@ class FacebookController < ApplicationController
       flash[:notice] = 'The authentication failed. Please try again!'
       redirect_to '/'
     end
-  rescue
-    flash[:notice] = 'The authentication failed. Please try again!'
-    redirect_to '/'
+  # rescue
+  #   flash[:notice] = 'The authentication failed. Please try again!'
+  #   redirect_to '/'
   end
   
   def connect
