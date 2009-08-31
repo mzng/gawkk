@@ -15,6 +15,7 @@
 	<body style="overflow:hidden;width:760px;">
 		<%= yield  %>
 		<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
+		<div style="clear:both;width:100%;"><!-- hack for iframe resizing in webkit --></div>
 		<script src="http://static.ak.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 		<script type="text/javascript">adjustFrameHeight();</script>
 	</body>

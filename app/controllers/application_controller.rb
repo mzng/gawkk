@@ -54,28 +54,24 @@ class ApplicationController < ActionController::Base
     logger.debug "session.keys = " + session.keys.join(', ')
     
     if ensure_authenticated_to_facebook
-      if !user_logged_in? and controller_name != 'facebook'
-        # redirect_to :controller => 'facebook', :action => 'fb_callback'
-        logger.debug '! there *isn\'t* a user logged in'
-        # session[:user_id] = User.find_by_slug('tsmango').id
-        # logger.debug "Alright, tsmango has been forcefully logged in. We mean business."
-        # facebook_session = session[:facebook_session]
-        # 
-        # facebook = Hash.new
-        # facebook[:id] = facebook_session.user.uid
-        # facebook[:name] = facebook_session.user.name
-        # facebook[:description] = facebook_session.user.about_me
-        # facebook[:image_small] = facebook_session.user.pic_square_with_logo
-        # facebook[:image_large] = facebook_session.user.pic_big
-        # facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
-        # 
-        # session[:facebook_credentials] = facebook
-        
-        redirect_to :controller => 'facebook', :action => 'connect'
-      elsif controller_name == 'facebook'
-        logger.debug '=> trying to handle the facebookcontroller#connect stuff'
-      else
-        logger.debug '$ there *is* a user logged in'
+      if !user_logged_in?
+        if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
+          @user = facebook_account.user
+  
+          # Update the user's last login time
+          @user.cookie_hash = bake_cookie_for(@user)
+          @user.last_login_at = Time.new
+          @user.save
+  
+          # Store the logged in user's id in the session
+          session[:user_id] = @user.id
+          
+          logger.debug "=> friends"
+          
+          if controller_name == 'facebook' and action_name == 'connect'
+            redirect_to :controller => 'videos', :action => 'friends'
+          end
+        end
       end
     end
   end

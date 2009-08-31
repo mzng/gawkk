@@ -59,44 +59,64 @@ class FacebookController < ApplicationController
     redirect_to '/'
   end
   
+  def welcome
+    
+  end
+  
   def connect
     if request.get?
-      facebook_session = session[:facebook_session]
-      
-      facebook = Hash.new
-      facebook[:id] = facebook_session.user.uid
-      facebook[:name] = facebook_session.user.name
-      facebook[:description] = facebook_session.user.about_me
-      facebook[:image_small] = facebook_session.user.pic_square_with_logo
-      facebook[:image_large] = facebook_session.user.pic_big
-      facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+      if !user_logged_in?
+        if facebook_session = session[:facebook_session]
+          facebook = Hash.new
+          facebook[:id] = facebook_session.user.uid
+          facebook[:name] = facebook_session.user.name
+          facebook[:description] = facebook_session.user.about_me
+          facebook[:image_small] = facebook_session.user.pic_square_with_logo
+          facebook[:image_large] = facebook_session.user.pic_big
+          facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
 
-      session[:facebook_credentials] = facebook
-      
-      @facebook = session[:facebook_credentials]
-      
-      @user = User.new
-      @user.send_digest_emails = true
-
-      if !@facebook[:name].blank?
-        if !@facebook[:profile_url].blank? and !@facebook[:profile_url][/^profile.php/]
-          @user.username = @facebook[:profile_url].first(15).gsub(/\s/, '').gsub(/\./, '')
-        else
-          @user.username = @facebook[:name].first(15).gsub(/\s/, '').gsub(/\./, '')
+          session[:facebook_credentials] = facebook
         end
-  
-        attempt = 0
-        while !User.valid_username?(@user.username) and attempt < 3 do
-          if @user.username.length < 15
-            @user.username = @user.username + rand(10).to_s
+
+        @facebook = session[:facebook_credentials]
+
+        @user = User.new
+        @user.send_digest_emails = true
+
+        if !@facebook[:name].blank?
+          if !@facebook[:profile_url].blank? and !@facebook[:profile_url][/^profile.php/]
+            @user.username = @facebook[:profile_url].first(15).gsub(/\s/, '').gsub(/\./, '')
           else
-            @user.username = @user.username[0, 14] + rand(10).to_s
+            @user.username = @facebook[:name].first(15).gsub(/\s/, '').gsub(/\./, '')
           end
-    
-          attempt = attempt + 1
+
+          attempt = 0
+          while !User.valid_username?(@user.username) and attempt < 3 do
+            if @user.username.length < 15
+              @user.username = @user.username + rand(10).to_s
+            else
+              @user.username = @user.username[0, 14] + rand(10).to_s
+            end
+
+            attempt = attempt + 1
+          end
         end
+      else
+        redirect_to :controller => 'videos', :action => 'friends'
       end
     else
+      if facebook_session = session[:facebook_session]
+        facebook = Hash.new
+        facebook[:id] = facebook_session.user.uid
+        facebook[:name] = facebook_session.user.name
+        facebook[:description] = facebook_session.user.about_me
+        facebook[:image_small] = facebook_session.user.pic_square_with_logo
+        facebook[:image_large] = facebook_session.user.pic_big
+        facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+        
+        session[:facebook_credentials] = facebook
+      end
+      
       @facebook = session[:facebook_credentials]
       
       @user = User.new(params[:user])
@@ -136,12 +156,28 @@ class FacebookController < ApplicationController
         accept_outstanding_invitation
       end
       
-      if params[:format] == 'fbml'
-        redirect_to :controller => "videos", :action => "friends"
+      if request_for_facebook?
+        redirect_to :controller => "facebook", :action => "finalize"
       else
         redirect_to :controller => "registration", :action => "setup_suggestions"
       end
     end
+  end
+  
+  def finalize
+    @redirect_url = "http://apps.facebook.com/gawkk-videos/"
+    
+    render :layout => false, :inline => <<-HTML
+      <html><head>
+        <script type="text/javascript">  
+          window.top.location.href = <%= @redirect_url.to_json -%>;
+        </script>
+        <noscript>
+          <meta http-equiv="refresh" content="0;url=<%=h @redirect_url %>" />
+          <meta http-equiv="window-target" content="_top" />
+        </noscript>                
+      </head></html>
+    HTML
   end
   
   private

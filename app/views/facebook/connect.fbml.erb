@@ -1,10 +1,12 @@
-<div style="margin-top:10px;">
-	<fb:success>
-		<fb:message>Please confirm your username for use on <%= link_to 'gawkk.com', 'http://gawkk.com', :target => 'gawkkdotcom' %></fb:message>
-	</fb:success>
-</div>
+<% if false -%>
+	<div style="margin-top:10px;">
+		<fb:success>
+			<fb:message>Please confirm your username for use on <%= link_to 'gawkk.com', 'http://gawkk.com', :target => 'gawkkdotcom' %></fb:message>
+		</fb:success>
+	</div>
+<% end -%>
 
-<% facebook_form_for(:user, @user, :url => facebook_connect_path) do |f| %>
+<% form_for(:user, @user, :url => facebook_connect_path) do |f| %>
 	<table cellpadding="3" cellspacing="0" class="editorkit" style="background-color:#f7f7f7;margin:10px auto 0 auto;">
 		<tr>
 			<td colspan="3" style="background-color:#dedede;font-weight:bold;padding:5px;">
