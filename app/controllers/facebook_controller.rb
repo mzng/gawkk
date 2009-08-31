@@ -61,6 +61,18 @@ class FacebookController < ApplicationController
   
   def connect
     if request.get?
+      facebook_session = session[:facebook_session]
+      
+      facebook = Hash.new
+      facebook[:id] = facebook_session.user.uid
+      facebook[:name] = facebook_session.user.name
+      facebook[:description] = facebook_session.user.about_me
+      facebook[:image_small] = facebook_session.user.pic_square_with_logo
+      facebook[:image_large] = facebook_session.user.pic_big
+      facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+
+      session[:facebook_credentials] = facebook
+      
       @facebook = session[:facebook_credentials]
       
       @user = User.new
