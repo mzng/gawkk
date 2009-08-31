@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
   
   def request_for_facebook?
-    (request.subdomains.first == 'facebook') ? true : false
+    (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
   end
   
   # We want to use our fbml and fbjs templates if the request is for the facebook application
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   end
   
   # Some ajax requests via facebook will use the standard rjs templates and associated views
-  def coerce_back_to_js_if_fbjs
+  def coerce_back_to_js
     request.format = :js
   end
   
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   def require_login_for_facebook
     logger.debug "user_logged_in? = #{user_logged_in?.to_s}"
     
-    if request_for_facebook? and !user_logged_in?
+    if !user_logged_in? and controller_name != 'facebook'
       redirect_to :controller => 'facebook', :action => 'fb_callback'
     end
   end

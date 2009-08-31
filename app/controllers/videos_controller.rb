@@ -144,7 +144,7 @@ class VideosController < ApplicationController
   def watch
     # load_video or redirect
     affects_recommendation_countdown
-    coerce_back_to_js_if_fbjs
+    coerce_back_to_js
     containerable
   end
   

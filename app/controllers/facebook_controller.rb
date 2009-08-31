@@ -9,16 +9,20 @@ class FacebookController < ApplicationController
     
     logger.debug Util::Facebook.config[:key]
     
+    logger.debug cookies.keys.to_yaml
+    
     cookies.keys.select{ |k|
       k.starts_with?(Util::Facebook.config[:key] + "_")
     }.each { |key|
       parsed[key[(Util::Facebook.config[:key] + "_").size, key.size]] = cookies[key]
     }
     
-    return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss'] 
-    return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")          
+    # return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
+    # return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
     
-    verify_signature(parsed,cookies[Util::Facebook.config[:key]])
+    logger.debug parsed.to_yaml
+    
+    verify_signature_manually(parsed, cookies[Util::Facebook.config[:key]])
     
     facebook_session = Facebooker::Session.create(Util::Facebook.config[:key], Util::Facebook.config[:secret])
     facebook_session.secure_with!(parsed['session_key'], parsed['user'], parsed['expires'], parsed['ss'])
@@ -37,7 +41,9 @@ class FacebookController < ApplicationController
         session[:user_id] = @user.id
         accept_outstanding_invitation
         
-        redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
+        # redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
+        logger.debug '!! The user has been logged in automatically; the user has an account.'
+        render :nothing => true
       else
         facebook = Hash.new
         facebook[:id] = facebook_session.user.uid
@@ -48,11 +54,15 @@ class FacebookController < ApplicationController
         
         session[:facebook_credentials] = facebook
         
-        redirect_to :controller => 'registration', :action => 'setup_suggestions'
+        # redirect_to :controller => 'registration', :action => 'setup_suggestions'
+        logger.debug '!! This is where we would normally redirect to setup_suggestions; the user doesn\'t have an account.'
+        render :nothing => true
       end
     else
       flash[:notice] = 'The authentication failed. Please try again!'
-      redirect_to '/'
+      # redirect_to '/'
+      logger.deubg '!! The authentication failed'
+      render :nothing => true
     end
   # rescue
   #   flash[:notice] = 'The authentication failed. Please try again!'
@@ -134,11 +144,11 @@ class FacebookController < ApplicationController
   
   private
   # This collides with with the verify_signatures inside of the facebooker plugin
-  # def verify_signature(facebook_sig_params, expected_signature)
-  #   raw_string = facebook_sig_params.map{ |*args| args.join('=') }.sort.join
-  #   actual_sig = Digest::MD5.hexdigest([raw_string, Util::Facebook.config[:secret]].join)
-  #   raise Facebooker::Session::IncorrectSignature if actual_sig != expected_signature
-  #   raise Facebooker::Session::SignatureTooOld if facebook_sig_params['time'] && Time.at(facebook_sig_params['time'].to_f) < earliest_valid_session
-  #   true
-  # end
+  def verify_signature_manually(facebook_sig_params, expected_signature)
+    raw_string = facebook_sig_params.map{ |*args| args.join('=') }.sort.join
+    actual_sig = Digest::MD5.hexdigest([raw_string, Util::Facebook.config[:secret]].join)
+    raise Facebooker::Session::IncorrectSignature if actual_sig != expected_signature
+    raise Facebooker::Session::SignatureTooOld if facebook_sig_params['time'] && Time.at(facebook_sig_params['time'].to_f) < earliest_valid_session
+    true
+  end
 end
