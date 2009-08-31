@@ -15,6 +15,7 @@
 		<div id="filler">&nbsp;</div>
 	</div>
 	<div id="fb-stream">
+		<p><%= link_to "reload it, #{logged_in_user.username}", {:controller => 'videos', :action => 'friends'} %></p>
 		<%= render @news_items %>
 	</div>
 </div>

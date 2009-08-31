@@ -9,18 +9,14 @@ class FacebookController < ApplicationController
     
     logger.debug Util::Facebook.config[:key]
     
-    logger.debug cookies.keys.to_yaml
-    
     cookies.keys.select{ |k|
       k.starts_with?(Util::Facebook.config[:key] + "_")
     }.each { |key|
       parsed[key[(Util::Facebook.config[:key] + "_").size, key.size]] = cookies[key]
     }
     
-    # return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
-    # return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
-    
-    logger.debug parsed.to_yaml
+    return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
+    return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
     
     verify_signature_manually(parsed, cookies[Util::Facebook.config[:key]])
     
@@ -41,9 +37,7 @@ class FacebookController < ApplicationController
         session[:user_id] = @user.id
         accept_outstanding_invitation
         
-        # redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
-        logger.debug '!! The user has been logged in automatically; the user has an account.'
-        render :nothing => true
+        redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
       else
         facebook = Hash.new
         facebook[:id] = facebook_session.user.uid
@@ -54,19 +48,15 @@ class FacebookController < ApplicationController
         
         session[:facebook_credentials] = facebook
         
-        # redirect_to :controller => 'registration', :action => 'setup_suggestions'
-        logger.debug '!! This is where we would normally redirect to setup_suggestions; the user doesn\'t have an account.'
-        render :nothing => true
+        redirect_to :controller => 'registration', :action => 'setup_suggestions'
       end
     else
       flash[:notice] = 'The authentication failed. Please try again!'
-      # redirect_to '/'
-      logger.deubg '!! The authentication failed'
-      render :nothing => true
+      redirect_to '/'
     end
-  # rescue
-  #   flash[:notice] = 'The authentication failed. Please try again!'
-  #   redirect_to '/'
+  rescue
+    flash[:notice] = 'The authentication failed. Please try again!'
+    redirect_to '/'
   end
   
   def connect
@@ -108,7 +98,7 @@ class FacebookController < ApplicationController
       @user.password = Util::AuthCode.generate(32)
       @user.password_confirmation = @user.password
       
-      if params[:format] == 'fbml'
+      if request_for_facebook?
         @user.email = "fb-app-user+#{Util::Slug.generate(@user.username, false)}@gawkk.com"
       end
       

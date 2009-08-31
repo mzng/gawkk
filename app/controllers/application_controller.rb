@@ -50,8 +50,16 @@ class ApplicationController < ActionController::Base
   def require_login_for_facebook
     logger.debug "user_logged_in? = #{user_logged_in?.to_s}"
     
-    if !user_logged_in? and controller_name != 'facebook'
-      redirect_to :controller => 'facebook', :action => 'fb_callback'
+    if ensure_authenticated_to_facebook
+      if !user_logged_in? and controller_name != 'facebook'
+        # redirect_to :controller => 'facebook', :action => 'fb_callback'
+        logger.debug '! there *isn\'t* a user logged in'
+        # session[:user_id] = User.find_by_slug('tsmango').id
+        # logger.debug "Alright, tsmango has been forcefully logged in. We mean business."
+        redirect_to :controller => 'facebook', :action => 'connect'
+      else
+        logger.debug '$ there *is* a user logged in'
+      end
     end
   end
   
