@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   
+  private
+  
   # Ensures objects can be properly marshaled out of memcached
   def preload_models
     Category
@@ -24,11 +26,39 @@ class ApplicationController < ActionController::Base
     Video
   end
   
+  # Ensure Facebook requests are stateful by overwriting the session method
+  def session
+    if request_for_facebook? and !params[:_session_id].nil?
+      # TODO: Confirm _session_id is associated with the proper ip address
+    
+      Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+        session_hash = Hash.new
+        request.session.each_pair do |key, value|
+          session_hash[key.to_sym] = value
+        end
+      
+        session_hash
+      end
+    else
+      request.session
+    end
+  end
+
+  # Facebook requests require cookie-less sessions, tag along the _session_id
+  def default_url_options(options = nil)
+    if request_for_facebook?
+      params[:_session_id] = request.session_options[:id] unless params[:_session_id]
+      {:_session_id => params[:_session_id]}
+    end
+  end
+
   # Requests coming from Facebook are just different, okay?
   def handle_facebook_request
     if request_for_facebook?
       coerce_into_fbml_or_fbjs
       require_login_for_facebook
+    else
+      ActionController::Base.asset_host = nil
     end
   end
   
@@ -50,27 +80,28 @@ class ApplicationController < ActionController::Base
   def require_login_for_facebook
     logger.debug "user_logged_in? = #{user_logged_in?.to_s}"
     
-    logger.debug session.to_yaml
-    logger.debug "session.keys = " + session.keys.join(', ')
+    # logger.debug session.to_yaml
+    # logger.debug "session.keys = " + session.keys.join(', ')
     
     if ensure_authenticated_to_facebook
       if !user_logged_in?
         if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
           @user = facebook_account.user
-  
+          
           # Update the user's last login time
           @user.cookie_hash = bake_cookie_for(@user)
           @user.last_login_at = Time.new
           @user.save
-  
+          
           # Store the logged in user's id in the session
           session[:user_id] = @user.id
           
-          logger.debug "=> friends"
-          
           if controller_name == 'facebook' and action_name == 'connect'
+            logger.debug "=> friends"
             redirect_to :controller => 'videos', :action => 'friends'
           end
+        elsif controller_name != 'facebook'
+          redirect_to :controller => 'facebook', :action => 'connect'
         end
       end
     end

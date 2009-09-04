@@ -15,7 +15,11 @@
 		<div id="filler">&nbsp;</div>
 	</div>
 	<div id="fb-stream">
-		<p><%= link_to "reload it, #{logged_in_user.username}", {:controller => 'facebook', :action => 'finalize'} %></p>
+		<p>
+			You can test a <%= link_to 'full reload', {:controller => 'facebook', :action => 'finalize'} %> 
+			or an <%= link_to 'in-app reload', {:controller => 'videos', :action => 'friends'} %>,
+			<%= logged_in_user.username %>.
+		</p>
 		<%= render @news_items %>
 	</div>
 </div>
