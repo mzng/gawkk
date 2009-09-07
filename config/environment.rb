@@ -31,7 +31,7 @@ Rails::Initializer.run do |config|
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-  config.plugins = [:redhillonrails_core, :foreign_key_migrations, :ar_fixtures, :rand, :union, 
+  config.plugins = [:redhillonrails_core, :foreign_key_migrations, :ar_fixtures, :rand, :union, :cacheable_hash, 
                     :asset_packager, :backup_fu, :spawn, :exception_notification, 'thinking-sphinx', 
                     :acts_as_list, :acts_as_state_machine, :browser_detect, :country_select, 
                     :facebooker, :white_list, :will_paginate]

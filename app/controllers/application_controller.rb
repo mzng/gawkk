@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   
   # Ensures objects can be properly marshaled out of memcached
   def preload_models
-    CacheEnabledHash
+    CacheableHash
     Category
     Channel
     Invitation
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       params[:_session_id] = request.session_options[:id] unless params[:_session_id]
       
       Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
-        CacheEnabledHash.new(request.session, "sessions/#{params[:_session_id]}", 1.week)
+        CacheableHash.new("sessions/#{params[:_session_id]}", :hash => request.session, :expires_in => 1.week)
       end
     else
       request.session
@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
     logger.debug " params[:_session_id]         = #{params[:_session_id]}"
     logger.debug "------------------------------------------------------------------"
     logger.debug " session.keys = #{session.keys.join(', ')}"
-    logger.debug " session[:access_count] = #{session[:access_count].to_s}"
     logger.debug "=================================================================="
     logger.debug ''
     
