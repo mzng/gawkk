@@ -16,7 +16,7 @@
 	</div>
 	<div id="fb-stream">
 		<p>
-			You can test a <%= link_to 'full reload', {:controller => 'facebook', :action => 'finalize'} %> 
+			You can test a <%= link_to 'full reload', "javascript:window.top.location.href = 'http://apps.facebook.com/gawkk-videos';" %> 
 			or an <%= link_to 'in-app reload', {:controller => 'videos', :action => 'friends'} %>,
 			<%= logged_in_user.username %>.
 		</p>

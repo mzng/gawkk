@@ -4,8 +4,8 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :handle_facebook_request, :check_cookie, :check_for_invitation, :perform_outstanding_action]
-  after_filter  [:reset_redirect_to]
+  before_filter [:preload_models, :delegate_request, :check_cookie, :check_for_invitation, :perform_outstanding_action]
+  after_filter  [:remember_facebook_session, :reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   def preload_models
     Category
     Channel
+    IncendioHash
     Invitation
     NewsItem
     NewsItemType
@@ -28,20 +29,50 @@ class ApplicationController < ActionController::Base
   
   # Ensure Facebook requests are stateful by overwriting the session method
   def session
-    if request_for_facebook? and !params[:_session_id].nil?
+    if request_for_facebook?
       # TODO: Confirm _session_id is associated with the proper ip address
-    
-      Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
-        session_hash = Hash.new
-        request.session.each_pair do |key, value|
-          session_hash[key.to_sym] = value
-        end
       
-        session_hash
+      request.session[:instantiate_session] = true
+      params[:_session_id] = request.session_options[:id] unless params[:_session_id]
+      
+      # session_to_return = Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+      #   logger.debug ' @ A brand new session has been stored in memcache @'
+      #   duplicate_hash_for_memcached(request.session)
+      # end
+      
+      unless session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
+        logger.debug ' @ A brand new session has been stored in memcache @'
+        Rails.cache.write("sessions/#{params[:_session_id]}", duplicate_hash_for_memcached(request.session, "sessions/#{params[:_session_id]}"), :expires_in => 1.week)
+        session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
       end
+      
+      if session_to_return[:access_count].nil?
+        session_to_return[:access_count] = 0
+      end
+      session_to_return[:access_count] = session_to_return[:access_count] + 1
+      
+      session_to_return
     else
       request.session
     end
+  end
+  
+  def assign_value_to_session(key, value)
+    session[key] = value
+  end
+  
+  # Rails.cache freezees values in a directly stored Hash; IncendioHash is a wrapper used to prevent freezing.
+  def duplicate_hash_for_memcached(hash, cache_key)
+    new_hash = IncendioHash.new(cache_key)
+    hash.each_pair do |key, value|
+      new_hash[key.to_sym] = value
+    end
+    
+    new_hash
+  end
+  
+  def remember_facebook_session
+    session
   end
 
   # Facebook requests require cookie-less sessions, tag along the _session_id
@@ -52,8 +83,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Requests coming from Facebook are just different, okay?
-  def handle_facebook_request
+  # Requests from Facebook are handled differently, okay?
+  def delegate_request
+    logger.debug "=================================================================="
+    logger.debug " This is a #{request_for_facebook? ? 'Facebook' : 'Regular'} Request"
+    logger.debug "------------------------------------------------------------------"
+    logger.debug " request.session_options[:id] = #{request.session_options[:id]}"
+    logger.debug " params[:_session_id]         = #{params[:_session_id]}"
+    logger.debug "------------------------------------------------------------------"
+    logger.debug " session.keys = #{session.keys.join(', ')}"
+    logger.debug " session[:access_count] = #{session[:access_count].to_s}"
+    logger.debug "=================================================================="
+    logger.debug ''
+    
     if request_for_facebook?
       coerce_into_fbml_or_fbjs
       require_login_for_facebook
@@ -76,33 +118,25 @@ class ApplicationController < ActionController::Base
     request.format = :js
   end
   
-  # Ensure the current user has a Facebook session
+  # The current user should have a FacebookSession and a Gawkk account
   def require_login_for_facebook
-    logger.debug "user_logged_in? = #{user_logged_in?.to_s}"
-    
-    # logger.debug session.to_yaml
-    # logger.debug "session.keys = " + session.keys.join(', ')
-    
-    if ensure_authenticated_to_facebook
-      if !user_logged_in?
-        if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
-          @user = facebook_account.user
-          
-          # Update the user's last login time
-          @user.cookie_hash = bake_cookie_for(@user)
-          @user.last_login_at = Time.new
-          @user.save
-          
-          # Store the logged in user's id in the session
-          session[:user_id] = @user.id
-          
-          if controller_name == 'facebook' and action_name == 'connect'
-            logger.debug "=> friends"
-            redirect_to :controller => 'videos', :action => 'friends'
-          end
-        elsif controller_name != 'facebook'
-          redirect_to :controller => 'facebook', :action => 'connect'
-        end
+    logger.debug '1'
+    if ensure_authenticated_to_facebook and !user_logged_in?
+      logger.debug '2'
+      if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
+        logger.debug '3'
+        @user = facebook_account.user
+        
+        # Update the user's last login time
+        @user.cookie_hash = bake_cookie_for(@user)
+        @user.last_login_at = Time.new
+        @user.save
+        
+        # Store the logged in user's id in the session
+        session[:user_id] = @user.id
+      elsif controller_name != 'facebook'
+        logger.debug '4'
+        redirect_to :controller => 'facebook', :action => 'connect'
       end
     end
   end

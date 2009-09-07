@@ -59,10 +59,6 @@ class FacebookController < ApplicationController
     redirect_to '/'
   end
   
-  def welcome
-    
-  end
-  
   def connect
     if request.get?
       if !user_logged_in?
@@ -157,27 +153,11 @@ class FacebookController < ApplicationController
       end
       
       if request_for_facebook?
-        redirect_to :controller => "facebook", :action => "finalize"
+        redirect_to :controller => "videos", :action => "friends"
       else
         redirect_to :controller => "registration", :action => "setup_suggestions"
       end
     end
-  end
-  
-  def finalize
-    @redirect_url = "http://apps.facebook.com/gawkk-videos/"
-    
-    render :layout => false, :inline => <<-HTML
-      <html><head>
-        <script type="text/javascript">  
-          window.top.location.href = <%= @redirect_url.to_json -%>;
-        </script>
-        <noscript>
-          <meta http-equiv="refresh" content="0;url=<%=h @redirect_url %>" />
-          <meta http-equiv="window-target" content="_top" />
-        </noscript>                
-      </head></html>
-    HTML
   end
   
   private
