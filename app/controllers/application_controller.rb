@@ -35,19 +35,9 @@ class ApplicationController < ActionController::Base
       request.session[:instantiate_session] = true
       params[:_session_id] = request.session_options[:id] unless params[:_session_id]
       
-      session_to_return = Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
-        logger.debug ' @ A brand new session has been stored in memcache @'
-        duplicate_hash_for_memcached(request.session)
+      Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+        CacheEnabledHash.new(request.session, "sessions/#{params[:_session_id]}", 1.week)
       end
-      
-      # unless session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
-      #   logger.debug ' @ A brand new session has been stored in memcache @'
-      #   Rails.cache.write("sessions/#{params[:_session_id]}", duplicate_hash_for_memcached(request.session, "sessions/#{params[:_session_id]}"), :expires_in => 1.week)
-      #   session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
-      # end
-      
-      session_to_return[:access_count] = (session_to_return[:access_count] or 0) + 1
-      session_to_return
     else
       request.session
     end
@@ -55,16 +45,6 @@ class ApplicationController < ActionController::Base
   
   def assign_value_to_session(key, value)
     session[key] = value
-  end
-  
-  # Rails.cache freezees values in a directly stored Hash; CacheEnabledHash is a wrapper used to prevent freezing.
-  def duplicate_hash_for_memcached(hash, cache_key)
-    new_hash = CacheEnabledHash.new(cache_key, 1.week)
-    hash.each_pair do |key, value|
-      new_hash[key.to_sym] = value
-    end
-    
-    new_hash
   end
   
   def remember_facebook_session
@@ -116,11 +96,8 @@ class ApplicationController < ActionController::Base
   
   # The current user should have a FacebookSession and a Gawkk account
   def require_login_for_facebook
-    logger.debug '1'
     if ensure_authenticated_to_facebook and !user_logged_in?
-      logger.debug '2'
       if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
-        logger.debug '3'
         @user = facebook_account.user
         
         # Update the user's last login time
@@ -131,7 +108,6 @@ class ApplicationController < ActionController::Base
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
       elsif controller_name != 'facebook'
-        logger.debug '4'
         redirect_to :controller => 'facebook', :action => 'connect'
       end
     end
