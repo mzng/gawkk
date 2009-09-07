@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
   
   # Ensures objects can be properly marshaled out of memcached
   def preload_models
+    CacheEnabledHash
     Category
     Channel
-    IncendioHash
     Invitation
     NewsItem
     NewsItemType
@@ -35,22 +35,18 @@ class ApplicationController < ActionController::Base
       request.session[:instantiate_session] = true
       params[:_session_id] = request.session_options[:id] unless params[:_session_id]
       
-      # session_to_return = Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+      session_to_return = Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+        logger.debug ' @ A brand new session has been stored in memcache @'
+        duplicate_hash_for_memcached(request.session)
+      end
+      
+      # unless session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
       #   logger.debug ' @ A brand new session has been stored in memcache @'
-      #   duplicate_hash_for_memcached(request.session)
+      #   Rails.cache.write("sessions/#{params[:_session_id]}", duplicate_hash_for_memcached(request.session, "sessions/#{params[:_session_id]}"), :expires_in => 1.week)
+      #   session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
       # end
       
-      unless session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
-        logger.debug ' @ A brand new session has been stored in memcache @'
-        Rails.cache.write("sessions/#{params[:_session_id]}", duplicate_hash_for_memcached(request.session, "sessions/#{params[:_session_id]}"), :expires_in => 1.week)
-        session_to_return = Rails.cache.read("sessions/#{params[:_session_id]}")
-      end
-      
-      if session_to_return[:access_count].nil?
-        session_to_return[:access_count] = 0
-      end
-      session_to_return[:access_count] = session_to_return[:access_count] + 1
-      
+      session_to_return[:access_count] = (session_to_return[:access_count] or 0) + 1
       session_to_return
     else
       request.session
@@ -61,9 +57,9 @@ class ApplicationController < ActionController::Base
     session[key] = value
   end
   
-  # Rails.cache freezees values in a directly stored Hash; IncendioHash is a wrapper used to prevent freezing.
+  # Rails.cache freezees values in a directly stored Hash; CacheEnabledHash is a wrapper used to prevent freezing.
   def duplicate_hash_for_memcached(hash, cache_key)
-    new_hash = IncendioHash.new(cache_key)
+    new_hash = CacheEnabledHash.new(cache_key, 1.week)
     hash.each_pair do |key, value|
       new_hash[key.to_sym] = value
     end
