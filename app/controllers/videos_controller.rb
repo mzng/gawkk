@@ -88,6 +88,7 @@ class VideosController < ApplicationController
     
     # Followed Channels
     @channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'name ASC'))
+    @popular_channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'subscriptions_count DESC', :limit => 10))
   end
   
   

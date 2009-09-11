@@ -1,0 +1,12 @@
+<% followable = false if followable.nil?  -%>
+
+<% content_tag_for(:div, user) do -%>
+	<%= render :partial => '/users/follow', :locals => {:user => user} if followable %>
+	<%= link_to image_tag(user.thumbnail.blank? ? 'profile-pic.jpg' : user.thumbnail, :class => 'avatar'), user_path(:id => user) %>
+	<div class="name">
+		<%= link_to user.username, user_path(:id => user) %>
+		<% if !user.description.blank? -%>
+			<br/><%= h(user.description.first(130).strip) %><%= '...' if user.description.length > 130 %>
+		<% end -%>
+	</div>
+<% end -%>

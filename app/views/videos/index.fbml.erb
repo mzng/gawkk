@@ -1,5 +1,5 @@
 <div>
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'All Videos'} do -%>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Videos'} do -%>
 		<ul>
 			<li<%= " class=\"selected\"" if !@popular %>><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'index', :popular => false} %></li>
 			<li<%= " class=\"selected\"" if @popular %>><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'index', :popular => true} %></li>

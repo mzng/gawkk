@@ -1,5 +1,5 @@
 <div>
-	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'All Videos'} %>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Videos'} %>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => nil}) do %>
 			<div class="title"><%= @video.title %></div>

@@ -1,8 +1,9 @@
 <div>
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'All Channels'} do -%>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
 		<ul>
 			<li<%= " class=\"selected\"" if @type == 'a' %>><%= link_to 'All Channels', {:t => 'a', :c => @c} %></li>
 			<li<%= " class=\"selected\"" if @type == 'f' %>><%= link_to 'Featured Channels', {:t => 'f', :c => @c} %></li>
+			<li><%= link_to 'Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %></li>
 		</ul>
 
 		<ul id="popular-categories" style="display:<%= @popular ? 'block' : 'none' %>;">

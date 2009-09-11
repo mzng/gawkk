@@ -1,0 +1,7 @@
+<div class="status">
+	<% if !logged_in_user.follows?(user) -%>
+		<%= link_to_remote '+ Follow', {:url => {:controller => 'users', :action => 'follow', :id => user}}, :class => 'subscribe' %>
+	<% else -%>
+		<%= link_to_remote 'Following!', {:url => {:controller => 'users', :action => 'unfollow', :id => user}}, :class => 'unsubscribe' %>
+	<% end -%>
+</div>

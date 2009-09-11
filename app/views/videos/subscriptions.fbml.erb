@@ -1,5 +1,22 @@
 <div>
-	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Subscriptions'} %>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Subscriptions'} do -%>
+		<% if @channels.size > 10 -%>
+			<ul id="popular-channels" style="display:block;">
+				<% @popular_channels.each do |channel| -%>
+					<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel, :_session_id => params[:_session_id]) %></li>
+				<% end -%>
+				<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-channels').hide();Effect.BlindDown('all-channels', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+			</ul>
+		<% end -%>
+		<ul id="all-channels" style="display:<%= (@channels.size > 10) ? 'none' : 'block' %>;">
+			<% @channels.each do |channel| -%>
+				<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel, :_session_id => params[:_session_id]) %></li>
+			<% end -%>
+			<% if @channels.size > 10 -%>
+				<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-channels', {duration: .2});Effect.BlindDown('popular-channels', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+			<% end -%>
+		</ul>
+	<% end -%>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
 			<div class="title">Subscription Videos</div>

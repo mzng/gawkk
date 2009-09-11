@@ -1,5 +1,26 @@
 <div>
-	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'All Channels'} %>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
+		<ul>
+			<li><%= link_to 'All Channels', {:action => 'index', :t => 'a', :c => 'a'} %></li>
+			<li><%= link_to 'Featured Channels', {:action => 'index', :t => 'f', :c => 'a'} %></li>
+			<li><%= link_to 'Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %></li>
+		</ul>
+		
+		<ul id="popular-categories" style="display:block;">
+			<li><%= link_to 'All Categories', {:action => 'index', :c => 'a'} %></li>
+			<% @popular_categories.each do |category| -%>
+				<li><%= link_to category.name, {:action => 'index', :c => category.id} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+		<ul id="all-categories" style="display:none;">
+			<li><%= link_to 'All Categories', {:action => 'index', :c => 'a'} %></li>
+			<% @categories.each do |category| -%>
+				<li><%= link_to category.name, {:action => 'index', :c => category.id} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+	<% end -%>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
 			<div class="title"><%= @channel.name %></div>
@@ -7,7 +28,7 @@
 		<div id="breadcrumb-trail">
 			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
 			<%= link_to 'All Channels', {:controller => 'channels', :action => 'index'} %> <span class="separator">&gt;<span>
-			<%= link_to @channel.name, channel_path(:user => @channel.user, :channel => @channel, :_session_id => params[:session_id]) %> <span class="separator">&gt;<span>
+			<%= link_to @channel.name, channel_path(:user => @channel.user, :channel => @channel, :_session_id => params[:_session_id]) %> <span class="separator">&gt;<span>
 			Page <%= @page %>
 		</div>
 		<%= render @videos %>

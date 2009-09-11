@@ -6,11 +6,11 @@
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}>Subscriptions</div>", {:controller => 'videos', :action => 'subscriptions'} %>
 	<%= yield if selected == 'Subscriptions' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'All Videos'}>All Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-	<%= yield if selected == 'All Videos' %>
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Videos'}>Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+	<%= yield if selected == 'Videos' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'All Channels'}>All Channels</div>", {:controller => 'channels'} %>
-	<%= yield if selected == 'All Channels' %>
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'} %>
+	<%= yield if selected == 'Channels' %>
 	
 	<div id="filler">&nbsp;</div>
 </div>
