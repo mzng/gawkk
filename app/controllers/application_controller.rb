@@ -431,6 +431,7 @@ class ApplicationController < ActionController::Base
     end
     
     @categories = Category.allowed_on_front_page
+    @popular_categories = Category.popular_cached
   end
   
   def setup_discuss_sidebar(video)

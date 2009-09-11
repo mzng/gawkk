@@ -20,6 +20,12 @@ class Category < ActiveRecord::Base
     }
   end
   
+  def self.popular_cached
+    Rails.cache.fetch("categories/popular", :expires_in => 1.week) {
+      Category.all(:conditions => {:popular => true}, :order => 'name')
+    }
+  end
+  
   def self.allowed_in_header
     Rails.cache.fetch("categories/allowed-in-header", :expires_in => 1.week) {
       categories = Array.new

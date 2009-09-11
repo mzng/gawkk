@@ -1,11 +1,5 @@
 <div>
-	<div id="fb-filter-list">
-		<%= link_to "<div class=\"selected\">News Feed</div>", {:controller => 'videos', :action => 'friends'} %>
-		<%= link_to "<div>Subscriptions</div>", {:controller => 'videos', :action => 'subscriptions'} %>
-		<%= link_to "<div>All Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<%= link_to "<div>All Channels</div>", {:controller => 'channels'} %>
-		<div id="filler">&nbsp;</div>
-	</div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'News Feed'} %>
 	<div id="fb-stream">
 		<%= render @news_items %>
 		<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>

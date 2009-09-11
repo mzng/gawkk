@@ -14,6 +14,7 @@
 		<script src="/javascripts/facebook_helpers.js?<%= Time.now.to_i %>" type="text/javascript"></script>
 	</head>
 	<body style="overflow:hidden;width:760px;">
+		<%= render :partial => '/layouts/header' %>
 		<%= yield  %>
 		<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
 		<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>

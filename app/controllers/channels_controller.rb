@@ -28,6 +28,9 @@ class ChannelsController < ApplicationController
       category = Category.find(@c)
       conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
       parameters = parameters + ["#{category.id}", "#{category.id} %", "% #{category.id}", "% #{category.id} %"]
+      @popular = category.popular
+    else
+      @popular = true
     end
     
     # Order by

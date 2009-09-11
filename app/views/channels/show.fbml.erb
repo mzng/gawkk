@@ -1,19 +1,14 @@
 <div>
-	<div id="fb-filter-list">
-		<%= link_to "<div>Friends' Activity</div>", {:controller => 'videos', :action => 'friends'} %>
-		<%= link_to "<div>Channel Videos</div>", {:controller => 'videos', :action => 'subscriptions'} %>
-		<!-- <%= link_to "<div>Popular Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<%= link_to "<div>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %> -->
-		<%= link_to "<div>Browse Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<!-- <%= link_to "<div>Channels</div>", {:controller => 'channels'} %> -->
-		<div id="filler">&nbsp;</div>
-	</div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'All Channels'} %>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
-			<input type="text" value="Search Channels" onfocus="descriptiveField(this, 'Search Channels', true);" onblur="descriptiveField(this, 'Search Channels', false);" class="search"/>
+			<div class="title"><%= @channel.name %></div>
 		<% end -%>
-		<div id="fb-inline-filter-set">
-			Channel: <%= link_to @channel.proper_name, '#', :class => 'selected' %>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Channels', {:controller => 'channels', :action => 'index'} %> <span class="separator">&gt;<span>
+			<%= link_to @channel.name, channel_path(:user => @channel.user, :channel => @channel, :_session_id => params[:session_id]) %> <span class="separator">&gt;<span>
+			Page <%= @page %>
 		</div>
 		<%= render @videos %>
 		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>

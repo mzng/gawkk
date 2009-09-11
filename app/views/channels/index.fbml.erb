@@ -1,21 +1,39 @@
 <div>
-	<div id="fb-filter-list">
-		<%= link_to "<div>News Feed</div>", {:controller => 'videos', :action => 'friends'} %>
-		<%= link_to "<div>Subscriptions</div>", {:controller => 'videos', :action => 'subscriptions'} %>
-		<%= link_to "<div>Browse Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<%= link_to "<div class=\"selected\">Browse Channels</div>", {:controller => 'channels'} %>
-		<div id="filler">&nbsp;</div>
-	</div>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'All Channels'} do -%>
+		<ul>
+			<li<%= " class=\"selected\"" if @type == 'a' %>><%= link_to 'All Channels', {:t => 'a', :c => @c} %></li>
+			<li<%= " class=\"selected\"" if @type == 'f' %>><%= link_to 'Featured Channels', {:t => 'f', :c => @c} %></li>
+		</ul>
+
+		<ul id="popular-categories" style="display:<%= @popular ? 'block' : 'none' %>;">
+			<li<%= " class=\"selected\"" if @c == 'a' %>><%= link_to 'All Categories', {:t => @type, :c => 'a'} %></li>
+			<% @popular_categories.each do |category| -%>
+				<li<%= " class=\"selected\"" if @c == category.id.to_s %>><%= link_to category.name, {:t => @type, :c => category.id} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+		<ul id="all-categories" style="display:<%= @popular ? 'none' : 'block' %>;">
+			<li<%= " class=\"selected\"" if @c == 'a' %>><%= link_to 'All Categories', {:t => @type, :c => 'a'} %></li>
+			<% @categories.each do |category| -%>
+				<li<%= " class=\"selected\"" if @c == category.id.to_s %>><%= link_to category.name, {:t => @type, :c => category.id} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+	<% end -%>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @channels}) do %>
-			<input type="text" value="Search Channels" onfocus="descriptiveField(this, 'Search Channels', true);" onblur="descriptiveField(this, 'Search Channels', false);" class="search"/>
+			<div class="title">Channels</div>
 		<% end -%>
-		<div id="fb-inline-filter-set" style="padding-bottom:6px;">
-			<span style="float:right;">
-				<%= link_to 'All', '#' %> &middot;
-				<%= link_to 'Featured', '#', :class => 'selected' %>
-			</span>
-			Category: <%= link_to 'All', '#', :class => 'selected' %>
+		<div id="breadcrumb-trail" style="padding-bottom:6px;">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Channels', {:controller => 'channels', :action => 'index', :t => 'a'} %> <span class="separator">&gt;<span>
+			<% if @type == 'f' -%>
+				<%= link_to 'Featured', {:controller => 'channels', :action => 'index', :t => 'f'} %> <span class="separator">&gt;<span>
+			<% end -%>
+			<% if @c != 'a' -%>
+				<%= link_to Category.find(@c).name, {:controller => 'channels', :action => 'index', :t => @type, :c => @c} %> <span class="separator">&gt;<span>
+			<% end -%>
+			Page <%= @page %>
 		</div>
 		<div id="channel-list">
 			<%= render @channels, :subscribable => true %>

@@ -1,19 +1,15 @@
 <div>
-	<div id="fb-filter-list">
-		<%= link_to "<div>Friends' Activity</div>", {:controller => 'videos', :action => 'friends'} %>
-		<%= link_to "<div>Subscriptions</div>", {:controller => 'videos', :action => 'subscriptions'} %>
-		<%= link_to "<div class=\"selected\">Browse Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<%= link_to "<div>Browse Channels</div>", {:controller => 'channels'} %>
-		<div id="filler">&nbsp;</div>
-	</div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'All Videos'} %>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => nil}) do %>
-			<input type="text" value="Search Videos" onfocus="descriptiveField(this, 'Search Videos', true);" onblur="descriptiveField(this, 'Search Videos', false);" class="search"/>
+			<div class="title"><%= @video.title %></div>
 		<% end -%>
-		<!-- <div id="fb-inline-filter-set">
-			Category: <%= link_to @video.category.name, '#', :class => 'selected' %>
-		</div> -->
-		<%= render @video, :i => 0 %>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Videos', {:controller => 'videos', :action => 'index', :popular => false} %> <span class="separator">&gt;<span>
+			<%= link_to @video.category.name, {:controller => 'videos', :action => 'category', :category => @video.category, :popular => @video.popular?} %>
+		</div>
+		<%= render @video %>
 	</div>
 </div>
 

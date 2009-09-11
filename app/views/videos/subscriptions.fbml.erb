@@ -1,13 +1,14 @@
 <div>
-	<div id="fb-filter-list">
-		<%= link_to "<div>Friends' Activity</div>", {:controller => 'videos', :action => 'friends'} %>
-		<%= link_to "<div class=\"selected\">Channel Videos</div>", {:controller => 'videos', :action => 'subscriptions'} %>
-		<%= link_to "<div>Popular Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-		<%= link_to "<div>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %>
-		<!-- <%= link_to "<div>Channels</div>", {:controller => 'channels'} %> -->
-		<div id="filler">&nbsp;</div>
-	</div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Subscriptions'} %>
 	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
+			<div class="title">Subscription Videos</div>
+		<% end -%>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'Subscription Videos', {:controller => 'videos', :action => 'subscriptions'} %> <span class="separator">&gt;<span>
+			Page <%= @page %>
+		</div>
 		<%= render @videos %>
 		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
 	</div>
