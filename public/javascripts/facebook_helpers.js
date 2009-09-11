@@ -1,8 +1,25 @@
+// Common
+function descriptiveField(field, description, focused) {
+	if(focused) {
+		if(field.value == description) {
+			field.value = '';
+			field.style.color = '#333333';
+		}
+	} else {
+		if(field.value == '') {
+			field.style.color = '#837d87';
+			field.value = description;
+		}
+	}
+}
+
 // Facebook Integration
 function adjustFrameHeight() {
 	FB_RequireFeatures(["CanvasUtil"], function(){
     FB.XdComm.Server.init('/xd_receiver.htm');
     FB.CanvasClient.startTimerToSizeToContent();
+		FB.CanvasClient.syncUrl();
+		FB.CanvasClient.scrollTo(0,0);
   });
 }
 
@@ -21,16 +38,16 @@ function rest(videoId, containerId) {
 	}
 }
 
-function watchVideo(videoId, videoSlug, containerId) {
-	watchVideoAndScroll(videoId, videoSlug, true, containerId)
+function watchVideo(videoId, videoSlug, containerId, sessionId) {
+	watchVideoAndScroll(videoId, videoSlug, true, containerId, sessionId)
 }
 
-function watchVideoAndScroll(videoId, videoSlug, scroll, containerId) {
+function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId) {
 	if($('embed_for_' + videoId + containerId).style.display != 'none') {
 		$('embed_for_' + videoId + containerId).hide();
 		$('embed_for_' + videoId + containerId).update('');
 	} else {
-		new Ajax.Request('/' + videoSlug + '/watch?container_id=' + containerId, {asynchronous:true, evalScripts:false, onLoading:function(request){
+		new Ajax.Request('/' + videoSlug + '/watch?container_id=' + containerId + '&_session_id=' + sessionId, {asynchronous:true, evalScripts:false, onLoading:function(request){
 				work(videoId, containerId);
 			}, onComplete:function(request){	
 				rest(videoId, containerId);

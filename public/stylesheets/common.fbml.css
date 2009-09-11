@@ -1,3 +1,15 @@
+/* forms */
+input.search {
+	background: url(http://web1.tunnlr.com:10581/images/fb-search.png) no-repeat rgb(255, 255, 255);
+	background-position: 4px 4px;
+	border: 1px solid rgb(189, 199, 216);
+	color: #837d87;
+	font-size: 11px;
+	height: 14px;
+	padding: 3px 3px 3px 17px;
+	width: 175px;
+}
+
 /* fb filter list */
 #fb-filter-list {
 	float: left;
@@ -6,20 +18,33 @@
 }
 
 #fb-filter-list div {
-	border-bottom: 1px solid #ffffff;
-	border-top: 1px solid #d6d9de;
-	padding: 6px 6px 5px 12px;
+	padding: 0 6px 2px 4px;
 }
 
-#fb-filter-list div:hover {
+#fb-filter-list a:hover {
+	text-decoration: none;
+}
+
+#fb-filter-list a div {
+	border-bottom: 1px solid #ffffff;
+	border-top: 1px solid #d6d9de;
+	color: #333333;
+	padding: 5px 6px 6px 12px;
+}
+
+#fb-filter-list a div:hover {
 	background-color: #eceef4;
 	border-bottom: 1px solid #eceef4;
 	cursor: pointer;
 }
 
-#fb-filter-list div img {
+#fb-filter-list a div img {
 	margin-right: 2px;
 	vertical-align: bottom;
+}
+
+#fb-filter-list div#filler {
+	border-top: 1px solid #d6d9de;
 }
 
 #fb-filter-list div#filler:hover {
@@ -28,13 +53,13 @@
 	cursor: default;
 }
 
-#fb-filter-list .selected {
+#fb-filter-list div.selected {
 	background-color: #6d84b4;
 	border: 1px solid #3b5998;
 	color: #FFFFFF;
 }
 
-#fb-filter-list .selected:hover {
+#fb-filter-list div.selected:hover {
 	background-color: #6d84b4;
 	border: 1px solid #3b5998;
 }
@@ -43,4 +68,55 @@
 #fb-stream {
 	float: right;
 	width: 620px;
+}
+
+/* fb stream filters (inline filters) */
+/*#fb-inline-filter-set {
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 15px;
+	list-style: none;
+	margin: 3px 0px 5px 8px;
+	padding: 0px;
+}
+
+#fb-inline-filter-set li {
+	float: left;
+	padding-right: 8px;
+}*/
+
+#fb-inline-filter-set {
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 15px;
+	padding: 0px 4px;
+}
+
+#fb-inline-filter-set a {
+	font-weight: normal;
+	margin: 0px 4px;
+}
+
+#fb-inline-filter-set a.selected {
+	font-weight: bold;
+}
+
+/* pagination */
+.pagination {
+	background-color: #f2f2f2;
+	border: 1px solid #e7e7e7;
+	border-top: 1px solid #c0c0c0;
+	font-size: 13px;
+	font-weight: bold;
+	height: 22px;
+	padding: 6px;
+}
+
+.pagination .title {
+	display: inline;
+	line-height: 22px;
+}
+
+.pagination .controls {
+	float: right;
 }

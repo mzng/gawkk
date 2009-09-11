@@ -1,0 +1,25 @@
+<div>
+	<div id="fb-filter-list">
+		<%= link_to "<div>Friends' Activity</div>", {:controller => 'videos', :action => 'friends'} %>
+		<%= link_to "<div>Channel Videos</div>", {:controller => 'videos', :action => 'subscriptions'} %>
+		<!-- <%= link_to "<div#{' class="selected"' if @popular}>Popular Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+		<%= link_to "<div#{' class="selected"' if !@popular}>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %> -->
+		<%= link_to "<div class=\"selected\">Browse Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+		<!-- <%= link_to "<div>Channels</div>", {:controller => 'channels'} %> -->
+		<div id="filler">&nbsp;</div>
+	</div>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
+			<input type="text" value="Search Videos" onfocus="descriptiveField(this, 'Search Videos', true);" onblur="descriptiveField(this, 'Search Videos', false);" class="search"/>
+		<% end -%>
+		<div id="fb-inline-filter-set">
+			<span style="float:right;">
+				<%= link_to 'Popular', {:controller => '/videos', :action => 'index', :popular => true}, :class => (@popular ? 'selected' : '') %> &middot;
+				<%= link_to 'Newest', {:controller => '/videos', :action => 'index', :popular => false}, :class => (@popular ? '' : 'selected') %>
+			</span>
+			Category: <%= link_to 'All', '#', :class => 'selected' %>
+		</div>
+		<%= render @videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
+	</div>
+</div>

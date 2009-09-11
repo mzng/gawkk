@@ -1,0 +1,25 @@
+<div>
+	<div id="fb-filter-list">
+		<%= link_to "<div>News Feed</div>", {:controller => 'videos', :action => 'friends'} %>
+		<%= link_to "<div>Subscriptions</div>", {:controller => 'videos', :action => 'subscriptions'} %>
+		<%= link_to "<div>Browse Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+		<%= link_to "<div class=\"selected\">Browse Channels</div>", {:controller => 'channels'} %>
+		<div id="filler">&nbsp;</div>
+	</div>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @channels}) do %>
+			<input type="text" value="Search Channels" onfocus="descriptiveField(this, 'Search Channels', true);" onblur="descriptiveField(this, 'Search Channels', false);" class="search"/>
+		<% end -%>
+		<div id="fb-inline-filter-set" style="padding-bottom:6px;">
+			<span style="float:right;">
+				<%= link_to 'All', '#' %> &middot;
+				<%= link_to 'Featured', '#', :class => 'selected' %>
+			</span>
+			Category: <%= link_to 'All', '#', :class => 'selected' %>
+		</div>
+		<div id="channel-list">
+			<%= render @channels, :subscribable => true %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
+	</div>
+</div>

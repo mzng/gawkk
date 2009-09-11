@@ -1,0 +1,21 @@
+<div>
+	<div id="fb-filter-list">
+		<%= link_to "<div>Friends' Activity</div>", {:controller => 'videos', :action => 'friends'} %>
+		<%= link_to "<div>Channel Videos</div>", {:controller => 'videos', :action => 'subscriptions'} %>
+		<%= link_to "<div>Popular Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+		<%= link_to "<div>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %>
+		<!-- <%= link_to "<div>Channels</div>", {:controller => 'channels'} %> -->
+		<div id="filler">&nbsp;</div>
+	</div>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @news_items}) do %>
+			<div class="title">
+				The Activity of <%= @user.username %>
+			</div>
+		<% end -%>
+		<% @news_items.each_with_index do |news_item, i| -%>
+			<%= render news_item, :i => i %>
+		<% end -%>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
+	</div>
+</div>

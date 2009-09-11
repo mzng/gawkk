@@ -8,7 +8,7 @@
 				Having trouble? <%= link_to 'Open video at source site', video.url, :target => video.title %>
 			</td>
 			<td>
-				<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');">
+				<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>'<% if request_for_facebook? -%>, '<%= params[:_session_id] %>'<% end -%>);">
 					Close <%= image_tag('close.png') %>
 				</div>
 			</td>
@@ -16,7 +16,7 @@
 	</table>
 <% else -%>
 	<div class="close">
-		<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');">
+		<div class="clickable-area" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>'<% if request_for_facebook? -%>, '<%= params[:_session_id] %>'<% end -%>);">
 			Close <%= image_tag('close.png') %>
 		</div>
 	</div>
