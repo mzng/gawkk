@@ -1,10 +1,12 @@
-<div style="border-bottom:1px solid #efefef;margin-bottom:15px;padding-bottom:5px;">
-	<table cellpadding="0" cellspacing="0" style="width:100%;">
+<div id="header">
+	<table cellpadding="0" cellspacing="0">
 		<td>
-			[logo]
+			<%= image_tag('logo-fb.png') %>
 		</td>
-		<td style="text-align:right;">
-			search field
+		<td id="search">
+			<% form_tag({:controller => '/search'}, :method => 'get') do -%>
+				<input id="search-field" type="text" name="q" value="Search..." onfocus="descriptiveField(this, 'Search...', true);" onblur="descriptiveField(this, 'Search...', false);"/><input id="search-submit" type="image" src="/images/fb-search-blue.gif"/>
+			<% end -%>
 		</td>
 	</table>
 </div>

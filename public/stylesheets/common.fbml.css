@@ -1,13 +1,35 @@
+/* header */
+#header {
+	border-bottom: 1px solid #efefef;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+}
+
+#header table {
+	width: 100%;
+}
+
 /* forms */
-input.search {
-	background: url(http://web1.tunnlr.com:10581/images/fb-search.png) no-repeat rgb(255, 255, 255);
-	background-position: 4px 4px;
-	border: 1px solid rgb(189, 199, 216);
+#search {
+	text-align: right;
+	vertical-align: bottom;
+}
+
+#search form {
+	margin: 0;
+	padding: 0;
+}
+
+input#search-field {
+	border: 1px solid #d8dfea;
 	color: #837d87;
-	font-size: 11px;
-	height: 14px;
-	padding: 3px 3px 3px 17px;
-	width: 175px;
+	padding: 4px 3px;
+	vertical-align: middle;
+	width: 150px;
+}
+
+input#search-submit {
+	vertical-align: middle;
 }
 
 /* fb filter list */
@@ -67,7 +89,6 @@ input.search {
 
 #fb-filter-list ul {
 	list-style-type: circle;
-	/*list-style-image: url(http://web1.tunnlr.com:10581/images/blank.gif);*/
 	list-style-position: inside;
 	margin: 5px 0px 8px 8px;
 	padding-left: 1em;
@@ -89,7 +110,6 @@ input.search {
 
 #fb-filter-list li.selected {
 	list-style-type: disc;
-	/*list-style-image: none;*/
 }
 
 #fb-filter-list li.selected a {
