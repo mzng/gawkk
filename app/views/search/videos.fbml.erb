@@ -1,0 +1,16 @@
+<div>
+	<%= render :partial => '/layouts/navigation' %>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos, :options => {:q => @q}}) do %>
+			<div class="title">Video Results</div>
+		<% end -%>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'Search', {:controller => 'search', :action => 'index', :q => @q} %> <span class="separator">&gt;<span>
+			<%= link_to 'Videos', {:controller => 'search', :action => 'videos', :q => @q} %> <span class="separator">&gt;<span>
+			Page <%= @page %>
+		</div>
+		<%= render @videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos, :options => {:q => @q}} %>
+	</div>
+</div>

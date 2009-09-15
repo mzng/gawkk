@@ -6,7 +6,7 @@
 	<div class="name">
 		<%= link_to user.username, user_path(:id => user) %>
 		<% if !user.description.blank? -%>
-			<br/><%= h(user.description.first(130).strip) %><%= '...' if user.description.length > 130 %>
+			<br/><%= h(user.description.first(120).strip) %><%= '...' if user.description.length > 120 %>
 		<% end -%>
 	</div>
 <% end -%>

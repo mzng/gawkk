@@ -6,7 +6,7 @@
 	<div class="name">
 		<%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %>
 		<% if !channel.user.description.blank? -%>
-			<br/><%= h(channel.user.description.first(130).strip) %><%= '...' if channel.user.description.length > 130 %>
+			<br/><%= h(channel.user.description.first(120).strip) %><%= '...' if channel.user.description.length > 120 %>
 		<% end -%>
 	</div>
 <% end -%>

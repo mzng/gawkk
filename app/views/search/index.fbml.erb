@@ -2,29 +2,29 @@
 	<%= render :partial => '/layouts/navigation' %>
 	<div id="fb-stream">
 		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-bottom:1px;padding:0 5px 3px 5px;">
-			<span style="font-weight:bold;">Channels</span> &middot; <%= link_to pluralize(@channels.total_entries, 'Result'), '#' %>
+			<span style="font-weight:bold;">Channels</span> &middot; <%= link_to pluralize(@channels.total_entries, 'Result'), {:action => 'channels', :q => @q} %>
 		</div>
 		<div id="channel-list">
 			<%= render @channels, :subscribable => true %>
 		</div>
 		<br class="clear"/>
 		<div style="border-top:1px solid #efefef;padding-top:3px;text-align:right;">
-			<%= link_to 'View All Channel Results', '#', :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			<%= link_to 'View All Channel Results', {:action => 'channels', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
 		</div>
 		
 		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-top:30px;margin-bottom:1px;padding:0 5px 3px 5px;">
-			<span style="font-weight:bold;">Members</span> &middot; <%= link_to pluralize(@users.total_entries, 'Result'), '#' %>
+			<span style="font-weight:bold;">Members</span> &middot; <%= link_to pluralize(@users.total_entries, 'Result'), {:action => 'members', :q => @q} %>
 		</div>
 		<div id="user-list">
 			<%= render @users, :followable => true %>
 		</div>
 		<br class="clear"/>
 		<div style="border-top:1px solid #efefef;padding:3px 5px 0 5px;text-align:right;">
-			<%= link_to 'View All Member Results', '#', :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			<%= link_to 'View All Member Results', {:action => 'members', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
 		</div>
 		
 		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-top:30px;padding:0 5px 3px 5px;">
-			<span style="font-weight:bold;">Videos</span> &middot; <%= link_to pluralize(@videos.total_entries, 'Result'), '#' %>
+			<span style="font-weight:bold;">Videos</span> &middot; <%= link_to pluralize(@videos.total_entries, 'Result'), {:action => 'videos', :q => @q} %>
 		</div>
 		<div style="border-top: 1px solid #efefef;margin-top:1px;padding-top:10px;">
 			<% @videos.each_with_index do |video, i| -%>
@@ -32,7 +32,7 @@
 			<% end -%>
 		</div>
 		<div style="border-top:1px solid #efefef;padding:3px 5px 0 5px;text-align:right;">
-			<%= link_to 'View All Video Results', '#', :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			<%= link_to 'View All Video Results', {:action => 'videos', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
 		</div>
 	</div>
 </div>
