@@ -67,8 +67,13 @@ class SubmitController < ApplicationController
           @video.category_id  = Category.find_by_slug('uncategorized').id
           
           if user_logged_in?
-            @video = Util::Thumbnail.suggest(@video)
-            @existing = false
+            begin
+              @video = Util::Thumbnail.suggest(@video)
+              @existing = false
+            rescue
+              @video = nil
+              @error = true
+            end
           else
             session[:actionable] = Hash.new
             session[:actionable][:video] = @video
