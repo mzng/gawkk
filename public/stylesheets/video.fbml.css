@@ -164,3 +164,41 @@
 .video .embed .admin-fake-embed-container {
 	height: 325px;
 }
+
+/* inline activity container */
+.inline-activity-container .nubable {
+	background: url(/images/fb-nub.png) no-repeat 77px 0;
+	padding-top: 5px;
+}
+
+.inline-activity-container .nubable + .nubable {
+	background-image: none;
+	padding-top: 0;
+}
+
+/* hidden comment */
+.video .hidden {
+	display: none;
+}
+
+/* comment */
+.video .new-comment {
+	margin-bottom: 2px;
+	padding-left: 60px;
+}
+
+.video .new-comment table {
+	background-color: #eceff5;
+	border-bottom: 1px solid #e5eaf1;
+	padding: 6px 6px 5px 6px;
+	width: 360px;
+}
+
+.video .new-comment textarea {
+	border: 1px solid #bdc7d8;
+	color: #837d87;
+	margin: 0;
+	overflow: hidden;
+	padding: 4px 3px;
+	width: 340px;
+}

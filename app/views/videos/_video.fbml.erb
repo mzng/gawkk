@@ -70,10 +70,14 @@
 					<span><%= time_ago_in_words(video.posted_at) %> ago</span>
 				<% end -%>
 				&middot; <%= link_to 'Comment', '#' %>
-				&middot; <%= link_to 'Like', '#' %>
+				&middot; <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %></span>
 				&middot; <%= link_to 'Share', '#' %>
 			</td>
 		</tr>
 	</table>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
+	<div class="inline-activity-container">
+		<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+		<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
+	</div>
 </div>

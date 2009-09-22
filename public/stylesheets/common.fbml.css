@@ -32,6 +32,21 @@ input#search-submit {
 	vertical-align: middle;
 }
 
+input.fb-button {
+	background-color: #5d76aa;
+	border: 1px solid #26446e;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 14px;
+}
+
+td.submit {
+	padding-top: 6px;
+	text-align: right;
+}
+
 /* fb filter list */
 #fb-filter-list {
 	float: left;

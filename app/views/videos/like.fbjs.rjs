@@ -1,0 +1,3 @@
+page.select(".like_for_#{@video.id}").each do |value|
+  page.replace_html(value, :partial => '/videos/like.fbml', :locals => {:video => @video, :container_id => @container_id})
+end

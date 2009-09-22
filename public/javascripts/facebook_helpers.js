@@ -66,3 +66,52 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId)
 		);
 	}
 }
+
+// comments
+function showAllCommentsFor(videoId, containerId) {
+	if($('show_all_comments_for_' + videoId + containerId)) {
+		$('show_all_comments_for_' + videoId + containerId).hide();
+	}
+	
+	comments = $$('#video_' + videoId + containerId + ' .hidden');
+	for(i = 0; i < comments.length; i++) {
+		comments[i].removeClassName('hidden');
+	}
+}
+
+function openCommentArea(commentableId, containerId) {
+	$('placeholder_comment_container_for_' + commentableId + containerId).hide();
+	
+	$('actual_comment_container_for_' + commentableId + containerId).show();
+	$('post_container_for_' + commentableId + containerId).show();
+	
+	$('new_comment_for_' + commentableId + containerId).focus();
+}
+
+function autoResize(fieldId) {
+	var str = $(fieldId).value;
+	var cols = $(fieldId).cols;
+	var rows = Math.floor(str.length / cols) + 1;
+	
+	if(str.length > 0 && rows > 1) {
+		$(fieldId).rows = rows;
+	} else {
+		$(fieldId).rows = 2;
+	}
+}
+
+// activity
+function reloadActivity(videoId, containerId, sessionId) {
+	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings + '&container_id=' + containerId;
+		
+		new Ajax.Request('/videos/reload_activity/' + videoId + q + '&_session_id=' + sessionId, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
+				work(videoId, containerId);
+			}, onComplete:function(request){
+				rest(videoId, containerId);
+			}}
+		);
+	} else {
+		rest(videoId, containerId);
+	}
+}

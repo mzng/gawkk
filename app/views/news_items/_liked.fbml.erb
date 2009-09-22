@@ -1,0 +1,21 @@
+<% container_id ||= '' -%>
+
+<div id="likes_for_<%= video.id %><%= container_id %>" class="activity" style="margin-bottom:2px;padding-left:60px;">
+	<% video.likes_by do |likes| -%>
+		<table class="inline" cellpadding="0" cellspacing="0" style="background-color:#eceff5;border-bottom:1px solid #e5eaf1;padding:6px 6px 5px 6px;width:360px;">
+			<tr>
+				<td class="image-small" style="padding-right:6px;width:13px;">
+					<%= image_tag('fb-thumbs-up.png') %>
+				</td>
+				<td colspan="2">
+					<%= summarize_likes(likes) %>
+					<% if likes.size > 1 -%>
+						like this.
+					<% else -%>
+						likes this.
+					<% end -%>
+				</td>
+			</tr>
+		</table>
+	<% end -%>
+</div>
