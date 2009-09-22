@@ -57,7 +57,7 @@ class Feed < ActiveRecord::Base
           oldest_item_to_import = -1
           
           feed_rss.items.each_with_index do |feed_item, i|
-            url = Util::Scrub.truveo_url(feed_item.link)
+            url = Util::Scrub.url(feed_item.link)
             url = Util::Scrub.follow_truveo_url(url)
             
             if (Video.count(:all, :conditions => ['hashed_url = ?', Digest::SHA2.hexdigest(url.nil? ? '' : url)]) == 0) and (DeletedVideo.count(:all, :conditions => ['url = ? OR truveo_url = ?', url, url]) == 0)
@@ -85,8 +85,7 @@ class Feed < ActiveRecord::Base
               end
             end
             
-            # This may be a truveo url, so let's trim it if it is
-            url = Util::Scrub.truveo_url(feed_item.link)
+            url = Util::Scrub.url(feed_item.link)
             url = Util::Scrub.follow_truveo_url(url)
             
             if thorough
@@ -188,7 +187,7 @@ class Feed < ActiveRecord::Base
   end
   
   def self.import_video(feed, feed_item, word_lists, report = nil)
-    url = Util::Scrub.truveo_url(feed_item.link)
+    url = Util::Scrub.url(feed_item.link)
     url = Util::Scrub.follow_truveo_url(url)
     
     # Strip 'Video: ' prefix from feed_item.title, if present

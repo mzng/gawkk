@@ -56,6 +56,7 @@ class SubmitController < ApplicationController
         
         @video = Video.new
         @video.url = params[:video][:url].strip
+        @video.url = Util::Scrub.url(@video.url) if !@video.url.blank?
         
         if (existing_video = Video.find_by_hashed_url(Digest::SHA2.hexdigest(@video.url.nil? ? '' : @video.url))).nil?
           # Post a new video
