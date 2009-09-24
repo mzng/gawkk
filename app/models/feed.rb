@@ -110,7 +110,11 @@ class Feed < ActiveRecord::Base
                   default_channel = Channel.owned_by(self.owned_by).first
                   if SavedVideo.count_by_sql(['SELECT COUNT(*) FROM saved_videos WHERE channel_id = ? AND video_id = ?', default_channel.id, video.id]) == 0
                     saved_video = SavedVideo.create(:channel_id => default_channel.id, :video_id => video.id)
-                    saved_video.generate_messages_for_subscribers!
+                    
+                    ##############################################################
+                    # Messaging Layer for SubscriptionMessages has been disabled #
+                    ##############################################################
+                    # saved_video.generate_messages_for_subscribers!
                   end
                 end
               end
@@ -223,7 +227,11 @@ class Feed < ActiveRecord::Base
       begin
         if video.save
           saved_video = SavedVideo.create(:channel_id => Channel.owned_by(feed.owned_by).first.id, :video_id => video.id)
-          saved_video.generate_messages_for_subscribers!
+          
+          ##############################################################
+          # Messaging Layer for SubscriptionMessages has been disabled #
+          ##############################################################
+          # saved_video.generate_messages_for_subscribers!
 
           # Hack for non auto-incrementing saves_count cache on video import
           video.reload

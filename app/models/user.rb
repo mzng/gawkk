@@ -169,7 +169,11 @@ class User < ActiveRecord::Base
   
   def before_destroy
     ActivityMessage.delete_all(:user_id => self.id)
-    SubscriptionMessage.delete_all(:user_id => self.id)
+    
+    ##############################################################
+    # Messaging Layer for SubscriptionMessages has been disabled #
+    ##############################################################
+    # SubscriptionMessage.delete_all(:user_id => self.id)
     
     return true
   end
@@ -495,18 +499,21 @@ class User < ActiveRecord::Base
     options = args.extract_options!
     max_id = options.delete(:max_id)
     
-    if Parameter.status?('messaging_layer_enabled')
-      user = (self.id.blank? ? User.default_user : self)
-      
-      if max_id.nil?
-        subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
-        max_id = subscription_messages.first.saved_video_id if subscription_messages.size > 0
-      else
-        subscription_messages = SubscriptionMessage.for_user(user).recent.with_max_id_of(max_id).all(options)
-      end
-      
-      videos = Util::Cache.collect_videos_from_subscription_messages(subscription_messages)
-    else
+    ##############################################################
+    # Messaging Layer for SubscriptionMessages has been disabled #
+    ##############################################################
+    # if Parameter.status?('messaging_layer_enabled')
+    #   user = (self.id.blank? ? User.default_user : self)
+    #   
+    #   if max_id.nil?
+    #     subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
+    #     max_id = subscription_messages.first.saved_video_id if subscription_messages.size > 0
+    #   else
+    #     subscription_messages = SubscriptionMessage.for_user(user).recent.with_max_id_of(max_id).all(options)
+    #   end
+    #   
+    #   videos = Util::Cache.collect_videos_from_subscription_messages(subscription_messages)
+    # else
       if max_id.nil?
         saved_videos = SavedVideo.in_channels(self.subscription_ids).all(options)
         max_id = saved_videos.first.id if saved_videos.size > 0
@@ -515,7 +522,7 @@ class User < ActiveRecord::Base
       end
       
       videos = Util::Cache.collect_saved_videos(saved_videos)
-    end
+    # end
     
     return videos, max_id
   end

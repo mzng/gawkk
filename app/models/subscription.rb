@@ -21,9 +21,12 @@ class Subscription < ActiveRecord::Base
       NewsItem.report(:type => 'subscribe_to_channel', :reportable => self.channel, :user_id => self.user_id, :actionable => self)
     end
     
-    if saved_video = self.channel.videos(:limit => 1).first
-      saved_video.generate_message_for_subscriber!(self.user)
-    end
+    ##############################################################
+    # Messaging Layer for SubscriptionMessages has been disabled #
+    ##############################################################
+    # if saved_video = self.channel.videos(:limit => 1).first
+    #   saved_video.generate_message_for_subscriber!(self.user)
+    # end
     
     Rails.cache.delete("channels/#{self.channel_id}/subscribers")
     
