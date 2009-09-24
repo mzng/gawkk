@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090811162716) do
+ActiveRecord::Schema.define(:version => 20090924145637) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -49,13 +49,14 @@ ActiveRecord::Schema.define(:version => 20090811162716) do
     t.integer "position"
     t.integer "threshold_type_id"
     t.integer "threshold"
-    t.boolean "allowed_on_front_page",       :default => true, :null => false
-    t.integer "target_number_of_promotions", :default => 0,    :null => false
+    t.boolean "allowed_on_front_page",       :default => true,  :null => false
+    t.integer "target_number_of_promotions", :default => 0,     :null => false
     t.integer "earliest_popular_video_id"
     t.integer "earliest_video_id"
     t.integer "latest_popular_video_id"
     t.integer "latest_video_id"
     t.string  "thumbnail"
+    t.boolean "popular",                     :default => false, :null => false
   end
 
   add_index "categories", ["threshold_type_id"], :name => "threshold_type_id"
@@ -340,18 +341,6 @@ ActiveRecord::Schema.define(:version => 20090811162716) do
   add_index "searches", ["search_type_id"], :name => "search_type_id"
   add_index "searches", ["user_id"], :name => "user_id"
 
-  create_table "subscription_messages", :id => false, :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "saved_video_id"
-    t.integer  "video_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "subscription_messages", ["saved_video_id"], :name => "saved_video_id"
-  add_index "subscription_messages", ["video_id"], :name => "video_id"
-  add_index "subscription_messages", ["user_id", "saved_video_id"], :name => "index_subscriptions_messages_select"
-
   create_table "subscriptions", :force => true do |t|
     t.integer  "channel_id"
     t.integer  "user_id"
@@ -602,10 +591,6 @@ ActiveRecord::Schema.define(:version => 20090811162716) do
 
   add_foreign_key "searches", ["search_type_id"], "search_types", ["id"], :name => "searches_ibfk_1"
   add_foreign_key "searches", ["user_id"], "users", ["id"], :name => "searches_ibfk_2"
-
-  add_foreign_key "subscription_messages", ["user_id"], "users", ["id"], :name => "subscription_messages_ibfk_1"
-  add_foreign_key "subscription_messages", ["saved_video_id"], "saved_videos", ["id"], :name => "subscription_messages_ibfk_2"
-  add_foreign_key "subscription_messages", ["video_id"], "videos", ["id"], :name => "subscription_messages_ibfk_3"
 
   add_foreign_key "subscriptions", ["channel_id"], "channels", ["id"], :name => "subscriptions_ibfk_1"
   add_foreign_key "subscriptions", ["user_id"], "users", ["id"], :name => "subscriptions_ibfk_2"
