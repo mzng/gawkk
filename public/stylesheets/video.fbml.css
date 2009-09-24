@@ -165,13 +165,17 @@
 	height: 325px;
 }
 
+.video .share a:hover {
+	text-decoration: underline !important;
+}
+
 /* inline activity container */
-.inline-activity-container .nubable {
+.video .nubable {
 	background: url(/images/fb-nub.png) no-repeat 77px 0;
 	padding-top: 5px;
 }
 
-.inline-activity-container .nubable + .nubable {
+.video .nubable + .nubable {
 	background-image: none;
 	padding-top: 0;
 }

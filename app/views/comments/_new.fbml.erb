@@ -1,8 +1,8 @@
 <% in_reply_to	||= nil -%>
 <% container_id	||= '' -%>
 
-<div class="new-comment">
-	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create', :container_id => container_id}) do |f| %>
+<div id="new_comment_for_<%= commentable.id %><%= container_id %>" class="new-comment">
+	<% remote_form_for(comment, :url => {:controller => 'comments', :action => 'create', :container_id => container_id}, :condition => "($F('new_comment_text_for_#{commentable.id}#{container_id}').strip() != '' && $F('new_comment_text_for_#{commentable.id}#{container_id}').strip() != 'Write a comment...')") do |f| %>
 		<%= f.hidden_field 'commentable_type', :value => commentable.class.name %>
 		<%= f.hidden_field 'commentable_id', :value => commentable.id %>
 		<%= f.hidden_field 'thread_id', :value => comment.thread_id %>
@@ -10,7 +10,7 @@
 		<table cellpadding="0" cellspacing="0">
 			<tr id="placeholder_comment_container_for_<%= commentable.id %><%= container_id %>">
 				<td colspan="2">
-					<textarea rows="1" onfocus="openCommentArea('<%= commentable.id %>','<%= container_id %>');"></textarea>
+					<textarea rows="1" onfocus="openCommentArea('<%= commentable.id %>','<%= container_id %>');" style="color:##837d87;">Write a comment...</textarea>
 				</td>
 			</tr>
 			<tr id="actual_comment_container_for_<%= commentable.id %><%= container_id %>" style="display:none;">
@@ -18,7 +18,7 @@
 					<%= link_to image_tag(logged_in_user.thumbnail.blank? ? 'profile-pic.jpg' : logged_in_user.thumbnail, :class => 'avatar', :style => 'height:30px;width:30px;'), user_path(:id => logged_in_user) %>
 				</td>
 				<td style="vertical-align:top;">
-					<%= f.text_area 'body', :id => "new_comment_for_#{commentable.id}#{container_id}", :rows => 2, :style => 'width:302px;' %>
+					<%= f.text_area 'body', :id => "new_comment_text_for_#{commentable.id}#{container_id}", :onfocus => "descriptiveField(this, 'Write a comment...', true);", :onblur => "descriptiveField(this, 'Write a comment...', false);", :rows => 2, :style => 'color:##837d87;width:302px;' %>
 				</td>
 			</tr>
 			<tr id="post_container_for_<%= commentable.id %><%= container_id %>" style="display:none;">
@@ -30,6 +30,6 @@
 	<% end -%>
 	
 	<script type="text/javascript" charset="utf-8">
-		$('new_comment_for_<%= commentable.id %><%= container_id %>').observe('keyup', function(){autoResize('new_comment_for_<%= commentable.id %><%= container_id %>');});
+		$('new_comment_text_for_<%= commentable.id %><%= container_id %>').observe('keyup', function(){autoResize('new_comment_text_for_<%= commentable.id %><%= container_id %>');});
 	</script>
 </div>

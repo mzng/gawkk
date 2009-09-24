@@ -76,9 +76,9 @@ class ApplicationController < ActionController::Base
   end
   
   def request_for_facebook?
-    # (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
+    (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
     
-    true
+    # true
   end
   
   # We want to use our fbml and fbjs templates if the request is for the facebook application
@@ -93,25 +93,25 @@ class ApplicationController < ActionController::Base
   
   # The current user should have a FacebookSession and a Gawkk account
   def require_login_for_facebook
-    # if ensure_authenticated_to_facebook and !user_logged_in?
-    #   if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
-    #     @user = facebook_account.user
-    #     
-    #     # Update the user's last login time
-    #     @user.cookie_hash = bake_cookie_for(@user)
-    #     @user.last_login_at = Time.new
-    #     @user.save
-    #     
-    #     # Store the logged in user's id in the session
-    #     session[:user_id] = @user.id
-    #   elsif controller_name != 'facebook'
-    #     redirect_to :controller => 'facebook', :action => 'connect'
-    #   end
-    # end
-    
-    if !user_logged_in?
-      session[:user_id] = User.find_by_slug('tsmango0').id
+    if ensure_authenticated_to_facebook and !user_logged_in?
+      if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
+        @user = facebook_account.user
+        
+        # Update the user's last login time
+        @user.cookie_hash = bake_cookie_for(@user)
+        @user.last_login_at = Time.new
+        @user.save
+        
+        # Store the logged in user's id in the session
+        session[:user_id] = @user.id
+      elsif controller_name != 'facebook'
+        redirect_to :controller => 'facebook', :action => 'connect'
+      end
     end
+    
+    # if !user_logged_in?
+    #   session[:user_id] = User.find_by_slug('tsmango0').id
+    # end
   end
   
   # Check for a remember cookie and autologin

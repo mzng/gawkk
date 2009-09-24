@@ -14,14 +14,30 @@ function descriptiveField(field, description, focused) {
 }
 
 // Facebook Integration
-function adjustFrameHeight() {
-	FB_RequireFeatures(["CanvasUtil"], function(){
+function setupFacebook() {
+	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){
+		FB.Facebook.init("093158e95304546cd3277069c250b15b", "/xd_receiver.htm");
     FB.XdComm.Server.init('/xd_receiver.htm');
     FB.CanvasClient.startTimerToSizeToContent();
 		FB.CanvasClient.syncUrl();
 		FB.CanvasClient.scrollTo(0,0);
   });
+	
+	// window.setTimeout('resetShareLinks()', 2000);
 }
+
+// function resetShareLinks() {
+// 	var shareLinks = $$('.video .share a');
+// 	for(i = 0; i < shareLinks.length; i++) {
+// 		shareLinks[i].innerHTML = 'Share';
+// 		shareLinks[i].style.visibility = 'visible';
+// 	}
+// 	
+// 	var shareContainers = $$('.video .share');
+// 	for(i = 0; i < shareContainers.length; i++) {
+// 		shareContainers[i].style.visibility = 'visible';
+// 	}
+// }
 
 // Videos
 function work(videoId, containerId) {
@@ -85,7 +101,7 @@ function openCommentArea(commentableId, containerId) {
 	$('actual_comment_container_for_' + commentableId + containerId).show();
 	$('post_container_for_' + commentableId + containerId).show();
 	
-	$('new_comment_for_' + commentableId + containerId).focus();
+	$('new_comment_text_for_' + commentableId + containerId).focus();
 }
 
 function autoResize(fieldId) {
@@ -98,6 +114,34 @@ function autoResize(fieldId) {
 	} else {
 		$(fieldId).rows = 2;
 	}
+}
+
+function comment(videoId, videoSlug, replyId, containerId, sessionId) {
+	commentAndFocus(videoId, videoSlug, replyId, true, containerId, sessionId);
+}
+
+function commentAndFocus(videoId, videoSlug, replyId, focus, containerId, sessionId) {
+	if($('new_comment_for_' + videoId + containerId)) {
+		$('new_comment_for_' + videoId + containerId).remove();
+	}
+	
+	var q = '';
+	if($('last_comment_id_for_' + videoId + containerId) && $('last_comment_id_for_' + videoId + containerId).value != '') {
+		q = "?reply_id=" + $('last_comment_id_for_' + videoId + containerId).value + '&explicit_reply=false' + '&container_id=' + containerId + '&_session_id=' + sessionId;
+	} else {
+		q = "?container_id=" + containerId + '&_session_id=' + sessionId;
+	}
+
+	new Ajax.Request('/' + videoSlug + '/comment' + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
+			work(videoId, containerId);
+		}, onComplete:function(request){
+			rest(videoId, containerId);
+
+			if(focus == true) {
+				openCommentArea(videoId, containerId);
+			}
+		}}
+	);
 }
 
 // activity
@@ -114,4 +158,10 @@ function reloadActivity(videoId, containerId, sessionId) {
 	} else {
 		rest(videoId, containerId);
 	}
+}
+
+// facebook share button
+function fbs_click(u) {
+	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer','toolbar=0,status=0,width=626,height=436');
+	return false;
 }

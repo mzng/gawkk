@@ -29,4 +29,7 @@
 			<%= render :partial => "/comments/new", :locals => {:commentable => video, :comment => comments.last.new_reply, :container_id => container_id} %>
 		<% end -%>
 	<% end -%>
+<% else -%>
+	<div id="comment_container_for_<%= video.id %><%= container_id %>" class="comments"></div>
+	<%= render :partial => "/comments/thread_tracking.html", :locals => {:video => video, :value => '', :container_id => container_id} %>
 <% end -%>
