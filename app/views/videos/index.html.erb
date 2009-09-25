@@ -9,7 +9,7 @@
 			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'index', :popular => true, :tagged => @tagged}, :selected => @popular}, 
 			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'index', :popular => false, :tagged => @tagged}, :selected => !@popular}]} %>
 	<%= render @videos %>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged, :max_id => @max_id}} %>
 </div>
 
 <div id="content-sidebar">
@@ -17,3 +17,9 @@
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
 </div>
+
+<% if !params[:video_id].blank? and !params[:video_slug].blank? -%>
+	<script type="text/javascript" charset="utf-8">
+		watchVideo('<%= params[:video_id] %>', '<%= params[:video_slug] %>', '');
+	</script>
+<% end -%>

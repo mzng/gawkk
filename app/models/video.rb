@@ -22,6 +22,7 @@ class Video < ActiveRecord::Base
   named_scope :allowed_on_front_page, lambda {{:select => 'id, category_id', :conditions => ['category_id IN (?)', Category.allowed_on_front_page_ids]}}
   named_scope :in_category, lambda {|category| {:select => 'id, category_id', :conditions => {:category_id => category.id}}}
   named_scope :in_categories, lambda {|categories| {:select => 'id, category_id', :conditions => ['category_id IN (?)', categories]}}
+  named_scope :with_max_id_of, lambda {|max_id| max_id.blank? ? {} : {:conditions => ['id <= ?', max_id]}}
   
   
   define_index do
