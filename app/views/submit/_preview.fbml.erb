@@ -1,0 +1,45 @@
+<div id="video_preview">
+	<% form_remote_tag(:url => {:controller => 'submit', :action => 'complete'}, :method => :post) do -%>
+		<table id="post" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="profile-picture" rowspan="3">
+					<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'default_avatar.gif' : logged_in_user.thumbnail) %>
+				</td>
+				<td class="body">
+					<%= text_area 'comment', 'body', :value => (comment.nil? ? '' : comment.body), :onfocus => "descriptiveField(this, 'What are you watching?', true);", :onblur => "descriptiveField(this, 'What are you watching?', false);" %>
+				</td>
+			</tr>
+			<tr id="url-container">
+				<td class="url">
+					<div style="padding:10px;">
+						<table cellpadding="0" cellspacing="0" style="width:100%;">
+							<tr>
+								<td colspan="2">
+									<%= text_field 'video', 'name' %>
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="2" style="vertical-align:top;width:130px;">
+									<%= image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail + '?' + Time.now.to_i.to_s, :style => "height:89px;width:127px;") %>
+								</td>
+								<td>
+									<%= text_area 'video', 'description', :style => "height:100px;" %>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Posted in [categories]
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="submit">
+					<%= submit_tag 'Share', :class => 'fb-button' %>
+				</td>
+			</tr>
+		</table>
+	<% end -%>
+</div>

@@ -8,6 +8,9 @@ class SubmitController < ApplicationController
     if params[:comment] and params[:video]
       params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'Tell your friends about it.'
       params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'Video URL (optional)'
+      
+      params[:comment][:body] = '' if params[:comment] and params[:comment][:body] == 'What are you watching?'
+      params[:video][:url]    = '' if params[:video] and params[:video][:url] == 'http://'
 
       params[:comment][:body].strip!
       params[:video][:url].strip!

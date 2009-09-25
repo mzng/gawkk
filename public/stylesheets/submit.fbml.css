@@ -75,6 +75,19 @@
 	padding: 0 7px 6px 7px;
 }
 
+#post .submit span {
+	color: #777777;
+	float: left;
+	font-weight: bold;
+	line-height: 24px;
+}
+
+#post .submit span img {
+	cursor: pointer;
+	margin-top: -4px;
+	vertical-align: middle;
+}
+
 #post .submit input {
 	font-size: 13px;
 }
