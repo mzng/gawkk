@@ -60,9 +60,12 @@ class VideosController < ApplicationController
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
     
-    # if Parameter.status?('front_page_subscription_preview_enabled') or !(logged_in_user or User.new).administrator?
-    #   @videos, @max_id = (logged_in_user or User.new).subscription_videos(:limit => 5)
-    # end
+    newest = Rails.cache.fetch("videos/newest/preview", :expires_in => 1.minute) do
+      videos = collect('videos', Video.newest.allowed_on_front_page.all(:limit => 5))
+      max_id = videos.first ? videos.first.id : nil
+      
+      {:videos => videos, :max_id => max_id}
+    end
     
     @videos = newest[:videos]
     @max_id = newest[:max_id]
