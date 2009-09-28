@@ -11,10 +11,14 @@
 				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
 			<% end -%>
 			<p>
-				<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
-				<script type="text/javascript">
-				    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
-				</script>
+				<% if false -%>
+					<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
+					<script type="text/javascript">
+					    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
+					</script>
+				<% else -%>
+					<%= link_to image_tag('fb-connect-button.gif'), {:controller => 'facebook', :action => 'coming_soon'} %>
+				<% end -%>
 			</p>
 			<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
 		</div>

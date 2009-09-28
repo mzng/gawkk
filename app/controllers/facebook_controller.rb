@@ -4,6 +4,11 @@ class FacebookController < ApplicationController
   layout 'page'
   
   
+  def coming_soon
+    flash[:notice] = "Sorry, but our new Facebook application isn't quite ready. For now, you can register below or <a href=\"/login\">login</a> to your existing gawkk account."
+    redirect_to :controller => 'registration', :action => 'register'
+  end
+  
   def fb_callback
     parsed = {}
     
@@ -161,7 +166,6 @@ class FacebookController < ApplicationController
   end
   
   private
-  # This collides with with the verify_signatures inside of the facebooker plugin
   def verify_signature_manually(facebook_sig_params, expected_signature)
     raw_string = facebook_sig_params.map{ |*args| args.join('=') }.sort.join
     actual_sig = Digest::MD5.hexdigest([raw_string, Util::Facebook.config[:secret]].join)

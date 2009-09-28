@@ -11,7 +11,7 @@
 development:
   api_key: 093158e95304546cd3277069c250b15b
   secret_key: b226ec7a3b9dc98743ddf35bcba581e2
-  canvas_page_name: gawkk-videos
+  canvas_page_name: gawkk-sandbox
   callback_url: http://web1.tunnlr.com:10581/
   pretty_errors: true
   set_asset_host_to_callback_url: true
@@ -36,14 +36,9 @@ test:
     server_alive_interval: 0
 
 production:
-  api_key: 
-  secret_key: 
-  canvas_page_name: 
-  callback_url: 
+  api_key: 3b73b34a3d750d20a4f4e86905459ad1
+  secret_key: 3d4b4a03e7a18aaf52201885c389535b
+  canvas_page_name: gawkkapp
+  callback_url: http://facebook.gawkk.com/
+  pretty_errors: true
   set_asset_host_to_callback_url: true   
-  tunnel:
-    public_host_username: 
-    public_host: 
-    public_port: 4007
-    local_port: 3000
-    server_alive_interval: 0
