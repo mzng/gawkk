@@ -60,9 +60,9 @@ class VideosController < ApplicationController
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
     
-    if Parameter.status?('front_page_subscription_preview_enabled') or !(logged_in_user or User.new).administrator?
-      @videos, @max_id = (logged_in_user or User.new).subscription_videos(:limit => 5)
-    end
+    # if Parameter.status?('front_page_subscription_preview_enabled') or !(logged_in_user or User.new).administrator?
+    #   @videos, @max_id = (logged_in_user or User.new).subscription_videos(:limit => 5)
+    # end
     
     # Friends Activity
     @base_user = (logged_in_user or User.new)

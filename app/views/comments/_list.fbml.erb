@@ -7,7 +7,7 @@
 			<% anchored_comment_id = ((!news_item.nil? and news_item.actionable_type == 'Comment') ? news_item.actionable_id : nil) -%>
 			
 			<% if comments.size < 4 -%>
-				<%= render comments, :container_id => container_id %>
+				<%= render :partial => '/comments/comment.fbml', :collection => comments, :locals => {:container_id => container_id} %>
 			<% else -%>
 				<div style="margin-bottom:2px;padding-left:60px;">
 					<table id="show_all_comments_for_<%= video.id %><%= container_id %>" cellpadding="0" cellspacing="0" style="background-color:#eceff5;border-bottom:1px solid #e5eaf1;padding:6px 6px 5px 6px;width:360px;">
@@ -20,13 +20,13 @@
 					</table>
 				</div>
 				
-				<%= render comments.first(comments.size - 2), :container_id => container_id, :hidden => true %>
-				<%= render comments.last(2), :container_id => container_id %>
+				<%= render :partial => '/comments/comment.fbml', :collection => comments.first(comments.size - 2), :locals => {:container_id => container_id, :hidden => true} %>
+				<%= render :partial => '/comments/comment.fbml', :collection => comments.last(2), :locals => {:container_id => container_id} %>
 			<% end -%>
 		</div>
 		<%= render :partial => "/comments/thread_tracking.html", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : '', :container_id => container_id} %>
 		<% if comments.size > 0 -%>
-			<%= render :partial => "/comments/new", :locals => {:commentable => video, :comment => comments.last.new_reply, :container_id => container_id} %>
+			<%= render :partial => "/comments/new.fbml", :locals => {:commentable => video, :comment => comments.last.new_reply, :container_id => container_id} %>
 		<% end -%>
 	<% end -%>
 <% else -%>

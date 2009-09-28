@@ -1,0 +1,13 @@
+if @video and !@video.id.blank?
+  page.replace_html('postbox-container', :partial => '/submit/new.fbml')
+  
+  page << "if($('video_#{@video.id}') != null){$('video_#{@video.id}').remove();}"
+  page.insert_html(:top, 'activity', :partial => "/videos/video.fbml", :locals => {:video => @video})
+  
+  page << "reloadActivity('#{@video.id}','','#{params[:_session_id]}');"
+  page << "reloadComments('#{@video.id}','','#{params[:_session_id]}');"
+else @video and !@video.errors.empty?
+  # page << "enableCurrentForm();";
+  page.replace_html('errors_for_video_post', :partial => '/submit/errors', :locals => {:video => @video})
+  page << "$('errors_for_video_post').show();"
+end

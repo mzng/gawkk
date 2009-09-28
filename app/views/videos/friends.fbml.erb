@@ -5,7 +5,9 @@
 			<%= render :partial => "/submit/new" %>
 		</div>
 		<br class="clear"/>
-		<%= render @news_items %>
+		<div id="activity">
+			<%= render @news_items %>
+		</div>
 		<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
 		<%= render :partial => "/news_items/setup.html" %>
 	</div>

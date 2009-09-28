@@ -22,22 +22,7 @@ function setupFacebook() {
 		FB.CanvasClient.syncUrl();
 		FB.CanvasClient.scrollTo(0,0);
   });
-	
-	// window.setTimeout('resetShareLinks()', 2000);
 }
-
-// function resetShareLinks() {
-// 	var shareLinks = $$('.video .share a');
-// 	for(i = 0; i < shareLinks.length; i++) {
-// 		shareLinks[i].innerHTML = 'Share';
-// 		shareLinks[i].style.visibility = 'visible';
-// 	}
-// 	
-// 	var shareContainers = $$('.video .share');
-// 	for(i = 0; i < shareContainers.length; i++) {
-// 		shareContainers[i].style.visibility = 'visible';
-// 	}
-// }
 
 // Videos
 function work(videoId, containerId) {
@@ -83,7 +68,7 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId)
 	}
 }
 
-// comments
+// Comments
 function showAllCommentsFor(videoId, containerId) {
 	if($('show_all_comments_for_' + videoId + containerId)) {
 		$('show_all_comments_for_' + videoId + containerId).hide();
@@ -116,6 +101,29 @@ function autoResize(fieldId) {
 	}
 }
 
+function reloadComments(videoId, containerId, sessionId) {
+	reloadCommentsAndComment(videoId, null, false, false, containerId, sessionId);
+}
+
+function reloadCommentsAndComment(videoId, videoSlug, comment, focus, containerId, sessionId) {
+	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
+		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings + '&container_id=' + containerId + '&_session_id=' + sessionId;
+		
+		new Ajax.Request('/videos/reload_comments/' + videoId + q, {method:'get', asynchronous:true, evalScripts:false, onLoading:function(request){
+				work(videoId, containerId);
+			}, onComplete:function(request){
+				rest(videoId, containerId);
+
+				if(comment == true && !$('new_comment_for_' + videoId + containerId)) {
+					commentAndFocus(videoId, videoSlug, '!AUTO', focus, containerId, sessionId);
+				}
+			}}
+		);
+	} else if(comment == true) {
+		commentAndFocus(videoId, videoSlug, '!AUTO', focus, containerId, sessionId);
+	}
+}
+
 function comment(videoId, videoSlug, replyId, containerId, sessionId) {
 	commentAndFocus(videoId, videoSlug, replyId, true, containerId, sessionId);
 }
@@ -144,7 +152,7 @@ function commentAndFocus(videoId, videoSlug, replyId, focus, containerId, sessio
 	);
 }
 
-// activity
+// Activity
 function reloadActivity(videoId, containerId, sessionId) {
 	if(typeof baseUser != 'undefined' && typeof includeFollowings != 'undefined') {
 		var q = '?base_user=' + baseUser + '&include_followings=' + includeFollowings + '&container_id=' + containerId;
@@ -160,7 +168,7 @@ function reloadActivity(videoId, containerId, sessionId) {
 	}
 }
 
-// facebook share button
+// Facebook share button
 function fbs_click(u) {
 	window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u),'sharer','toolbar=0,status=0,width=626,height=436');
 	return false;

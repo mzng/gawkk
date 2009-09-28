@@ -77,8 +77,6 @@ class ApplicationController < ActionController::Base
   
   def request_for_facebook?
     (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
-    
-    # true
   end
   
   # We want to use our fbml and fbjs templates if the request is for the facebook application
@@ -108,10 +106,6 @@ class ApplicationController < ActionController::Base
         redirect_to :controller => 'facebook', :action => 'connect'
       end
     end
-    
-    # if !user_logged_in?
-    #   session[:user_id] = User.find_by_slug('tsmango0').id
-    # end
   end
   
   # Check for a remember cookie and autologin
