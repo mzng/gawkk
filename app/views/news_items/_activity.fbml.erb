@@ -1,0 +1,7 @@
+<% container_id ||= '' -%>
+
+<div id="activity_for_<%= video.id %><%= container_id %>" class="<%= 'nubable' if video.likes.count > 0 and load_activity %> activity">
+	<% if load_activity -%>
+		<%= render :partial => "/news_items/liked.fbml", :locals => {:video => video, :container_id => container_id} %>
+	<% end -%>
+</div>

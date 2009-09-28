@@ -1,0 +1,5 @@
+page << "if($('last_comment_id_for_#{@video.id}#{@container_id}')) {"
+  page.remove("last_comment_id_for_#{@video.id}#{@container_id}")
+page << "}"
+
+page.replace("comment_container_for_#{@video.id}#{@container_id}", :partial => "/comments/list.fbml", :locals => {:video => @video, :load_comments => true, :container_id => @container_id})

@@ -28,6 +28,9 @@ class ChannelsController < ApplicationController
       category = Category.find(@c)
       conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
       parameters = parameters + ["#{category.id}", "#{category.id} %", "% #{category.id}", "% #{category.id} %"]
+      @popular = category.popular
+    else
+      @popular = true
     end
     
     # Order by
@@ -54,6 +57,7 @@ class ChannelsController < ApplicationController
     set_meta_keywords(@channel.keywords)
     set_title(@channel.proper_name)
     setup_pagination
+    setup_category_sidebar
     setup_channel_sidebar(@channel)
 
     @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))

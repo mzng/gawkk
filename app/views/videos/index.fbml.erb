@@ -1,0 +1,36 @@
+<div>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Videos'} do -%>
+		<ul>
+			<li<%= " class=\"selected\"" if !@popular %>><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'index', :popular => false} %></li>
+			<li<%= " class=\"selected\"" if @popular %>><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'index', :popular => true} %></li>
+		</ul>
+		
+		<ul id="popular-categories" style="display:block;">
+			<li class="selected"><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
+			<% @popular_categories.each do |category| -%>
+				<li><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @popular} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+		<ul id="all-categories" style="display:none;">
+			<li class="selected"><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
+			<% @categories.each do |category| -%>
+				<li><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @popular} %></li>
+			<% end -%>
+			<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+		</ul>
+	<% end -%>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
+			<div class="title"><%= @popular ? 'Popular' : 'Newest' %> Videos</div>
+		<% end -%>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Videos', {:controller => 'videos', :action => 'index', :popular => false} %> <span class="separator">&gt;<span>
+			<%= link_to "#{@popular ? 'Popular' : 'Newest'} Videos", {:controller => 'videos', :action => 'index', :popular => @popular} %> <span class="separator">&gt;<span>
+			Page <%= @page %>
+		</div>
+		<%= render @videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
+	</div>
+</div>

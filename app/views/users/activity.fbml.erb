@@ -1,0 +1,18 @@
+<div>
+	<%= render :partial => '/layouts/navigation' %>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @news_items}) do %>
+			<div class="title">
+				The Activity of <%= @user.username %>
+			</div>
+		<% end -%>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Members', {:controller => 'users', :action => 'index'} %> <span class="separator">&gt;<span>
+			<%= link_to @user.username, user_path(:id => @user, :_session_id => params[:_session_id]) %> <span class="separator">&gt;<span>
+			Recent Activity <span class="separator">&gt;<span> Page <%= @page %>
+		</div>
+		<%= render @news_items %>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
+	</div>
+</div>

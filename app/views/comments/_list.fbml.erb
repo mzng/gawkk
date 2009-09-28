@@ -1,0 +1,35 @@
+<% news_item		= nil if news_item.nil? -%>
+<% container_id	||= '' -%>
+
+<% if load_comments -%>
+	<% video.comments_by(@base_user, @include_followings) do |comments| -%>
+		<div id="comment_container_for_<%= video.id %><%= container_id %>" class="nubable comments">
+			<% anchored_comment_id = ((!news_item.nil? and news_item.actionable_type == 'Comment') ? news_item.actionable_id : nil) -%>
+			
+			<% if comments.size < 4 -%>
+				<%= render :partial => '/comments/comment.fbml', :collection => comments, :locals => {:container_id => container_id} %>
+			<% else -%>
+				<div style="margin-bottom:2px;padding-left:60px;">
+					<table id="show_all_comments_for_<%= video.id %><%= container_id %>" cellpadding="0" cellspacing="0" style="background-color:#eceff5;border-bottom:1px solid #e5eaf1;padding:6px 6px 5px 6px;width:360px;">
+						<td class="image-small" style="padding-right:6px;width:13px;">
+							<%= image_tag('fb-view-all-comments.png') %>
+						</td>
+						<td colspan="2">
+							<%= link_to "View all #{comments.size} comments", "javascript:showAllCommentsFor('#{video.id}','#{container_id}');" %>
+						</td>
+					</table>
+				</div>
+				
+				<%= render :partial => '/comments/comment.fbml', :collection => comments.first(comments.size - 2), :locals => {:container_id => container_id, :hidden => true} %>
+				<%= render :partial => '/comments/comment.fbml', :collection => comments.last(2), :locals => {:container_id => container_id} %>
+			<% end -%>
+		</div>
+		<%= render :partial => "/comments/thread_tracking.html", :locals => {:video => video, :value => comments.size > 0 ? comments.last.id : '', :container_id => container_id} %>
+		<% if comments.size > 0 -%>
+			<%= render :partial => "/comments/new.fbml", :locals => {:commentable => video, :comment => comments.last.new_reply, :container_id => container_id} %>
+		<% end -%>
+	<% end -%>
+<% else -%>
+	<div id="comment_container_for_<%= video.id %><%= container_id %>" class="comments"></div>
+	<%= render :partial => "/comments/thread_tracking.html", :locals => {:video => video, :value => '', :container_id => container_id} %>
+<% end -%>

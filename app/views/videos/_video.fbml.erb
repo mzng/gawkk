@@ -1,0 +1,81 @@
+<% news_item					= nil		if news_item.nil? -%>
+<% visible_title 			= true	if visible_title.nil? -%>
+<% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
+<% load_activity			= false	if load_activity.nil? -%>
+<% load_comments			= false	if load_comments.nil? -%>
+<% i									= 1 if i.nil? -%>
+
+<% container_id ||= (news_item.nil? ? '' : "_#{news_item.id}") -%>
+<div id="video_<%= video.id %><%= container_id %>" class="video" <% if i == 0 -%>style="border-top:0px;"<% end -%>>
+	<table class="anchored_container" cellpadding="0" cellspacing="0">
+		<tr>
+			<% if !news_item.nil? -%>
+				<td class="action_owner" rowspan="2">
+					<span style="height:50px;overflow:hidden;width:50px;">
+						<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail, :class => 'avatar'), user_path(:id => news_item.user) %>
+					</span>
+				</td>
+				<td class="action_description">
+					<%= news_item.render_simple(false, params[:_session_id]) %>
+				</td>
+			<% elsif !video.posted_by.nil? -%>
+				<td class="action_owner" rowspan="2">
+					<span style="height:50px;overflow:hidden;width:50px;">
+						<%= link_to image_tag(video.posted_by.thumbnail.blank? ? 'profile-pic.jpg' : video.posted_by.thumbnail, :class => 'avatar'), user_path(:id => video.posted_by) %>
+					</span>
+				</td>
+				<td class="action_description">
+					<%= link_to video.posted_by.username, user_path(:id => video.posted_by, :_session_id => params[:_session_id]) %> posted this video
+				</td>
+			<% else -%>
+				<td class="action_owner" rowspan="2"></td>
+				<td class="action_description"></td>
+			<% end -%>
+		</tr>
+		<tr>
+			<td class="action_body">
+				<div class="title">
+					<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}','#{params[:_session_id]}');" %>
+					<%= popular_icon(video, container_id) %>
+				</div>
+				<div class="body">
+					<div class="thumbnail">
+						<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}','#{params[:_session_id]}');" %>
+					</div>
+					<div class="description">
+						<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
+						<span id="description_for_<%= video.id %><%= container_id %>">
+							<% if video.safe_description.length > 250 -%>
+								<%= video.safe_description.first(250).strip %>...
+							<% else -%>
+								<%= video.safe_description %>
+							<% end -%>
+						</span>
+					</div>
+					<div class="posted">
+						Posted in <%= link_to video.cached_category.name, {:controller => 'videos', :action => 'category', :category => video.cached_category, :popular => video.popular?} %>
+						<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
+							via <%= link_to video.host, video.url, :target => video.slug %>
+						<% end -%>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="actions">
+				<% if !news_item.nil? -%>
+					<span><%= time_ago_in_words(news_item.created_at) %> ago</span>
+				<% elsif !video.posted_by.nil? -%>
+					<span><%= time_ago_in_words(video.posted_at) %> ago</span>
+				<% end -%>
+				&middot; <%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}','#{params[:_session_id]}');" %>
+				&middot; <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %></span>
+				&middot; <%= link_to 'Share', "http://www.facebook.com/share.php?u=/#{video.slug}/discuss", :onclick => "return fbs_click('http://gawkk.com/#{video.slug}/discuss')", :target => 'facebook' %>
+			</td>
+		</tr>
+	</table>
+	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
+	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
+</div>

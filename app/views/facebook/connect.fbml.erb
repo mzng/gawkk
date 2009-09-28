@@ -1,0 +1,39 @@
+<% if false -%>
+	<div style="margin-top:10px;">
+		<fb:success>
+			<fb:message>Please confirm your username for use on <%= link_to 'gawkk.com', 'http://gawkk.com', :target => 'gawkkdotcom' %></fb:message>
+		</fb:success>
+	</div>
+<% end -%>
+
+<% form_for(:user, @user, :url => facebook_connect_path) do |f| %>
+	<table cellpadding="3" cellspacing="0" class="editorkit" style="background-color:#f7f7f7;margin:10px auto 0 auto;">
+		<tr>
+			<td colspan="3" style="background-color:#dedede;font-weight:bold;padding:5px;">
+				Choose a Username
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="2" style="text-align:center;width:95px;">
+				<%= image_tag(@facebook[:image_small], :style => 'border:1px solid #E5E5E5;height:50px;width:50px;') %>
+			</td>
+			<th style="text-align:right;width:85px;">
+				<label>Username:</label>
+			</th>
+			<td class="editorkit_row" style="width:240px;">
+				<%= text_field 'user', 'username', :value => @user.username, :style => 'width:210px;' %>
+				<%= hidden_field 'valid', 'username', :value => 'false' %>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-right:25px;text-align:right;">
+				I am over 13 years old and agree to the <%= link_to 'Terms', {:controller => 'pages', :action => 'terms_of_use'}, :target => 'terms' %> &amp; <%= link_to 'Privacy', {:controller => 'pages', :action => 'privacy'}, :target => 'privacy' %>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="editorkit_buttonset" style="padding:10px 20px 10px 10px;text-align:right;">
+				<input type="submit" class="editorkit_button action" value="Submit">
+			</td>
+		</tr>
+	</table>
+<% end -%>

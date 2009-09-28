@@ -1,0 +1,6 @@
+page.remove("new_comment_for_#{@comment.commentable_id}#{@container_id}")
+page.insert_html(:bottom, "comment_container_for_#{@comment.commentable_id}#{@container_id}", :partial => "/comments/comment.fbml", :locals => {:comment => @comment, :container_id => @container_id})
+page.visual_effect(:highlight, "comment_#{@comment.id}#{@container_id}", :startcolor => "#FFFFCC")
+
+page << "if($('last_comment_id_for_#{@comment.commentable_id}#{@container_id}')) {$('last_comment_id_for_#{@comment.commentable_id}#{@container_id}').value = '#{@comment.id}';}"
+page.insert_html(:after, "comment_container_for_#{@comment.commentable_id}#{@container_id}", :partial => "/comments/new.fbml", :locals => {:commentable => @comment.commentable, :comment => @comment.new_reply, :container_id => @container_id})

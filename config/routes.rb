@@ -107,7 +107,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'twitter/:action',    :controller => 'twitter'
   
   
-  # facebook
+  # facebook connect
   map.connect 'fb_callback',        :controller => 'facebook', :action => 'fb_callback'
   map.connect 'facebook/:action',   :controller => 'facebook'
   
@@ -136,6 +136,8 @@ ActionController::Routing::Routes.draw do |map|
   map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
   map.channel_rss ':user/:channel.rss',         :controller => 'channels', :action => 'show', :format => 'rss'
   map.subscribers ':user/:channel/subscribers', :controller => 'channels', :action => 'subscribers'
+  
+  map.facebook_connect 'facebook/connect',      :controller => 'facebook', :action => 'connect'
   
   
   # front page

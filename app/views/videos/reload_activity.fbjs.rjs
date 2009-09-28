@@ -1,0 +1,1 @@
+page.replace("activity_for_#{@video.id}#{@container_id}", :partial => "/news_items/activity.fbml", :locals => {:video => @video, :load_activity => true, :container_id => @container_id})

@@ -1,0 +1,24 @@
+<div>
+	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
+		<ul>
+			<li><%= link_to 'All Channels', {:controller => 'channels', :action => 'index', :t => 'a', :c => 'a'} %></li>
+			<li><%= link_to 'Featured Channels', {:controller => 'channels', :action => 'index', :t => 'f', :c => 'a'} %></li>
+			<li class="selected"><%= link_to 'Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %></li>
+		</ul>
+	<% end -%>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @channels}) do %>
+			<div class="title">Channels</div>
+		<% end -%>
+		<div id="breadcrumb-trail" style="padding-bottom:6px;">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Channels', {:controller => 'channels', :action => 'index', :t => 'a'} %> <span class="separator">&gt;<span>
+			<%= link_to 'Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %> <span class="separator">&gt;<span>
+			Page <%= @page %>
+		</div>
+		<div id="channel-list">
+			<%= render @channels, :subscribable => true %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
+	</div>
+</div>

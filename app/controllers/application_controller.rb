@@ -4,16 +4,19 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :check_cookie, :check_for_invitation, :perform_outstanding_action]
-  after_filter  [:reset_redirect_to]
+  before_filter [:preload_models, :delegate_request, :check_cookie, :check_for_invitation, :perform_outstanding_action]
+  after_filter  [:remember_facebook_session, :reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   
+  private
+  
   # Ensures objects can be properly marshaled out of memcached
   def preload_models
+    CacheableHash
     Category
     Channel
     Invitation
@@ -22,6 +25,87 @@ class ApplicationController < ActionController::Base
     SavedVideo
     User
     Video
+  end
+  
+  # Ensure Facebook requests are stateful by overwriting the session method
+  def session
+    if request_for_facebook?
+      # TODO: Confirm _session_id is associated with the proper ip address
+      
+      request.session[:instantiate_session] = true
+      params[:_session_id] = request.session_options[:id] unless params[:_session_id]
+      
+      Rails.cache.fetch("sessions/#{params[:_session_id]}", :expires_in => 1.week) do
+        CacheableHash.new("sessions/#{params[:_session_id]}", :hash => request.session, :expires_in => 1.week)
+      end
+    else
+      request.session
+    end
+  end
+  
+  def remember_facebook_session
+    session
+  end
+
+  # Facebook requests require cookie-less sessions, tag along the _session_id
+  def default_url_options(options = nil)
+    if request_for_facebook?
+      params[:_session_id] = request.session_options[:id] unless params[:_session_id]
+      {:_session_id => params[:_session_id]}
+    end
+  end
+
+  # Requests from Facebook are handled differently, okay?
+  def delegate_request
+    logger.debug "=================================================================="
+    logger.debug " This is a #{request_for_facebook? ? 'Facebook' : 'Regular'} Request"
+    logger.debug "------------------------------------------------------------------"
+    logger.debug " request.session_options[:id] = #{request.session_options[:id]}"
+    logger.debug " params[:_session_id]         = #{params[:_session_id]}"
+    logger.debug "------------------------------------------------------------------"
+    logger.debug " session.keys = #{session.keys.join(', ')}"
+    logger.debug "=================================================================="
+    logger.debug ''
+    
+    if request_for_facebook?
+      coerce_into_fbml_or_fbjs
+      require_login_for_facebook
+    else
+      ActionController::Base.asset_host = nil
+    end
+  end
+  
+  def request_for_facebook?
+    (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
+  end
+  
+  # We want to use our fbml and fbjs templates if the request is for the facebook application
+  def coerce_into_fbml_or_fbjs
+    request.format = ((request.format == 'text/javascript') ? :fbjs : :fbml)
+  end
+  
+  # Some ajax requests via facebook will use the standard rjs templates and associated views
+  def coerce_back_to_js
+    request.format = :js
+  end
+  
+  # The current user should have a FacebookSession and a Gawkk account
+  def require_login_for_facebook
+    if ensure_authenticated_to_facebook and !user_logged_in?
+      if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
+        @user = facebook_account.user
+        
+        # Update the user's last login time
+        @user.cookie_hash = bake_cookie_for(@user)
+        @user.last_login_at = Time.new
+        @user.save
+        
+        # Store the logged in user's id in the session
+        session[:user_id] = @user.id
+      elsif controller_name != 'facebook'
+        redirect_to :controller => 'facebook', :action => 'connect'
+      end
+    end
   end
   
   # Check for a remember cookie and autologin
@@ -175,6 +259,10 @@ class ApplicationController < ActionController::Base
   end
   
   # Miscellaneous
+  def layout_based_on_format
+    (params[:format] and params[:format] == 'fbml') ? 'facebook' : 'page'
+  end
+  
   def record_ad_campaign
     if !params[:ref].blank?
       session[:ref] = params[:ref]
@@ -339,6 +427,7 @@ class ApplicationController < ActionController::Base
     end
     
     @categories = Category.allowed_on_front_page
+    @popular_categories = Category.popular_cached
   end
   
   def setup_discuss_sidebar(video)

@@ -1,0 +1,1 @@
+page.insert_html(:bottom, "video_#{@video.id}#{@container_id}", :partial => "/comments/new.fbml", :locals => {:commentable => @video, :comment => @comment, :container_id => @container_id})

@@ -1,0 +1,21 @@
+if @news_item
+  page.replace_html('postbox-container', :partial => '/submit/new.fbml')
+  page.insert_html(:top, 'activity', :partial => "/news_items/status.fbml", :locals => {:news_item => @news_item})
+elsif @video and !@video.id.blank?
+  page.replace_html('postbox-container', :partial => '/submit/new.fbml')
+  
+  page << "if($('video_#{@video.id}') != null){$('video_#{@video.id}').remove();}"
+  page.insert_html(:top, 'activity', :partial => "/videos/video.fbml", :locals => {:video => @video})
+  
+  page << "reloadActivity('#{@video.id}','','#{params[:_session_id]}');"
+  page << "reloadComments('#{@video.id}','','#{params[:_session_id]}');"
+elsif @video
+  page.replace_html('postbox-container', :partial => '/submit/preview.fbml', :locals => {:video => @video, :comment => @comment})
+  page.visual_effect(:blind_down, 'video_preview', :duration => '.3')
+else
+  if @error
+    page << "$('video_url').style.borderColor = 'red';"
+  else
+    page << "$('video_url').style.borderColor = '#dfdfdf';"
+  end
+end

@@ -1,0 +1,18 @@
+<div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Videos'} %>
+	<div id="fb-stream">
+		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => nil}) do %>
+			<div class="title"><%= @video.title %></div>
+		<% end -%>
+		<div id="breadcrumb-trail">
+			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
+			<%= link_to 'All Videos', {:controller => 'videos', :action => 'index', :popular => false} %> <span class="separator">&gt;<span>
+			<%= link_to @video.category.name, {:controller => 'videos', :action => 'category', :category => @video.category, :popular => @video.popular?} %>
+		</div>
+		<%= render @video %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	watchVideo('<%= @video.id %>','<%= @video.slug %>','','<%= params[:_session_id] %>');
+</script>

@@ -1,5 +1,9 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  def request_for_facebook?
+    (request.subdomains.first == 'web1' or request.subdomains.first == 'facebook') ? true : false
+  end
+  
   def outstanding_invitation
     if !session[:invitation_id].blank?
       Rails.cache.fetch("invitations/#{session[:invitation_id]}", :expires_in => 6.hours) do

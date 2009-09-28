@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+	<head>
+		<% if !@meta_description.nil? -%>
+			<meta name="description" content="<%= @meta_description %>"/>
+		<% end -%>
+
+		<% if !@meta_keywords.nil? -%>
+			<meta name="keywords" content="<%= @meta_keywords %>"/>
+		<% end -%>
+		
+		<% if !@thumbnail_url.nil? -%>
+			<link rel="image_src" href="<%= @thumbnail_url %>" />
+			<link rel="media:image" href="<%= @thumbnail_url %>" />
+		<% end -%>
+		
+		<link href="/stylesheets/default.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/common.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/submit.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/video.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/channel.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/user.fbml.css?<%= Time.now.to_i %>" media="screen" rel="stylesheet" type="text/css" />
+		
+		<script src="/javascripts/prototype.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+		<script src="/javascripts/effects.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+		<script src="/javascripts/dragdrop.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+		<script src="/javascripts/controls.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+		<script src="/javascripts/facebook_helpers.js?<%= Time.now.to_i %>" type="text/javascript"></script>
+	</head>
+	<body style="overflow:hidden;width:760px;">
+	<!-- <body style="width:760px;"> -->
+		<script src="http://static.ak.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+		<%= render :partial => '/layouts/header' %>
+		<%= yield  %>
+		<% if true -%>
+			<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
+			<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>
+			<script type="text/javascript">setupFacebook();</script>
+		<% end -%>
+	</body>
+</body>

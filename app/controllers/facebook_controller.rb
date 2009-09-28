@@ -1,6 +1,8 @@
 class FacebookController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:connect]
+  
   layout 'page'
+  
   
   def fb_callback
     parsed = {}
@@ -13,10 +15,10 @@ class FacebookController < ApplicationController
       parsed[key[(Util::Facebook.config[:key] + "_").size, key.size]] = cookies[key]
     }
     
-    return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss'] 
-    return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")          
+    return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
+    return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
     
-    verify_signature(parsed,cookies[Util::Facebook.config[:key]])
+    verify_signature_manually(parsed, cookies[Util::Facebook.config[:key]])
     
     facebook_session = Facebooker::Session.create(Util::Facebook.config[:key], Util::Facebook.config[:secret])
     facebook_session.secure_with!(parsed['session_key'], parsed['user'], parsed['expires'], parsed['ss'])
@@ -59,26 +61,58 @@ class FacebookController < ApplicationController
   
   def connect
     if request.get?
-      @facebook = session[:facebook_credentials]
-      
-      @user = User.new
-      @user.send_digest_emails = true
-      
-      if !@facebook[:name].blank?
-        @user.username = @facebook[:name].first(15).gsub(/\s/, '')
-        
-        attempt = 0
-        while !User.valid_username?(@user.username) and attempt < 3 do
-          if @user.username.length < 15
-            @user.username = @user.username + rand(10).to_s
-          else
-            @user.username = @user.username[0, 14] + rand(10).to_s
-          end
-          
-          attempt = attempt + 1
+      if !user_logged_in?
+        if facebook_session = session[:facebook_session]
+          facebook = Hash.new
+          facebook[:id] = facebook_session.user.uid
+          facebook[:name] = facebook_session.user.name
+          facebook[:description] = facebook_session.user.about_me
+          facebook[:image_small] = facebook_session.user.pic_square_with_logo
+          facebook[:image_large] = facebook_session.user.pic_big
+          facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+
+          session[:facebook_credentials] = facebook
         end
+
+        @facebook = session[:facebook_credentials]
+
+        @user = User.new
+        @user.send_digest_emails = true
+
+        if !@facebook[:name].blank?
+          if !@facebook[:profile_url].blank? and !@facebook[:profile_url][/^profile.php/]
+            @user.username = @facebook[:profile_url].first(15).gsub(/\s/, '').gsub(/\./, '')
+          else
+            @user.username = @facebook[:name].first(15).gsub(/\s/, '').gsub(/\./, '')
+          end
+
+          attempt = 0
+          while !User.valid_username?(@user.username) and attempt < 3 do
+            if @user.username.length < 15
+              @user.username = @user.username + rand(10).to_s
+            else
+              @user.username = @user.username[0, 14] + rand(10).to_s
+            end
+
+            attempt = attempt + 1
+          end
+        end
+      else
+        redirect_to :controller => 'videos', :action => 'friends'
       end
     else
+      if facebook_session = session[:facebook_session]
+        facebook = Hash.new
+        facebook[:id] = facebook_session.user.uid
+        facebook[:name] = facebook_session.user.name
+        facebook[:description] = facebook_session.user.about_me
+        facebook[:image_small] = facebook_session.user.pic_square_with_logo
+        facebook[:image_large] = facebook_session.user.pic_big
+        facebook[:profile_url] = facebook_session.user.profile_url.gsub(/^http:\/\/www\.facebook\.com\//, '')
+        
+        session[:facebook_credentials] = facebook
+      end
+      
       @facebook = session[:facebook_credentials]
       
       @user = User.new(params[:user])
@@ -91,6 +125,10 @@ class FacebookController < ApplicationController
       
       @user.password = Util::AuthCode.generate(32)
       @user.password_confirmation = @user.password
+      
+      if request_for_facebook?
+        @user.email = "fb-app-user+#{Util::Slug.generate(@user.username, false)}@gawkk.com"
+      end
       
       if @user.save
         # Remember this user
@@ -114,12 +152,17 @@ class FacebookController < ApplicationController
         accept_outstanding_invitation
       end
       
-      redirect_to :controller => "registration", :action => "setup_suggestions"
+      if request_for_facebook?
+        redirect_to :controller => "videos", :action => "friends"
+      else
+        redirect_to :controller => "registration", :action => "setup_suggestions"
+      end
     end
   end
   
   private
-  def verify_signature(facebook_sig_params, expected_signature)
+  # This collides with with the verify_signatures inside of the facebooker plugin
+  def verify_signature_manually(facebook_sig_params, expected_signature)
     raw_string = facebook_sig_params.map{ |*args| args.join('=') }.sort.join
     actual_sig = Digest::MD5.hexdigest([raw_string, Util::Facebook.config[:secret]].join)
     raise Facebooker::Session::IncorrectSignature if actual_sig != expected_signature

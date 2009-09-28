@@ -1,0 +1,19 @@
+<% hidden = false if hidden.nil? -%>
+<% container_id	||= '' -%>
+
+<div style="margin-bottom:2px;padding-left:60px;">
+	<table id="comment_<%= comment.id %><%= container_id %>" class="<%= 'hidden' if hidden %>" cellpadding="0" cellspacing="0" style="background-color:#eceff5;border-bottom:1px solid #e5eaf1;padding:6px 6px 5px 6px;width:360px;">
+		<tr>
+			<td class="image" style="padding-right:8px;vertical-align:top;width:13px;">
+				<%= link_to image_tag(comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail, :class => 'avatar', :style => 'height:30px;width:30px;'), user_path(:id => comment.user) %>
+			</td>
+			<td colspan="2" style="vertical-align:top;">
+				<%= link_to comment.user.username, user_path(:id => comment.user), :style => 'font-weight:bold;' %>
+				<%= auto_link_usernames(comment.body) %><br/>
+				<span title="<%= comment.created_at %>" style="color:#777;font-size:11px;">
+					<%= time_ago_in_words(comment.created_at) %> ago
+				</span>
+			</td>
+		</tr>
+	</table>
+</div>

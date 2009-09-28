@@ -1,0 +1,54 @@
+<div>
+	<%= render :partial => '/layouts/navigation' %>
+	<div id="fb-stream">
+		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-bottom:1px;padding:0 5px 3px 5px;">
+			<span style="font-weight:bold;">Channels</span> <% if @channels.total_entries > 0 -%>&middot; <%= link_to pluralize(@channels.total_entries, 'Result'), {:action => 'channels', :q => @q} %><% end -%>
+		</div>
+		<div id="channel-list">
+			<%= render @channels, :subscribable => true %>
+			<% if @channels.total_entries == 0 -%>
+				<p style="padding-left:15px;"><em>No channels found.</em></p>
+			<% end -%>
+		</div>
+		<br class="clear"/>
+		<% if @channels.total_entries > 0 -%>
+			<div style="border-top:1px solid #efefef;padding-top:3px;text-align:right;">
+				<%= link_to 'View All Channel Results', {:action => 'channels', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			</div>
+		<% end -%>
+		
+		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-top:30px;margin-bottom:1px;padding:0 5px 3px 5px;">
+			<span style="font-weight:bold;">Members</span> <% if @users.total_entries > 0 -%>&middot; <%= link_to pluralize(@users.total_entries, 'Result'), {:action => 'members', :q => @q} %><% end -%>
+		</div>
+		<div id="user-list">
+			<%= render @users, :followable => true %>
+			<% if @users.total_entries == 0 -%>
+				<p style="padding-left:15px;"><em>No members found.</em></p>
+			<% end -%>
+		</div>
+		<br class="clear"/>
+		<% if @users.total_entries > 0 -%>
+			<div style="border-top:1px solid #efefef;padding:3px 5px 0 5px;text-align:right;">
+				<%= link_to 'View All Member Results', {:action => 'members', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			</div>
+		<% end -%>
+		
+		<div style="border-bottom:1px solid #dedede;font-size:11px;margin-top:30px;padding:0 5px 3px 5px;">
+			<span style="font-weight:bold;">Videos</span> <% if @videos.total_entries > 0 -%>&middot; <%= link_to pluralize(@videos.total_entries, 'Result'), {:action => 'videos', :q => @q} %><% end -%>
+		</div>
+		<% if @videos.total_entries == 0 -%>
+			<p style="padding-left:15px;"><em>No videos found.</em></p>
+		<% else -%>
+			<div style="border-top: 1px solid #efefef;margin-top:1px;padding-top:10px;">
+				<% @videos.each_with_index do |video, i| -%>
+					<%= render video, :i => i %>
+				<% end -%>
+			</div>
+		<% end -%>
+		<% if @videos.total_entries > 0 -%>
+			<div style="border-top:1px solid #efefef;padding:3px 5px 0 5px;text-align:right;">
+				<%= link_to 'View All Video Results', {:action => 'videos', :q => @q}, :style => 'font-weight:bold;padding-right:12px;background:url(http://web1.tunnlr.com:10581/images/fb-right-arrow.png) no-repeat 100% 0%;' %>
+			</div>
+		<% end -%>
+	</div>
+</div>

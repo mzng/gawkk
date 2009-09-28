@@ -1,0 +1,14 @@
+<div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'News Feed'} %>
+	<div id="fb-stream">
+		<div id="postbox-container">
+			<%= render :partial => "/submit/new" %>
+		</div>
+		<br class="clear"/>
+		<div id="activity">
+			<%= render @news_items %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
+		<%= render :partial => "/news_items/setup.html" %>
+	</div>
+</div>

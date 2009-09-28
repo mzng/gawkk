@@ -138,18 +138,16 @@ class User < ActiveRecord::Base
       
       Rails.cache.delete("users/#{self.id}/subscriptions")
       
-      # Process existing invitations
-      
       # Setup YouTube feed for importer
       if !self.youtube_username.blank?
         # Feed.create :category_id => Category.find_by_slug('uncategorized').id, :owned_by_id => self.id, :url => "http://www.youtube.com/rss/user/#{self.youtube_username}/videos.rss", :active => true
       end
       
-      # Report welcome news item
-      
       # Send welcome email
-      spawn(:nice => 10) do
-        RegistrationMailer.deliver_notification(self)
+      unless self.facebook? and self.email[/^fb\-app\-user/] and self.email[/@gawkk\.com$/]
+        spawn(:nice => 10) do
+          RegistrationMailer.deliver_notification(self)
+        end
       end
     end
   end
