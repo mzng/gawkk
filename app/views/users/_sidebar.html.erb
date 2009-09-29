@@ -35,7 +35,3 @@
 <%= render :partial => "/layouts/set", :locals => {:title => 'Friends', :description => '(mutual followers)', 
 		:link => {:controller => 'users', :action => 'friends', :id => user}, 
 		:count => @friends_count, :collection => @friends} %>
-
-<%= render :partial => "/layouts/set", :locals => {:title => 'Channels', :description => '(followed channels)', 
-		:link => {:controller => 'users', :action => 'subscriptions', :id => user}, 
-		:count => @subscribed_channels_count, :collection => @subscribed_channels} %>

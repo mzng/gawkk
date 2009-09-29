@@ -15,8 +15,6 @@
 	<div>
 		<% if !user.nil? -%>
 			<%= render :partial => "/users/follow", :locals => {:user => user} %>
-		<% elsif !channel.nil? -%>
-			<%= render :partial => "/channels/subscribe", :locals => {:channel => channel} %>
 		<% else -%>
 			&nbsp;
 		<% end -%>

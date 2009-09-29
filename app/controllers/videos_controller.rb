@@ -77,24 +77,7 @@ class VideosController < ApplicationController
   end
   
   def subscriptions
-    pitch
-    if user_logged_in?
-      set_title("#{logged_in_user.username} - Newest Videos from Followed Channels")
-    else
-      set_title("Newest Videos from Suggested Channels")
-    end
-    setup_pagination
-    
-    # Videos from Followed Channels
-    @videos, max_id = (logged_in_user or User.new).subscription_videos(:max_id => @max_id, :offset => @offset, :limit => @per_page)
-    
-    if @max_id.nil? and @page == 1 and @videos.size > 0
-      @max_id = max_id
-    end
-    
-    # Followed Channels
-    @channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'name ASC'))
-    @popular_channels = collect('channels', (logged_in_user or User.new).subscribed_channels(:order => 'subscriptions_count DESC', :limit => 10))
+    redirect_to :controller => 'channels'
   end
   
   

@@ -66,11 +66,7 @@ class ChannelsController < ApplicationController
   
   # Single Channel
   def subscribers
-    # load_channel or redirect
-    setup_pagination(:per_page => 42)
-    setup_channel_sidebar(@channel)
-    
-    @users = collect('users_from_subscriptions', Subscription.for_channel(@channel).recent.all(:offset => @offset, :limit => @per_page))
+    redirect_to channel_path(@user, @channel)
   end
   
   

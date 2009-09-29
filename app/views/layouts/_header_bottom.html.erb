@@ -5,17 +5,12 @@
 				<ul>
 					<li><%= link_to 'Newest Videos', {:controller => '/videos', :action => 'index', :popular => false} %></li>
 					<li><%= link_to 'Popular Videos', {:controller => '/videos', :action => 'index', :popular => true} %></li>
-					<li><%= link_to 'Channel Videos', {:controller => '/videos', :action => 'subscriptions'} %></li>
 				</ul>
 			</li>
 			<li><%= link_to 'Channels', {:controller => '/channels'} %>
 				<ul>
 					<li><%= link_to 'Featured Channels', {:controller => '/channels'} %></li>
-					<% if user_logged_in? -%>
-						<li><%= link_to 'Channels I Follow', {:controller => '/users', :action => 'subscriptions', :id => logged_in_user} %></li>
-					<% else -%>
-						<li><%= link_to_remote 'Channels I Follow', {:url => {:controller => 'authentication', :action => 'login', :redirect_to => '/members/subscriptions'}, :method => :get} %></li>
-					<% end -%>
+					<li><%= link_to 'A - Z Channels', {:controller => 'channels', :action => 'index', :t => 'a', :s => 'a'} %></li>
 				</ul>
 			</li>
 			<% Category.allowed_in_header.each_with_index do |category, i| -%>

@@ -18,10 +18,6 @@
 <div id="content-sidebar">
 	<%= render :partial => "/channels/about" %>
 	
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Recent Subscribers', 
-		:link => subscribers_path(:user => @user, :channel => @channel), :force_link => true, 
-		:count => @recent_subscribers_count, :collection => @recent_subscribers} %>
-	
 	<%= render :partial => "/channels/explanation" %>
 	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>

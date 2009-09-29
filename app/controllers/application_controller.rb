@@ -401,17 +401,6 @@ class ApplicationController < ActionController::Base
     @friends = @friends.rand(4)
     
     
-    @subscribed_channels_count = Rails.cache.fetch("users/#{user.id}/subscriptions/count", :expires_in => 6.hours) do
-      Channel.subscribed_to_by(user).count
-    end
-    
-    @subscribed_channels = Rails.cache.fetch("users/#{user.id}/subscriptions/random", :expires_in => 6.hours) do
-      collect('channels', user.subscribed_channels(:order => 'rand()', :limit => 16))
-    end
-    
-    @subscribed_channels = @subscribed_channels.rand(4)
-    
-    
     activity_types = Rails.cache.fetch("news_item_types/activity/set", :expires_in => 6.hours) do
       NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
     end

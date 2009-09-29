@@ -68,12 +68,7 @@ class UsersController < ApplicationController
   end
   
   def subscriptions
-    # load_member or redirect
-    set_title(@user.username + ' - Subscriptions')
-    setup_pagination(:per_page => 42)
-    setup_user_sidebar(@user)
-    
-    @channels = @user.subscribed_channels(:order => 'channels.name ASC', :offset => @offset, :limit => @per_page)
+    redirect_to :action => 'activity', :id => @user
   end
   
   def digest
