@@ -3,7 +3,6 @@
 		<ul>
 			<li><%= link_to 'All Channels', {:action => 'index', :t => 'a', :c => 'a'} %></li>
 			<li><%= link_to 'Featured Channels', {:action => 'index', :t => 'f', :c => 'a'} %></li>
-			<li><%= link_to 'Subscriptions', {:controller => 'users', :action => 'subscriptions', :id => logged_in_user} %></li>
 		</ul>
 		
 		<ul id="popular-categories" style="display:block;">
