@@ -96,9 +96,8 @@ class ApplicationController < ActionController::Base
         @user = facebook_account.user
         
         # Update the user's last login time
-        @user.cookie_hash = bake_cookie_for(@user)
-        @user.last_login_at = Time.new
-        @user.save
+        @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
+        @user.register_login!
         
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
@@ -118,7 +117,7 @@ class ApplicationController < ActionController::Base
       cookie_hash = Digest::MD5.hexdigest(cookies[:_gawkk_login].split('&')[1] + user.salt)
       if user.cookie_hash == cookie_hash
         session[:user_id] = user.id
-        user.update_attribute('last_login_at', Time.now)
+        user.register_login!
       end
     end
   end

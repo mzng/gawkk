@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   
   
   named_scope :members, :select => 'id, username, last_login_at', :conditions => {:feed_owner => false}
+  named_scope :active, :conditions => ['login_count > 2']
   named_scope :with_ids, lambda {|user_ids| {:conditions => ['id IN (?)', user_ids]}}
   named_scope :with_slug, lambda {|slug| {:conditions => ['lower(slug) = lower(?)', slug]}}
   named_scope :with_slugs, lambda {|slugs| {:conditions => ['slug IN (?)', slugs]}}
@@ -185,6 +186,10 @@ class User < ActiveRecord::Base
     "users/#{self.slug}"
   end
   
+  def active?
+    self.id.blank? or (self.login_count > 2)
+  end
+  
   def summary_description
     description = self.description.blank? ? '' : self.description
     
@@ -231,6 +236,18 @@ class User < ActiveRecord::Base
   def try_to_login
     hashed_password = User.hash_password(self.password || "")
     User.find(:first, :conditions => ["(lower(email) = lower(?) OR lower(username) = lower(?)) AND hashed_password = ? AND feed_owner = false", self.email, self.email, hashed_password])
+  end
+  
+  def register_login!
+    self.last_login_at = Time.now
+    self.login_count = self.login_count + 1
+    self.save
+    
+    # Users who have logged in twice become "active"
+    # Active users get access to the Messaging Layer
+    if login_count == 2
+      Job.enqueue(:type => JobType.find_by_name('back_activity_generator'), :processable => self)
+    end
   end
   
   def self.hash_password(password)
@@ -440,7 +457,7 @@ class User < ActiveRecord::Base
   def followings_activity(*args)
     options = args.extract_options!
     
-    if Parameter.status?('messaging_layer_enabled')
+    if Parameter.status?('messaging_layer_enabled') and self.active?
       user = (self.id.blank? ? User.default_user : self)
       
       if self.consumes_grouped_activity?
@@ -523,6 +540,13 @@ class User < ActiveRecord::Base
     # end
     
     return videos, max_id
+  end
+  
+  # ActivityMessages
+  def generate_messages!
+    NewsItem.find(:all, :conditions => ['user_id IN (?) AND created_at > ?', self.followings_ids, 60.days.ago], :order => 'created_at ASC').each do |news_item|
+      news_item.generate_message_for_user!(self)
+    end
   end
   
   # Utility Methods

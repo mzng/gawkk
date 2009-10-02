@@ -39,9 +39,8 @@ class TwitterController < ApplicationController
             @user = twitter_account.user
             
             # Update the user's last login time
-            @user.cookie_hash = bake_cookie_for(@user)
-            @user.last_login_at = Time.new
-            @user.save
+            @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
+            @user.register_login!
 
             # Store the logged in user's id in the session
             session[:user_id] = @user.id

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090924145637) do
+ActiveRecord::Schema.define(:version => 20091002153750) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -447,6 +447,7 @@ ActiveRecord::Schema.define(:version => 20090924145637) do
     t.boolean  "consumes_grouped_activity",                    :default => true,  :null => false
     t.boolean  "invite_friends_notice_dismissed",              :default => false, :null => false
     t.string   "ip_address"
+    t.integer  "login_count",                                  :default => 0,     :null => false
   end
 
   add_index "users", ["age_range_id"], :name => "age_range_id"

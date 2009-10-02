@@ -7,6 +7,8 @@ namespace :jobs do
           job.process!
           
           case job.job_type.name
+          when 'back_activity_generator'
+            job.processable.generate_messages!
           when 'activity'
             job.processable.generate_messages_for_followers!
           when 'activity_reversal'
@@ -31,7 +33,7 @@ namespace :jobs do
         Job.enqueue(:processable => news_item)
       end
     end
-  
+    
     task :default => :environment do
       default = User.find_by_username('default')
       

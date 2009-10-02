@@ -15,14 +15,13 @@ class AuthenticationController < ApplicationController
         # Setup cookies for automatic logins
         if params[:remember] == '1'
           begin
-            @user.cookie_hash = bake_cookie_for(@user)
+            @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
           rescue
           end
         end
         
         # Update the user's last login time
-        @user.last_login_at = Time.new
-        @user.save
+        @user.register_login!
         
         # Store the logged in user's id in the session
         session[:user_id] = @user.id

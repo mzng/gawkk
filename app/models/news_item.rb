@@ -47,10 +47,11 @@ class NewsItem < ActiveRecord::Base
   end
   
   def generate_messages_for_followers!
-    follower_ids = Rails.cache.fetch("users/#{self.user_id}/followers", :expires_in => 1.week) do
-      User.followers_of(self.user).all.collect{|follower| follower.id}
-    end
+    # follower_ids = Rails.cache.fetch("users/#{self.user_id}/followers", :expires_in => 1.week) do
+    #   User.followers_of(self.user).all.collect{|follower| follower.id}
+    # end
     
+    follower_ids = User.active.followers_of(self.user).all.collect{|follower| follower.id}
     follower_ids << User.default_user.id if self.user.suggested?
     
     follower_ids.each do |follower_id|

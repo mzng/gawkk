@@ -37,7 +37,7 @@ class Job < ActiveRecord::Base
         JobType.find_by_name('activity')
       end
     end
-
+    
     if Job.create(:job_type_id => options[:type].id, :processable_type => options[:processable].class.name, :processable_id => options[:processable].id)
       if !Rails.cache.exist?("job_queue/size")
         Rails.cache.write("job_queue/size", Job.count(:all, :conditions => {:state => 'queued'}), :expires_in => 1.week)
