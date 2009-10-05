@@ -8,7 +8,7 @@
 			<th>Name</th>
 			<th>Elsewhere</th>
 			<th>Registered</th>
-			<th colspan="2">Last Login</th>
+			<th colspan="3">Last Login</th>
 		</thead>
 		<tbody>
 			<% @users.each do |user| -%>
@@ -37,6 +37,7 @@
 						<% end -%>
 					</td>
 					<td><%= time_ago_in_words(user.last_login_at) + ' ago' if user.last_login_at != nil %></td>
+					<td><%= user.login_count %></td>
 					<td class="actions">
 						<%= link_to image_tag('email.png'), {:action => 'deliver_digest', :id => user}, :method => :post %>
 						<%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %> |
