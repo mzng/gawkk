@@ -10,6 +10,8 @@ class Admin::UsersController < ApplicationController
     
     if !params[:ip_address].blank?
       @users = collect('users', User.members.all(:conditions => ['ip_address = ?', params[:ip_address]], :order => 'created_at DESC', :offset => @offset, :limit => @per_page))
+    elsif @q.blank? and params[:active] and params[:active] == 'true'
+      @users = collect('users', User.active.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
     elsif @q.blank?
       @users = collect('users', User.members.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
     else

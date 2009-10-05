@@ -8,7 +8,14 @@
 			<th>Name</th>
 			<th>Elsewhere</th>
 			<th>Registered</th>
-			<th colspan="3">Last Login</th>
+			<th colspan="2">Last Login</th>
+			<td>
+				<% if !params[:active] -%>
+					<%= link_to 'Active', {:active => true}, :style => 'color:#333333;' %>
+				<% else -%>
+					<%= link_to 'Everyone', {:active => false}, :style => 'color:#333333' %>
+				<% end -%>
+			</td>
 		</thead>
 		<tbody>
 			<% @users.each do |user| -%>
@@ -47,5 +54,5 @@
 			<% end -%>
 		</tbody>
 	</table>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users, :options => {:q => @q}} %>
+	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users, :options => {:q => @q, :active => params[:active]}} %>
 </div>
