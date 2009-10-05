@@ -52,18 +52,18 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-# ExceptionNotifier.exception_recipients  = %w(errors@gawkk.com)
-# ExceptionNotifier.sender_address        = %("Gawkk" <notifier@gawkk.com>)
-# ExceptionNotifier.email_prefix          = "[Gawkk ERROR] "
-# 
-# WhiteListHelper.bad_tags.merge %w(div a img h1 h2 h3 h4 h5 h6 p)
-# WhiteListHelper.tags.delete 'div'
-# WhiteListHelper.tags.delete 'a'
-# WhiteListHelper.tags.delete 'img'
-# WhiteListHelper.tags.delete 'h1'
-# WhiteListHelper.tags.delete 'h2'
-# WhiteListHelper.tags.delete 'h3'
-# WhiteListHelper.tags.delete 'h4'
-# WhiteListHelper.tags.delete 'h5'
-# WhiteListHelper.tags.delete 'h6'
-# WhiteListHelper.tags.delete 'p'
+ExceptionNotifier.exception_recipients  = %w(errors@gawkk.com)
+ExceptionNotifier.sender_address        = %("Gawkk" <notifier@gawkk.com>)
+ExceptionNotifier.email_prefix          = "[Gawkk ERROR] "
+
+WhiteListHelper.bad_tags.merge %w(div a img h1 h2 h3 h4 h5 h6 p)
+WhiteListHelper.tags.delete 'div'
+WhiteListHelper.tags.delete 'a'
+WhiteListHelper.tags.delete 'img'
+WhiteListHelper.tags.delete 'h1'
+WhiteListHelper.tags.delete 'h2'
+WhiteListHelper.tags.delete 'h3'
+WhiteListHelper.tags.delete 'h4'
+WhiteListHelper.tags.delete 'h5'
+WhiteListHelper.tags.delete 'h6'
+WhiteListHelper.tags.delete 'p'
