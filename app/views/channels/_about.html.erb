@@ -2,6 +2,7 @@
 	<h1 class="section-header">
 		<% if user_can_administer? -%>
 			<span>
+				<%= "Search Only |" if @channel.search_only? %>
 				<%= render :partial => "admin/channels/feature", :locals => {:channel => @channel} %> |
 				<%= render :partial => "admin/suggestions/suggest", :locals => {:user => nil, :channel => @channel} %> |
 				<%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => @channel.id} %>

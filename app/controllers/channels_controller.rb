@@ -60,7 +60,11 @@ class ChannelsController < ApplicationController
     setup_category_sidebar
     setup_channel_sidebar(@channel)
 
-    @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))
+    if @channel.search_only?
+      @videos = Video.search(@user.username, :order => :posted_at, :sort_mode => :desc, :page => @page, :per_page => @per_page, :retry_stale => true)
+    else
+      @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))
+    end
   end
   
   

@@ -24,6 +24,18 @@ class Feed < ActiveRecord::Base
     end
   end
   
+  def after_create
+    self.owned_by.channels.first.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    
+    return true
+  end
+  
+  def after_destroy
+    self.owned_by.channels.first.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    
+    return true
+  end
+  
   def import(word_lists = nil, force = false, thorough = true)
     word_lists = WordList.collect_word_lists if word_lists.nil?
     

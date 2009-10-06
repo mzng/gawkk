@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091002153750) do
+ActiveRecord::Schema.define(:version => 20091006152523) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20091002153750) do
     t.boolean  "comparable",          :default => false, :null => false
     t.integer  "comments_count",      :default => 0,     :null => false
     t.boolean  "suggested",           :default => false, :null => false
+    t.boolean  "search_only",         :default => false, :null => false
   end
 
   add_index "channels", ["user_id"], :name => "newfk"
