@@ -16,6 +16,9 @@ class User < ActiveRecord::Base
   has_many :subscriptions, :class_name => "Subscription", :dependent => :destroy
   has_many :videos, :class_name => "Video", :foreign_key => "posted_by_id", :dependent => :destroy
   
+  # Legacy votes table, defined here for destroys only
+  has_many :votes, :dependent => :destroy
+  
   
   # A Friendship is actually a one way follow.
   # Gawkk relationships are defiend as:
