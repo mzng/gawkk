@@ -1,3 +1,5 @@
+# Deprecated. Only in place for clean destroys.
+
 class Vote < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :video

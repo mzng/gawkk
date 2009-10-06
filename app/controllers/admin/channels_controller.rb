@@ -1,6 +1,6 @@
 class Admin::ChannelsController < ApplicationController
   around_filter :ensure_user_can_administer
-  around_filter :load_channel, :only => [:edit, :update, :feeds, :feature, :unfeature]
+  around_filter :load_channel, :only => [:edit, :update, :feeds, :feature, :unfeature, :destroy]
   layout 'page'
   
   
@@ -63,6 +63,16 @@ class Admin::ChannelsController < ApplicationController
     @channel.update_attribute('featured', false)
     
     render :action => "feature"
+  end
+  
+  def destroy
+    if @user.destroy
+      flash[:notice] = 'The channel was successfully destroyed.'
+    else
+      flash[:notice] = 'Sorry, but you will have to destroy this channel manually.'
+    end
+    
+    redirect_to :action => "index"
   end
   
   

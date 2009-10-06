@@ -25,13 +25,17 @@ class Feed < ActiveRecord::Base
   end
   
   def after_create
-    self.owned_by.channels.first.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    if channel = self.owned_by.channels.first
+      channel.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    end
     
     return true
   end
   
   def after_destroy
-    self.owned_by.channels.first.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    if channel = self.owned_by.channels.first
+      channel.update_attribute(:search_only, (Feed.count(:all, :conditions => {:owned_by_id => self.owned_by}) == 0))
+    end
     
     return true
   end

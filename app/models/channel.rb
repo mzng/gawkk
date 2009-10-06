@@ -2,7 +2,10 @@ class Channel < ActiveRecord::Base
   belongs_to  :user
   
   has_many    :saved_videos, :dependent => :destroy
-  has_many    :subscriptions, :class_name => "Subscription", :dependent => :destroy
+  has_many    :subscriptions, :dependent => :destroy
+  
+  # Deprecated. Only in place for clean destroys.
+  has_many :import_requests, :dependent => :destroy
   
   named_scope :public, :select => 'id, name, subscriptions_count', :conditions => {:user_owned => false}
   named_scope :featured, :select => 'id, name, subscriptions_count', :conditions => {:user_owned => false, :featured => true}
