@@ -21,7 +21,7 @@
 						<% if channel.search_only? -%>
 							<span style="font-size:8pt;">Search Only</span> |
 						<% else -%>
-							<%= link_to 'Search Only', {:controller => 'admin/channels', :action => 'search_only', :id => channel.id}, :confirm => "This will delete all feeds for #{channel.proper_name}. Are you sure?", :method => :post %> |
+							<%= link_to 'Search Only', {:controller => 'admin/channels', :action => 'search_only', :id => channel.id, :page => @page}, :confirm => "This will delete all feeds for #{channel.proper_name}. Are you sure?", :method => :post %> |
 						<% end -%>
 						<%= link_to 'Edit', {:controller => 'admin/channels', :action => 'edit', :id => channel.id}, :target => "edit-#{channel.id}" %> |
 						<%= link_to 'Delete', {:controller => 'admin/channels', :action => 'destroy', :id => channel.id}, :confirm => "Are you sure you want to delete #{channel.proper_name}?", :method => :post %>

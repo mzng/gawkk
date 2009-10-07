@@ -9,7 +9,7 @@ class Admin::ChannelsController < ApplicationController
     setup_pagination(:per_page => 50)
     
     if @q.blank?
-      @channels = collect('channels', Channel.public.all(:order => 'created_at DESC', :offset => @offset, :limit => @per_page))
+      @channels = collect('channels', Channel.public.all(:order => 'name ASC', :offset => @offset, :limit => @per_page))
     else
       @channels = Channel.search(@q.split.join(' | '), :page => @page, :per_page => @per_page, :conditions => {:user_owned => false}, :match_mode => :boolean, :retry_stale => true)
     end
@@ -70,7 +70,7 @@ class Admin::ChannelsController < ApplicationController
       feed.destroy
     end
     
-    redirect_to :action => "index", :q => @user.username
+    redirect_to :action => "index", :page => params[:page]
   end
   
   def destroy
