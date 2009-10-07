@@ -66,6 +66,15 @@ class Admin::ChannelsController < ApplicationController
   end
   
   def destroy
+    if default_user = User.find_by_slug('gawkk')
+      if default_channel = default_user.channels.first
+        @user.videos.each do |video|
+          video.update_attribute(:posted_by_id, default_user.id)
+          SavedVideo.create :channel_id => default_channel.id, :video_id => video.id
+        end
+      end
+    end
+    
     if @user.destroy
       flash[:notice] = 'The channel was successfully destroyed.'
     else
