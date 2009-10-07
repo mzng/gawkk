@@ -1,6 +1,6 @@
 class Admin::ChannelsController < ApplicationController
   around_filter :ensure_user_can_administer
-  around_filter :load_channel, :only => [:edit, :update, :feeds, :feature, :unfeature, :destroy]
+  around_filter :load_channel, :only => [:edit, :update, :feeds, :feature, :unfeature, :search_only, :destroy]
   layout 'page'
   
   
@@ -63,6 +63,14 @@ class Admin::ChannelsController < ApplicationController
     @channel.update_attribute('featured', false)
     
     render :action => "feature"
+  end
+  
+  def search_only
+    @user.feeds.each do |feed|
+      feed.destroy
+    end
+    
+    redirect_to :action => "index", :q => @user.username
   end
   
   def destroy
