@@ -1,12 +1,12 @@
 <span id="subscribe_for_<%= channel.id %>">
 	<% if user_logged_in? -%>
 		<% if !logged_in_user.subscribes_to?(channel) -%>
-			<%= link_to_remote '+ Follow', {:url => {:controller => 'channels', :action => 'subscribe', :id => channel.id}}, :class => 'subscribe' %>
+			<%= link_to_remote '+ Subscribe', {:url => {:controller => 'channels', :action => 'subscribe', :id => channel.id}}, :class => 'subscribe' %>
 		<% else -%>
-			<%= link_to_remote 'Following!', {:url => {:controller => 'channels', :action => 'unsubscribe', :id => channel.id}}, :class => 'unsubscribe' %>
+			<%= link_to_remote 'Subscribed!', {:url => {:controller => 'channels', :action => 'unsubscribe', :id => channel.id}}, :class => 'unsubscribe' %>
 		<% end -%>
 	<% elsif !user_logged_in? -%>
-		<%= link_to '+ Follow', {:controller => 'authentication', :action => 'login'}, :class => 'subscribe' %>
+		<%= link_to '+ Subscribe', {:controller => 'authentication', :action => 'login'}, :class => 'subscribe' %>
 	<% else -%>
 		&nbsp;
 	<% end -%>
