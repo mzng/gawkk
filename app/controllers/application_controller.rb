@@ -209,11 +209,11 @@ class ApplicationController < ActionController::Base
   
   def load_subscriptions
     if user_logged_in?
-      @subscribed_channels = Rails.cache.fetch("users/#{logged_in_user.id.to_s}/subscribed_channels", :expires_in => 12.hours) do
+      @subscribed_channels = Rails.cache.fetch("users/#{logged_in_user.id.to_s}/subscribed_channels", :expires_in => 2.weeks) do
         collect('channels', logged_in_user.subscribed_channels(:order => 'channels.name ASC'))
       end
     else
-      @subscribed_channels = Rails.cache.fetch("users/default/subscribed_channels", :expires_in => 24.hours) do
+      @subscribed_channels = Rails.cache.fetch("users/default/subscribed_channels", :expires_in => 2.weeks) do
         collect('channels', User.new.subscribed_channels(:order => 'channels.name ASC'))
       end
     end
