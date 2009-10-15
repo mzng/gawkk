@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091006152523) do
+ActiveRecord::Schema.define(:version => 20091015200859) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -277,6 +277,8 @@ ActiveRecord::Schema.define(:version => 20091006152523) do
     t.string "name"
     t.string "value"
   end
+
+  add_index "parameters", ["name"], :name => "index_parameters_on_name"
 
   create_table "playlist_items", :force => true do |t|
     t.integer  "playlist_id"
