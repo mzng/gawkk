@@ -367,6 +367,7 @@ class User < ActiveRecord::Base
       Rails.cache.delete("users/#{self.id}/subscriptions")
       Rails.cache.delete("users/#{self.id}/subscriptions/count")
       Rails.cache.delete("users/#{self.id}/subscriptions/random")
+      Rails.cache.delete("users/#{self.id}/subscribed_channels")
     end
   end
   
@@ -375,6 +376,7 @@ class User < ActiveRecord::Base
       Subscription.find(:first, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id]).destroy
       
       Rails.cache.delete("users/#{self.id}/subscriptions")
+      Rails.cache.delete("users/#{self.id}/subscribed_channels")
     end
   end
   
