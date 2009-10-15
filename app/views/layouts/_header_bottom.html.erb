@@ -1,24 +1,11 @@
 <div id="bottom">
 	<div id="section-container">
 		<ul class="menu-container" style="float:right;">
-			<li><%= link_to 'Videos', {:controller => '/videos', :action => 'index', :popular => false} %>
-				<ul>
-					<li><%= link_to 'Newest Videos', {:controller => '/videos', :action => 'index', :popular => false} %></li>
-					<li><%= link_to 'Popular Videos', {:controller => '/videos', :action => 'index', :popular => true} %></li>
-				</ul>
-			</li>
-			<li><%= link_to 'Channels', {:controller => '/channels'} %>
-				<ul>
-					<li><%= link_to 'Featured Channels', {:controller => '/channels'} %></li>
-					<li><%= link_to 'A - Z Channels', {:controller => 'channels', :action => 'index', :t => 'a', :s => 'a'} %></li>
-				</ul>
-			</li>
 			<% Category.allowed_in_header.each_with_index do |category, i| -%>
 				<li <% if Category.allowed_in_header.size == (i + 1) -%>class="last"<% end -%>>
-					<%= link_to category.name, {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %>
+					<%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => true} %>
 					<ul>
-						<li><%= link_to 'Popular Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
-						<li><%= link_to 'A - Z Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'a'} %></li>
+						<li><%= link_to 'Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
 						<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => true} %></li>
 						<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => false} %></li>
 					</ul>
@@ -26,7 +13,6 @@
 			<% end -%>
 		</ul>
 		<ul class="menu-container">
-			<li><%= link_to 'Home', '/' %></li>
 			<li>
 				<div id="search">
 					<% form_tag({:controller => '/search'}, :name => 'search', :method => 'get') do -%>

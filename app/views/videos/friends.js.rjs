@@ -1,0 +1,4 @@
+page.replace_html('activity', '')
+@news_items.each do |news_item|
+  page.insert_html(:bottom, 'activity', :partial => '/news_items/news_item', :locals => {:news_item => news_item})
+end

@@ -1,4 +1,8 @@
 /* post box (step one) */
+#postbox-container {
+	margin-top: -3px;
+}
+
 #post {
 	width: 100%;
 }
@@ -33,7 +37,7 @@
 	border: 1px solid #999999;
 	color: gray;
 	font-family: arial;
-	font-size: 9pt;
+	font-size: 10pt;
 	margin-top: 0px;
 	padding: 4px;
 	width: 577px;
@@ -57,11 +61,11 @@
 #post .body textarea {
 	color: gray;
 	font-family: arial;
-	font-size: 9pt;
+	font-size: 10pt;
 	height: 43px;
 	margin-top: 0px;
-	padding: 4px;
-	width: 577px;
+	padding: 4px 2px;
+	width: 581px;
 }
 
 #post .character-count {

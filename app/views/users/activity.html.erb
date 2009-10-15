@@ -1,22 +1,26 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "The activity of #{@user.username}", :user => @user} %>
-<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
-									{:name => @user.username, :params => user_path(:id => @user)}, 
-									{:name => 'Activity Stream', :params => user_path(:id => @user)}]} %>
-
-<div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => 'Activity Stream', 
-			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => true},  
-			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
-	<%= render @news_items %>
-	<div class="titled-pagination-container">
-		<span class="title-container">View More Activity</span><br/>
-		<div class="paginate-single-link-set">
-			<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', user_path(:id => @user, :page => (@page.to_i - 1)) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
-			<%= link_to 'Next &raquo;', user_path(:id => @user, :page => (@page.to_i + 1)) %>
+<div id="navigable-container">
+	<%= render :partial => "/layouts/navigation" %>
+	<div id="content-main">
+		<h1 id="filter-bar">
+			<span id="subscribe-or-follow"><%= render :partial => "/users/follow", :locals => {:user => @user} %></span>
+			<span class="title-container">The Activity of <%= @user.username %></span>
+		</h1>
+		
+		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+					:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+											{:name => @user.username, :params => user_path(:id => @user)}, 
+											{:name => 'Activity Stream', :params => user_path(:id => @user)}]} %>
+		
+		<%= render @news_items %>
+		<div class="titled-pagination-container">
+			<span class="title-container">View More Activity</span><br/>
+			<div class="paginate-single-link-set">
+				<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', user_path(:id => @user, :page => (@page.to_i - 1)) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
+				<%= link_to 'Next &raquo;', user_path(:id => @user, :page => (@page.to_i + 1)) %>
+			</div>
 		</div>
+		<%= render :partial => "/news_items/setup" %>
 	</div>
-	<%= render :partial => "/news_items/setup" %>
 </div>
 
 <div id="content-sidebar">

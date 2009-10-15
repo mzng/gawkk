@@ -25,6 +25,9 @@
 			<div class="title"><%= @channel.name %></div>
 		<% end -%>
 		<div id="breadcrumb-trail">
+			<span style="float:right;">
+				<%= render :partial => '/channels/subscribe', :locals => {:channel => @channel} %>
+			</span>
 			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
 			<%= link_to 'All Channels', {:controller => 'channels', :action => 'index'} %> <span class="separator">&gt;<span>
 			<%= link_to @channel.name, channel_path(:user => @channel.user, :channel => @channel, :_session_id => params[:_session_id]) %> <span class="separator">&gt;<span>

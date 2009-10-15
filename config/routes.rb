@@ -42,11 +42,12 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # videos
+  map.connect 'home',               :controller => 'videos', :action => 'home'
+  map.connect 'friends',            :controller => 'videos', :action => 'friends'
   map.connect 'all/newest',         :controller => 'videos', :action => 'index', :popular => false
   map.connect 'all/popular',        :controller => 'videos', :action => 'index', :popular => true
   map.connect ':category/newest',   :controller => 'videos', :action => 'category', :popular => false
   map.connect ':category/popular',  :controller => 'videos', :action => 'category', :popular => true
-  map.connect 'friends',            :controller => 'videos', :action => 'friends'
   map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
   
   map.connect 'v/:id',              :controller => 'videos', :action => 'follow'
@@ -141,7 +142,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # front page
-  map.root :controller => 'videos', :action => 'friends'
+  map.root :controller => 'videos', :action => 'home'
   
   # generic routes
   map.connect ':controller/:action/:id'

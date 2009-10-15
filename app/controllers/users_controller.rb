@@ -86,6 +86,7 @@ class UsersController < ApplicationController
   # User Actions
   def follow
     # ensure_logged_in_user or do nothing
+    coerce_back_to_js
     
     if @friend = User.find_by_slug(params[:id])
       logged_in_user.follow(@friend)
@@ -98,6 +99,7 @@ class UsersController < ApplicationController
   
   def unfollow
     # ensure_logged_in_user or do nothing
+    coerce_back_to_js
     
     if @friend = User.find_by_slug(params[:id])
       logged_in_user.unfollow(@friend)

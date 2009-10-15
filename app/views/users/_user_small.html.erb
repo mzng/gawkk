@@ -1,0 +1,3 @@
+<div id="user_<%= user.id %>" class="user-small">
+	<%= link_to image_tag(user.thumbnail.blank? ? 'profile-pic.jpg' : user.thumbnail, :title => user.username), user_path(:id => user) %>
+</div>

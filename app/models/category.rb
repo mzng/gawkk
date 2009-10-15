@@ -30,17 +30,23 @@ class Category < ActiveRecord::Base
     Rails.cache.fetch("categories/allowed-in-header", :expires_in => 1.week) {
       categories = Array.new
       
-      categories << Category.find_by_slug('news-politics')
-      categories.last.name = 'News'
-      
-      categories << Category.find_by_slug('television-shows')
-      categories.last.name = 'TV Shows'
+      categories << Category.find_by_slug('celebrities-entertainment')
+      categories.last.name = 'Celebrities'
       
       categories << Category.find_by_slug('movies-previews-trailers')
       categories.last.name = 'Movies'
       
       categories << Category.find_by_slug('music-dancing')
       categories.last.name = 'Music'
+      
+      categories << Category.find_by_slug('news-politics')
+      categories.last.name = 'News'
+      
+      categories << Category.find_by_slug('technology-internet-science')
+      categories.last.name = 'Technology'
+      
+      categories << Category.find_by_slug('television-shows')
+      categories.last.name = 'TV Shows'
       
       categories
     }

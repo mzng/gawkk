@@ -1,19 +1,29 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @category.thumbnail, :title => @category.name, :description => (params[:popular] ? 'Popular Videos' : 'Newest Videos') + " in the #{@category.name} Category"} %>
-<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-			:crumbs => [{:name => 'Categories', :params => {:controller => 'videos', :action => 'index', :popular => false}}, 
-									{:name => @category.name, :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}, 
-									{:name => @popular ? 'Popular Videos' : 'Newest Videos', :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}]} %>
-
-<div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => (@popular ? 'Popular Videos' : 'Newest Videos'), 
-			:links => [{:name => 'Popular Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => true, :tagged => @tagged}, :selected => @popular}, 
-			{:name => 'Newest Videos', :options => {:controller => 'videos', :action => 'category', :category => @category, :popular => false, :tagged => @tagged}, :selected => !@popular}]} %>
-	<%= render @videos %>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
+<div id="navigable-container">
+	<% render :layout => '/layouts/navigation', :locals => {:selected => "#{@popular ? 'Popular' : 'Newest'} Videos"} do -%>
+		<div class="items">
+			<div class="item-wrapper">
+				<ul>
+					<li><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
+					<% @categories.each do |category| -%>
+						<li<%= " class=\"selected-item\"" if @category.id == category.id %>><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @popular} %></li>
+					<% end -%>
+				</ul>
+			</div>
+		</div>
+	<% end -%>
+	<div id="content-main">
+		<h1 id="filter-bar"><span class="title-container"><%= @popular ? 'Popular Videos' : 'Newest Videos' %> in <%= @category.name %></span></h1>
+		
+		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+					:crumbs => [{:name => @popular ? 'Popular Videos' : 'Newest Videos', :params => {:controller => 'videos', :action => 'index', :popular => @popular}}, 
+											{:name => @category.name, :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}]} %>
+		
+		<%= render @videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
+	</div>
 </div>
 
 <div id="content-sidebar">
-	<%= render :partial => "/categories/explanation", :locals => {:link => {:controller => 'videos', :action => 'category', :category => @category}} %>
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', :collection => @categories} %>
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels,
+		:link => {:controller => 'channels', :action => 'index', :c => @category.id}, :force_link => true} %>
 </div>

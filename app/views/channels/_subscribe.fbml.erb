@@ -1,4 +1,4 @@
-<div class="status">
+<div class="status subscribe_for_<%= channel.id %>">
 	<% if !logged_in_user.subscribes_to?(channel) -%>
 		<%= link_to_remote '+ Subscribe', {:url => {:controller => 'channels', :action => 'subscribe', :id => channel.id}}, :class => 'subscribe' %>
 	<% else -%>

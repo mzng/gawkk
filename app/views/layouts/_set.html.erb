@@ -1,3 +1,4 @@
+<% partial			||= nil -%>
 <% style_id			||= '' -%>
 <% title 				||= '&nbsp;' -%>
 <% light				||= false -%>
@@ -14,8 +15,10 @@
 		<% collection.each do |object| -%>
 			<% if object.class == Video -%>
 				<%= render :partial => "/videos/video_small", :locals => {:video => object} %>
-			<% else -%>
+			<% elsif partial.nil? -%>
 				<%= render object %>
+			<% else -%>
+				<%= render :partial => partial, :locals => {object.class.name.downcase.to_sym => object} %>
 			<% end -%>
 		<% end -%>
 		<br class="clear"/>

@@ -17,21 +17,23 @@
 <% end -%>
 
 <% if invite_or_recommend -%>
-	<% if (!logged_in_user.invite_friends_notice_dismissed? or rand(2) == 0) and @recommended_users and @recommended_users.size > 0  -%>
+	<% if false and (!logged_in_user.invite_friends_notice_dismissed? or rand(2) == 0) and @recommended_users and @recommended_users.size > 0  -%>
 		<%= render :partial => "/users/recommendations" %>
-	<% elsif logged_in_user.invite_friends_notice_dismissed? -%>
+	<% elsif false and logged_in_user.invite_friends_notice_dismissed? -%>
 		<%= render :partial => "/registration/contact_importer_plug_sidebar" %>
+	<% else -%>
+		<%= render :partial => "/layouts/more_gawkk" %>
 	<% end -%>
 <% end -%>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Following', 
+<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Following', 
 		:link => {:controller => 'users', :action => 'follows', :id => user}, 
-		:count => @followings_count, :collection => @followings} %>
+		:count => @followings_count, :collection => @followings.first(10)} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Followers', 
+<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Followers', 
 		:link => {:controller => 'users', :action => 'followers', :id => user}, 
-		:count => @followers_count, :collection => @followers} %>
+		:count => @followers_count, :collection => @followers.first(10)} %>
 
-<%= render :partial => "/layouts/set", :locals => {:title => 'Friends', :description => '(mutual followers)', 
+<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Friends', :description => '<!-- (mutual followers) -->', 
 		:link => {:controller => 'users', :action => 'friends', :id => user}, 
-		:count => @friends_count, :collection => @friends} %>
+		:count => @friends_count, :collection => @friends.first(10)} %>

@@ -8,6 +8,64 @@ class VideosController < ApplicationController
   
   
   # Streams
+  def home
+    redirect_to :action => 'friends' if request_for_facebook?
+    
+    pitch
+    record_ad_campaign
+    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
+    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
+    setup_pagination
+    
+    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
+      setup_generic_sidebar
+      setup_recommendation_sidebar
+      setup_user_sidebar(logged_in_user) if user_logged_in?
+    end
+    
+    newest = Rails.cache.fetch("videos/newest/preview", :expires_in => 1.minute) do
+      videos = collect('videos', Video.newest.allowed_on_front_page.all(:limit => 3))
+      max_id = videos.first ? videos.first.id : nil
+      
+      {:videos => videos, :max_id => max_id}
+    end
+    
+    @newest_videos = newest[:videos]
+    @newest_max_id = newest[:max_id]
+    
+    popular = Rails.cache.fetch("videos/popular/preview", :expires_in => 10.minute) do
+      videos = collect('videos', Video.popular.allowed_on_front_page.all(:limit => 3))
+      max_id = videos.first ? videos.first.id : nil
+      
+      {:videos => videos, :max_id => max_id}
+    end
+    
+    @popular_videos = popular[:videos]
+    @popular_max_id = popular[:max_id]
+    
+    # Friends Activity
+    @base_user = (logged_in_user or User.new)
+    @include_followings = true
+  end
+  
+  def friends
+    pitch
+    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
+    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
+    setup_pagination
+    
+    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
+      setup_generic_sidebar
+      setup_recommendation_sidebar
+      setup_user_sidebar(logged_in_user) if user_logged_in?
+    end
+    
+    # Friends Activity
+    @base_user = (logged_in_user or User.new)
+    @include_followings = true
+    @news_items = @base_user.followings_activity(:offset => @offset, :limit => @per_page)
+  end
+  
   def index
     @popular = params[:popular] ? true : false
     
@@ -45,35 +103,6 @@ class VideosController < ApplicationController
       flash[:notice] = 'The category you are looking for does not exist.'
       redirect_to :action => "index", :popular => @popular
     end
-  end
-  
-  def friends
-    pitch
-    record_ad_campaign
-    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
-    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
-    setup_pagination
-    
-    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
-      setup_generic_sidebar
-      setup_recommendation_sidebar
-      setup_user_sidebar(logged_in_user) if user_logged_in?
-    end
-    
-    newest = Rails.cache.fetch("videos/newest/preview", :expires_in => 1.minute) do
-      videos = collect('videos', Video.newest.allowed_on_front_page.all(:limit => 5))
-      max_id = videos.first ? videos.first.id : nil
-      
-      {:videos => videos, :max_id => max_id}
-    end
-    
-    @videos = newest[:videos]
-    @max_id = newest[:max_id]
-    
-    # Friends Activity
-    @base_user = (logged_in_user or User.new)
-    @include_followings = true
-    @news_items = @base_user.followings_activity(:offset => @offset, :limit => @per_page)
   end
   
   def subscriptions

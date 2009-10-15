@@ -1,35 +1,21 @@
-<div id="content-main">
-	<h1 class="section-header">What are you watching?</h1>
-	<div id="postbox-container">
-		<%= render :partial => "/submit/new" %>
-	</div>
-	<br class="clear"/>
-	
-	<% if @videos and @videos.size > 0 -%>
-		<%= render :partial => "/layouts/set_header", :locals => {:title => 'Newest Videos', :light => true} %>
-		<div id="subscription-preview" class="set">
-			<% @videos.each do |video| -%>
-				<%= render :partial => "/videos/video_small", :locals => {:video => video, :options => {:action => 'index', :id => nil, :max_id => @max_id, :video_id => video.id, :video_slug => video.slug}} %>
-			<% end -%>
-			<%= link_to(image_tag('follow-arrow.gif', :class => 'follow'), {:controller => 'videos', :action => 'index', :max_id => @max_id}) %>
-			<br class="clear"/>
+<div id="navigable-container">
+	<%= render :partial => "/layouts/navigation", :locals => {:selected => 'Activity Stream'} %>
+	<div id="content-main">
+		<div id="postbox-container">
+			<%= render :partial => "/submit/new" %>
 		</div>
-	<% end -%>
-	
-	<h1 class="section-header light-header">
-		<% if user_logged_in? and logged_in_user.consumes_grouped_activity? -%>
-			<span>By Video | <%= link_to 'By Action', {:controller => 'settings', :action => 'ungroup_activity'} %></span>
-		<% elsif user_logged_in? -%>
-			<span><%= link_to 'By Video', {:controller => 'settings', :action => 'group_activity'} %> | By Action</span>
-		<% end -%>
-		Activity Stream
-	</h1>
-	<%= render :partial => "/registration/contact_importer_plug" %>
-	<div id="activity">
-		<%= render @news_items %>
+		<br class="clear"/>
+		
+		<h1 id="filter-bar">
+			<span class="title-container">Activity Stream</span>
+		</h1>
+		<%= render :partial => "/registration/contact_importer_plug" %>
+		<div id="activity">
+			<%= render @news_items %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :collection => @news_items} %>
+		<%= render :partial => "/news_items/setup" %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :collection => @news_items} %>
-	<%= render :partial => "/news_items/setup" %>
 </div>
 
 <div id="content-sidebar">
@@ -38,7 +24,5 @@
 	<% end -%>
 	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
-			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Videos by Category', 
-			:link => {:controller => 'videos', :popular => false}, :force_link => true, :collection => @categories} %>
+			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels.first(6)} %>
 </div>

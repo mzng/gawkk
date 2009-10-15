@@ -3,8 +3,11 @@
 <div id="fb-filter-list">
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'News Feed'}>News Feed</div>", {:controller => 'videos', :action => 'friends'} %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'Videos'}>Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
-	<%= yield if selected == 'Videos' %>
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Newest Videos'}>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %>
+	<%= yield if selected == 'Newest Videos' %>
+	
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Popular Videos'}>Popular Videos</div>", {:controller => '/videos', :action => 'index', :popular => true} %>
+	<%= yield if selected == 'Popular Videos' %>
 	
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'} %>
 	<%= yield if selected == 'Channels' %>

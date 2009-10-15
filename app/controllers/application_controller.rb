@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   
-  before_filter [:preload_models, :delegate_request, :check_cookie, :check_for_invitation, :perform_outstanding_action]
+  before_filter [:preload_models, :delegate_request, :check_cookie, :check_for_invitation, :perform_outstanding_action, :load_subscriptions]
   after_filter  [:remember_facebook_session, :reset_redirect_to]
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -207,6 +207,18 @@ class ApplicationController < ActionController::Base
     session[:redirect_to] = nil unless action_name == 'login' or action_name == 'oauth_request' or action_name == 'fb_callback'
   end
   
+  def load_subscriptions
+    if user_logged_in?
+      @subscribed_channels = Rails.cache.fetch("users/#{logged_in_user.id.to_s}/subscribed_channels", :expires_in => 12.hours) do
+        collect('channels', logged_in_user.subscribed_channels(:order => 'channels.name ASC'))
+      end
+    else
+      @subscribed_channels = Rails.cache.fetch("users/default/subscribed_channels", :expires_in => 24.hours) do
+        collect('channels', User.new.subscribed_channels(:order => 'channels.name ASC'))
+      end
+    end
+  end
+  
   # Authorization
   def user_can_administer?
     return user_logged_in? && logged_in_user.administrator?
@@ -354,7 +366,7 @@ class ApplicationController < ActionController::Base
       collect('channels', Channel.featured.all(:order => 'rand()', :limit => 16))
     end
     
-    @featured_channels = @featured_channels.rand(4)
+    @featured_channels = @featured_channels.rand(6)
   end
   
   def setup_recommendation_sidebar
@@ -375,7 +387,7 @@ class ApplicationController < ActionController::Base
       user.followings(:order => 'rand()', :limit => 16)
     end
     
-    @followings = @followings.rand(4)
+    @followings = @followings.rand(10)
     
     
     @followers_count = Rails.cache.fetch("users/#{user.id}/followers/count", :expires_in => 6.hours) do
@@ -386,7 +398,7 @@ class ApplicationController < ActionController::Base
       user.followers(:order => 'rand()', :limit => 16)
     end
     
-    @followers = @followers.rand(4)
+    @followers = @followers.rand(10)
     
     
     @friends_count = Rails.cache.fetch("users/#{user.id}/friends/count", :expires_in => 6.hours) do
@@ -397,7 +409,7 @@ class ApplicationController < ActionController::Base
       user.friends(:order => 'rand()', :limit => 16)
     end
     
-    @friends = @friends.rand(4)
+    @friends = @friends.rand(10)
     
     
     activity_types = Rails.cache.fetch("news_item_types/activity/set", :expires_in => 6.hours) do
@@ -411,7 +423,13 @@ class ApplicationController < ActionController::Base
   
   def setup_category_sidebar(category = nil)
     if !category.nil?
-      @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 4))
+      @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 9))
+    else
+      @popular_channels = Rails.cache.fetch("channels/popular/random", :expires_in => 6.hours) do
+        collect('channels', Channel.suggested(:order => 'rand()'))
+      end
+
+      @popular_channels = @popular_channels.rand(9)
     end
     
     @categories = Category.allowed_on_front_page

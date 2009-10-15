@@ -1,17 +1,18 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Friends of #{@user.username}", :user => @user} %>
-<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
-									{:name => @user.username, :params => user_path(:id => @user)}, 
-									{:name => 'Friends', :params => {:controller => 'users', :action => 'friends', :id => @user}}]} %>
-
-<div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Friends of #{@user.username}", 
-			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => false}, 
-			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
-	<div class="grid-container">
-		<%= render @users %>
+<div id="navigable-container">
+	<%= render :partial => "/layouts/navigation" %>
+	<div id="content-main">
+		<h1 id="filter-bar"><span class="title-container">Friends of <%= @user.username %></span></h1>
+		
+		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+					:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+											{:name => @user.username, :params => user_path(:id => @user)}, 
+											{:name => 'Friends', :params => {:controller => 'users', :action => 'friends', :id => @user}}]} %>
+		
+		<div class="grid-container">
+			<%= render @users %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @users} %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @users} %>
 </div>
 
 <div id="content-sidebar">

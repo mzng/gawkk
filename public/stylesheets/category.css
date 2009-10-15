@@ -16,3 +16,15 @@
 	height: 60px;
 	width: 60px;
 }
+
+/* category listing in the sidebar */
+#content-sidebar .category {
+	height: 74px;
+	margin: 2px 2px 4px 2px;
+	width: 49px;
+}
+
+#content-sidebar .category img {
+	height: 45px;
+	width: 45px;
+}

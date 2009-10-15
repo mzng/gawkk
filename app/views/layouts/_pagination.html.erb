@@ -1,12 +1,13 @@
 <% title			||= '' -%>
 <% collection	||= nil -%>
 <% options		||= Hash.new -%>
+<% force_next	||= false -%>
 
 <br class="clear"/>
 <div class="titled-pagination-container">
 	<% if !title.blank? -%><span class="title-container"><%= title %></span><br/><% end -%>
 	<div class="paginate-single-link-set">
 		<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', {:page => (@page.to_i - 1)}.merge(options) %><% else -%><span class="disabled">&laquo; Previous</span><% end -%>
-		<% if collection.nil? or collection.size == @per_page -%><%= link_to 'Next &raquo;', {:page => (@page.to_i + 1)}.merge(options) %><% else -%><span class="disabled">Next &raquo;</span><% end -%>
+		<% if force_next or collection.nil? or collection.size == @per_page -%><%= link_to 'Next &raquo;', {:page => (@page.to_i + 1)}.merge(options) %><% else -%><span class="disabled">Next &raquo;</span><% end -%>
 	</div>
 </div>

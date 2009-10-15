@@ -17,6 +17,37 @@
 	width: 60px;
 }
 
+/* user listing in the sidebar */
+#content-sidebar .user {
+	height: 74px;
+	margin: 2px 2px 4px 2px;
+	width: 49px;
+}
+
+#content-sidebar .user img {
+	height: 45px;
+	width: 45px;
+}
+
+/* small user listing */
+.user-small {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 30px;
+	line-height: 10pt;
+	margin: 2px 1px 2px 1px;
+	overflow: hidden;
+	text-align: center;
+	width: 30px;
+}
+
+.user-small img {
+	border: 1px solid #E5E5E5;
+	height: 26px;
+	width: 26px;
+}
+
 /* user listing in a grid container */
 .grid-container .user {
 	height: 104px;
@@ -36,12 +67,16 @@
 
 .user-statistics td {
 	text-align: center;
-	width: 25%;
+	width: 33%;
 }
 
 .user-statistics td span {
-	font-size: 18pt;
-	line-height: 22pt;
+	font-size: 14pt;
+	line-height: 18pt;
+}
+
+.user-statistics td a {
+	font-size: 9px;
 }
 
 .user-statistics td .user {
@@ -49,7 +84,7 @@
 	margin-top: 0px;
 }
 
-.user-statistics td + td {
+.user-statistics td {
 	border-right: 1px solid #E5E5E5;
 }
 
@@ -86,12 +121,7 @@
 }
 
 #recommended-people .set {
-/*	background-color: #FFFFDD;*/
-	padding: 2px 0 0 2px;
-}
-
-#recommended-people .set .user {
-	height: 78px;
+	padding-top: 8px;
 }
 
 #recommended-people #follow-all {

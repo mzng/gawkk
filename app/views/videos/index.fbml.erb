@@ -1,10 +1,5 @@
 <div>
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Videos'} do -%>
-		<ul>
-			<li<%= " class=\"selected\"" if !@popular %>><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'index', :popular => false} %></li>
-			<li<%= " class=\"selected\"" if @popular %>><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'index', :popular => true} %></li>
-		</ul>
-		
+	<% render :layout => '/layouts/navigation', :locals => {:selected => "#{@popular ? 'Popular' : 'Newest'} Videos"} do -%>
 		<ul id="popular-categories" style="display:block;">
 			<li class="selected"><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
 			<% @popular_categories.each do |category| -%>
@@ -26,7 +21,6 @@
 		<% end -%>
 		<div id="breadcrumb-trail">
 			<%= link_to 'Home', {:controller => 'videos', :action => 'friends'} %> <span class="separator">&gt;<span>
-			<%= link_to 'All Videos', {:controller => 'videos', :action => 'index', :popular => false} %> <span class="separator">&gt;<span>
 			<%= link_to "#{@popular ? 'Popular' : 'Newest'} Videos", {:controller => 'videos', :action => 'index', :popular => @popular} %> <span class="separator">&gt;<span>
 			Page <%= @page %>
 		</div>

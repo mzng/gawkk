@@ -17,6 +17,37 @@
 	width: 60px;
 }
 
+/* channel listing in the sidebar */
+#content-sidebar .channel {
+	height: 74px;
+	margin: 2px 2px 4px 2px;
+	width: 49px;
+}
+
+#content-sidebar .channel img {
+	height: 45px;
+	width: 45px;
+}
+
+/* channel listings in a large sidebar */
+#content-sidebar .large .channel {
+	float: left;
+	display: inline;
+	font-size: 8pt;
+	height: 89px;
+	line-height: 10pt;
+	margin: 5px 5px 5px 5px;
+	overflow: hidden;
+	text-align: center;
+	width: 64px;
+}
+
+#content-sidebar .large .channel img {
+	border: 1px solid #E5E5E5;
+	height: 60px;
+	width: 60px;
+}
+
 /* channel listing in a grid container */
 .grid-container .channel {
 	height: 116px;

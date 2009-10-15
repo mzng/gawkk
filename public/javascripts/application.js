@@ -33,6 +33,16 @@ function enableCurrentForm() {
 }
 
 
+// subscriptions
+function openSubscriptions() {
+	if($('subscription-bookmarks').style.display == 'none') {
+		new Effect.BlindDown('subscription-bookmarks', {duration: 0.2});
+	} else {
+		new Effect.BlindUp('subscription-bookmarks', {duration: 0.2});
+	}
+}
+
+
 // video
 var consumesGroupedActivity = true;
 

@@ -5,7 +5,7 @@
 				<%= image_tag((logged_in_user or User.new).thumbnail.blank? ? 'default_avatar.gif' : logged_in_user.thumbnail) %>
 			</td>
 			<td class="body">
-				<%= text_area 'comment', 'body', :value => 'Tell your friends about it.', :onfocus => "descriptiveField(this, 'Tell your friends about it.', true);", :onblur => "descriptiveField(this, 'Tell your friends about it.', false);", :onkeyup => "updateCharacterCount('post', this, '');" %>
+				<%= text_area 'comment', 'body', :value => 'What are you watching?', :onfocus => "descriptiveField(this, 'What are you watching?', true);", :onblur => "descriptiveField(this, 'What are you watching?', false);", :onkeyup => "updateCharacterCount('post', this, '');" %>
 			</td>
 		</tr>
 		<tr>

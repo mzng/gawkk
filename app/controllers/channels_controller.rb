@@ -12,12 +12,12 @@ class ChannelsController < ApplicationController
     parameters  = Array.new
     
     # Type filter
-    if params[:t] and params[:t] == 'a'
+    # if params[:t] and params[:t] == 'a'
       @type = 'a'
-    else
-      @type = 'f'
-      conditions = conditions.concat(' AND featured = true')
-    end
+    # else
+    #   @type = 'f'
+    #   conditions = conditions.concat(' AND featured = true')
+    # end
     
     # Category filter
     params[:c] ||= 'a'
@@ -34,13 +34,13 @@ class ChannelsController < ApplicationController
     end
     
     # Order by
-    if params[:s] and params[:s] == 'a'
-      @sort = 'a'
-      order = 'name ASC'
-    else
+    # if params[:s] and params[:s] == 'a'
+    #   @sort = 'a'
+    #   order = 'name ASC'
+    # else
       @sort = 'p'
       order = 'subscriptions_count DESC'
-    end
+    # end
     
     @channels = collect('channels', Channel.all(:conditions => [conditions] + parameters, :order => order, :offset => @offset, :limit => @per_page))
     @count    = Channel.count(:conditions => [conditions] + parameters)
@@ -77,6 +77,7 @@ class ChannelsController < ApplicationController
   # Channel Actions
   def subscribe
     # ensure_logged_in_user or do nothing
+    coerce_back_to_js
     
     if @channel = Channel.find(params[:id])
       logged_in_user.subscribe_to(@channel)
@@ -89,6 +90,7 @@ class ChannelsController < ApplicationController
   
   def unsubscribe
     # ensure_logged_in_user or do nothing
+    coerce_back_to_js
     
     if @channel = Channel.find(params[:id])
       logged_in_user.unsubscribe_from(@channel)

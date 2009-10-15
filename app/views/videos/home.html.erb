@@ -1,0 +1,46 @@
+<div id="navigable-container">
+	<%= render :partial => "/layouts/navigation", :locals => {:selected => 'Home'} %>
+	<div id="content-main">
+		<div id="postbox-container">
+			<%= render :partial => "/submit/new" %>
+		</div>
+		<br class="clear"/>
+		
+		<h1 id="filter-bar">
+			<span class="title-container">Newest Videos</span>
+		</h1>
+		<%= render @newest_videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Newest Videos', :collection => @newest_videos, :options => {:action => 'index', :popular => false, :page => 1, :max_id => @newest_max_id}, :force_next => true} %>
+		
+		<h1 id="filter-bar">
+			<span class="title-container">Popular Videos</span>
+		</h1>
+		<%= render @popular_videos %>
+		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Popular Videos', :collection => @popular_videos, :options => {:action => 'index', :popular => true, :page => 1, :max_id => @popular_max_id}, :force_next => true} %>
+		
+		<h1 id="filter-bar">
+			<span class="title-container">Activity Stream</span>
+		</h1>
+		<%= render :partial => "/registration/contact_importer_plug" %>
+		<div id="activity">
+			<div style="color:gray;font-size:9pt;margin-top:15px;text-align:center;">
+				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading Friends' Activity...
+			</div>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
+		<%= render :partial => "/news_items/setup" %>
+	</div>
+</div>
+
+<div id="content-sidebar">
+	<% if user_logged_in? -%>
+		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :invite_or_recommend => true, :user => logged_in_user} %>
+	<% end -%>
+	
+	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
+			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels.first(6)} %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	new Ajax.Request('/friends', {method:'get', asynchronous:true, evalScripts:false});
+</script>
