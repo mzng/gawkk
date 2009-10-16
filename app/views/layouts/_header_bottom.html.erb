@@ -5,14 +5,15 @@
 				<li <% if Category.allowed_in_header.size == (i + 1) -%>class="last"<% end -%>>
 					<%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => true} %>
 					<ul>
-						<li><%= link_to 'Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
 						<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => true} %></li>
 						<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => false} %></li>
+						<li><%= link_to 'Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
 					</ul>
 				</li>
 			<% end -%>
 		</ul>
 		<ul class="menu-container">
+			<li><%= link_to 'Home', '/' %></li>
 			<li>
 				<div id="search">
 					<% form_tag({:controller => '/search'}, :name => 'search', :method => 'get') do -%>
