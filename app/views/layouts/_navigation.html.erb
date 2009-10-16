@@ -13,7 +13,7 @@
 	<%= yield if selected == 'Channels' %>
 	
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>Subscriptions</div>", "javascript:openSubscriptions();", :class => 'navigation-item' %>
-	<div id="subscription-bookmarks" class="items" <% if  !user_logged_in? or ((selected != 'Home') and (selected != 'Activity Stream')) -%>style="display:none;"<% end -%>>
+	<div id="subscription-bookmarks" class="items" style="display:none;">
 		<div class="item-wrapper">
 			<ul>
 				<% @subscribed_channels.each do |channel| -%>

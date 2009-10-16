@@ -1,5 +1,5 @@
 <div id="navigable-container">
-	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Channels'} %>
+	<%= render :partial => '/layouts/navigation' %>
 	<div id="content-main">
 		<h1 id="filter-bar">
 			<span id="subscribe-or-follow"><%= render :partial => "/channels/subscribe", :locals => {:channel => @channel} %></span>
