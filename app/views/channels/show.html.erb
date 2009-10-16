@@ -1,16 +1,5 @@
 <div id="navigable-container">
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
-		<div class="items">
-			<div class="item-wrapper">
-				<ul>
-					<li><%= link_to 'All Categories', {:c => 'a'} %></li>
-					<% @categories.each do |category| -%>
-						<li<%= " class=\"selected-item\"" if (@videos.size > 0 and @videos.first.category_id == category.id) %>><%= link_to category.name, {:c => category.id} %></li>
-					<% end -%>
-				</ul>
-			</div>
-		</div>
-	<% end -%>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'Channels'} %>
 	<div id="content-main">
 		<h1 id="filter-bar">
 			<span id="subscribe-or-follow"><%= render :partial => "/channels/subscribe", :locals => {:channel => @channel} %></span>
