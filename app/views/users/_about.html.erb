@@ -6,7 +6,16 @@
 
 	<div class="user-about">
 		<% if !user.description.blank? -%>
-			<p><%= simple_format(auto_link(user.description)) %></p>
+			<% if @user.description.split.size > 40 -%>
+				<div id="short-description">
+					<%= simple_format(auto_link(@user.description.first(@user.description.split[0, 40].join(' ').length)) + "... <em><a href=\"javascript:$('short-description').hide();$('full-description').show();\">read more</a></em>", :class => 'about') %>
+				</div>
+				<div id="full-description" style="display:none;">
+					<%= simple_format(auto_link(@user.description), :class => 'about') %>
+				</div>
+			<% else -%>
+				<%= simple_format(auto_link(@user.description), :class => 'about') %>
+			<% end -%>
 		<% elsif user_can_edit?(user) -%>
 			<p><em><%= link_to 'Write about yourself', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></em></p>
 		<% end -%>

@@ -10,7 +10,16 @@
 		About
 	</h1>
 	<% if !@user.description.blank? -%>
-		<p><%= simple_format(auto_link(@user.description)) %></p>
+		<% if @user.description.split.size > 40 -%>
+			<div id="short-description">
+				<%= simple_format(auto_link(@user.description.first(@user.description.split[0, 40].join(' ').length)) + "... <em><a href=\"javascript:$('short-description').hide();$('full-description').show();\">read more</a></em>", :class => 'about') %>
+			</div>
+			<div id="full-description" style="display:none;">
+				<%= simple_format(auto_link(@user.description), :class => 'about') %>
+			</div>
+		<% else -%>
+			<%= simple_format(auto_link(@user.description), :class => 'about') %>
+		<% end -%>
 	<% else -%>
 		<p class="no-description">There isn't a description for this channel, yet.</p>
 	<% end -%>

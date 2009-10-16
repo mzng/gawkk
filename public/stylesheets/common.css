@@ -111,6 +111,11 @@ img {
 	line-height: 4px;
 }
 
+.about {
+	font-size: 12px;
+	line-height: 16px;
+}
+
 .notes {
 	color: gray;
 	font-size: smaller;
