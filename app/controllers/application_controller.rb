@@ -480,6 +480,6 @@ class ApplicationController < ActionController::Base
     @recent_subscribers_count = Subscription.for_channel(channel).count
     @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))
     
-    @related_channels = collect('channels', Channel.in_category(channel.category).all(:order => 'rand()', :limit => 28))
+    @related_channels = collect('channels', Channel.in_category(channel.category).all(:order => 'rand()', :limit => 30))
   end
 end
