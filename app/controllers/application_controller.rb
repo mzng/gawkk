@@ -426,13 +426,13 @@ class ApplicationController < ActionController::Base
   
   def setup_category_sidebar(category = nil)
     if !category.nil?
-      @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 9))
+      @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 30))
     else
       @popular_channels = Rails.cache.fetch("channels/popular/random", :expires_in => 6.hours) do
         collect('channels', Channel.suggested(:order => 'rand()'))
       end
 
-      @popular_channels = @popular_channels.rand(9)
+      @popular_channels = @popular_channels.rand(30)
     end
     
     @categories = Category.allowed_on_front_page
