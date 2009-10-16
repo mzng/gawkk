@@ -12,7 +12,7 @@
 		<%= render :partial => "/registration/contact_importer_plug" %>
 		<div id="activity">
 			<div style="color:gray;font-size:9pt;margin-top:15px;text-align:center;">
-				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading Friends' Activity...
+				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading...
 			</div>
 		</div>
 		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
