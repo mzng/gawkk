@@ -383,33 +383,36 @@ class ApplicationController < ActionController::Base
       User.followings_of(user).count
     end
     
+    Rails.cache.delete("users/#{user.id}/followings/random")
     @followings = Rails.cache.fetch("users/#{user.id}/followings/random", :expires_in => 6.hours) do
-      user.followings(:order => 'rand()', :limit => 16)
+      user.followings(:order => 'rand()', :limit => 25)
     end
     
-    @followings = @followings.rand(10)
+    @followings = @followings.rand(15)
     
     
     @followers_count = Rails.cache.fetch("users/#{user.id}/followers/count", :expires_in => 6.hours) do
       User.followers_of(user).count
     end
     
+    Rails.cache.delete("users/#{user.id}/followers/random")
     @followers = Rails.cache.fetch("users/#{user.id}/followers/random", :expires_in => 6.hours) do
-      user.followers(:order => 'rand()', :limit => 16)
+      user.followers(:order => 'rand()', :limit => 25)
     end
     
-    @followers = @followers.rand(10)
+    @followers = @followers.rand(15)
     
     
     @friends_count = Rails.cache.fetch("users/#{user.id}/friends/count", :expires_in => 6.hours) do
       User.friends_of(user).count
     end
     
+    Rails.cache.delete("users/#{user.id}/friends/random")
     @friends = Rails.cache.fetch("users/#{user.id}/friends/random", :expires_in => 6.hours) do
-      user.friends(:order => 'rand()', :limit => 16)
+      user.friends(:order => 'rand()', :limit => 25)
     end
     
-    @friends = @friends.rand(10)
+    @friends = @friends.rand(15)
     
     
     activity_types = Rails.cache.fetch("news_item_types/activity/set", :expires_in => 6.hours) do

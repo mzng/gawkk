@@ -18,8 +18,7 @@ class VideosController < ApplicationController
     setup_pagination
     
     if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
-      setup_generic_sidebar
-      setup_recommendation_sidebar
+      # setup_recommendation_sidebar
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
     
@@ -35,8 +34,7 @@ class VideosController < ApplicationController
     setup_pagination
     
     if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
-      setup_generic_sidebar
-      setup_recommendation_sidebar
+      # setup_recommendation_sidebar
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
     

@@ -22,7 +22,4 @@
 	<% if user_logged_in? -%>
 		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :invite_or_recommend => true, :user => logged_in_user} %>
 	<% end -%>
-	
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
-			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels.first(6)} %>
 </div>
