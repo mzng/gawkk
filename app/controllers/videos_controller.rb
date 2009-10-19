@@ -9,8 +9,6 @@ class VideosController < ApplicationController
   
   # Streams
   def home
-    redirect_to :action => 'friends' if request_for_facebook?
-    
     pitch
     record_ad_campaign
     set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")

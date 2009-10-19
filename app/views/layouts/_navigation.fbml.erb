@@ -1,7 +1,7 @@
 <% selected ||= '' -%>
 
 <div id="fb-filter-list">
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'News Feed'}>News Feed</div>", {:controller => 'videos', :action => 'friends'} %>
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'News Feed'}>News Feed</div>", {:controller => 'videos', :action => 'home'} %>
 	
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Newest Videos'}>Newest Videos</div>", {:controller => '/videos', :action => 'index', :popular => false} %>
 	<%= yield if selected == 'Newest Videos' %>

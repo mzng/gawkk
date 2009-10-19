@@ -102,7 +102,7 @@ class FacebookController < ApplicationController
           end
         end
       else
-        redirect_to :controller => 'videos', :action => 'friends'
+        redirect_to :controller => 'videos', :action => 'home'
       end
     else
       if facebook_session = session[:facebook_session]
@@ -157,7 +157,7 @@ class FacebookController < ApplicationController
       end
       
       if request_for_facebook?
-        redirect_to :controller => "videos", :action => "friends"
+        redirect_to :controller => "videos", :action => "home"
       else
         redirect_to :controller => "registration", :action => "setup_suggestions"
       end

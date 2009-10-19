@@ -1,0 +1,23 @@
+<div>
+	<%= render :partial => '/layouts/navigation', :locals => {:selected => 'News Feed'} %>
+	<div id="fb-stream">
+		<div id="postbox-container">
+			<%= render :partial => "/submit/new" %>
+		</div>
+		<br class="clear"/>
+		<div id="activity">
+			<%= render @news_items %>
+			<div id="activity-loading-indicator" style="color:gray;font-size:9pt;margin:15px 0;text-align:center;">
+				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading...
+			</div>
+		</div>
+		<div id="pagination-container" style="display:none;">
+			<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
+		</div>
+		<%= render :partial => "/news_items/setup.html" %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	new Ajax.Request('/friends', {method:'get', asynchronous:true, evalScripts:false});
+</script>
