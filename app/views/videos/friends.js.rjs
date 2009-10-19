@@ -1,8 +1,9 @@
+page.remove('activity-loading-indicator')
+
 if Parameter.status?('messaging_layer_enabled') and @base_user.active? and @news_items.size > 3
-  page.remove('activity-loading-indicator')
   @news_items = @news_items[3, @news_items.size]
-else
-  page.replace_html('activity', '')
+elsif Parameter.status?('messaging_layer_enabled') and @base_user.active?
+  @news_items = Array.new
 end
 
 @news_items.each do |news_item|
