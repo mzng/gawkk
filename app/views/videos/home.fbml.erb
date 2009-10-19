@@ -19,5 +19,5 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	new Ajax.Request('/friends', {method:'get', asynchronous:true, evalScripts:false});
+	new Ajax.Request('/friends?_session_id=<%= params[:_session_id] %>', {method:'get', asynchronous:true, evalScripts:false});
 </script>

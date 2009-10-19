@@ -1,7 +1,7 @@
 <% i = 1 if i.nil? -%>
 
 <% if news_item.reportable_type == 'Video' -%>
-	<%= render news_item.reportable, :news_item => news_item.latest_related, :load_activity => (logged_in_user or User.new).consumes_grouped_activity?, :load_comments => (logged_in_user or User.new).consumes_grouped_activity?, :i => i %>
+	<%= render :partial => '/videos/video.fbml', :locals => {:video => news_item.reportable, :news_item => news_item.latest_related, :load_activity => (logged_in_user or User.new).consumes_grouped_activity?, :load_comments => (logged_in_user or User.new).consumes_grouped_activity?, :i => i} %>
 <% elsif news_item.news_item_type.name == 'status' -%>
 	<!-- status -->
 <% elsif news_item.news_item_type.name == 'add_a_friend' -%>

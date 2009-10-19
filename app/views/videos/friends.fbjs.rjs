@@ -1,0 +1,13 @@
+page.remove('activity-loading-indicator')
+
+if Parameter.status?('messaging_layer_enabled') and @base_user.active? and @news_items.size > 3
+  @news_items = @news_items[3, @news_items.size]
+elsif Parameter.status?('messaging_layer_enabled') and @base_user.active?
+  @news_items = Array.new
+end
+
+@news_items.each do |news_item|
+  page.insert_html(:bottom, 'activity', :partial => '/news_items/news_item.fbml', :locals => {:news_item => news_item})
+end
+
+page.show('pagination-container')
