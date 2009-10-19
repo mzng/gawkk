@@ -12,11 +12,13 @@
 		<%= render :partial => "/registration/contact_importer_plug" %>
 		<div id="activity">
 			<%= render @news_items %>	
-			<div id="activity-loading-indicator" style="color:gray;font-size:9pt;margin-top:15px;text-align:center;">
+			<div id="activity-loading-indicator" style="color:gray;font-size:9pt;margin:15px 0;text-align:center;">
 				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading...
 			</div>
 		</div>
-		<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
+		<div id="pagination-container" style="display:none;">
+			<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
+		</div>
 		<%= render :partial => "/news_items/setup" %>
 	</div>
 </div>
