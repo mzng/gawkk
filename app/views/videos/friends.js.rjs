@@ -1,4 +1,9 @@
 page.replace_html('activity', '')
+
+if Parameter.status?('messaging_layer_enabled') and @base_user.active? and @news_items.size > 3
+  @news_items = @news_items[3, @news_items.size]
+end
+
 @news_items.each do |news_item|
   page.insert_html(:bottom, 'activity', :partial => '/news_items/news_item', :locals => {:news_item => news_item})
 end

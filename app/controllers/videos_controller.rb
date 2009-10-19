@@ -25,6 +25,12 @@ class VideosController < ApplicationController
     # Friends Activity
     @base_user = (logged_in_user or User.new)
     @include_followings = true
+    
+    if Parameter.status?('messaging_layer_enabled') and @base_user.active?
+      @news_items = @base_user.followings_activity(:limit => 3)
+    else
+      @news_items = Array.new
+    end
   end
   
   def friends
