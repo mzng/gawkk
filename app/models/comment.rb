@@ -37,6 +37,7 @@ class Comment < ActiveRecord::Base
           details[:sender]    = self.user
           details[:recipient] = user
           details[:video]     = self.commentable
+          details[:comment]   = self.body
           details[:nid]       = news_item.id if news_item
           details[:thread_id] = self.thread_id
           
