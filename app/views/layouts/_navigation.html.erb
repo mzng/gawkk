@@ -1,4 +1,6 @@
 <% selected ||= '' -%>
+<% current_channel ||= nil -%>
+<% @current_channel_is_subscription ||= false -%>
 
 <div id="navigation">
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Activity Stream'}>Activity Stream</div>", {:controller => 'videos', :action => 'home'}, :class => 'navigation-item' %>
@@ -12,12 +14,13 @@
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'}, :class => 'navigation-item' %>
 	<%= yield if selected == 'Channels' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>Subscriptions</div>", "javascript:openSubscriptions();", :class => 'navigation-item' %>
+	<%= link_to "<div id=\"subscription-navigation-item\"#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>Subscriptions</div>", "javascript:openSubscriptions();", :class => 'navigation-item' %>
 	<div id="subscription-bookmarks" class="items" style="display:none;">
 		<div class="item-wrapper">
 			<ul>
 				<% @subscribed_channels.each do |channel| -%>
-					<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+					<% @current_channel_is_subscription = true if !current_channel.nil? and current_channel.id == channel.id -%>
+					<li<%= " class=\"selected-item\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
 				<% end -%>
 			</ul>
 		</div>

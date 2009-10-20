@@ -1,25 +1,5 @@
 <div>
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
-		<ul>
-			<li><%= link_to 'All Channels', {:action => 'index', :t => 'a', :c => 'a'} %></li>
-			<li><%= link_to 'Featured Channels', {:action => 'index', :t => 'f', :c => 'a'} %></li>
-		</ul>
-		
-		<ul id="popular-categories" style="display:block;">
-			<li><%= link_to 'All Categories', {:action => 'index', :c => 'a'} %></li>
-			<% @popular_categories.each do |category| -%>
-				<li><%= link_to category.name, {:action => 'index', :c => category.id} %></li>
-			<% end -%>
-			<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
-		</ul>
-		<ul id="all-categories" style="display:none;">
-			<li><%= link_to 'All Categories', {:action => 'index', :c => 'a'} %></li>
-			<% @categories.each do |category| -%>
-				<li><%= link_to category.name, {:action => 'index', :c => category.id} %></li>
-			<% end -%>
-			<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
-		</ul>
-	<% end -%>
+	<%= render :layout => '/layouts/navigation', :locals => {:current_channel => @channel} %>
 	<div id="fb-stream">
 		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
 			<div class="title"><%= @channel.name %></div>
@@ -37,3 +17,10 @@
 		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
 	</div>
 </div>
+
+<% if @current_channel_is_subscription -%>
+	<script type="text/javascript" charset="utf-8">
+		$('subscription-navigation-item').addClassName('selected');
+		openSubscriptions();
+	</script>
+<% end -%>

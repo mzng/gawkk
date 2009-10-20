@@ -33,7 +33,7 @@
 							</tr>
 							<tr>
 								<td style="padding-top:5px;">
-									<%= text_field 'video', 'embed_code', :value => 'Enter embed code...', :onfocus => "descriptiveField(this, 'Enter embed code...', true);", :onblur => "descriptiveField(this, 'Enter embed code...', false);", :style => "color:#777777;font-size:11px;width:382px;" %>
+									<%= text_field 'video', 'embed_code', :value => (video.embed_code.blank? ? 'Enter embed code...' : video.embed_code), :onfocus => "descriptiveField(this, 'Enter embed code...', true);", :onblur => "descriptiveField(this, 'Enter embed code...', false);", :style => "#{(video.embed_code.blank? ? 'color:#777777;' : '')}font-size:11px;width:382px;" %>
 								</td>
 							</tr>
 							<tr>

@@ -1,4 +1,6 @@
 <% selected ||= '' -%>
+<% current_channel ||= nil -%>
+<% @current_channel_is_subscription ||= false -%>
 
 <div id="fb-filter-list">
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'News Feed'}>News Feed</div>", {:controller => 'videos', :action => 'home'} %>
@@ -12,11 +14,12 @@
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'} %>
 	<%= yield if selected == 'Channels' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}>Subscriptions</div>", "javascript:openSubscriptions();" %>
+	<%= link_to "<div id=\"subscription-navigation-item\"#{" class=\"selected\"" if selected == 'Subscriptions'}>Subscriptions</div>", "javascript:openSubscriptions();" %>
 	<div id="subscription-bookmarks" style="display:none;">
 		<ul>
 			<% @subscribed_channels.each do |channel| -%>
-				<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+				<% @current_channel_is_subscription = true if !current_channel.nil? and current_channel.id == channel.id -%>
+				<li<%= " class=\"selected\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
 			<% end -%>
 		</ul>
 	</div>

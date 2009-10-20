@@ -1,5 +1,5 @@
 <div id="navigable-container">
-	<%= render :partial => '/layouts/navigation' %>
+	<%= render :partial => '/layouts/navigation', :locals => {:current_channel => @channel} %>
 	<div id="content-main">
 		<h1 id="filter-bar">
 			<span id="subscribe-or-follow"><%= render :partial => "/channels/subscribe", :locals => {:channel => @channel} %></span>
@@ -26,3 +26,10 @@
 	<%= render :partial => "/channels/about" %>
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
 </div>
+
+<% if @current_channel_is_subscription -%>
+	<script type="text/javascript" charset="utf-8">
+		$('subscription-navigation-item').addClassName('selected');
+		openSubscriptions();
+	</script>
+<% end -%>

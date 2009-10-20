@@ -607,6 +607,10 @@ div.paginate-single-link-set span.disabled {
 	background-color: #195baa;
 }
 
+#navigation .selected span {
+	color: #FFFFFF;
+}
+
 #navigation .items {
 	background-color: #f7f9fa;
 	border-bottom: 1px solid #E5E5E5;
