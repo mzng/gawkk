@@ -13,6 +13,15 @@ function descriptiveField(field, description, focused) {
 	}
 }
 
+// subscriptions
+function openSubscriptions() {
+	if($('subscription-bookmarks').style.display == 'none') {
+		new Effect.BlindDown('subscription-bookmarks', {duration: 0.2});
+	} else {
+		new Effect.BlindUp('subscription-bookmarks', {duration: 0.2});
+	}
+}
+
 // Facebook Integration
 function setupFacebook() {
 	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){

@@ -12,5 +12,14 @@
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'} %>
 	<%= yield if selected == 'Channels' %>
 	
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}>Subscriptions</div>", "javascript:openSubscriptions();" %>
+	<div id="subscription-bookmarks" style="display:none;">
+		<ul>
+			<% @subscribed_channels.each do |channel| -%>
+				<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+			<% end -%>
+		</ul>
+	</div>
+	
 	<div id="filler">&nbsp;</div>
 </div>
