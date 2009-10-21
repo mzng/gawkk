@@ -444,7 +444,7 @@ class ApplicationController < ActionController::Base
       collect('channels', Channel.in_category(video.category.id).all(:order => 'rand()', :limit => 16))
     end
     
-    @related_channels = @related_channels.rand(4)
+    @related_channels = @related_channels.rand(6)
   end
   
   def setup_related_videos(video)

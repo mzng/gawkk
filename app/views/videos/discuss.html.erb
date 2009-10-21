@@ -1,47 +1,54 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => @video.title, 
-			:crumbs => [{:name => 'Videos', :params => {:controller => 'videos', :action => 'index', :popular => @video.popular?}}, 
-			{:name => @video.category.name, :params => {:controller => 'videos', :action => 'category', :category => @video.category, :popular => @video.popular?}}, 
-			{:name => @video.title}]} %>
-
-<div id="content-main">
-	<%= render @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true %>
-</div>
-
-<div id="content-sidebar" style="width:300px;">
-	<%= render(:partial => "/layouts/pitch_sidebar") if @pitch_sidebar %>
-	
-	<%= render :partial => "statistics", :locals => {:video => @video} %>
-	
-	<%= render :partial => "/layouts/set", :locals => {:title => 'Related Videos', :collection => @related_videos, 
-				:link => {:controller => 'search', :action => 'videos', :q => @q}, :force_link => true} %>
-	
-	<% if !@channel.nil? -%>
-		<%= render :partial => "/layouts/set", :locals => {:title => @channel.name, :collection => @channel_videos, 
-					:link => channel_path(@channel.user, @channel), :force_link => true} %>
+<div id="navigable-container" style="width:100%;">
+	<% render :layout => '/layouts/navigation', :locals => {:selected => "#{@video.popular? ? 'Popular' : 'Newest'} Videos"} do -%>
+		<div class="items">
+			<div class="item-wrapper">
+				<ul>
+					<li><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @video.popular?} %></li>
+					<% @categories.each do |category| -%>
+						<li<%= " class=\"selected-item\"" if @video.category.id == category.id %>><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @video.popular?} %></li>
+					<% end -%>
+				</ul>
+			</div>
+		</div>
 	<% end -%>
-	
-	<% if !@category.nil? -%>
-		<%= render :partial => "/layouts/set", :locals => {:title => @category.name, :collection => @category_videos, 
-					:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
+	<div style="float:right;width:830px;">
+		<%= render :partial => "/layouts/content_header_simple", :locals => {:title => @video.title, 
+					:crumbs => [{:name => 'Videos', :params => {:controller => 'videos', :action => 'index', :popular => @video.popular?}}, 
+					{:name => @video.category.name, :params => {:controller => 'videos', :action => 'category', :category => @video.category, :popular => @video.popular?}}, 
+					{:name => @video.title}]} %>
 		
-		<div class="large">
-			<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels, 
-							:link => {:controller => 'channels', :c => @category.id, :s => 'p', :t => 'a'}, :force_link => true} %>
+		<div style="float:left;width:650px;">
+			<%= render @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true %>
 		</div>
-	<% else -%>
-		<div class="large">
-			<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
-		</div>
-	<% end -%>
-	
-	<% if rand(2) == 0 -%>
-		<h1 class="section-header">Videos by Tag</h1>
-		<div>
-			<% @video.tags(:generate_phrases => true).each do |tag| -%>
-				<span class="tag"><%= image_tag('tag_green.png') %> <%= render :partial => 'tags/tag', :object => tag %></span>&nbsp;
+		<div id="content-sidebar" style="float:right;width:160px;">
+			<%= render :partial => "/layouts/set", :locals => {:title => 'Related Videos', :collection => @related_videos, 
+						:link => {:controller => 'search', :action => 'videos', :q => @q}, :force_link => true} %>
+
+			<% if !@channel.nil? -%>
+				<%= render :partial => "/layouts/set", :locals => {:title => @channel.name, :collection => @channel_videos, 
+							:link => channel_path(@channel.user, @channel), :force_link => true} %>
+			<% end -%>
+
+			<% if !@category.nil? -%>
+				<%= render :partial => "/layouts/set", :locals => {:title => @category.name, :collection => @category_videos, 
+							:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
+
+				<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels, 
+								:link => {:controller => 'channels', :c => @category.id, :s => 'p', :t => 'a'}, :force_link => true} %>
+			<% else -%>
+				<%= render :partial => "/layouts/set", :locals => {:title => 'Related Channels', :collection => @related_channels} %>
+			<% end -%>
+
+			<% if rand(2) == 0 -%>
+				<h1 class="section-header">Videos by Tag</h1>
+				<div>
+					<% @video.tags(:generate_phrases => true).each do |tag| -%>
+						<span class="tag"><%= image_tag('tag_green.png') %> <%= render :partial => 'tags/tag', :object => tag %></span>&nbsp;
+					<% end -%>
+				</div>
 			<% end -%>
 		</div>
-	<% end -%>
+	</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">

@@ -32,7 +32,7 @@
 				<% if visible_title -%>
 					<div class="title">
 						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
-						<%= link_to image_tag("comment#{video.comments_count > 0 ? '' : '_disabled'}.png"), {:controller => "videos", :action => "discuss", :id => video} %>
+						<%= link_to image_tag('external.png'), {:controller => "videos", :action => "discuss", :id => video}, :target => "video_#{video.id}_#{Time.now.to_i}" %>
 						<%= popular_icon(video, container_id) %>
 					</div>
 				<% else -%>
