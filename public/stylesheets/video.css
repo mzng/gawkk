@@ -496,6 +496,10 @@
 }
 
 /* video tags */
+div.tags {
+	font-size: 9pt;
+}
+
 span.tag {
 	font-size: 9pt;
 	white-space: nowrap;

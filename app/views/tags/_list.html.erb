@@ -1,11 +1,12 @@
+<% @generate_phrases = false if @generate_phrases.nil? -%>
+
 <% if tagged -%>
 	<table class="inline" cellpadding="0" cellspacing="0">
 		<tr>
-			<td class="image">
-				<%= image_tag('tag_green.png') %>
-			</td>
+			<td class="gutter">&nbsp;</td>
+			<td class="image-small"><%= image_tag('tag_green.png') %></td>
 			<td colspan="2">
-				<%= render :partial => "/tags/tag", :collection => video.tags, :spacer_template => '/tags/tag_spacer' %>
+				<%= render :partial => "/tags/tag", :collection => video.tags(:generate_phrases => @generate_phrases), :spacer_template => '/tags/tag_spacer' %>
 			</td>
 		</tr>
 	</table>
