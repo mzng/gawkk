@@ -5,14 +5,14 @@
 			<% @popular_categories.each do |category| -%>
 				<li<%= " class=\"selected\"" if @c == category.id.to_s %>><%= link_to category.name, {:c => category.id} %></li>
 			<% end -%>
-			<li style="list-style-type:none;"><%= link_to 'More', "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+			<li style="list-style-type:none;"><%= link_to 'More', '#more', :onclick => "javascript:$('popular-categories').hide();Effect.BlindDown('all-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
 		</ul>
 		<ul id="all-categories" style="display:<%= @popular ? 'none' : 'block' %>;">
 			<li<%= " class=\"selected\"" if @c == 'a' %>><%= link_to 'All Categories', {:c => 'a'} %></li>
 			<% @categories.each do |category| -%>
 				<li<%= " class=\"selected\"" if @c == category.id.to_s %>><%= link_to category.name, {:c => category.id} %></li>
 			<% end -%>
-			<li style="list-style-type:none;"><%= link_to 'Less', "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
+			<li style="list-style-type:none;"><%= link_to 'Less', '#less', :onclick => "javascript:Effect.BlindUp('all-categories', {duration: .2});Effect.BlindDown('popular-categories', {duration: .2});", :style => 'font-size:9px;margin-left:11px;' %></li>
 		</ul>
 	<% end -%>
 	<div id="fb-stream">

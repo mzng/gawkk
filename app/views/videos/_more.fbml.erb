@@ -1,0 +1,57 @@
+<div id="more_for_<%= video.id %><%= container_id %>" class="more" style="display:none;margin-bottom:5px;">
+	<table class="inline" cellpadding="0" cellspacing="0" style="background-color:#eceff5;padding:6px 6px 6px 6px;">
+		<tr>
+			<td style="width:70px;">
+				Category:
+			</td>
+			<td style="width:280px;">
+				<%= link_to video.cached_category.name, {:controller => 'videos', :action => 'category', :category => video.cached_category, :popular => video.popular?} %>
+			</td>
+			<td style="text-align:right;">
+				<%= link_to image_tag('close.png'), '#more', :onclick => "javascript:more('#{video.id}','#{container_id}');" %>
+			</td>
+		</tr>
+		<tr>
+			<td>Permalink:</td>
+			<td><input class="textfield" type="text" value="http://apps.facebook.com/gawkkapp/<%= video.slug %>/discuss" readonly="readonly" onclick="this.select();"/></td>
+			<td rowspan="3" style="padding-right:18px;">
+				<table class="third-party" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+							<%= image_tag('favicon_twitter.png') %>
+							<%= link_to 'Twitter', "http://twitter.com/home?status=#{CGI.escape(video.title)}%20http://apps.facebook.com/gawkkapp/#{video.short_code.blank? ? 'discuss/' + video.slug : 'v/' + video.short_code}", :target => 'twitter' %>
+						</td>
+						<td>
+							<%= image_tag('favicon_delicious.png') %>
+							<%= link_to 'Delicious', 'http://delicious.com/save', :onclick => "window.open('http://delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url='+encodeURIComponent('http://apps.facebook.com/gawkkapp/#{video.slug}/discuss')+'&amp;title='+encodeURIComponent('Gawkk: #{h(video.name.each_char.collect{|c| c == '\'' ? '\\' + '\'' : c}.join)}'), 'delicious','toolbar=no,width=550,height=550'); return false;" %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<%= link_to 'Facebook', "http://www.facebook.com/share.php?u=/#{video.slug}/discuss", :onclick => "return fbs_click('http://gawkk.com/#{video.slug}/discuss')", :class => 'fb_share_link', :target => 'facebook' %>
+						</td>
+						<td>
+							<%= image_tag('favicon_digg.png') %>
+							<%= link_to 'Digg', "http://digg.com/submit?url=http://apps.facebook.com/gawkkapp/#{video.slug}/discuss&title=#{video.title}&media=video", :target => 'digg' %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<%= image_tag('email.png') %>
+							<%= link_to 'Email', "mailto:?body=http://apps.facebook.com/gawkkapp/#{video.slug}/discuss" %>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>Shortlink:</td>
+			<td><input class="textfield" type="text" value="http://apps.facebook.com/gawkkapp/v/<%= video.short_code %>" readonly="readonly" onclick="this.select();"/></td>
+		</tr>
+		<tr>
+			<td>Embed:</td>
+			<td><input class="textfield" type="text" value='<%= video.safe_embed_code %>' readonly="readonly" onclick="this.select();"/></td>
+		</tr>
+	</table>
+</div>

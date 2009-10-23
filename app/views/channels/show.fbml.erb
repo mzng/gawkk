@@ -1,9 +1,14 @@
 <div>
 	<%= render :layout => '/layouts/navigation', :locals => {:current_channel => @channel} %>
 	<div id="fb-stream">
-		<% render(:layout => "/layouts/pagination", :locals => {:top => true, :collection => @videos}) do %>
+		<div class="pagination clear" style="margin-bottom:5px;">
+			<div class="controls">
+				<% if !@videos.nil? -%>
+					<% if @page.to_i > 1 -%><%= link_to image_tag('fb-previous.png', :mouseover => 'http://www.gawkk.com/images/fb-previous-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i - 1)) %><% else -%><%= image_tag('fb-previous-disabled.png') %><% end -%><% if @videos.nil? or @videos.size == @per_page -%><%= link_to image_tag('fb-next.png', :mouseover => 'http://www.gawkk.com/images/fb-next-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i + 1)) %><% else -%><%= image_tag('fb-next-disabled.png') %><% end -%>
+				<% end -%>
+			</div>
 			<div class="title"><%= @channel.name %></div>
-		<% end -%>
+		</div>
 		<div id="breadcrumb-trail">
 			<span style="float:right;">
 				<%= render :partial => '/channels/subscribe', :locals => {:channel => @channel} %>
@@ -13,8 +18,16 @@
 			<%= link_to @channel.name, channel_path(:user => @channel.user, :channel => @channel, :_session_id => params[:_session_id]) %> <span class="separator">&gt;<span>
 			Page <%= @page %>
 		</div>
+		
 		<%= render @videos %>
-		<%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
+		
+		<div class="pagination clear" style="margin-top:15px;margin-bottom:5px;">
+			<div class="controls">
+				<% if !@videos.nil? -%>
+					<% if @page.to_i > 1 -%><%= link_to image_tag('fb-previous.png', :mouseover => 'http://www.gawkk.com/images/fb-previous-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i - 1)) %><% else -%><%= image_tag('fb-previous-disabled.png') %><% end -%><% if @videos.nil? or @videos.size == @per_page -%><%= link_to image_tag('fb-next.png', :mouseover => 'http://www.gawkk.com/images/fb-next-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i + 1)) %><% else -%><%= image_tag('fb-next-disabled.png') %><% end -%>
+				<% end -%>
+			</div>
+		</div>
 	</div>
 </div>
 

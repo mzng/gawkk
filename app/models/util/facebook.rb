@@ -12,4 +12,12 @@ class Util::Facebook
     
     return config
   end
+  
+  def self.canvas_page_name
+    if Rails.env.product?
+      return 'gawkkapp'
+    else
+      return 'gawkk-sandbox'
+    end
+  end
 end

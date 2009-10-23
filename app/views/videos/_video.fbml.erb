@@ -36,6 +36,7 @@
 			<td class="action_body">
 				<div class="title">
 					<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}','#{params[:_session_id]}');" %>
+					<%= link_to image_tag('external.png'), "http://apps.facebook.com/#{Util::Facebook.canvas_page_name}/#{video.slug}/discuss", :target => "video_#{video.id}_#{Time.now.to_i}" %>
 					<%= popular_icon(video, container_id) %>
 				</div>
 				<div class="body">
@@ -69,12 +70,14 @@
 				<% elsif !video.posted_by.nil? -%>
 					<span><%= time_ago_in_words(video.posted_at) %> ago</span>
 				<% end -%>
-				&middot; <%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}','#{params[:_session_id]}');" %>
+				&middot; <%= link_to 'Comment', '#comment', :onclick => "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}','#{params[:_session_id]}');" %>
 				&middot; <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like.fbml", :locals => {:video => video, :container_id => container_id} %></span>
 				&middot; <%= link_to 'Share', "http://www.facebook.com/share.php?u=/#{video.slug}/discuss", :onclick => "return fbs_click('http://gawkk.com/#{video.slug}/discuss')", :target => 'facebook' %>
+				&middot; <%= link_to 'More', '#more', :onclick => "javascript:more('#{video.id}','#{container_id}');" %>
 			</td>
 		</tr>
 	</table>
+	<%= render :partial => "/videos/more.fbml", :locals => {:video => video, :container_id => container_id} %>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity.fbml", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
 	<%= render :partial => "/comments/list.fbml", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>

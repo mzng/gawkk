@@ -7,18 +7,18 @@
 		</tr>
 		<tr>
 			<td>Permalink:</td>
-			<td><input type="text" value="http://www.gawkk.com/<%= video.slug %>/discuss" readonly="readonly" onfocus="this.select();" /></td>
+			<td><input type="text" value="http://www.gawkk.com/<%= video.slug %>/discuss" readonly="readonly" onclick="this.select();" /></td>
 		</tr>
 		<% if !video.short_code.blank? -%>
 			<tr>
 				<td>Shortlink:</td>
-				<td><input type="text" value="http://gawkk.com/v/<%= video.short_code %>" readonly="readonly" onfocus="this.select();" /></td>
+				<td><input type="text" value="http://gawkk.com/v/<%= video.short_code %>" readonly="readonly" onclick="this.select();" /></td>
 			</tr>
 		<% end -%>
 		<% if !video.embed_code.blank? -%>
 		<tr>
 			<td>Embed:</td>
-			<td><input type="text" value='<%= video.safe_embed_code %>' readonly="readonly" onfocus="this.select();" /></td>
+			<td><input type="text" value='<%= video.safe_embed_code %>' readonly="readonly" onclick="this.select();" /></td>
 		</tr>
 		<% end -%>
 	</table>

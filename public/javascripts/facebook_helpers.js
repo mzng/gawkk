@@ -62,7 +62,7 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId)
 			}, onComplete:function(request){	
 				rest(videoId, containerId);
 				
-				Effect.BlindDown('embed_for_' + videoId + containerId, { duration: 0.5 });
+				Effect.BlindDown('embed_for_' + videoId + containerId, {duration: 0.5});
 				
 				if(scroll) {
 					// Effect.ScrollTo('video_' + videoId + containerId, {offset: -5});
@@ -74,6 +74,14 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId)
 				}
 			}}
 		);
+	}
+}
+
+function more(videoId, containerId) {
+	if($('more_for_' + videoId + containerId).style.display != 'none') {
+		Effect.BlindUp('more_for_' + videoId + containerId, {duration: 0.1});
+	} else {
+		Effect.BlindDown('more_for_' + videoId + containerId, {duration: 0.1});
 	}
 }
 

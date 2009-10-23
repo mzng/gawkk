@@ -5,7 +5,7 @@
 		</td>
 		<td id="search">
 			<% form_tag({:controller => '/search'}, :method => 'get') do -%>
-				<input id="search-field" type="text" name="q" value="<%= (@q and !@q.blank?) ? @q : 'Search...' %>" onfocus="descriptiveField(this, 'Search...', true);" onblur="descriptiveField(this, 'Search...', false);" style="<%= 'color:#333333;' if (@q and !@q.blank?) %>"/><input id="search-submit" type="image" src="/images/fb-search-blue.gif"/>
+				<input id="search-field" type="text" name="q" value="<%= (@q and !@q.blank?) ? @q : 'Search Channels, People and Millions of Videos...' %>" onfocus="descriptiveField(this, 'Search Channels, People and Millions of Videos...', true);" onblur="descriptiveField(this, 'Search Channels, People and Millions of Videos...', false);" style="<%= 'color:#333333;' if (@q and !@q.blank?) %>"/><input id="search-submit" type="image" src="/images/fb-search-blue.gif"/>
 			<% end -%>
 		</td>
 	</table>
