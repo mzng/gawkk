@@ -37,9 +37,11 @@ function streamPublish(videoId, containerId, videoUrl, title, description, thumb
 	var attachment = {'name':title,'description':description,'href':videoUrl,'media':[{'type':'image','src':thumbnailUrl,'href':videoUrl}]};
 	FB.Connect.streamPublish('', attachment);
 	
-	var y = Element.cumulativeOffset($('video_' + videoId + containerId))[1] + 'px';
-	$('RES_ID_fb_pop_dialog_table').style.top = y;
-	FB.CanvasClient.scrollTo(0, y);
+	if($('RES_ID_fb_pop_dialog_table')) {
+		var y = Element.cumulativeOffset($('video_' + videoId + containerId))[1] + 'px';
+		$('RES_ID_fb_pop_dialog_table').style.top = y;
+		FB.CanvasClient.scrollTo(0, y);
+	}
 }
 
 // Videos
