@@ -72,7 +72,7 @@
 				<% end -%>
 				&middot; <%= link_to 'Comment', '#comment', :onclick => "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}','#{params[:_session_id]}');" %>
 				&middot; <span class="like_for_<%= video.id %>"><%= render :partial => "/videos/like.fbml", :locals => {:video => video, :container_id => container_id} %></span>
-				&middot; <%= link_to 'Share', '#publish', :onclick => "javascript:streamPublish('#{video.id}','#{container_id}','http://apps.facebook.com/gawkk-sandbox/#{video.slug}/discuss','#{escape_javascript(video.title)}','#{escape_javascript(video.description)}','http://gawkk.com/images/#{video.thumbnail.blank? ? 'no-image.png' : video.thumbnail}');" %>
+				&middot; <%= link_to 'Share', '#publish', :onclick => "javascript:streamPublish('#{video.id}','#{container_id}','http://apps.facebook.com/gawkkapp/#{video.slug}/discuss','#{escape_javascript(video.title)}','#{escape_javascript(video.description)}','http://gawkk.com/images/#{video.thumbnail.blank? ? 'no-image.png' : video.thumbnail}');" %>
 				&middot; <%= link_to 'More', '#more', :onclick => "javascript:more('#{video.id}','#{container_id}');" %>
 			</td>
 		</tr>
