@@ -25,7 +25,7 @@ function openSubscriptions() {
 // Facebook Integration
 function setupFacebook() {
 	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){
-		FB.Facebook.init("093158e95304546cd3277069c250b15b", "/xd_receiver.htm");
+		FB.Facebook.init("3b73b34a3d750d20a4f4e86905459ad1", "/xd_receiver.htm");
     FB.XdComm.Server.init('/xd_receiver.htm');
     FB.CanvasClient.startTimerToSizeToContent();
 		FB.CanvasClient.syncUrl();
