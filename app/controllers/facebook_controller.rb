@@ -20,43 +20,47 @@ class FacebookController < ApplicationController
       parsed[key[(Util::Facebook.config[:key] + "_").size, key.size]] = cookies[key]
     }
     
-    return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
-    return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
+    if !parsed['session_key']
+      return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
+      return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
     
-    verify_signature_manually(parsed, cookies[Util::Facebook.config[:key]])
+      verify_signature_manually(parsed, cookies[Util::Facebook.config[:key]])
     
-    facebook_session = Facebooker::Session.create(Util::Facebook.config[:key], Util::Facebook.config[:secret])
-    facebook_session.secure_with!(parsed['session_key'], parsed['user'], parsed['expires'], parsed['ss'])
-    facebook_session
+      facebook_session = Facebooker::Session.create(Util::Facebook.config[:key], Util::Facebook.config[:secret])
+      facebook_session.secure_with!(parsed['session_key'], parsed['user'], parsed['expires'], parsed['ss'])
+      facebook_session
     
-    if facebook_session and facebook_session.user and facebook_session.user.uid
-      if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => facebook_session.user.uid.to_s})
-        @user = facebook_account.user
+      if facebook_session and facebook_session.user and facebook_session.user.uid
+        if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => facebook_session.user.uid.to_s})
+          @user = facebook_account.user
         
-        # Update the user's last login time
-        @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
-        @user.register_login!
+          # Update the user's last login time
+          @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
+          @user.register_login!
 
-        # Store the logged in user's id in the session
-        session[:user_id] = @user.id
-        accept_outstanding_invitation
+          # Store the logged in user's id in the session
+          session[:user_id] = @user.id
+          accept_outstanding_invitation
         
-        redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
+          redirect_to !session[:redirect_to].blank? ? session[:redirect_to] : '/'
+        else
+          facebook = Hash.new
+          facebook[:id] = facebook_session.user.uid
+          facebook[:name] = facebook_session.user.name
+          facebook[:description] = facebook_session.user.about_me
+          facebook[:image_small] = facebook_session.user.pic_square_with_logo
+          facebook[:image_large] = facebook_session.user.pic_big
+        
+          session[:facebook_credentials] = facebook
+        
+          redirect_to :controller => 'registration', :action => 'setup_suggestions'
+        end
       else
-        facebook = Hash.new
-        facebook[:id] = facebook_session.user.uid
-        facebook[:name] = facebook_session.user.name
-        facebook[:description] = facebook_session.user.about_me
-        facebook[:image_small] = facebook_session.user.pic_square_with_logo
-        facebook[:image_large] = facebook_session.user.pic_big
-        
-        session[:facebook_credentials] = facebook
-        
-        redirect_to :controller => 'registration', :action => 'setup_suggestions'
+        flash[:notice] = 'The authentication failed. Please try again!'
+        redirect_to '/'
       end
     else
-      flash[:notice] = 'The authentication failed. Please try again!'
-      redirect_to '/'
+      redirect_to 'http://apps.facebook.com/gawkkapp'
     end
   rescue
     flash[:notice] = 'The authentication failed. Please try again!'
