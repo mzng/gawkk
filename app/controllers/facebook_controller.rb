@@ -20,7 +20,7 @@ class FacebookController < ApplicationController
       parsed[key[(Util::Facebook.config[:key] + "_").size, key.size]] = cookies[key]
     }
     
-    if !parsed['session_key']
+    if parsed['session_key']
       return unless parsed['session_key'] && parsed['user'] && parsed['expires'] && parsed['ss']
       return unless Time.at(parsed['expires'].to_s.to_f) > Time.now || (parsed['expires'] == "0")
     
