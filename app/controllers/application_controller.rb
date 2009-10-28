@@ -69,6 +69,7 @@ class ApplicationController < ActionController::Base
     
     if request_for_facebook?
       coerce_into_fbml_or_fbjs
+      log_next_page
       require_login_for_facebook
     else
       ActionController::Base.asset_host = nil
@@ -89,6 +90,10 @@ class ApplicationController < ActionController::Base
     request.format = :js
   end
   
+  def log_next_page
+    session[:next_page] = params[:next] if !params[:next].blank?
+  end
+  
   # The current user should have a FacebookSession and a Gawkk account
   def require_login_for_facebook
     if ensure_authenticated_to_facebook and !user_logged_in?
@@ -101,6 +106,11 @@ class ApplicationController < ActionController::Base
         
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
+        
+        if session[:next_page]
+          redirect_to session[:next_page]
+          session[:next_page] = nil
+        end
       elsif controller_name != 'facebook'
         redirect_to :controller => 'facebook', :action => 'connect'
       end
@@ -448,9 +458,9 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_related_videos(video)
-    @q = Util::Scrub.query(video.title, true)
+    q = Util::Scrub.query(video.title, true)
     begin
-      @related_videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :per_page => 2, :conditions => {:category_id => Category.allowed_on_front_page_ids}, :retry_stale => true)
+      @related_videos = Video.search(q, :order => :posted_at, :sort_mode => :desc, :per_page => 2, :conditions => {:category_id => Category.allowed_on_front_page_ids}, :retry_stale => true)
     rescue
       @related_videos = Array.new
     end
