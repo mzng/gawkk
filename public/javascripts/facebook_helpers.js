@@ -33,6 +33,15 @@ function setupFacebook() {
   });
 }
 
+function streamPublish(videoId, containerId, videoUrl, title, description, thumbnailUrl) {
+	var attachment = {'name':title,'description':description,'href':videoUrl,'media':[{'type':'image','src':thumbnailUrl,'href':videoUrl}]};
+	FB.Connect.streamPublish('', attachment);
+	
+	var y = Element.cumulativeOffset($('video_' + videoId + containerId))[1] + 'px';
+	$('RES_ID_fb_pop_dialog_table').style.top = y;
+	FB.CanvasClient.scrollTo(0, y);
+}
+
 // Videos
 function work(videoId, containerId) {
 	if($('loading_for_' + videoId + containerId)) {
