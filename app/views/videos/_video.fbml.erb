@@ -44,7 +44,11 @@
 						<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}','#{params[:_session_id]}');" %>
 					</div>
 					<div class="description">
-						<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
+						<% if begin -%>
+							<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
+						<% rescue -%>
+							<% Rails.cache.delete("videos/#{video.id}/first-channel") -%>
+						<% end -%>
 						<span id="description_for_<%= video.id %><%= container_id %>">
 							<% if video.safe_description.length > 250 -%>
 								<%= video.safe_description.first(250).strip %>...
