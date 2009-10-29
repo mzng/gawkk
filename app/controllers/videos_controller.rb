@@ -106,6 +106,18 @@ class VideosController < ApplicationController
     end
   end
   
+  def follow_to_facebook
+    if !params[:id].nil? and params[:id][/%20$/]
+      params[:id].gsub(/%20$/, '')
+    end
+    
+    if params[:id] and video = Video.find(Util::BaseConverter.to_base10(params[:id]))
+      redirect_to "http://apps.facebook.com/gawkkapp/#{video.slug}/discuss"
+    else
+      redirect_to "http://apps.facebook.com/gawkkapp"
+    end
+  end
+  
   def discuss
     # load_video or redirect
     pitch(:sidebar => true)
