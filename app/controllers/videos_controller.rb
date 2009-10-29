@@ -111,11 +111,7 @@ class VideosController < ApplicationController
       params[:id].gsub(/%20$/, '')
     end
     
-    if params[:id] and video = Video.find(Util::BaseConverter.to_base10(params[:id]))
-      redirect_to "http://apps.facebook.com/gawkkapp/#{video.slug}/discuss"
-    else
-      redirect_to "http://apps.facebook.com/gawkkapp"
-    end
+    redirect_to "http://apps.facebook.com/gawkkapp/v/#{params[:id]}"
   end
   
   def discuss
