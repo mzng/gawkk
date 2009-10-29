@@ -23,7 +23,7 @@
 <% end -%>
 <% if !video.embed_code.blank? -%>
 	<div class="embed-container">
-		<%= video.embed_code %>
+		<%= request_for_facebook? ? Util::EmbedCode.resize_for_facebook(video) : video.embed_code %>
 	</div>
 <% else -%>
 	<div class="fake-embed-container<%= user_can_administer? ? ' admin-fake-embed-container' : '' %>">

@@ -1,4 +1,14 @@
 class Util::EmbedCode
+  def self.resize_for_facebook(video)
+    if !video.embed_code.blank? and video.embed_code[/youtube\.com\/v/]
+      return video.embed_code.gsub(/width="640"/, "width=\"600\"")
+    elsif !video.embed_code.blank? and video.embed_code[/hulu\.com\/embed/]
+      return video.embed_code.gsub(/width="630" height="365"/, "width=\"600\" height=\"348\"")
+    else
+      return video.embed_code
+    end
+  end
+  
   def self.generate(video, url)
     video.embed_code = Util::EmbedCode.scrub(video.embed_code)
     
