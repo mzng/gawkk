@@ -14,7 +14,7 @@ class Util::Facebook
   end
   
   def self.canvas_page_name
-    if Rails.env.product?
+    if Rails.env.production?
       return 'gawkkapp'
     else
       return 'gawkk-sandbox'
