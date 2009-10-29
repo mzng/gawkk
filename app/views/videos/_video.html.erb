@@ -51,11 +51,7 @@
 						</div>
 					<% end -%>
 					<div class="description">
-						<% if begin -%>
 							<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
-						<% rescue -%>
-							<% Rails.cache.delete("videos/#{video.id}/first-channel") -%>
-						<% end -%>
 						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %><%= container_id %>">
 								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
