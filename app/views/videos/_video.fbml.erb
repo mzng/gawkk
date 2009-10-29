@@ -36,7 +36,7 @@
 			<td class="action_body">
 				<div class="title">
 					<%= link_to video.title, "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}','#{params[:_session_id]}');" %>
-					<%= link_to image_tag('external.png'), "http://apps.facebook.com/#{Util::Facebook.canvas_page_name}/#{video.slug}/discuss", :target => "video_#{video.id}_#{Time.now.to_i}" %>
+					<%= link_to image_tag('external.png'), "http://apps.facebook.com/gawkkapp/#{video.slug}/discuss", :target => "video_#{video.id}_#{Time.now.to_i}" %>
 					<%= popular_icon(video, container_id) %>
 				</div>
 				<div class="body">
