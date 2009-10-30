@@ -66,6 +66,7 @@ function watchVideo(videoId, videoSlug, containerId, sessionId) {
 
 function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId) {
 	if($('embed_for_' + videoId + containerId).style.display != 'none') {
+		$('share_nudger_for_' + videoId + containerId).hide();
 		$('embed_for_' + videoId + containerId).hide();
 		$('embed_for_' + videoId + containerId).update('');
 	} else {

@@ -1,1 +1,8 @@
 page.replace_html("embed_for_#{@video.id}#{@container_id}", :partial => "/videos/embed", :locals => {:video => @video, :container_id => @container_id})
+
+page.delay(1) do
+  page << "if($('share_nudger_for_#{@video.id}#{@container_id}')){"
+  page <<   "$('share_nudger_for_#{@video.id}#{@container_id}').style.top = (Element.cumulativeOffset($('embed_for_#{@video.id}#{@container_id}'))[1] - 60) + 'px';"
+  page <<   "Effect.Appear('share_nudger_for_#{@video.id}#{@container_id}',{duration:0.15});"
+  page << "}"
+end
