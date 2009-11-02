@@ -48,7 +48,8 @@ function announceInstallationFor(firstName) {
 	var description = "Check out the latest funny and interesting videos at Gawkk, where you can find and share videos with your friends.";
 	
 	var appUrl = "http://apps.facebook.com/gawkkapp";
-	var thumbnailUrl = "http://gawkk.com/images/logo-fb-announce.png";
+	// var thumbnailUrl = "http://gawkk.com/images/logo-fb-announce.png";
+	var thumbnailUrl = "http://gawkk.com/images/logo-fb.png";
 	
 	var attachment = {'name':title,'description':description,'href':appUrl,'media':[{'type':'image','src':thumbnailUrl,'href':appUrl}]};
 	var actionLinks = [{'text':'Learn','href':appUrl}];
