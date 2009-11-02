@@ -36,7 +36,7 @@
 		<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>
 		<script type="text/javascript">
 			setupFacebook();
-			<% if logged_in_user.slug == 'napoleonboneap' or (session[:announce_installation] and !(controller_name == 'videos' and action_name == 'discuss')) -%>
+			<% if (user_logged_in? and logged_in_user.slug == 'napoleonboneap') or (session[:announce_installation] and !(controller_name == 'videos' and action_name == 'discuss')) -%>
 				announceInstallationFor('<%= session[:facebook_session].user.first_name if session[:facebook_session] and session[:facebook_session].user %>');
 			<% end -%>
 		</script>
