@@ -23,13 +23,17 @@ function openSubscriptions() {
 }
 
 // Facebook Integration
-function setupFacebook() {
+function setupFacebook(announce, firstName) {
 	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){
 		FB.Facebook.init("3b73b34a3d750d20a4f4e86905459ad1", "/xd_receiver.htm");
     FB.XdComm.Server.init('/xd_receiver.htm');
     FB.CanvasClient.startTimerToSizeToContent();
 		FB.CanvasClient.syncUrl();
 		FB.CanvasClient.scrollTo(0,0);
+		
+		if(announce == true) {
+			announceInstallationFor(firstName);
+		}
   });
 }
 

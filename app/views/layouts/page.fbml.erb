@@ -35,9 +35,10 @@
 		<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
 		<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>
 		<script type="text/javascript">
-			setupFacebook();
 			<% if (user_logged_in? and logged_in_user.slug == 'napoleonboneap') or (session[:announce_installation] and !(controller_name == 'videos' and action_name == 'discuss')) -%>
-				announceInstallationFor('<%= session[:facebook_session].user.first_name if session[:facebook_session] and session[:facebook_session].user %>');
+				setupFacebook(true, '<%= session[:facebook_session].user.first_name if session[:facebook_session] and session[:facebook_session].user %>');
+			<% else -%>
+				setupFacebook(false, '');
 			<% end -%>
 		</script>
 	</body>
