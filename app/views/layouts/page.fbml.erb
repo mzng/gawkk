@@ -38,7 +38,6 @@
 			setupFacebook();
 			<% if session[:announce_installation] and !(controller_name == 'videos' and action_name == 'discuss') -%>
 				announceInstallationFor('<%= session[:facebook_session].user.first_name if session[:facebook_session] and session[:facebook_session].user %>');
-				<% session[:announce_installation] = nil -%>
 			<% end -%>
 		</script>
 	</body>
