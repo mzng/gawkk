@@ -29,14 +29,17 @@
 		<script src="/javascripts/facebook_helpers.js?<%= Time.now.to_i %>" type="text/javascript"></script>
 	</head>
 	<body style="overflow:hidden;width:760px;">
-	<!-- <body style="width:760px;"> -->
 		<script src="http://static.ak.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 		<%= render :partial => '/layouts/header' %>
 		<%= yield  %>
-		<% if true -%>
-			<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
-			<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>
-			<script type="text/javascript">setupFacebook();</script>
-		<% end -%>
+		<div id="FB_HiddenIFrameContainer" style="display:none; position:absolute; left:-100px; top:-100px; width:0px; height: 0px;"></div>
+		<div style="clear:both;width:100%;"><!-- Hack for iframe resizing in webkit --></div>
+		<script type="text/javascript">
+			setupFacebook();
+			<% if session[:announce_installation] and !(controller_name == 'videos' and action_name == 'discuss') -%>
+				announceInstallationFor('<%= session[:facebook_session].user.first_name if session[:facebook_session] and session[:facebook_session].user %>');
+				<% session[:announce_installation] = nil -%>
+			<% end -%>
+		</script>
 	</body>
 </body>

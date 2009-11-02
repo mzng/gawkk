@@ -166,6 +166,8 @@ class FacebookController < ApplicationController
       end
       
       if request_for_facebook?
+        session[:announce_installation] = true
+        
         if session[:next_page]
           redirect_to session[:next_page]
           session[:next_page] = nil

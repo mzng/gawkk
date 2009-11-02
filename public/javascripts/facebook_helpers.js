@@ -33,6 +33,24 @@ function setupFacebook() {
   });
 }
 
+function announceInstallationFor(firstName) {
+	var title;
+	if(firstName != '') {
+		title = firstName + " is now finding and sharing great videos with friends.";
+	} else {
+		title = "I'm now finding and sharing great videos with friends.";
+	}
+	
+	var description = "Check out the latest funny and interesting videos at Gawkk, where you can find and share videos with your friends.";
+	
+	var appUrl = "http://apps.facebook.com/gawkkapp";
+	var thumbnailUrl = "http://gawkk.com/images/logo-fb-announce.png";
+	
+	var attachment = {'name':title,'description':description,'href':appUrl,'media':[{'type':'image','src':thumbnailUrl,'href':appUrl}]};
+	var actionLinks = [{'text':'Learn','href':appUrl}];
+	FB.Connect.streamPublish('', attachment, actionLinks);
+}
+
 function streamPublish(videoId, containerId, videoUrl, title, description, thumbnailUrl) {
 	var attachment = {'name':title,'description':description,'href':videoUrl,'media':[{'type':'image','src':thumbnailUrl,'href':videoUrl}]};
 	var actionLinks = [{'text':'Watch','href':videoUrl}];
