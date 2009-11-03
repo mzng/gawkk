@@ -40,7 +40,7 @@ function setupFacebook(announce, firstName) {
 function announceInstallationFor(firstName) {
 	var title;
 	if(firstName != '') {
-		title = firstName + " is now finding and sharing great videos with friends.";
+		title = firstName + " is finding and sharing great videos with friends.";
 	} else {
 		title = "I'm now finding and sharing great videos with friends.";
 	}
@@ -48,7 +48,7 @@ function announceInstallationFor(firstName) {
 	var description = "Check out the latest funny and interesting videos at Gawkk, where you can find and share videos with your friends.";
 	
 	var appUrl = "http://apps.facebook.com/gawkkapp";
-	var thumbnailUrl = "http://gawkk.com/images/logo-fb-announce-slim.png";
+	var thumbnailUrl = "http://gawkk.com/images/logo-fb-announce-medium.png";
 	
 	var attachment = {'name':title,'description':description,'href':appUrl,'media':[{'type':'image','src':thumbnailUrl,'href':appUrl}]};
 	var actionLinks = [{'text':'Learn','href':appUrl}];
