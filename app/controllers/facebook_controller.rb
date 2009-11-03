@@ -4,11 +4,6 @@ class FacebookController < ApplicationController
   layout 'page'
   
   
-  def coming_soon
-    flash[:notice] = "Sorry, but our new Facebook application isn't quite ready. For now, you can register below or <a href=\"/login\">login</a> to your existing gawkk account."
-    redirect_to :controller => 'registration', :action => 'register'
-  end
-  
   def fb_callback
     parsed = {}
     
@@ -169,6 +164,14 @@ class FacebookController < ApplicationController
         session[:announce_installation] = true
         
         if session[:next_page]
+          session[:next_page].gsub!(/_session_id/, '_old_session_id')
+          
+          if session[:next_page][/\?/]
+            session[:next_page] = session[:next_page] + '&_session_id=' + params[:_session_id]
+          else
+            session[:next_page] = session[:next_page] + '?_session_id=' + params[:_session_id]
+          end
+          
           redirect_to session[:next_page]
           session[:next_page] = nil
         else
@@ -178,6 +181,12 @@ class FacebookController < ApplicationController
         redirect_to :controller => "registration", :action => "setup_suggestions"
       end
     end
+  end
+  
+  def announcement_proposed
+    session[:announce_installation] = nil
+    
+    render :nothing => true
   end
   
   private

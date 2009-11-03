@@ -91,7 +91,11 @@ class ApplicationController < ActionController::Base
   end
   
   def log_next_page
-    session[:next_page] = params[:next] if !params[:next].blank?
+    if !user_logged_in? and !params[:next].blank?
+      session[:next_page] = params[:next]
+    elsif !user_logged_in? and action_name == 'discuss' and !params[:id].blank?
+      session[:next_page] = "/#{params[:id]}/discuss"
+    end
   end
   
   # The current user should have a FacebookSession and a Gawkk account

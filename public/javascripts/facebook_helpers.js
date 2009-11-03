@@ -23,7 +23,7 @@ function openSubscriptions() {
 }
 
 // Facebook Integration
-function setupFacebook(announce, firstName) {
+function setupFacebook(announce, firstName, sessionId) {
 	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){
 		FB.Facebook.init("3b73b34a3d750d20a4f4e86905459ad1", "/xd_receiver.htm");
     FB.XdComm.Server.init('/xd_receiver.htm');
@@ -33,6 +33,7 @@ function setupFacebook(announce, firstName) {
 		
 		if(announce == true) {
 			announceInstallationFor(firstName);
+			new Ajax.Request('/facebook/announcement_proposed?_session_id=' + sessionId, {method:'get', asynchronous:true, evalScripts:false});
 		}
   });
 }
@@ -40,7 +41,7 @@ function setupFacebook(announce, firstName) {
 function announceInstallationFor(firstName) {
 	var title;
 	if(firstName != '') {
-		title = firstName + " is finding and sharing great videos with friends.";
+		title = firstName + " is now finding and sharing great videos with friends.";
 	} else {
 		title = "I'm now finding and sharing great videos with friends.";
 	}

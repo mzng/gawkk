@@ -30,7 +30,7 @@
 						    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
 						</script>
 					<% else -%>
-						<%= link_to image_tag('fb-connect-button.gif'), {:controller => 'facebook', :action => 'coming_soon'} %>
+						<%= link_to image_tag('fb-connect-button.gif'), "http://apps.facebook.com/gawkkapp", :target => 'fbapp' %>
 					<% end -%>
 				</p>
 				<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
