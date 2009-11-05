@@ -112,6 +112,14 @@ class ApplicationController < ActionController::Base
         session[:user_id] = @user.id
         
         if session[:next_page]
+          session[:next_page].gsub!(/_session_id/, '_old_session_id')
+          
+          if session[:next_page][/\?/]
+            session[:next_page] = session[:next_page] + '&_session_id=' + params[:_session_id]
+          else
+            session[:next_page] = session[:next_page] + '?_session_id=' + params[:_session_id]
+          end
+          
           redirect_to session[:next_page]
           session[:next_page] = nil
         end
