@@ -5,24 +5,29 @@
 <div id="navigation">
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Activity Stream'}>Activity Stream</div>", {:controller => 'videos', :action => 'home'}, :class => 'navigation-item' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'Newest Videos'}>Newest Videos</div>", {:controller => 'videos', :action => 'index', :popular => false}, :class => 'navigation-item' %>
-	<%= yield if selected == 'Newest Videos' %>
-	
 	<%= link_to "<div#{" class=\"selected\"" if selected == 'Popular Videos'}>Popular Videos</div>", {:controller => 'videos', :action => 'index', :popular => true}, :class => 'navigation-item' %>
 	<%= yield if selected == 'Popular Videos' %>
 	
-	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>Channels</div>", {:controller => 'channels'}, :class => 'navigation-item' %>
-	<%= yield if selected == 'Channels' %>
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Newest Videos'}>Newest Videos</div>", {:controller => 'videos', :action => 'index', :popular => false}, :class => 'navigation-item' %>
+	<%= yield if selected == 'Newest Videos' %>
 	
-	<%= link_to "<div id=\"subscription-navigation-item\"#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>Subscriptions</div>", "javascript:openSubscriptions();", :class => 'navigation-item' %>
-	<div id="subscription-bookmarks" class="items" style="display:none;">
-		<div class="item-wrapper">
-			<ul>
-				<% @subscribed_channels.each do |channel| -%>
-					<% @current_channel_is_subscription = true if !current_channel.nil? and current_channel.id == channel.id -%>
-					<li<%= " class=\"selected-item\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
-				<% end -%>
-			</ul>
+	<% if user_logged_in? -%>
+		<%= link_to "<div#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>My Subscriptions</div>", {:controller => 'users', :action => 'subscriptions', :id => logged_in_user}, :class => 'navigation-item' %>
+		<%= yield if selected == 'Subscriptions' %>
+	<% else -%>
+		<%= link_to "<div id=\"subscription-navigation-item\"#{" class=\"selected\"" if selected == 'Subscriptions'}><span>#{@subscribed_channels.size}</span>My Subscriptions</div>", "javascript:openSubscriptions();", :class => 'navigation-item' %>
+		<div id="subscription-bookmarks" class="items" style="display:none;">
+			<div class="item-wrapper">
+				<ul>
+					<% @subscribed_channels.each do |channel| -%>
+						<% @current_channel_is_subscription = true if !current_channel.nil? and current_channel.id == channel.id -%>
+						<li<%= " class=\"selected-item\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+					<% end -%>
+				</ul>
+			</div>
 		</div>
-	</div>
+	<% end -%>
+	
+	<%= link_to "<div#{" class=\"selected\"" if selected == 'Channels'}>More Channels</div>", {:controller => 'channels'}, :class => 'navigation-item' %>
+	<%= yield if selected == 'Channels' %>
 </div>

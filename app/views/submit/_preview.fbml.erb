@@ -1,6 +1,6 @@
 <div id="errors_for_video_post"></div>
 <div id="video_preview">
-	<% form_remote_tag(:url => {:controller => 'submit', :action => 'complete'}, :method => :post) do -%>
+	<% form_remote_tag(:url => {:controller => 'submit', :action => 'complete'}, :before => "disableForm('submit_for_post');", :method => :post) do -%>
 		<%= hidden_field 'video', 'url' %>
 		<%= hidden_field 'video', 'thumbnail' %>
 		<%= hidden_field 'thumbnail', 'for_video', :id => "thumbnail_for_video_preview" %>
@@ -47,7 +47,9 @@
 			</tr>
 			<tr>
 				<td class="submit">
-					<%= submit_tag 'Share', :class => 'fb-button' %>
+					<% render(:layout => "/layouts/auto_disabling_submit.html", :locals => {:id => 'submit_for_post', :action => 'Processing', :button_klass => 'fb-button', :img_src => 'spinner-f7f7f7.gif', :img_style => 'vertical-align:middle;'}) do -%>
+						<%= submit_tag 'Share', :class => 'fb-button' %>
+					<% end -%>
 				</td>
 			</tr>
 		</table>

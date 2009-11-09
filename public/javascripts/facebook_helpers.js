@@ -1,27 +1,3 @@
-// Common
-function descriptiveField(field, description, focused) {
-	if(focused) {
-		if(field.value == description) {
-			field.value = '';
-			field.style.color = '#333333';
-		}
-	} else {
-		if(field.value == '') {
-			field.style.color = '#837d87';
-			field.value = description;
-		}
-	}
-}
-
-// subscriptions
-function openSubscriptions() {
-	if($('subscription-bookmarks').style.display == 'none') {
-		new Effect.BlindDown('subscription-bookmarks', {duration: 0.2});
-	} else {
-		new Effect.BlindUp('subscription-bookmarks', {duration: 0.2});
-	}
-}
-
 // Facebook Integration
 function setupFacebook(announce, firstName, sessionId) {
 	FB_RequireFeatures(["XFBML","CanvasUtil"], function(){
@@ -65,6 +41,49 @@ function streamPublish(videoId, containerId, videoUrl, title, description, thumb
 		var y = Element.cumulativeOffset($('video_' + videoId + containerId))[1] + 'px';
 		$('RES_ID_fb_pop_dialog_table').style.top = y;
 		FB.CanvasClient.scrollTo(0, y);
+	}
+}
+
+// Common
+function descriptiveField(field, description, focused) {
+	if(focused) {
+		if(field.value == description) {
+			field.value = '';
+			field.style.color = '#333333';
+		}
+	} else {
+		if(field.value == '') {
+			field.style.color = '#837d87';
+			field.value = description;
+		}
+	}
+}
+
+// Forms
+var currentFormId = null;
+
+function disableForm(id) {
+	currentFormId = id;
+	
+	$(currentFormId).hide();
+	$(currentFormId + '_disabled').show();
+}
+
+function enableCurrentForm() {
+	if(currentFormId != null) {
+		$(currentFormId + '_disabled').hide();
+		$(currentFormId).show();
+		
+		currentFormId = null;
+	}
+}
+
+// Subscriptions
+function openSubscriptions() {
+	if($('subscription-bookmarks').style.display == 'none') {
+		new Effect.BlindDown('subscription-bookmarks', {duration: 0.2});
+	} else {
+		new Effect.BlindUp('subscription-bookmarks', {duration: 0.2});
 	}
 }
 

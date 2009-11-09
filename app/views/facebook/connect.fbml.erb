@@ -6,7 +6,7 @@
 	</div>
 <% end -%>
 
-<% form_for(:user, @user, :url => facebook_connect_path) do |f| %>
+<% form_for(:user, @user, :url => facebook_connect_path, :html => {:onsubmit => "disableForm('submit_for_username');"}) do |f| %>
 	<table cellpadding="3" cellspacing="0" class="editorkit" style="background-color:#f7f7f7;margin:10px auto 0 auto;">
 		<tr>
 			<td colspan="3" style="background-color:#dedede;font-weight:bold;padding:5px;">
@@ -32,7 +32,9 @@
 		</tr>
 		<tr>
 			<td colspan="3" class="editorkit_buttonset" style="padding:10px 20px 10px 10px;text-align:right;">
-				<input type="submit" class="editorkit_button action" value="Submit">
+				<% render(:layout => "/layouts/auto_disabling_submit.html", :locals => {:id => 'submit_for_username', :action => 'Processing', :img_src => 'spinner-f7f7f7.gif', :img_style => 'vertical-align:middle;'}) do -%>
+					<%= submit_tag 'Submit' %>
+				<% end -%>
 			</td>
 		</tr>
 	</table>

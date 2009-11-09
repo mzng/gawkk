@@ -1,17 +1,28 @@
-<%= render :partial => "/layouts/content_header", :locals => {:avatar_path => @user.thumbnail, :title => @user.username, :description => "Subscriptions of #{@user.username}", :user => @user} %>
-<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-			:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
-									{:name => @user.username, :params => user_path(:id => @user)}, 
-									{:name => 'Channels', :params => {:controller => 'users', :action => 'subscriptions', :id => @user}}]} %>
-
-<div id="content-main">
-	<%= render :partial => "/layouts/filter_bar", :locals => {:title => "Channels followed by #{@user.username}", 
-			:links => [{:name => 'Activity', :options => user_path(:id => @user), :selected => false}, 
-			{:name => 'Comments', :options => {:controller => 'users', :action => 'comments', :id => @user}, :selected => false}]} %>
-	<div class="grid-container">
-		<%= render @channels, :subscribable => true %>
+<div id="navigable-container">
+	<% render :layout => "/layouts/navigation", :locals => {:selected => 'Subscriptions'} do -%>
+		<div class="items">
+			<div class="item-wrapper">
+				<ul>
+					<% @subscribed_channels.each do |channel| -%>
+						<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+					<% end -%>
+				</ul>
+			</div>
+		</div>
+	<% end -%>
+	<div id="content-main">
+		<h1 id="filter-bar"><span class="title-container">Subscriptions of <%= @user.username %></span></h1>
+		
+		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+					:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
+											{:name => @user.username, :params => user_path(:id => @user)}, 
+											{:name => 'Subscriptions', :params => {:controller => 'users', :action => 'subscriptions', :id => @user}}]} %>
+		
+		<div class="grid-container">
+			<%= render @channels, :subscribable => true %>
+		</div>
+		<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
 	</div>
-	<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
 </div>
 
 <div id="content-sidebar">

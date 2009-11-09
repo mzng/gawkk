@@ -1,5 +1,19 @@
 <div id="navigable-container">
-	<%= render :partial => '/layouts/navigation', :locals => {:current_channel => @channel} %>
+	<% if user_logged_in? -%>
+		<% render :layout => "/layouts/navigation", :locals => {:selected => 'Subscriptions'} do -%>
+			<div class="items">
+				<div class="item-wrapper">
+					<ul>
+						<% @subscribed_channels.each do |channel| -%>
+							<li<%= " class=\"selected-item\"" if @channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+						<% end -%>
+					</ul>
+				</div>
+			</div>
+		<% end -%>
+	<% else -%>
+		<%= render :partial => '/layouts/navigation', :locals => {:current_channel => @channel} %>
+	<% end -%>
 	<div id="content-main">
 		<h1 id="filter-bar">
 			<span id="subscribe-or-follow"><%= render :partial => "/channels/subscribe", :locals => {:channel => @channel} %></span>

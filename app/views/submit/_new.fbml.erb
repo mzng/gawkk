@@ -1,4 +1,4 @@
-<% form_remote_tag(:url => {:controller => 'submit', :action => 'process_post'}, :method => :post) do -%>
+<% form_remote_tag(:url => {:controller => 'submit', :action => 'process_post'}, :before => "disableForm('submit_for_post');", :method => :post) do -%>
 	<table id="post" cellpadding="0" cellspacing="0">
 		<tr>
 			<td class="profile-picture" rowspan="3">
@@ -23,7 +23,9 @@
 				<span id="attach" onclick="$('url-container').show();$('attach').hide();$('comment_body').focus();">
 					Attach: <%= image_tag('fb-post.gif') %>
 				</span>
-				<%= submit_tag 'Preview', :class => 'fb-button' %>
+				<% render(:layout => "/layouts/auto_disabling_submit.html", :locals => {:id => 'submit_for_post', :action => 'Processing', :button_klass => 'fb-button', :img_src => 'spinner-f7f7f7.gif', :img_style => 'vertical-align:middle;'}) do -%>
+					<%= submit_tag 'Preview', :class => 'fb-button' %>
+				<% end -%>
 			</td>
 		</tr>
 	</table>
