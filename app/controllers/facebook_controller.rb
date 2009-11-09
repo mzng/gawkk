@@ -158,27 +158,33 @@ class FacebookController < ApplicationController
         
         session[:user_id] = @user.id
         accept_outstanding_invitation
-      end
-      
-      if request_for_facebook?
-        session[:announce_installation] = true
         
-        if session[:next_page]
-          session[:next_page].gsub!(/_session_id/, '_old_session_id')
-          
-          if session[:next_page][/\?/]
-            session[:next_page] = session[:next_page] + '&_session_id=' + params[:_session_id]
+        if request_for_facebook?
+          session[:announce_installation] = true
+
+          if session[:next_page]
+            session[:next_page].gsub!(/_session_id/, '_old_session_id')
+
+            if session[:next_page][/\?/]
+              session[:next_page] = session[:next_page] + '&_session_id=' + params[:_session_id]
+            else
+              session[:next_page] = session[:next_page] + '?_session_id=' + params[:_session_id]
+            end
+
+            redirect_to session[:next_page]
+            session[:next_page] = nil
           else
-            session[:next_page] = session[:next_page] + '?_session_id=' + params[:_session_id]
+            redirect_to :controller => "videos", :action => "home"
           end
-          
-          redirect_to session[:next_page]
-          session[:next_page] = nil
         else
-          redirect_to :controller => "videos", :action => "home"
+          redirect_to :controller => "registration", :action => "setup_suggestions"
         end
       else
-        redirect_to :controller => "registration", :action => "setup_suggestions"
+        if request_for_facebook?
+          render :action => "connect"
+        else
+          redirect_to :controller => "registration", :action => "setup_suggestions"
+        end
       end
     end
   end

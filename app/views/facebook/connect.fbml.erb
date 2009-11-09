@@ -1,12 +1,21 @@
-<% if false -%>
-	<div style="margin-top:10px;">
-		<fb:success>
-			<fb:message>Please confirm your username for use on <%= link_to 'gawkk.com', 'http://gawkk.com', :target => 'gawkkdotcom' %></fb:message>
-		</fb:success>
-	</div>
-<% end -%>
-
 <% form_for(:user, @user, :url => facebook_connect_path, :html => {:onsubmit => "disableForm('submit_for_username');"}) do |f| %>
+	<div style="background-color:#e4c8c8;margin:10px auto 0 auto;padding:5px 10px;width:415px;">
+		<% if !@user.errors.blank? -%>
+			<div class="errorExplanation" id="errorExplanation">
+				<p style="font-size:10pt;margin-top:5px;">
+					There <%= @user.errors.size > 1 ? 'Were Problems' : 'Was a Problem' %>
+				</p>
+				<ul style="margin-bottom:0;">
+					<% @user.errors.full_messages.each do |message| -%>
+						<li><%= (message == 'Username must be unique' ? "Username isn't available" : message) %></li>
+					<% end -%>
+				</ul>
+			</div>
+			<% @user.errors.clear -%>
+		<% end -%>
+		<br class="clear"/>
+	</div>
+	
 	<table cellpadding="3" cellspacing="0" class="editorkit" style="background-color:#f7f7f7;margin:10px auto 0 auto;">
 		<tr>
 			<td colspan="3" style="background-color:#dedede;font-weight:bold;padding:5px;">
