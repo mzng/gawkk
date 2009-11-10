@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
   def check_cookie
     return if session[:user_id]
     
-    if cookies[:_gawkk_login]
+    if cookies[:_gawkk_login] and action_name != 'forget_token'
       user = User.find_by_slug(cookies[:_gawkk_login].split('&')[0])
       return unless user
       cookie_hash = Digest::MD5.hexdigest(cookies[:_gawkk_login].split('&')[1] + user.salt)
