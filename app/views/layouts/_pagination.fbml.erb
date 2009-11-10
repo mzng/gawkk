@@ -5,7 +5,7 @@
 
 <div class="pagination clear" style="<% unless top -%>margin-top:15px;<% end -%>margin-bottom:5px;">
 	<div class="controls">
-		<% if !collection.nil? -%>
+		<% if force_next or !collection.nil? -%>
 			<% if @page.to_i > 1 -%><%= link_to image_tag('fb-previous.png', :mouseover => 'http://www.gawkk.com/images/fb-previous-active.png'), {:page => (@page.to_i - 1)}.merge(options) %><% else -%><%= image_tag('fb-previous-disabled.png') %><% end -%><% if force_next or collection.nil? or collection.size == @per_page -%><%= link_to image_tag('fb-next.png', :mouseover => 'http://www.gawkk.com/images/fb-next-active.png'), {:page => (@page.to_i + 1)}.merge(options) %><% else -%><%= image_tag('fb-next-disabled.png') %><% end -%>
 		<% end -%>
 	</div>
