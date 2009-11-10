@@ -22,7 +22,7 @@
 	</div>
 	
 	<div style="margin:10px 0 0 0;text-align:center;">
-		<p style="font-size:8pt;">Have an existing Gawkk Account? <%= link_to 'Sign in here', {:controller => 'authentication', :action => 'login'} %>.</p>
+		<p style="font-size:8pt;">Have an existing Gawkk Account? <%= link_to_remote('Sign in here', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %>.</p>
 	</div>
 </div>
 
