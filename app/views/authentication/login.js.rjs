@@ -1,2 +1,2 @@
-page << "displayOverlay(330, 600);"
+page << "displayOverlay(390, 350);"
 page.replace_html('overlayed-content', :partial => '/authentication/login')

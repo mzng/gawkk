@@ -1,13 +1,14 @@
 #login-options {
 	background-color: #f3f6f9;
-	border:1px solid #E5E5E5;
+	border: 1px solid #E5E5E5;
 	margin: 50px auto 0 auto;
+	padding: 5px 15px;
 }
 
 #login-options td {
 	padding: 15px 25px;
 }
-
+ 
 #login-options td + td {
 	border-left: 1px solid #E5E5E5;
 }

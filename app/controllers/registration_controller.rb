@@ -28,11 +28,20 @@ class RegistrationController < ApplicationController
   end
   
   def register
+    standard_registration_enabled = false
+    
     if !user_logged_in?
       if request.get?
-        @user = User.new
-        @user.send_digest_emails = true
-      else
+        respond_to do |format|
+          format.html {
+            redirect_to root_path(:register => true)
+          }
+          format.js {
+            @user = User.new
+            @user.send_digest_emails = true
+          }
+        end
+      elsif standard_registration_enabled
         if params[:user][:password_confirmation].nil?
           params[:user][:password_confirmation] = params[:user][:password]
         end
@@ -53,6 +62,8 @@ class RegistrationController < ApplicationController
           
           redirect_to :action => "setup_services"
         end
+      else
+        redirect_to root_path(:register => true)
       end
     else
       redirect_to :action => "setup_services"

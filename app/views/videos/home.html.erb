@@ -30,5 +30,8 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
+	<% if params[:register] -%>
+		new Ajax.Request('/register', {method:'get', asynchronous:true, evalScripts:false});
+	<% end -%>
 	new Ajax.Request('/friends', {method:'get', asynchronous:true, evalScripts:false});
 </script>

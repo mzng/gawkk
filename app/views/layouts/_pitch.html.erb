@@ -11,16 +11,9 @@
 				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
 			<% end -%>
 			<p>
-				<% if false -%>
-					<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
-					<script type="text/javascript">
-					    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
-					</script>
-				<% else -%>
-					<%= link_to image_tag('fb-connect-button.gif'), "http://apps.facebook.com/gawkkapp", :target => 'fbapp' %>
-				<% end -%>
+				<%= link_to image_tag('fb-connect-button.gif'), "http://apps.facebook.com/gawkkapp", :target => 'fbapp' %>
 			</p>
-			<p>Or, <%= link_to_remote('sign up', {:url => {:controller => 'registration', :action => 'register'}, :method => :get}) %> directly with Gawkk</p>
+			<p>Or, <%= link_to_remote('log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your account.</p>
 		</div>
 		<div id="copy">
 			<p style="font-size:16pt;font-weight:bold;">

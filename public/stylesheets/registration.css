@@ -10,30 +10,13 @@
 }
 
 #registration-overlay table#container {
-	height: 231px;
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+/*height: 231px;*/
 	width: 100%;
 }
 
-#registration-overlay table#container td.service {
-	border: 1px solid #f3f6f9;
-	border-right: 1px solid #CCCCCC;
-	cursor: pointer;
-	height: 73px;
-	text-align: center;
-}
-
-#registration-overlay table#container td.selected-service {
-	background-color: #FFFFFF;
-	border: 1px solid #CCCCCC;
-	border-right: 1px solid #FFFFFF;
-	height: 73px;
-	text-align: center;
-}
-
 #registration-overlay table#container .forms {
-	background-color: #FFFFFF;
-	border: 1px solid #CCCCCC;
-	border-left: 0px;
 	vertical-align: top;
 	width: 350px;
 }
@@ -41,14 +24,15 @@
 #registration-overlay table#container .forms .title {
 	font-size: 11pt;
 	font-weight: bold;
-	margin: 0 0 10px 0;
-	padding: 10px 0 5px 0;
+	margin: 0 0 5px 0;
+	padding: 5px 0 5px 0;
 	text-align: center;
 	_margin: 5px 0 0 0;
 	_padding: 0;
 }
 
 #registration-overlay .signup_form .explanation {
+	font-size: 9pt;
 	padding: 0 15px;
 	text-align: center;
 }
@@ -56,11 +40,10 @@
 #registration-overlay .signup_form .coming-soon {
 	font-size: 24pt;
 	text-align: center;
-	_margin-top: 15px;
+	_margin-top: 5px;
 }
 
 #registration-overlay .signup_form .authorize {
-	padding-top: 15px;
 	text-align: center;
 }
 
