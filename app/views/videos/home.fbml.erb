@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div id="pagination-container" style="display:none;">
-			<%= render :partial => "/layouts/pagination", :locals => {:collection => @news_items} %>
+			<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
 		</div>
 		<%= render :partial => "/news_items/setup.html" %>
 	</div>
