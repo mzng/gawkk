@@ -8,7 +8,7 @@
 				<%= link_to image_tag(comment.user.thumbnail.blank? ? 'profile-pic.jpg' : comment.user.thumbnail, :class => 'avatar', :style => 'height:30px;width:30px;'), user_path(:id => comment.user) %>
 			</td>
 			<td colspan="2" style="vertical-align:top;">
-				<%= link_to comment.user.username, user_path(:id => comment.user), :style => 'font-weight:bold;' %>
+				<%= link_to comment.user.preferred_username, user_path(:id => comment.user), :style => 'font-weight:bold;' %>
 				<%= auto_link_usernames(comment.body) %><br/>
 				<span title="<%= comment.created_at %>" style="color:#777;font-size:11px;">
 					<%= time_ago_in_words(comment.created_at) %> ago

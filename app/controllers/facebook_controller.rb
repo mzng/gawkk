@@ -69,6 +69,7 @@ class FacebookController < ApplicationController
           facebook = Hash.new
           facebook[:id] = facebook_session.user.uid
           facebook[:name] = facebook_session.user.name
+          facebook[:first_name] = facebook_session.user.first_name
           facebook[:description] = facebook_session.user.about_me
           facebook[:image_small] = facebook_session.user.pic_square_with_logo
           facebook[:image_large] = facebook_session.user.pic_big
@@ -86,11 +87,11 @@ class FacebookController < ApplicationController
           if !@facebook[:profile_url].blank? and !@facebook[:profile_url][/^profile.php/]
             @user.username = @facebook[:profile_url].first(15).gsub(/\s/, '').gsub(/\./, '')
           else
-            @user.username = @facebook[:name].first(15).gsub(/\s/, '').gsub(/\./, '')
+            @user.username = @facebook[:first_name].first(15).gsub(/\s/, '').gsub(/\./, '')
           end
 
           attempt = 0
-          while !User.valid_username?(@user.username) and attempt < 3 do
+          while !User.valid_username?(@user.username) and attempt < 6 do
             if @user.username.length < 15
               @user.username = @user.username + rand(10).to_s
             else
@@ -113,6 +114,7 @@ class FacebookController < ApplicationController
         facebook = Hash.new
         facebook[:id] = facebook_session.user.uid
         facebook[:name] = facebook_session.user.name
+        facebook[:first_name] = facebook_session.user.first_name
         facebook[:description] = facebook_session.user.about_me
         facebook[:image_small] = facebook_session.user.pic_square_with_logo
         facebook[:image_large] = facebook_session.user.pic_big
@@ -124,6 +126,7 @@ class FacebookController < ApplicationController
       @facebook = session[:facebook_credentials]
       
       @user = User.new(params[:user])
+      @user.facebook_username = @facebook[:name]
       @user.name = @facebook[:name]
       @user.description = @facebook[:description]
       @user.ad_campaign = session[:ref]

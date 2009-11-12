@@ -193,6 +193,10 @@ class User < ActiveRecord::Base
     self.id.blank? or (self.login_count > 2)
   end
   
+  def preferred_username
+    self.facebook_username.blank? ? self.username : self.facebook_username
+  end
+  
   def summary_description
     description = self.description.blank? ? '' : self.description
     

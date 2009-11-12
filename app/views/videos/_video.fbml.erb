@@ -25,7 +25,7 @@
 					</span>
 				</td>
 				<td class="action_description">
-					<%= link_to video.posted_by.username, user_path(:id => video.posted_by, :_session_id => params[:_session_id]) %> posted this video
+					<%= link_to video.posted_by.preferred_username, user_path(:id => video.posted_by, :_session_id => params[:_session_id]) %> posted this video
 				</td>
 			<% else -%>
 				<td class="action_owner" rowspan="2"></td>

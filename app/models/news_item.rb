@@ -148,11 +148,11 @@ class NewsItem < ActiveRecord::Base
     return html
   end
   
-  def render_simple(absolute = false, session_id = nil)
+  def render_simple(absolute = false, preferred_username = false, session_id = nil)
     prefix = absolute ? 'http://www.gawkk.com' : ''
     
     html = self.news_item_type.simple_template
-    html = html.gsub(/\{user\}/, "<a href=\"#{prefix}/#{self.user.slug}#{'?_session_id=' + session_id if !session_id.blank?}\">#{self.user.username}</a>")
+    html = html.gsub(/\{user\}/, "<a href=\"#{prefix}/#{self.user.slug}#{'?_session_id=' + session_id if !session_id.blank?}\">#{preferred_username ? self.user.preferred_username : self.user.username}</a>")
     
     if self.message.blank?
       html = html.gsub(/\{comment\}/, " commented on this {commentable_type}")
