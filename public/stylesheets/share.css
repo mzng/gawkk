@@ -49,10 +49,10 @@
 	width: 90%;
 }
 
-.thid-party td {
+.thid-party td:first-child {
 	font-size: 8pt;
 	padding: 1px 10px 1px 15px;
-	width: 50%;
+	width: 45%;
 }
 
 .thid-party td img {
@@ -62,6 +62,7 @@
 
 .thid-party td a {
 	color: #333333;
+	font-size: 8pt !important;
 	text-decoration: none;
 }
 

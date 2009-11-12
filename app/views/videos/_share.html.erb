@@ -38,7 +38,10 @@
 						<%= image_tag('email.png') %>
 						<%= link_to 'Email', "mailto:?body=http://gawkk.com/#{video.slug}/discuss" %>
 					</td>
-					<td></td>
+					<td>
+						<%= image_tag('favicon_stumbleupon.png') %>
+						<%= link_to 'StumbleUpon', "http://www.stumbleupon.com/submit?url=http://gawkk.com/#{video.short_code.blank? ? 'discuss/' + video.slug : 'v/' + video.short_code}", :target => 'stumbleupon' %>
+					</td>
 				</tr>
 			</table>
 		</td>

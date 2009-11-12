@@ -63,9 +63,10 @@ class Util::Avatar
       
       begin
         if !user.twitter_username.blank?
-          client = Util::Twitter.client
-          twitter_user = Twitter::User.find(user.twitter_username, client)
-          image_url = twitter_user.profile_image_url
+          access_token = '7820152-NpYUAyBrM5Zf0JFo9U0enpZgRz8RtrCrILomnmqEQ'
+          access_secret = 'b1k8hpHiVktwJbo40zhzigH9dUlTNFduiFEUXSko'
+          
+          image_url = Util::Twitter.request(:get, "/users/show.json?screen_name=" + CGI.escape(user.twitter_username), access_token, access_secret)['profile_image_url']
           image_url.gsub!(/\_normal\.jpg$/, '.jpg')
           image_fetched = Util::Avatar.fetch_and_write(image_url, "#{user.slug}.twitter.jpg")
         end
