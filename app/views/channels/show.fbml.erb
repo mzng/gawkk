@@ -4,7 +4,7 @@
 			<div id="subscription-bookmarks">
 				<ul>
 					<% @subscribed_channels.each do |channel| -%>
-						<li<%= " class=\"selected\"" if @channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+						<li<%= " class=\"selected\"" if @channel.id == channel.id %>><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 					<% end -%>
 				</ul>
 			</div>
@@ -39,6 +39,11 @@
 					<% if @page.to_i > 1 -%><%= link_to image_tag('fb-previous.png', :mouseover => 'http://www.gawkk.com/images/fb-previous-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i - 1)) %><% else -%><%= image_tag('fb-previous-disabled.png') %><% end -%><% if @videos.nil? or @videos.size == @per_page -%><%= link_to image_tag('fb-next.png', :mouseover => 'http://www.gawkk.com/images/fb-next-active.png'), channel_path(:user => @user, :channel => @channel, :page => (@page.to_i + 1)) %><% else -%><%= image_tag('fb-next-disabled.png') %><% end -%>
 				<% end -%>
 			</div>
+			<% if @videos.nil? or @videos.size == @per_page -%>
+				<span style="position:relative;top:2px;">
+					<%= link_to 'Older Posts', channel_path(:user => @user, :channel => @channel, :page => (@page.to_i + 1)), :style => 'font-size:11px;font-weight:normal;' %> <%= image_tag('fb-down-arrow.png', :style => 'vertical-align:middle;') %>
+				</span>
+			<% end -%>
 		</div>
 	</div>
 </div>

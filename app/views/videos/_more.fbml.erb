@@ -19,7 +19,7 @@
 					<tr>
 						<td>
 							<%= image_tag('favicon_twitter.png') %>
-							<%= link_to 'Twitter', "http://twitter.com/home?status=#{CGI.escape(video.title)}%20http://apps.facebook.com/gawkkapp/#{video.short_code.blank? ? 'discuss/' + video.slug : 'v/' + video.short_code}", :target => 'twitter' %>
+							<%= link_to 'Twitter', "http://twitter.com/home?status=#{CGI.escape(video.title)}%20http://gawkk.com/#{video.short_code.blank? ? 'discuss/' + video.slug : 'f/' + video.short_code}", :target => 'twitter' %>
 						</td>
 						<td>
 							<%= image_tag('favicon_delicious.png') %>
