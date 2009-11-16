@@ -107,8 +107,9 @@ function watchVideo(videoId, videoSlug, containerId, sessionId) {
 }
 
 function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId) {
+	hideShareNudgers();
+	
 	if($('embed_for_' + videoId + containerId).style.display != 'none') {
-		$('share_nudger_for_' + videoId + containerId).hide();
 		$('embed_for_' + videoId + containerId).hide();
 		$('embed_for_' + videoId + containerId).update('');
 	} else {
@@ -118,17 +119,15 @@ function watchVideoAndScroll(videoId, videoSlug, scroll, containerId, sessionId)
 				rest(videoId, containerId);
 				
 				Effect.BlindDown('embed_for_' + videoId + containerId, {duration: 0.5});
-				
-				if(scroll) {
-					// Effect.ScrollTo('video_' + videoId + containerId, {offset: -5});
-					
-					// Google Anylytics tracking
-					// if(typeof pageTracker != 'undefined') {
-					// 	pageTracker._trackPageview("/watched-video");
-					// }
-				}
 			}}
 		);
+	}
+}
+
+function hideShareNudgers() {
+	var nudgers = $$('.share-nudger');
+	for(i = 0; i < nudgers.length; i++) {
+		nudgers[i].hide();
 	}
 }
 

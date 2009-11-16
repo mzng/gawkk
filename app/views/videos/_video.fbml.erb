@@ -85,7 +85,7 @@
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
 	<%= render :partial => "/news_items/activity.fbml", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
 	<%= render :partial => "/comments/list.fbml", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
-	<div id="share_nudger_for_<%= video.id %><%= container_id %>" style="background-image:url(/images/fb-share-with-others.png);background-repeat:no-repeat;float:right;font-size:10pt;height:60px;margin-right:7px;text-align:center;width:227px;z-index:1000;position:absolute;right:5px;display:none;">
+	<div id="share_nudger_for_<%= video.id %><%= container_id %>" class="share-nudger" style="background-image:url(/images/fb-share-with-others.png);background-repeat:no-repeat;float:right;font-size:10pt;height:60px;margin-right:7px;text-align:center;width:227px;z-index:1000;position:absolute;right:5px;display:none;">
 		<%= link_to "<span style=\"display:block;margin-top:2px;padding:6px 0 8px 0;\">Enjoying this video?<br/>Share it with your friends!</span>", '#publish', :onclick => "javascript:streamPublish('#{video.id}','#{container_id}','http://apps.facebook.com/gawkkapp/#{video.slug}/discuss','#{escape_javascript(video.title)}','#{escape_javascript(video.description)}','http://gawkk.com/images/#{video.thumbnail.blank? ? 'no-image.png' : video.thumbnail}');", :style => 'color:#333333;text-decoration:none;' %>
 	</div>
 </div>
