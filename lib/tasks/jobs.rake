@@ -14,6 +14,8 @@ namespace :jobs do
           when 'activity_reversal'
             job.processable.prepare_to_destroy_activity_messages!
             job.processable.destroy
+          when 'friend_linking'
+            job.processable.find_and_follow_friends!
           end
           
           job.complete!

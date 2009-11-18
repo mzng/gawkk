@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091112204618) do
+ActiveRecord::Schema.define(:version => 20091117171344) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -178,6 +178,15 @@ ActiveRecord::Schema.define(:version => 20091112204618) do
   add_index "flags", ["flag_type_id"], :name => "flag_type_id"
   add_index "flags", ["user_id"], :name => "user_id"
   add_index "flags", ["video_id"], :name => "video_id"
+
+  create_table "friend_linking_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "friend_ids"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "friend_linking_requests", ["user_id"], :name => "user_id"
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -562,6 +571,8 @@ ActiveRecord::Schema.define(:version => 20091112204618) do
   add_foreign_key "flags", ["flag_type_id"], "flag_types", ["id"], :name => "flags_ibfk_1"
   add_foreign_key "flags", ["user_id"], "users", ["id"], :name => "flags_ibfk_2"
   add_foreign_key "flags", ["video_id"], "videos", ["id"], :name => "flags_ibfk_3"
+
+  add_foreign_key "friend_linking_requests", ["user_id"], "users", ["id"], :name => "friend_linking_requests_ibfk_1"
 
   add_foreign_key "friendships", ["user_id"], "users", ["id"], :name => "friendships_ibfk_1"
   add_foreign_key "friendships", ["friend_id"], "users", ["id"], :name => "friendships_ibfk_2"

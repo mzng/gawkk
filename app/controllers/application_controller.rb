@@ -110,6 +110,7 @@ class ApplicationController < ActionController::Base
         
         # Store the logged in user's id in the session
         session[:user_id] = @user.id
+        register_friend_linking_request
         
         if session[:next_page]
           session[:next_page].gsub!(/_session_id/, '_old_session_id')
@@ -186,6 +187,14 @@ class ApplicationController < ActionController::Base
       elsif !session[:host_id].blank?
         logged_in_user.follow(User.find(session[:host_id]))
         session[:host_id] = nil
+      end
+    end
+  end
+  
+  def register_friend_linking_request
+    if user_logged_in? and session[:facebook_session]
+      spawn do
+        FriendLinkingRequest.register(:user => logged_in_user, :friends => session[:facebook_session].user.friends_with_this_app)
       end
     end
   end

@@ -161,6 +161,7 @@ class FacebookController < ApplicationController
         
         session[:user_id] = @user.id
         accept_outstanding_invitation
+        register_friend_linking_request
         
         if request_for_facebook?
           session[:announce_installation] = true

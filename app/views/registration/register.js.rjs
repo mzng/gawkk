@@ -1,2 +1,2 @@
-page << "displayOverlay(280, 350);"
+page << "displayOverlay(280, 365);"
 page.replace_html('overlayed-content', :partial => '/registration/register')
