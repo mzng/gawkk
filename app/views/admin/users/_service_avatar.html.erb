@@ -4,6 +4,12 @@
 	<% else -%>
 		<%= link_to image_tag('favicon_twitter.png'), "http://twitter.com/#{value}", :target => 'twitter' %>
 	<% end -%>
+<% elsif service == 'facebook' -%>
+	<% if value.blank? -%>
+		<%= image_tag('favicon_facebook_disabled.png') %>
+	<% else -%>
+		<%= link_to image_tag('favicon_facebook.png'), "http://www.facebook.com/profile.php?id=#{value}", :target => 'facebook' %>
+	<% end -%>
 <% elsif service == 'youtube' -%>
 	<% if value.blank? -%>
 		<%= image_tag('favicon_youtube_disabled.png') %>

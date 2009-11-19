@@ -30,6 +30,7 @@
 					<td><div><%= user.name %></div></td>
 					<td>
 						<%= render :partial => "service_avatar", :locals => {:service => 'twitter',			:value => user.twitter_username} %>
+						<%= render :partial => "service_avatar", :locals => {:service => 'facebook',		:value => (user.facebook ? user.facebook_account.facebook_user_id : nil)} %>
 						<%= render :partial => "service_avatar", :locals => {:service => 'youtube',			:value => user.youtube_username} %>
 						<%= render :partial => "service_avatar", :locals => {:service => 'friendfeed',	:value => user.friendfeed_username} %>
 						<%= render :partial => "service_avatar", :locals => {:service => 'website_url',	:value => user.website_url} %>
