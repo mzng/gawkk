@@ -237,3 +237,12 @@
 .more .third-party a {
 	color: #333333;
 }
+
+/* share nudger */
+.share-nudger .faux-link {
+	color: #3b5998;
+}
+
+.share-nudger .faux-link:hover {
+	text-decoration: underline;
+}

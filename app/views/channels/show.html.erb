@@ -5,7 +5,7 @@
 				<div class="item-wrapper">
 					<ul>
 						<% @subscribed_channels.each do |channel| -%>
-							<li<%= " class=\"selected-item\"" if @channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+							<li<%= " class=\"selected-item\"" if @channel.id == channel.id %>><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 						<% end -%>
 					</ul>
 				</div>

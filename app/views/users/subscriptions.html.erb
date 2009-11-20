@@ -4,14 +4,22 @@
 			<div class="item-wrapper">
 				<ul>
 					<% @subscribed_channels.each do |channel| -%>
-						<li><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+						<li><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 					<% end -%>
 				</ul>
 			</div>
 		</div>
 	<% end -%>
 	<div id="content-main">
-		<h1 id="filter-bar"><span class="title-container">Subscriptions of <%= @user.username %></span></h1>
+		<h1 id="filter-bar">
+			<span class="title-container">
+				<% if user_logged_in? and @user.id == logged_in_user.id -%>
+					My Subscribed Channels
+				<% else -%>
+					Subscriptions of <%= @user.username %>
+				<% end -%>
+			</span>
+		</h1>
 		
 		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 					:crumbs => [{:name => 'Members', :params => {:controller => 'users'}}, 
