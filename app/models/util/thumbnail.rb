@@ -164,7 +164,7 @@ class Util::Thumbnail
   end
   
   def self.fetch_from_url(posted_at, slug, url)
-    if url.downcase[/^(http|https):\/\/(.*)?mojoflix\.com\//] or url.downcase[/^(http|https):\/\/serve\.castfire\.com\//] # to handle mojoflix and graphingsocial image url redirects
+    if url.downcase[/^(http|https):\/\/(.*)?mojoflix\.com\//] or url.downcase[/^(http|https):\/\/serve\.castfire\.com\//] or url.downcase[/^(http|https):\/\/(.*)?liveleak\.com\//] # to handle mojoflix, liveleak and graphingsocial image url redirects
       uri = URI.parse(url)
       resp = Net::HTTP.get(URI.parse(Net::HTTP.get_response(uri.host, uri.path)['location']))
       Util::Thumbnail.write(slug, posted_at, resp)
