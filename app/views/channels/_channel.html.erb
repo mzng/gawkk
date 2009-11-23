@@ -2,6 +2,5 @@
 
 <% content_tag_for(:div, channel) do -%>
 	<%= render(:partial => "/channels/subscribe", :locals => {:channel => channel}) if subscribable %>
-	<%= link_to image_tag(channel.user.thumbnail.blank? ? 'profile-pic.jpg' : channel.user.thumbnail), channel_path(:user => channel.user, :channel => channel) %>
-	<%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %>
+	<%= Rails.cache.fetch("channels/#{channel.id}/partial/html", :expires_in => 1.day) {render(:partial => '/channels/channel_common', :locals => {:channel => channel})}%>
 <% end -%>
