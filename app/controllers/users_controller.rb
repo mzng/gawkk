@@ -16,7 +16,6 @@ class UsersController < ApplicationController
       order = 'last_login_at DESC'
     end
     
-    
     @users = collect('users', User.members.all(:order => order, :offset => @offset, :limit => @per_page))
   end
   
@@ -70,10 +69,13 @@ class UsersController < ApplicationController
   def subscriptions
     # load_member or redirect
     set_title(@user.username + ' - Subscriptions')
-    setup_pagination(:per_page => 42)
     setup_user_sidebar(@user)
     
-    @channels = @user.subscribed_channels(:order => 'channels.name ASC', :offset => @offset, :limit => @per_page)
+    if user_logged_in? and logged_in_user.id == @user.id
+      @channels = subscribed_channels
+    else
+      @channels = @user.subscribed_channels(:order => 'channels.name ASC')
+    end
   end
   
   def digest

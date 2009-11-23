@@ -3,7 +3,7 @@
 		<div class="items">
 			<div class="item-wrapper">
 				<ul>
-					<% @subscribed_channels.each do |channel| -%>
+					<% subscribed_channels.each do |channel| -%>
 						<li><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 					<% end -%>
 				</ul>
@@ -29,7 +29,6 @@
 		<div class="grid-container">
 			<%= render @channels, :subscribable => true %>
 		</div>
-		<%= render :partial => "/layouts/pagination", :locals => {:collection => @channels} %>
 	</div>
 </div>
 

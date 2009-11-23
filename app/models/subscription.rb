@@ -28,6 +28,14 @@ class Subscription < ActiveRecord::Base
     #   saved_video.generate_message_for_subscriber!(self.user)
     # end
     
+    Rails.cache.delete("subscription/user/#{self.user_id}/channel/#{self.channel_id}/status")
+    Rails.cache.delete("channels/#{self.channel_id}/subscribers")
+    
+    return true
+  end
+  
+  def after_destroy
+    Rails.cache.delete("subscription/user/#{self.user_id}/channel/#{self.channel_id}/status")
     Rails.cache.delete("channels/#{self.channel_id}/subscribers")
     
     return true

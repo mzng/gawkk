@@ -18,9 +18,9 @@
 		<%= link_to "<div id=\"subscription-navigation-item\"#{" class=\"selected\"" if selected == 'Subscriptions'}>My Subscriptions</div>", "javascript:openSubscriptions();" %>
 		<div id="subscription-bookmarks" style="display:none;">
 			<ul>
-				<% @subscribed_channels.each do |channel| -%>
+				<% subscribed_channels.each do |channel| -%>
 					<% @current_channel_is_subscription = true if !current_channel.nil? and current_channel.id == channel.id -%>
-					<li<%= " class=\"selected\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.name, channel_path(:user => channel.user, :channel => channel) %></li>
+					<li<%= " class=\"selected\"" if !current_channel.nil? and current_channel.id == channel.id %>><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 				<% end -%>
 			</ul>
 		</div>

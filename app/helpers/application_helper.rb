@@ -16,6 +16,18 @@ module ApplicationHelper
     end
   end
   
+  def subscribed_channels
+    if user_logged_in?
+      @subscribed_channels = Rails.cache.fetch("users/#{logged_in_user.id.to_s}/subscribed_channels", :expires_in => 2.weeks) do
+        collect('channels', logged_in_user.subscribed_channels(:order => 'channels.name ASC'))
+      end
+    else
+      @subscribed_channels = Rails.cache.fetch("users/default/subscribed_channels", :expires_in => 2.weeks) do
+        collect('channels', User.new.subscribed_channels(:order => 'channels.name ASC'))
+      end
+    end
+  end
+  
   # Authorization
   def user_can_administer?
     return user_logged_in? && logged_in_user.administrator?

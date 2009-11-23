@@ -3,7 +3,7 @@
 		<% render :layout => "/layouts/navigation", :locals => {:selected => 'Subscriptions'} do -%>
 			<div id="subscription-bookmarks">
 				<ul>
-					<% @subscribed_channels.each do |channel| -%>
+					<% subscribed_channels.each do |channel| -%>
 						<li<%= " class=\"selected\"" if @channel.id == channel.id %>><%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %></li>
 					<% end -%>
 				</ul>

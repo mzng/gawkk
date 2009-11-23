@@ -239,6 +239,14 @@ class ApplicationController < ActionController::Base
   end
   
   def load_subscriptions
+    if user_logged_in? and Rails.cache.read("users/#{logged_in_user.id.to_s}/subscribed_channels").nil?
+      Rails.cache.write("users/#{logged_in_user.id.to_s}/subscribed_channels", collect('channels', logged_in_user.subscribed_channels(:order => 'channels.name ASC')), :expires_in => 2.weeks)
+    elsif !user_logged_in? and Rails.cache.read("users/default/subscribed_channels").nil?
+      Rails.cache.write("users/default/subscribed_channels", collect('channels', User.new.subscribed_channels(:order => 'channels.name ASC')), :expires_in => 2.weeks)
+    end
+  end
+  
+  def subscribed_channels
     if user_logged_in?
       @subscribed_channels = Rails.cache.fetch("users/#{logged_in_user.id.to_s}/subscribed_channels", :expires_in => 2.weeks) do
         collect('channels', logged_in_user.subscribed_channels(:order => 'channels.name ASC'))
