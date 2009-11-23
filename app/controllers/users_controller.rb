@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     if user_logged_in? and logged_in_user.id == @user.id
       @channels = subscribed_channels
     else
-      @channels = @user.subscribed_channels(:order => 'channels.name ASC')
+      @channels = collect('channels', @user.subscribed_channels(:order => 'channels.name ASC'))
     end
   end
   

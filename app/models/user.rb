@@ -385,9 +385,11 @@ class User < ActiveRecord::Base
   end
   
   def subscribes_to?(channel)
-    Rails.cache.fetch("subscription/user/#{self.id}/channel/#{channel.id}/status", :expires_in => 1.week) do
-      Subscription.count(:all, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id]) > 0 ? true : false
+    count = Rails.cache.fetch("subscription/user/#{self.id}/channel/#{channel.id}/status", :expires_in => 1.week) do
+      Subscription.count(:all, :conditions => ['user_id = ? AND channel_id = ?', self.id, channel.id])
     end
+    
+    (count > 0)
   end
   
   
