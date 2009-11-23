@@ -27,21 +27,21 @@
 <% end -%>
 
 <% if @followings_count > 0 -%>
-	<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Following', :collection => @followings.first(15)} %>
+	<%= Rails.cache.fetch("users/#{user.id}/followings/sidebar/html", :expires_in => 1.hour) {render(:partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Following', :collection => @followings.first(15)})} %>
 	<div class="view-all">
 		<%= link_to "View all#{@followings_count > 15 ? ' ' + @followings_count.to_s : ''}...", {:controller => 'users', :action => 'follows', :id => user} %>
 	</div>
 <% end -%>
 
 <% if @followers_count > 0 -%>
-	<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Followers', :collection => @followers.first(15)} %>
+	<%= Rails.cache.fetch("users/#{user.id}/followers/sidebar/html", :expires_in => 1.hour) {render(:partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Followers', :collection => @followers.first(15)})} %>
 	<div class="view-all">
 		<%= link_to "View all#{@followers_count > 15 ? ' ' + @followers_count.to_s : ''}...", {:controller => 'users', :action => 'followers', :id => user} %>
 	</div>
 <% end -%>
 
 <% if @friends_count > 0 -%>
-	<%= render :partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Friends', :collection => @friends.first(15)} %>
+	<%= Rails.cache.fetch("users/#{user.id}/friends/sidebar/html", :expires_in => 1.hour) {render(:partial => "/layouts/set", :locals => {:partial => '/users/user_small', :title => 'Friends', :collection => @friends.first(15)})} %>
 	<div class="view-all">
 		<%= link_to "View all#{@friends_count > 15 ? ' ' + @friends_count.to_s : ''}...", {:controller => 'users', :action => 'friends', :id => user} %>
 	</div>

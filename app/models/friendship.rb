@@ -44,6 +44,10 @@ class Friendship < ActiveRecord::Base
       end
     end
     
+    Rails.cache.delete("users/#{self.user_id}/followings/sidebar/html")
+    Rails.cache.delete("users/#{self.user_id}/followers/sidebar/html")
+    Rails.cache.delete("users/#{self.user_id}/friends/sidebar/html")
+    
     return true
   end
   
@@ -51,6 +55,10 @@ class Friendship < ActiveRecord::Base
     if friendship = Friendship.find(:first, :conditions => ['user_id = ? AND friend_id = ?', self.friend_id, self.user_id])
       friendship.update_attribute('mutual', false)
     end
+    
+    Rails.cache.delete("users/#{self.user_id}/followings/sidebar/html")
+    Rails.cache.delete("users/#{self.user_id}/followers/sidebar/html")
+    Rails.cache.delete("users/#{self.user_id}/friends/sidebar/html")
     
     return true
   end

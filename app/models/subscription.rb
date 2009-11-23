@@ -29,6 +29,7 @@ class Subscription < ActiveRecord::Base
     # end
     
     Rails.cache.delete("subscription/user/#{self.user_id}/channel/#{self.channel_id}/status")
+    Rails.cache.delete("users/#{self.user_id}/subscriptions/html")
     Rails.cache.delete("channels/#{self.channel_id}/subscribers")
     
     return true
@@ -36,6 +37,7 @@ class Subscription < ActiveRecord::Base
   
   def after_destroy
     Rails.cache.delete("subscription/user/#{self.user_id}/channel/#{self.channel_id}/status")
+    Rails.cache.delete("users/#{self.user_id}/subscriptions/html")
     Rails.cache.delete("channels/#{self.channel_id}/subscribers")
     
     return true
