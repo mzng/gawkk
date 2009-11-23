@@ -2,8 +2,6 @@
 
 <% content_tag_for(:div, channel) do -%>
 	<%= render(:partial => "/channels/subscribe", :locals => {:channel => channel}) if subscribable %>
-	<% cache(:action => "subscriptions", :action_suffix => "channel_#{channel.id}") do -%>
-		<%= link_to image_tag(channel.user.thumbnail.blank? ? 'profile-pic.jpg' : channel.user.thumbnail), channel_path(:user => channel.user, :channel => channel) %>
-		<%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %>
-	<% end -%>
+	<%= link_to image_tag(channel.user.thumbnail.blank? ? 'profile-pic.jpg' : channel.user.thumbnail), channel_path(:user => channel.user, :channel => channel) %>
+	<%= link_to channel.user.username, channel_path(:user => channel.user, :channel => channel) %>
 <% end -%>

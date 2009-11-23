@@ -27,7 +27,7 @@
 											{:name => 'Subscriptions', :params => {:controller => 'users', :action => 'subscriptions', :id => @user}}]} %>
 		
 		<div class="grid-container">
-			<% if user_logged_in? and logged_in_user.id == @user.id -%>
+			<% if false and user_logged_in? and logged_in_user.id == @user.id -%>
 				<%= Rails.cache.fetch("users/#{@user.id}/subscriptions/html", :expires_in => 1.hour) {render(@channels, :subscribable => true)} %>
 			<% else -%>
 				<%= render(@channels, :subscribable => true) %>
