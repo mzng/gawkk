@@ -46,6 +46,7 @@ class Video < ActiveRecord::Base
   
   def after_create
     self.update_attribute('short_code', Util::BaseConverter.to_base54(self.id))
+    
     return true
   end
   
@@ -80,6 +81,10 @@ class Video < ActiveRecord::Base
   
   def long_cache_key
     !self.slug.blank? ? "videos/#{self.slug.first(225)}" : nil
+  end
+  
+  def cache!
+    Rails.cache.write(self.cache_key, Video.find(self.id, :include => [:category, :posted_by, {:saved_videos => {:channel => :user}}]), :expires_in => 1.week)
   end
   
   
