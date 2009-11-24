@@ -1,3 +1,12 @@
+<table cellpadding="0" cellpacing="0" style="width:100%;">
+	<tr>
+		<td style="width:60px;"><%= link_to image_tag(@user.thumbnail.blank? ? 'profile-pic.jpg' : @user.thumbnail, :style => 'border:1px solid #E5E5E5;height:50px;width:50px;'), channel_path(@user, @channel) %></td>
+		<td>
+			<%= link_to @user.username, channel_path(@user, @channel), :style => 'color:#333333;font-size:11pt;font-weight:bold;text-decoration:none;' %>
+		</td>
+	</tr>
+</table>
+
 <% if !@user.description.blank? or user_can_administer? -%>
 	<h1 class="section-header">
 		<% if user_can_administer? -%>

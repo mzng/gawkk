@@ -2,14 +2,14 @@
 <% about	 = true if about.nil? -%>
 <% invite_or_recommend = false if welcome.nil? -%>
 
-<h1 class="section-header">
+<!-- <h1 class="section-header">
 	<% if welcome -%>
 		Welcome,
 	<% elsif user_can_edit?(user) -%>
 		<span><%= link_to 'Edit Settings', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)} %></span>
 	<% end -%>
 	<%= user.username %>
-</h1>
+</h1> -->
 <%= render :partial => "/users/statistics", :locals => {:user => user} %>
 
 <% if about -%>

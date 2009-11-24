@@ -1,44 +1,27 @@
-<% if false -%>
-	<table class="user-statistics" cellpadding="0" cellpacing="0">
-		<tr>
-			<td rowspan="4">
-				<%= render user %>
-			</td>
-			<% if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator? -%>
-				<td>
-					<span><%= @followings_count %></span><br/>
-					<%= link_to 'Following', {:controller => 'users', :action => 'follows', :id => user} %>
-				</td>
-				<td>
-					<span><%= @followers_count %></span><br/>
-					<%= link_to 'Followers', {:controller => 'users', :action => 'followers', :id => user} %>
-				</td>
-				<td>
-					<span><%= @posts_count %></span><br/>
-					<%= link_to 'Posts', user_path(user) %>
-				</td>
+<table cellpadding="0" cellpacing="0" style="width:100%;">
+	<tr>
+		<td style="width:60px;"><%= link_to image_tag(user.thumbnail.blank? ? 'profile-pic.jpg' : user.thumbnail, :style => 'border:1px solid #E5E5E5;height:50px;width:50px;'), user_path(:id => user) %></td>
+		<td>
+			<%= link_to user.username, user_path(:id => user), :style => 'color:#333333;font-size:11pt;font-weight:bold;text-decoration:none;' %>
+			<% if user_can_edit?(user) -%>
+				<br/><span><%= link_to 'Edit Settings', {:controller => 'settings', :id => (logged_in_user.id != user.id ? user.slug : nil)}, :style => 'font-size:7pt;text-decoration:none;' %></span>
 			<% end -%>
-		</tr>
-		<tr><td colspan="3"></td></tr>
-		<tr><td colspan="3"></td></tr>
-	</table>
-<% else -%>
-	<table class="user-statistics" cellpadding="0" cellpacing="0">
-		<tr>
-			<% if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator? -%>
-				<td>
-					<span><%= @followings_count %></span><br/>
-					<%= link_to 'Following', {:controller => 'users', :action => 'follows', :id => user} %>
-				</td>
-				<td>
-					<span><%= @followers_count %></span><br/>
-					<%= link_to 'Followers', {:controller => 'users', :action => 'followers', :id => user} %>
-				</td>
-				<td>
-					<span><%= @posts_count %></span><br/>
-					<%= link_to 'Posts', user_path(user) %>
-				</td>
-			<% end -%>
-		</tr>
-	</table>
-<% end -%>
+		</td>
+	</tr>
+</table>
+<table class="user-statistics" cellpadding="0" cellpacing="0">
+	<tr>
+		<td>
+			<span><%= @followings_count %></span><br/>
+			<%= link_to 'Following', {:controller => 'users', :action => 'follows', :id => user} %>
+		</td>
+		<td>
+			<span><%= @followers_count %></span><br/>
+			<%= link_to 'Followers', {:controller => 'users', :action => 'followers', :id => user} %>
+		</td>
+		<td>
+			<span><%= @posts_count %></span><br/>
+			<%= link_to 'Posts', user_path(user) %>
+		</td>
+	</tr>
+</table>

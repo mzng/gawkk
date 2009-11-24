@@ -66,17 +66,19 @@
 }
 
 .user-statistics td {
+	text-align: left;
 	text-align: center;
 	width: 33%;
 }
 
 .user-statistics td span {
-	font-size: 14pt;
-	line-height: 18pt;
+	font-size: 12pt;
+	line-height: 16pt;
 }
 
 .user-statistics td a {
 	font-size: 9px;
+	text-decoration: none;
 }
 
 .user-statistics td .user {
@@ -85,11 +87,12 @@
 }
 
 .user-statistics td {
-	border-right: 1px solid #E5E5E5;
+/*	border-right: 1px solid #E5E5E5;*/
+/*	border-right: 1px solid #EEEEEE;*/
 }
 
 .user-statistics td:last-child {
-	border-right: 0px;
+/*	border-right: 0px;*/
 }
 
 /* about section */
