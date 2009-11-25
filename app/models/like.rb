@@ -48,6 +48,7 @@ class Like < ActiveRecord::Base
       end
     end
     
+    Rails.cache.delete("like/user/#{self.user_id}/video/#{self.video_id}/status")
     Rails.cache.delete("videos/#{self.video_id}/likes")
     
     return true
@@ -69,6 +70,12 @@ class Like < ActiveRecord::Base
     
     Rails.cache.delete("videos/#{self.video_id}")
     Rails.cache.delete("videos/#{self.video_id}/likes")
+    
+    return true
+  end
+  
+  def after_destroy
+    Rails.cache.delete("like/user/#{self.user_id}/video/#{self.video_id}/status")
     
     return true
   end

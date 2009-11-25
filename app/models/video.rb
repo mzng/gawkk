@@ -110,8 +110,8 @@ class Video < ActiveRecord::Base
   
   def first_channel
     Rails.cache.fetch("videos/#{self.id}/first-channel", :expires_in => 1.week) do
-      if self.saved_videos.first
-        self.saved_videos.first.channel
+      if saved_video = self.saved_videos.first
+        Channel.find(:first, :include => :user, :conditions => {:id => saved_video.channel_id})
       else
         nil
       end

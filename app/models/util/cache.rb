@@ -57,7 +57,7 @@ class Util::Cache
     end
 
     # select all videos no longer in cache at once
-    Video.find(ids_of_videos_to_load, :include => [:category, {:saved_videos => {:channel => :user}}]).each do |video|
+    Video.find(ids_of_videos_to_load, :include => [:category, :posted_by, {:saved_videos => {:channel => :user}}]).each do |video|
       Rails.cache.write(video.cache_key, video, :expires_in => 1.day)
       Rails.cache.write(video.long_cache_key, video, :expires_in => 1.day)
     end
@@ -67,7 +67,7 @@ class Util::Cache
 
     for i in 0..(saved_videos.size - 1)
       @videos[i] = Rails.cache.fetch("videos/#{saved_videos[i].video_id}", :expires_in => 1.day) do
-        Video.find(saved_videos[i].video_id, :include => [:category, {:saved_videos => {:channel => :user}}])
+        Video.find(saved_videos[i].video_id, :include => [:category, :posted_by, {:saved_videos => {:channel => :user}}])
       end
     end
 

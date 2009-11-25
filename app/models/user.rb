@@ -564,7 +564,11 @@ class User < ActiveRecord::Base
   
   # Utility Methods
   def liked?(video)
-    (Like.by_user(self).for_video(video).count > 0) ? true : false
+    count = Rails.cache.fetch("like/user/#{self.id}/video/#{video.id}/status", :expires_in => 1.week) do
+      Like.by_user(self).for_video(video).count
+    end
+    
+    (count > 0)
   end
   
   def self.default_user
