@@ -527,30 +527,14 @@ class User < ActiveRecord::Base
     options = args.extract_options!
     max_id = options.delete(:max_id)
     
-    ##############################################################
-    # Messaging Layer for SubscriptionMessages has been disabled #
-    ##############################################################
-    # if Parameter.status?('messaging_layer_enabled')
-    #   user = (self.id.blank? ? User.default_user : self)
-    #   
-    #   if max_id.nil?
-    #     subscription_messages = SubscriptionMessage.for_user(user).recent.all(options)
-    #     max_id = subscription_messages.first.saved_video_id if subscription_messages.size > 0
-    #   else
-    #     subscription_messages = SubscriptionMessage.for_user(user).recent.with_max_id_of(max_id).all(options)
-    #   end
-    #   
-    #   videos = Util::Cache.collect_videos_from_subscription_messages(subscription_messages)
-    # else
-      if max_id.nil?
-        saved_videos = SavedVideo.in_channels(self.subscription_ids).all(options)
-        max_id = saved_videos.first.id if saved_videos.size > 0
-      else
-        saved_videos = SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
-      end
-      
-      videos = Util::Cache.collect_saved_videos(saved_videos)
-    # end
+    if max_id.nil?
+      saved_videos = SavedVideo.in_channels(self.subscription_ids).all(options)
+      max_id = saved_videos.first.id if saved_videos.size > 0
+    else
+      saved_videos = SavedVideo.in_channels(self.subscription_ids).with_max_id_of(max_id).all(options)
+    end
+    
+    videos = Util::Cache.collect_saved_videos(saved_videos)
     
     return videos, max_id
   end
@@ -564,11 +548,23 @@ class User < ActiveRecord::Base
   
   # Utility Methods
   def liked?(video)
-    count = Rails.cache.fetch("like/user/#{self.id}/video/#{video.id}/status", :expires_in => 1.week) do
-      Like.by_user(self).for_video(video).count
+    self.cached_likes[video.id.to_s.to_sym]
+  rescue
+    (Like.by_user(self).for_video(video).count > 0)
+  end
+  
+  def cache_like!(like)
+    self.cached_likes[like.video_id.to_s.to_sym] = like.video_id
+  end
+  
+  def uncache_like!(like)
+    self.cached_likes.delete(like.video_id.to_s.to_sym)
+  end
+  
+  def cached_likes
+    Rails.cache.fetch("user/#{self.id}/likes", :expires_in => 1.week) do
+      CacheableHash.new("user/#{self.id}/likes", :hash => Hash[*Like.by_user(self).collect{|like| [like.video_id.to_s.to_sym, like.video_id]}.flatten], :expires_in => 1.week)
     end
-    
-    (count > 0)
   end
   
   def self.default_user
