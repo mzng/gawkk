@@ -184,7 +184,7 @@ class Util::Thumbnail
     else
       uri = URI.parse(url)
       Net::HTTP.start(uri.host) { |http|
-        resp = http.get(uri.path + (uri.query.nil? ? '' : '?' + uri.query))
+        resp = http.get(uri.path + (uri.query.nil? ? '' : '?' + uri.query), {'User-Agent' => "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/xxx.x (KHTML like Gecko) Safari/12x.x "})
         Util::Thumbnail.write(slug, posted_at, resp.body)
       }
     end
