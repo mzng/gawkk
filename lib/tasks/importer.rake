@@ -14,4 +14,8 @@ namespace :importer do
       ProcessMailer.deliver_restart_notification('runner -e production Feed.import(false)')
     end
   end
+  
+  task :digg => :environment do
+    Feed.find_by_url('http://feeds.digg.com/digg/videos/popular.rss').import(nil, true)
+  end
 end
