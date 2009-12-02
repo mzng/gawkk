@@ -328,15 +328,15 @@ class Feed < ActiveRecord::Base
         end
       end
       
-      # if video.thumbnail.blank? and video.url.downcase[/^(http|https):\/\/feeds\.digg\.com\/~r\/digg\/videos\/popular/]
-      #   media_thumbnails = feed_item.find_all_nodes('media:thumbnail')
-      #   if media_thumbnails and media_thumbnails.first and media_thumbnails.first.attributes['url']
-      #     thumbnail_url = media_thumbnails.first.attributes['url']
-      #     thumbnail_url.gsub!(/t\.jpg$/, 'l.jpg')
-      #     Util::Thumbnail.fetch_from_url(video.posted_at, video.slug, thumbnail_url)
-      #     video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
-      #   end
-      # end
+      if video.thumbnail.blank? and video.url.downcase[/^(http|https):\/\/feeds\.digg\.com\/~r\/digg\/videos\/popular/]
+        media_thumbnails = feed_item.find_all_nodes('media:thumbnail')
+        if media_thumbnails and media_thumbnails.first and media_thumbnails.first.attributes['url']
+          thumbnail_url = media_thumbnails.first.attributes['url']
+          thumbnail_url.gsub!(/t\.jpg$/, 'l.jpg')
+          Util::Thumbnail.fetch_from_url(video.posted_at, video.slug, thumbnail_url)
+          video.update_attribute('thumbnail', "thumbnails/" + video.posted_at.strftime("%Y/%m/%d") + "/#{video.slug}.jpg")
+        end
+      end
       
       if video.thumbnail.blank? and !feed_item.media_thumbnail_link.blank? and !feed_item.media_thumbnail_link.downcase[/^(http|https):\/\/serve\.castfire\.com\//]
         thumbnail_link = feed_item.media_thumbnail_link
