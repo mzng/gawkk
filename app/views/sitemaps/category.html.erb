@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en">
+	<head>
+		<title>Gawkk - Sitemap</title>
+		<link href="http://gawkk.com/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="outer">
+			<div id="content">
+				<div id="content-header" class="separated">
+					<h1>Sitemap &gt; <%= category.name %></h1>
+				</div>
+<%= videos.collect{|video| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{video.slug}/discuss\">#{video.title}</a> - #{video.posted_by.username} - #{Time.now.strftime('%B %d, %Y')} - #{h(video.safe_description)}</p>\n"} %>
+			</div>
+			
+			<div id="copyright">
+				&copy; Copyright 2007 - <%= Time.now.strftime('%Y') %>, Gawkk.com
+			</div>
+		</div>
+	</body>
+</html>

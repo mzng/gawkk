@@ -1,6 +1,25 @@
+require 'erb'
 require 'lib/sitemap.rb'
 
 namespace :sitemaps do
+  task :static => :environment do
+    categories = Category.find(:all, :order => 'name')
+    
+    template = File.new('app/views/sitemaps/index.html.erb').read
+    html = ERB.new(template, nil, '%').result(binding)
+    puts html
+    
+    date = Time.now.strftime('%Y-%m-%d')
+    
+    categories.each do |category|
+      videos = Video.find(:all, :conditions => ['category_id = ? AND date(posted_at) = ?', category.id, date], :order => 'id DESC')
+      
+      template = File.new('app/views/sitemaps/category.html.erb').read
+      html = ERB.new(template, nil, '%').result(binding)
+      puts html
+    end
+  end
+  
 	desc "Re-generates XML Sitemap files"
 	task :generate => :environment do
 	  if Rails.env.production?
