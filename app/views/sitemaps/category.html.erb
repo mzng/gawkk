@@ -12,7 +12,7 @@
 				<div id="content-header" class="separated">
 					<h1>Sitemap &gt; <%= category.name %></h1>
 				</div>
-<%= videos.collect{|video| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{video.slug}/discuss\">#{video.title}</a> - #{video.posted_by.username} - #{Time.now.strftime('%B %d, %Y')} - #{h(video.safe_description)}</p>\n"} %>
+<%= videos.collect{|video| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{video.slug}/discuss\">#{video.title}</a> - #{video.posted_by.username} - #{Time.now.strftime('%B %d, %Y')} - #{video.safe_description}</p>\n"} %>
 			</div>
 			
 			<div id="copyright">
