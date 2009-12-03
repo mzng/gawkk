@@ -21,12 +21,13 @@ namespace :sitemaps do
       if count % 50 == 0
         # Write queued up sitemap to disk
         if !sitemap.nil?
+          sitemap.loc = "http://www.gawkk.com/sitemap_#{sitemap_count.to_s}.xml.gz"
           index.add_sitemap(sitemap)
           
           file = File.new(File.join(RAILS_ROOT, "public/sitemap_#{sitemap_count.to_s}.xml"), 'w')
           file.write sitemap.to_xml
           file.close
-
+          
           system("gzip #{File.join(RAILS_ROOT, 'public/sitemap_' + sitemap_count.to_s + '.xml')}")
         end
         
@@ -45,12 +46,13 @@ namespace :sitemaps do
     
     
     # Write final sitemap to disk
+    sitemap.loc = "http://www.gawkk.com/sitemap_#{sitemap_count.to_s}.xml.gz"
     index.add_sitemap(sitemap)
     
     file = File.new(File.join(RAILS_ROOT, "public/sitemap_#{sitemap_count.to_s}.xml"), 'w')
     file.write sitemap.to_xml
     file.close
-
+    
     system("gzip #{File.join(RAILS_ROOT, 'public/sitemap_' + sitemap_count.to_s + '.xml')}")
     
     
@@ -58,7 +60,7 @@ namespace :sitemaps do
     file = File.new(File.join(RAILS_ROOT, "public/sitemap_index.xml"), 'w')
     file.write index.to_xml
     file.close
-
+    
     system("gzip #{File.join(RAILS_ROOT, 'public/sitemap_index.xml')}")
     
     if Rails.env.production?
