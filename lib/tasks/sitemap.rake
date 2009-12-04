@@ -4,7 +4,7 @@ require 'lib/sitemap.rb'
 namespace :sitemaps do
   task :static => :environment do
     categories = Category.find(:all, :order => 'name')
-    today = Time.now
+    day = Time.now - 1.day
     
     template = File.new('app/views/sitemaps/index.html.erb').read
     html = ERB.new(template, nil, '%').result(binding)

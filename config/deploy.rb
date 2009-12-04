@@ -35,7 +35,7 @@ set :repository, "git@github.com:gawkk/refactor.git"
 set :rails_env, "production"
 
 # Automatically symlink these directories from curent/public to shared/public.
-set :app_symlinks, %w{images/categories images/thumbnails images/users}
+set :app_symlinks, %w{images/categories images/thumbnails images/users sitemaps}
 
 # =============================================================================
 # ROLES
