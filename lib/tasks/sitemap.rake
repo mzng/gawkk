@@ -3,7 +3,7 @@ require 'lib/sitemap.rb'
 
 namespace :sitemaps do
   task :static => :environment do
-    categories = Category.find(:all, :order => 'name')
+    categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
     day = Time.now - 1.day
     
     categories.each do |category|
