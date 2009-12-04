@@ -12,11 +12,14 @@ namespace :sitemaps do
     date = Time.now.strftime('%Y-%m-%d')
     
     categories.each do |category|
-      videos = Video.find(:all, :conditions => ['category_id = ? AND date(posted_at) = ?', category.id, date], :order => 'id DESC')
+      videos = Video.find(:all, :conditions => ['category_id = ? AND date(posted_at) = ?', category.id, date])
       
       template = File.new('app/views/sitemaps/category.html.erb').read
       html = ERB.new(template, nil, '%').result(binding)
-      puts html
+      
+      if videos.size > 0
+        puts html
+      end
     end
   end
   

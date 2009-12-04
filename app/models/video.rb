@@ -104,6 +104,16 @@ class Video < ActiveRecord::Base
     self.description.blank? ? self.title : self.description
   end
   
+  def summarized_description
+    description = Hpricot(self.safe_description).to_plain_text
+    
+    if self.description.length > 160
+      description + '...'
+    else
+      description
+    end
+  end
+  
   def safe_embed_code
     return self.embed_code.gsub(/'/,'"')
   end
