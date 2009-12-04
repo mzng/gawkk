@@ -23,6 +23,7 @@ namespace :sitemaps do
         Video.find(:all, :conditions => {:category_id => category.id}, :order => 'id DESC', :offset => (page - 1) * 100, :limit => 100).each do |video|
           if video.posted_at < Time.parse(Time.now.strftime('%Y-%m-%d')) and video.posted_at > Time.parse((Time.now - 1.day).strftime('%Y-%m-%d'))
             videos << video
+            puts "added: #{video.id.to_s}, #{video.posted_at}, #{video.title}"
           else
             puts "skipped: #{video.id.to_s}, #{video.posted_at}, #{video.title}"
           end

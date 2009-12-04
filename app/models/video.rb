@@ -108,7 +108,7 @@ class Video < ActiveRecord::Base
     summary = Hpricot(Util::Scrub.html(self.safe_description)).to_plain_text
     
     if summary.length > 160
-      return summary.concat('...')
+      return summary.first(160).concat('...')
     else
       return summary
     end
