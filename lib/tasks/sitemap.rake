@@ -6,9 +6,7 @@ namespace :sitemaps do
     categories = Category.find(:all, :order => 'name')
     day = Time.now - 1.day
     
-    # categories.each do |category|
-      category = Category.find_by_slug('technology-internet-science')
-      
+    categories.each do |category|
       collected = false
       page = 1
       videos = Array.new
@@ -44,7 +42,7 @@ namespace :sitemaps do
           file.puts html
     	  end
       end
-    # end
+    end
     
     template = File.new('app/views/sitemaps/index.html.erb').read
     html = ERB.new(template, nil, '%').result(binding)

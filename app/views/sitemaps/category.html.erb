@@ -13,7 +13,7 @@
 					<h1>Sitemap &gt; <%= category.name %></h1>
 				</div>
 <%= videos.collect{|video| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{video.slug}/discuss\">#{video.title}</a> - #{video.posted_by.username} - #{video.posted_at.strftime('%B %d, %Y')}<br/><span style=\"font-size:smaller;\">#{video.summarized_description}</span></p>\n"} %>
-				<p><a href="http://www.gawkk.com/sitemaps/<%= category.slug %>/<%= videos.last.posted_at.strftime('%Y-%m-%d') %>.html">More <%= category.name %> Videos</a> &raquo;</p>
+				<p><a href="http://www.gawkk.com/sitemaps/<%= category.slug %>/<%= (videos.last.posted_at - 1.day).strftime('%Y-%m-%d') %>.html">More <%= category.name %> Videos</a> &raquo;</p>
 			</div>
 			
 			<div id="copyright">
