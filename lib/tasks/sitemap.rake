@@ -4,15 +4,39 @@ require 'lib/sitemap.rb'
 namespace :sitemaps do
   task :static => :environment do
     categories = Category.find(:all, :order => 'name')
+    today = Time.now
     
     template = File.new('app/views/sitemaps/index.html.erb').read
     html = ERB.new(template, nil, '%').result(binding)
     puts html
     
-    date = Time.now.strftime('%Y-%m-%d')
-    
-    categories.each do |category|
-      videos = Video.find(:all, :conditions => ['category_id = ? AND date(posted_at) = ?', category.id, date])
+    # categories.each do |category|
+      category = Category.find_by_slug('comedy')
+      
+      collected = false
+      page = 1
+      videos = Array.new
+      
+      while !collected
+        puts "page: #{page.to_s}"
+        
+        Video.find(:all, :conditions => {:category_id => category.id}, :order => 'id DESC', :offset => (page - 1) * 100, :limit => 100).each do |video|
+          if video.posted_at < Time.parse(Time.now.strftime('%Y-%m-%d')) and video.posted_at > Time.parse((Time.now - 1.day).strftime('%Y-%m-%d'))
+            videos << video
+          else
+            puts "skipped: #{video.id.to_s}, #{video.posted_at}, #{video.title}"
+          end
+          
+          if video.posted_at < Time.parse((Time.now - 1.day).strftime('%Y-%m-%d'))
+            puts "! collected = true"
+            collected = true
+            break
+          end
+        end
+        
+        page = page + 1
+      end
+      
       
       template = File.new('app/views/sitemaps/category.html.erb').read
       html = ERB.new(template, nil, '%').result(binding)
@@ -20,7 +44,7 @@ namespace :sitemaps do
       if videos.size > 0
         puts html
       end
-    end
+    # end
   end
   
 	desc "Re-generates XML Sitemap files"

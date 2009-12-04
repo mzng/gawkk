@@ -501,6 +501,7 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   add_index "videos", ["category_id", "promoted_at"], :name => "category_id"
   add_index "videos", ["category_id", "posted_at"], :name => "category_id_posted_at"
   add_index "videos", ["hashed_url"], :name => "index_videos_on_hashed_url"
+  add_index "videos", ["category_id"], :name => "category_id_newest"
 
   create_table "views", :force => true do |t|
     t.integer  "user_id"

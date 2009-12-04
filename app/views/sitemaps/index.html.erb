@@ -12,7 +12,7 @@
 				<div id="content-header" class="separated">
 					<h1>Sitemap</h1>
 				</div>
-<%= categories.collect{|category| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{category.slug}/#{Time.now.strftime('%Y-%m-%d')}.html\">#{category.name}</a> - #{Time.now.strftime('%B %d, %Y')}</p>\n"} %>
+<%= categories.collect{|category| "\t\t\t\t<p><a href=\"http://www.gawkk.com/#{category.slug}/#{today.strftime('%Y-%m-%d')}.html\">#{category.name}</a> - #{today.strftime('%B %d, %Y')}</p>\n"} %>
 			</div>
 			
 			<div id="copyright">
