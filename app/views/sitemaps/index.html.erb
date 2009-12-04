@@ -12,11 +12,11 @@
 				<div id="content-header" class="separated">
 					<h1>Sitemap</h1>
 				</div>
-<%= categories.collect{|category| "\t\t\t\t<p><a href=\"http://www.gawkk.com/sitemaps/#{category.slug}/#{today.strftime('%Y-%m-%d')}.html\">#{category.name}</a> - #{day.strftime('%B %d, %Y')}</p>\n"} %>
+<%= categories.collect{|category| "\t\t\t\t<p><a href=\"http://www.gawkk.com/sitemaps/#{category.slug}/#{day.strftime('%Y-%m-%d')}.html\">#{category.name}</a> - #{day.strftime('%B %d, %Y')}</p>\n"} %>
 			</div>
 			
 			<div id="copyright">
-				&copy; Copyright 2007 - <%= Time.now.strftime('%Y') %>, Gawkk.com
+				&copy; Copyright 2007 - 2010, Gawkk.com
 			</div>
 		</div>
 	</body>

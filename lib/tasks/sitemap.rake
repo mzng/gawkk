@@ -6,12 +6,8 @@ namespace :sitemaps do
     categories = Category.find(:all, :order => 'name')
     day = Time.now - 1.day
     
-    template = File.new('app/views/sitemaps/index.html.erb').read
-    html = ERB.new(template, nil, '%').result(binding)
-    puts html
-    
     # categories.each do |category|
-      category = Category.find_by_slug('comedy')
+      category = Category.find_by_slug('technology-internet-science')
       
       collected = false
       page = 1
@@ -43,9 +39,20 @@ namespace :sitemaps do
       html = ERB.new(template, nil, '%').result(binding)
       
       if videos.size > 0
-        puts html
+        system("rm -f public/sitemaps/#{category.slug}/#{day.strftime('%Y-%m-%d')}.html")
+        File.open("public/sitemaps/#{category.slug}/#{day.strftime('%Y-%m-%d')}.html", 'a') do |file|
+          file.puts html
+    	  end
       end
     # end
+    
+    template = File.new('app/views/sitemaps/index.html.erb').read
+    html = ERB.new(template, nil, '%').result(binding)
+    
+    system("rm -f public/sitemaps/index.html")
+    File.open("public/sitemaps/index.html", 'a') do |file|
+      file.puts html
+	  end
   end
   
 	desc "Re-generates XML Sitemap files"
