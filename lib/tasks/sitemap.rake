@@ -3,15 +3,15 @@ require 'lib/sitemap.rb'
 
 namespace :sitemaps do
   task :static => :environment do
-    day = Time.parse(Time.now.strftime('%Y-%m-%d')) + 5.hours
-    previous_day = Time.parse((Time.now - 1.day).strftime('%Y-%m-%d')) + 5.hours
+    day = Time.parse((Time.now - 1.day).strftime('%Y-%m-%d')) + 5.hours
+    previous_day = Time.parse((Time.now - 2.days).strftime('%Y-%m-%d')) + 5.hours
     
     categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
     
     categories.each do |category|
       puts "Preparing to generate a sitemap for #{category.name}/#{day.strftime('%Y-%m-%d')}..."
       puts " - Querying for #{category.name} videos between #{previous_day.strftime('%Y-%m-%d')} and #{day.strftime('%Y-%m-%d')}"
-      videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, day])
+      videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day + 1.day, day + 1.day])
       puts " - Found #{videos.size} Videos"
       
       template = File.new('app/views/sitemaps/category.html.erb').read
@@ -38,14 +38,14 @@ namespace :sitemaps do
     task :static => :environment do
       categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
       
-      for i in (1..1071)
+      for i in (2..1071)
         day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d')) + 5.hours
         previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d')) + 5.hours
 
         categories.each do |category|
           puts "Preparing to generate a sitemap for #{category.name}/#{day.strftime('%Y-%m-%d')}..."
           puts " - Querying for #{category.name} videos between #{previous_day.strftime('%Y-%m-%d')} and #{day.strftime('%Y-%m-%d')}"
-          videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, day])
+          videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day + 1.day, day + 1.day])
           puts " - Found #{videos.size} Videos"
 
           template = File.new('app/views/sitemaps/category.html.erb').read
