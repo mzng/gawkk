@@ -9,6 +9,7 @@ namespace :sitemaps do
     categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
     
     categories.each do |category|
+      puts "Preparing to generate a sitemap for #{category.name}/#{day.strftime('%Y-%m-%d')}..."
       # collected = false
       # page = 1
       # videos = Array.new
@@ -36,7 +37,9 @@ namespace :sitemaps do
       #   page = page + 1
       # end
       
+      puts " - Querying for #{category.name} videos between #{previous_day.strftime('%Y-%m-%d')} and #{day.strftime('%Y-%m-%d')}"
       videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, day])
+      puts " - Found #{videos.size} Videos"
       
       template = File.new('app/views/sitemaps/category.html.erb').read
       html = ERB.new(template, nil, '%').result(binding)
