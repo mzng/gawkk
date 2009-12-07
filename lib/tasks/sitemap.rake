@@ -38,8 +38,7 @@ namespace :sitemaps do
     task :static => :environment do
       categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
       
-      # for i in (1..1071)
-      for i in (1..7)
+      for i in (1..1071)
         end_day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d')) + 5.hours
         previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d')) + 5.hours
 
