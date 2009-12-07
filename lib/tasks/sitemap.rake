@@ -3,8 +3,8 @@ require 'lib/sitemap.rb'
 
 namespace :sitemaps do
   task :static => :environment do
-    day = Time.parse((Time.now - 1.day).strftime('%Y-%m-%d'))
-    previous_day = Time.parse((Time.now - 2.days).strftime('%Y-%m-%d'))
+    day = Time.parse(Time.now.strftime('%Y-%m-%d')) + 5.hours
+    previous_day = Time.parse((Time.now - 1.day).strftime('%Y-%m-%d')) + 5.hours
     
     categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
     
@@ -38,9 +38,9 @@ namespace :sitemaps do
     task :static => :environment do
       categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
       
-      for i in (2..1071)
-        day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d'))
-        previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d'))
+      for i in (1..1071)
+        day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d')) + 5.hours
+        previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d')) + 5.hours
 
         categories.each do |category|
           puts "Preparing to generate a sitemap for #{category.name}/#{day.strftime('%Y-%m-%d')}..."
