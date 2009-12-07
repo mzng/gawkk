@@ -38,22 +38,23 @@ namespace :sitemaps do
     task :static => :environment do
       categories = Category.find(:all, :conditions => 'allowed_on_front_page = true', :order => 'name')
       
-      for i in (1..1071)
-        day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d')) + 5.hours
+      # for i in (1..1071)
+      for i in (1..7)
+        end_day = Time.parse((Time.now - i.days).strftime('%Y-%m-%d')) + 5.hours
         previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d')) + 5.hours
 
         categories.each do |category|
-          puts "Preparing to generate a sitemap for #{category.name}/#{day.strftime('%Y-%m-%d')}..."
-          puts " - Querying for #{category.name} videos between #{previous_day.strftime('%Y-%m-%d')} and #{day.strftime('%Y-%m-%d')}"
-          videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, day])
+          puts "Preparing to generate a sitemap for #{category.name}/#{previous_day.strftime('%Y-%m-%d')}..."
+          puts " - Querying for #{category.name} videos >= #{previous_day.strftime('%Y-%m-%d')} and < #{end_day.strftime('%Y-%m-%d')}"
+          videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, end_day])
           puts " - Found #{videos.size} Videos"
 
           template = File.new('app/views/sitemaps/category.html.erb').read
           html = ERB.new(template, nil, '%').result(binding)
 
           if videos.size > 0
-            system("rm -f public/sitemaps/#{category.slug}/#{day.strftime('%Y-%m-%d')}.html")
-            File.open("public/sitemaps/#{category.slug}/#{day.strftime('%Y-%m-%d')}.html", 'a') do |file|
+            system("rm -f public/sitemaps/#{category.slug}/#{previous_day.strftime('%Y-%m-%d')}.html")
+            File.open("public/sitemaps/#{category.slug}/#{previous_day.strftime('%Y-%m-%d')}.html", 'a') do |file|
               file.puts html
         	  end
           end
