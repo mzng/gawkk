@@ -7,5 +7,6 @@ refactor.tmproj
 db/sphinx
 public/images/thumbnails
 public/images/users
+public/sitemaps
 vendor/plugins/acts_as_solr/solr/tmp/development_pid
 vendor/plugins/acts_as_solr/solr/solr/data/development
