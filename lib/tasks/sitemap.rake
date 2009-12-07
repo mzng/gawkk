@@ -43,10 +43,16 @@ namespace :sitemaps do
         previous_day = Time.parse((Time.now - (i + 1).days).strftime('%Y-%m-%d')) + 5.hours
 
         categories.each do |category|
-          puts "Preparing to generate a sitemap for #{category.name}/#{previous_day.strftime('%Y-%m-%d')}..."
-          puts " - Querying for #{category.name} videos >= #{previous_day.strftime('%Y-%m-%d')} and < #{end_day.strftime('%Y-%m-%d')}"
+          File.open("log/sitemaps.log", 'a') do |log|
+            log.puts "Preparing to generate a sitemap for #{category.name}/#{previous_day.strftime('%Y-%m-%d')}..."
+            log.puts " - Querying for #{category.name} videos >= #{previous_day.strftime('%Y-%m-%d')} and < #{end_day.strftime('%Y-%m-%d')}"
+          end
+          
           videos = Video.find(:all, :conditions => ['category_id = ? AND posted_at >= ? AND posted_at < ?', category.id, previous_day, end_day])
-          puts " - Found #{videos.size} Videos"
+          
+          File.open("log/sitemaps.log", 'a') do |log|
+            log.puts " - Found #{videos.size} Videos"
+          end
 
           template = File.new('app/views/sitemaps/category.html.erb').read
           html = ERB.new(template, nil, '%').result(binding)
