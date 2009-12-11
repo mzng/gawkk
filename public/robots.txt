@@ -1,4 +1,4 @@
-Sitemap: http://gawkk.com/sitemaps/sitemap_index.xml.gz
+Sitemap: http://gawkk.com/sitemaps/index.html
 
 User-agent: *
 Disallow: /
