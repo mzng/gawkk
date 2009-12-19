@@ -262,7 +262,7 @@ class Feed < ActiveRecord::Base
           # Attempt to generate embed code for this video
           video = Feed.retrieve_embed(video, feed_item)
           
-          video.cache!
+          # video.cache!
         end
       rescue
         # to prevent from byte encoding error
