@@ -12,6 +12,15 @@ require 'railsmachine/recipes'
 # correspond to. The deploy_to path must be the path on each machine that will
 # form the root of the application path.
 
+
+
+# Deployment Paramenters
+set :GITHUB_USERNAME, 'your-github-username'
+set :GITHUB_REPOSITORY_NAME, 'your-github-repository-name'
+
+
+
+
 # The name of your application. Used for directory and file names associated with
 # the application.
 set :application, "gawkk"
@@ -29,7 +38,7 @@ set :admin_runner, "deploy"
 
 
 # URL of your source repository.
-set :repository, "git@github.com:gawkk/refactor.git"
+set :repository, "git@github.com:#{GITHUB_USERNAME}/#{GITHUB_REPOSITORY_NAME}.git"
 
 # Rails environment. Used by application setup tasks and migrate tasks.
 set :rails_env, "production"
@@ -100,7 +109,7 @@ set :scm, "git"
 # =============================================================================
 # default_run_options[:pty] = true
 set :keep_releases, 5
-set :scm_username, "tsmango"
+set :scm_username, "#{GITHUB_USERNAME}"
 set :branch, "master"
 # set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
