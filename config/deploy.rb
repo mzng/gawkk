@@ -15,10 +15,8 @@ require 'railsmachine/recipes'
 
 
 # Deployment Paramenters
-set :GITHUB_USERNAME, 'your-github-username'
-set :GITHUB_REPOSITORY_NAME, 'your-github-repository-name'
-
-
+set :github_username, 'sergeyrgv'
+set :github_repository_name, 'gawkk'
 
 
 # The name of your application. Used for directory and file names associated with
@@ -38,7 +36,7 @@ set :admin_runner, "deploy"
 
 
 # URL of your source repository.
-set :repository, "git@github.com:#{GITHUB_USERNAME}/#{GITHUB_REPOSITORY_NAME}.git"
+set :repository, "git@github.com:mzng/#{github_repository_name}.git"
 
 # Rails environment. Used by application setup tasks and migrate tasks.
 set :rails_env, "production"
@@ -56,9 +54,9 @@ set :app_symlinks, %w{images/categories images/thumbnails images/users sitemaps}
 # :primary => true.
 
 # Modify these values to execute tasks on a different server.
-role :web, "75.127.77.201"
-role :app, "75.127.77.201"
-role :db,  "75.127.77.202", :primary => true
+role :web, "204.188.244.130"
+role :app, "204.188.244.130"
+role :db,  "204.188.244.130", :primary => true
 
 # =============================================================================
 # APACHE OPTIONS
@@ -109,9 +107,10 @@ set :scm, "git"
 # =============================================================================
 # default_run_options[:pty] = true
 set :keep_releases, 5
-set :scm_username, "#{GITHUB_USERNAME}"
+set :scm_username, "#{github_username}"
+set :scm_password, "deploy1234"
 set :branch, "master"
-# set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
 
 # =============================================================================
@@ -127,7 +126,7 @@ set :git_enable_submodules, 1
 # end
 
 task :move_sitemaps, :roles => :web do
-  run "cp /var/www/apps/gawkk/shared/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
+  #run "cp /var/www/apps/gawkk/shared/public/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
 end
 
 namespace :deploy do
