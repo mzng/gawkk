@@ -129,6 +129,11 @@ task :move_sitemaps, :roles => :web do
   #run "cp /var/www/apps/gawkk/shared/public/sitemaps/*.xml.gz /var/www/apps/gawkk/current/public/"
 end
 
+task :move_dispatchs, :roles => :web do
+  run "cp /var/www/apps/gawkk/dispatch/* /var/www/apps/gawkk/current/public/"
+end
+
+
 namespace :deploy do
   desc "Runs asset:packager"
   task :after_update_code, :roles => :web do
@@ -179,3 +184,4 @@ end
 after 'app:symlinks:setup',  'app:symlinks:setup_db'
 after 'app:symlinks:update', 'app:symlinks:update_db'
 after 'deploy', 'move_sitemaps'
+after 'deploy', 'move_dispatchs'
