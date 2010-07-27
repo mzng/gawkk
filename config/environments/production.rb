@@ -15,7 +15,7 @@ config.action_controller.perform_caching             = true
 # config.logger = SyslogLogger.new
 
 # Use a different cache store in production
-config.cache_store = :mem_cache_store, '75.127.77.201', '75.127.77.202', {:namespace => 'gawkk'}
+config.cache_store = :mem_cache_store, '204.188.244.130', '204.188.244.130', {:namespace => 'gawkk'}
 
 # Enable serving of images, stylesheets, and javascripts from an asset server
 # config.action_controller.asset_host = "http://assets.example.com"
