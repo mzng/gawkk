@@ -15,7 +15,7 @@ config.action_controller.perform_caching             = true
 # config.logger = SyslogLogger.new
 
 # Use a different cache store in production
-config.cache_store = :mem_cache_store, '204.188.244.130', '204.188.244.130', {:namespace => 'gawkk'}
+#config.cache_store = :mem_cache_store, '204.188.244.130', '204.188.244.130', {:namespace => 'gawkk'}
 
 # Enable serving of images, stylesheets, and javascripts from an asset server
 # config.action_controller.asset_host = "http://assets.example.com"
@@ -35,3 +35,36 @@ config.action_mailer.smtp_settings = {
 
 # Enable threaded mode
 # config.threadsafe!
+
+config.cache_store = :mem_cache_store
+memcache_options = {
+  :c_threshold => 10000,
+  :compression => true,
+  :debug => false,
+  :namespace => 'a',
+  :readonly => false,
+  :urlencode => false
+
+}
+
+require 'memcache'
+
+# make a CACHE global to use in your controllers instead of Rails.cache, this will use the new memcache-client 1.7.2
+CACHE = MemCache.new memcache_options
+
+# connect to your server that you started earlier
+CACHE.servers = '127.0.0.1:11211'
+
+# this is where you deal with passenger's forking
+begin
+   PhusionPassenger.on_event(:starting_worker_process) do |forked|
+     if forked
+       # We're in smart spawning mode, so...
+       # Close duplicated memcached connections - they will open themselves
+       CACHE.reset
+     end
+   end
+# In case you're not running under Passenger (i.e. devmode with mongrel)
+rescue NameError => error
+
+end
