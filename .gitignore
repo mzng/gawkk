@@ -1,6 +1,8 @@
 .DS_Store
 *.log
 *.pid
+.bundle/
+*.swp
 changelog.txt
 gawkk.tmproj
 refactor.tmproj
@@ -11,3 +13,4 @@ public/sitemaps
 vendor/plugins/acts_as_solr/solr/tmp/development_pid
 vendor/plugins/acts_as_solr/solr/solr/data/development
 nbproject
+tags

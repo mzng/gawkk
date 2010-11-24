@@ -2,7 +2,7 @@ development:
  adapter: mysql
  database: gawkk_development
  username: root
- password:
+ password: root
  host: localhost
 
 test:
