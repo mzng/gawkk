@@ -86,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # users
+  map.my_videos 'my-videos',        :controller => 'users', :action => 'my_videos'
   map.connect ':id/activity',       :controller => 'users', :action => 'activity'
   map.connect ':id/comments',       :controller => 'users', :action => 'comments'
   map.connect ':id/follows',        :controller => 'users', :action => 'follows'

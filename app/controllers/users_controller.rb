@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions, :digest]
-  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow, :follow_recommendations, :dismiss_recommendations]
+  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow, :follow_recommendations, :dismiss_recommendations, :my_videos]
   layout 'page'
   
   # User Manager
@@ -22,8 +22,8 @@ class UsersController < ApplicationController
   
   # User Pages
   def activity
-    if @user.channels.size > 0
-      redirect_to channel_path @user, @user.channels.first and return
+    if @user.feed_owner?
+      redirect_to channel_path @user, @user.channels.first, :status => 301 and return
     else
       redirect_to root_path and return
     end
@@ -36,6 +36,17 @@ class UsersController < ApplicationController
     @base_user = @user
     @include_followings = false
     @news_items = collect('news_items', @user.activity(:offset => @offset, :limit => @per_page))
+  end
+
+  def my_videos
+    pitch(:title => "Your Videos")
+    set_title("Your Videos")
+    setup_pagination
+    setup_user_sidebar(logged_in_user)
+    @user = logged_in_user
+    @base_user = @user
+    @include_followings = false
+    @videos = Video.find(:all, :conditions => { :posted_by_id => @user.id }, :offset => @offset, :limit => @per_page)
   end
   
   def comments
@@ -163,10 +174,9 @@ class UsersController < ApplicationController
       redirect_to :action => params[:action], :id => logged_in_user
     else
       if @user = User.find_by_slug(params[:id])
-        if @user.channels.size > 0
+        if @user.feed_owner?
           redirect_to channel_path(:user => @user, :channel => @user.channels.first), :status => 301
         else
-          flash[:notice] = 'The user has no channels.'
           redirect_to root_path 
         end
       else
