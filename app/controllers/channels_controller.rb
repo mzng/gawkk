@@ -4,6 +4,8 @@ class ChannelsController < ApplicationController
   
   # Channel Manager
   def index
+    
+
     searchable
     setup_pagination(:per_page => 42)
     setup_category_sidebar
@@ -29,9 +31,13 @@ class ChannelsController < ApplicationController
       conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
       parameters = parameters + ["#{category.id}", "#{category.id} %", "% #{category.id}", "% #{category.id} %"]
       @popular = category.popular
+      redirect_to category_path category, :popular => category.popular
     else
+      redirect_to topics_path :popular => true and return
       @popular = true
     end
+
+
     
     # Order by
     # if params[:s] and params[:s] == 'a'
@@ -107,11 +113,12 @@ class ChannelsController < ApplicationController
   private
   def load_channel
     if (@user = User.find_by_slug(params[:user])) and (@channel = Channel.owned_by(@user).with_slug(params[:channel]).first)
-      if @user.feed_owner?
+      #if @user.feed_owner?
         yield
-      else
-        redirect_to :controller => "users", :action => "activity", :id => @user
-      end
+      
+      #else
+      #  redirect_to :controller => "users", :action => "activity", :id => @user
+      #end
     else
       flash[:notice] = 'The channel you are looking for does not exist.'
       redirect_to :action => "index"

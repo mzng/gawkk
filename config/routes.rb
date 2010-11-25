@@ -48,6 +48,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'all/popular',        :controller => 'videos', :action => 'index', :popular => true
   map.connect ':category/newest',   :controller => 'videos', :action => 'category', :popular => false
   map.connect ':category/popular',  :controller => 'videos', :action => 'category', :popular => true
+  map.category 'topics/:category',   :controller => 'videos', :action => 'category'
+  map.topics 'topics',        :controller => 'videos', :action => 'index'
+
   map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
   
   map.connect 'v/:id',              :controller => 'videos', :action => 'follow'

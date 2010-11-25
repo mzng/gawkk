@@ -22,6 +22,11 @@ class UsersController < ApplicationController
   
   # User Pages
   def activity
+    if @user.channels.size > 0
+      redirect_to channel_path @user, @user.channels.first and return
+    else
+      redirect_to root_path and return
+    end
     # load_member or redirect
     pitch(:title => "Hi there! #{@user.username} is using Gawkk.")
     set_title(@user.username + ' - Activity')
@@ -158,10 +163,11 @@ class UsersController < ApplicationController
       redirect_to :action => params[:action], :id => logged_in_user
     else
       if @user = User.find_by_slug(params[:id])
-        if !@user.feed_owner?
-          yield
+        if @user.channels.size > 0
+          redirect_to channel_path(:user => @user, :channel => @user.channels.first), :status => 301
         else
-          redirect_to channel_path(:user => @user, :channel => @user.channels.first)
+          flash[:notice] = 'The user has no channels.'
+          redirect_to root_path 
         end
       else
         flash[:notice] = 'The user you are looking for does not exist.'

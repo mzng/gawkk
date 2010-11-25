@@ -5,7 +5,7 @@
 				<ul>
 					<li class="selected-item"><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
 					<% @categories.each do |category| -%>
-						<li><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @popular} %></li>
+            <li><%= link_to category.name, category_path(category, :popular => @popular) %></li>
 					<% end -%>
 				</ul>
 			</div>

@@ -66,6 +66,8 @@ class VideosController < ApplicationController
   end
   
   def category
+    redirect_to category_path(params[:category]), :status=>301  and return unless request.url =~ /topics/
+
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
       @popular = params[:popular] ? true : false
       
