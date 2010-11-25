@@ -61,6 +61,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   map.connect ':id/share',          :controller => 'videos', :action => 'share'
+
+  map.discuss_video ':id/discuss',  :controller => 'videos', :action => 'discuss'
   
   map.connect 'all/newest/tagged',        :controller => 'videos', :action => 'index', :popular => false, :tagged => true
   map.connect 'all/popular/tagged',       :controller => 'videos', :action => 'index', :popular => true, :tagged => true

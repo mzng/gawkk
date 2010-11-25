@@ -28,18 +28,10 @@
 			<% end -%>
 		</tr>
 		<tr>
-			<td class="action_body">
-				<% if visible_title -%>
-					<div class="title">
-						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
-						<%= link_to image_tag('external.png'), {:controller => "videos", :action => "discuss", :id => video}, :target => "video_#{video.id}_#{Time.now.to_i}" %>
-						<%= popular_icon(video, container_id) %>
-					</div>
-				<% else -%>
-					<div class="title">
-						<%= link_to video.title, @tagged ? {:controller => 'videos', :action => 'discuss', :id => video} : "javascript:watchVideo('#{video.id}','#{video.slug}','#{container_id}');" %>
-					</div>
-				<% end -%>
+      <td class="action_body">
+        <div class="title">
+          <%= link_to video.title, discuss_video_path(video) %>
+        </div>
 				<div class="body">
 					<% if @tagged -%>
 						<div class="thumbnail">
@@ -51,11 +43,6 @@
 						</div>
 					<% end -%>
 					<div class="description">
-						<% begin -%>
-							<span class="first-channel"><%= link_to(video.first_channel.name, channel_path(:user => video.first_channel.user, :channel => video.first_channel)) + ' -' if video.first_channel %></span>
-						<% rescue -%>
-							<% Rails.cache.delete("videos/#{video.id}/first-channel") -%>
-						<% end -%>
 						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %><%= container_id %>">
 								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
@@ -64,13 +51,6 @@
 						<span id="full_description_for_<%= video.id %><%= container_id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
 							<%= video.safe_description %>
 						</span>
-					</div>
-					<div class="posted">
-						Posted in <%= link_to video.cached_category.name, {:controller => 'videos', :action => 'category', :category => video.cached_category, :popular => video.popular?} %>
-						on <%= video.posted_at.strftime("%B %d, %Y") %>
-						<% if !video.url.match(/^\[FROM_EMBED_CODE\]/) -%>
-							via <%= link_to video.host, video.url, :target => video.slug %>
-						<% end -%>
 					</div>
 					<div class="actions">
 						<table cellpadding="0" cellspacing="0">
