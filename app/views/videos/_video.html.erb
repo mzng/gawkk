@@ -10,17 +10,17 @@
 		<tr>
 			<% if !news_item.nil? -%>
 				<td class="action_owner" rowspan="2">
-					<%= link_to image_tag(news_item.user.thumbnail.blank? ? 'profile-pic.jpg' : news_item.user.thumbnail, :class => 'avatar'), user_path(:id => news_item.user) %>
+					<%= intelligent_author_avatar news_item.user %>
 				</td>
 				<td class="action_description">
 					<%= news_item.render_simple %> <span><%= time_ago_in_words(news_item.created_at) %> ago</span>
 				</td>
 			<% elsif !video.posted_by.nil? -%>
 				<td class="action_owner" rowspan="2">
-					<%= link_to image_tag(video.posted_by.thumbnail.blank? ? 'profile-pic.jpg' : video.posted_by.thumbnail, :class => 'avatar'), user_path(:id => video.posted_by) %>
+					<%= intelligent_author_avatar video.posted_by %>
 				</td>
 				<td class="action_description">
-					<%= link_to video.posted_by.username, user_path(:id => video.posted_by) %> posted this video <span><%= time_ago_in_words(video.posted_at) %> ago</span>
+					<%= intelligent_author_name video.posted_by %> posted this video <span><%= time_ago_in_words(video.posted_at) %> ago</span>
 				</td>
 			<% else -%>
 				<td class="action_owner" rowspan="2"></td>

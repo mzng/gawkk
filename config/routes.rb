@@ -63,7 +63,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/share',          :controller => 'videos', :action => 'share'
 
   map.discuss_video ':id/discuss',  :controller => 'videos', :action => 'discuss'
-  
   map.connect 'all/newest/tagged',        :controller => 'videos', :action => 'index', :popular => false, :tagged => true
   map.connect 'all/popular/tagged',       :controller => 'videos', :action => 'index', :popular => true, :tagged => true
   map.connect ':category/newest/tagged',  :controller => 'videos', :action => 'category', :popular => false, :tagged => true
@@ -141,6 +140,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # named paths
+  map.user_channel ':user/channel', :controller => 'channels', :action => 'show'
   map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
   map.channel_rss ':user/:channel.rss',         :controller => 'channels', :action => 'show', :format => 'rss'
   map.subscribers ':user/:channel/subscribers', :controller => 'channels', :action => 'subscribers'
