@@ -16,7 +16,7 @@
 		
 		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
 					:crumbs => [{:name => @popular ? 'Popular Videos' : 'Newest Videos', :params => {:controller => 'videos', :action => 'index', :popular => @popular}}, 
-											{:name => @category.name, :params => {:controller => 'videos', :action => 'category', :category => @category, :popular => @popular}}]} %>
+											{:name => @category.name, :params => category_path(@category, :popular => @popular)}]} %>
 		
 		<%= render @videos %>
 		<%= render :partial => "/layouts/pagination", :locals => {:title => @popular ? 'View More Popular Videos' : 'View More Newest Videos', :collection => @videos, :options => {:tagged => @tagged}} %>
