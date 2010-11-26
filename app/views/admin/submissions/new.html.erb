@@ -1,0 +1,44 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Submission'}]} %>
+
+<div id="content-main">
+  <% form_tag '/admin/submissions' do %>
+    <p>
+    <%= label_tag :category_id, "Category:" %><br />
+    <%= select_tag "category_id", options_for_select(@categories.collect {|c| [c.name, c.id]})%>
+    </p>
+  <div id="channels">
+    <%= label_tag :channel_id, "Channel:" %><br />
+     <%= select_tag "channel_id", options_for_select(@channels.collect {|c| [c.name, c.id]}) %>
+   </div>
+   <p>
+   <%= label_tag :title, "Title" %><br />
+     <%= text_field_tag "title" %>
+   </p>
+   <p>
+   <%= label_tag :description, "Description" %><br />
+     <%= text_area_tag "description" %>
+     </p>
+     <p>
+     <%= label_tag "link[]", "Links" %><br />
+<%= text_field_tag "link[]" %><br />
+ <%= text_field_tag "link[]" %><br />
+
+  <%= text_field_tag "link[]" %><br />
+
+  <%= text_field_tag "link[]" %><br />
+
+  <%= text_field_tag "link[]" %><br />
+
+
+  <%= submit_tag %>
+  </p>
+
+  <% end %>
+</div>
+
+
+<%= observe_field :category_id, :url => { :controller => 'admin/submissions', :action => :get_channels },
+      :frequency => 0.25,
+      :update => :channels,
+      :with => 'category_id'
+  %>

@@ -1,3 +1,4 @@
+require 'youtube_g'
 class Util::YouTube
   def self.client
     client = YouTubeG::Client.new
