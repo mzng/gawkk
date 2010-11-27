@@ -18,26 +18,25 @@
    <%= label_tag :description, "Description" %><br />
      <%= text_area_tag "description" %>
      </p>
-     <p>
-     <%= label_tag "link[]", "Links" %><br />
-<%= text_field_tag "link[]" %><br />
- <%= text_field_tag "link[]" %><br />
-
-  <%= text_field_tag "link[]" %><br />
-
-  <%= text_field_tag "link[]" %><br />
-
-  <%= text_field_tag "link[]" %><br />
-
+     <ul id="link-list" style="list-style-type: none;padding: 0;">
+       <li><%= label_tag "link[]", "Links" %></li>
+       <li>  <%= text_field_tag "link[]" %></li>
+       <li><%= text_field_tag "link[]" %></li>
+       <li><%= text_field_tag "link[]" %></li>
+     </ul>
+    
+     <a href="#" onclick="add_field();return false;">Add another link</a></br></br>
 
   <%= submit_tag %>
-  </p>
 
   <% end %>
 </div>
 
-
-<%= observe_field :category_id, :url => { :controller => 'admin/submissions', :action => :get_channels },
+<script type="text/javascript">
+  function add_field() {
+    $('link-list').insert('<li><input id="link_" name="link[]" type="text">')
+  }
+</script><%= observe_field :category_id, :url => { :controller => 'admin/submissions', :action => :get_channels },
       :frequency => 0.25,
       :update => :channels,
       :with => 'category_id'
