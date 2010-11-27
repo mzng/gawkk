@@ -13,6 +13,7 @@ gem "twitterdispatch", :require => "twitterdispatch"
 gem "youtube-g",       :require => "youtube_g"
 gem "htmlentities"
 gem "mime-types"
+gem 'subdomain-fu',    :require => "subdomain_fu"
 gem "rmagick"
 
 # bundler requires these gems in all environments

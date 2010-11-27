@@ -47,6 +47,10 @@ memcache_options = {
 
 }
 
+require 'subdomain-fu'
+SubdomainFu.tld_size = 1
+
+
 require 'memcache'
 
 # make a CACHE global to use in your controllers instead of Rails.cache, this will use the new memcache-client 1.7.2

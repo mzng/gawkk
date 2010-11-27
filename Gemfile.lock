@@ -35,6 +35,7 @@ GEM
       right_http_connection (>= 1.2.1)
     right_http_connection (1.2.4)
     rmagick (2.13.1)
+    subdomain-fu (0.5.4)
     twitter4r (0.6.0)
       json (>= 1.1.1)
       oauth (>= 0.4.1)
@@ -56,6 +57,7 @@ DEPENDENCIES
   rails (= 2.3.2)
   right_aws
   rmagick
+  subdomain-fu
   twitter4r
   twitterdispatch
   youtube-g

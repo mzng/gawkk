@@ -5,7 +5,7 @@
 				<ul>
 					<li><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @popular} %></li>
 					<% @categories.each do |category| -%>
-						<li<%= " class=\"selected-item\"" if @category.id == category.id %>><%= link_to category.name, category_path(category) %></li>
+						<li<%= " class=\"selected-item\"" if @category.id == category.id %>><%= link_to category.name, smart_category_link(category) %></li>
 					<% end -%>
 				</ul>
 			</div>

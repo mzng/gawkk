@@ -22,6 +22,9 @@ config.action_mailer.smtp_settings = {
   :port => 25
 }
 
+require 'subdomain-fu'
+SubdomainFu.tld_size = 1
+
 # Configure memcached
 config.cache_store = :mem_cache_store, 'localhost', {:namespace => 'gawkk'}
 
