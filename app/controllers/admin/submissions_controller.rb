@@ -22,7 +22,7 @@ layout 'page'
         video.embed_code = Util::EmbedCode.generate(video, video.url)
         video.category_id = params[:category_id]
         video = Util::Thumbnail.suggest(video)
-        video.posted_by = logged_in_user
+        video.posted_by_id = Channel.find(params[:channel_id]).user_id
         video.save
 
       else
