@@ -24,7 +24,6 @@ layout 'page'
         video = Util::Thumbnail.suggest(video)
         video.posted_by_id = Channel.find(params[:channel_id]).user_id
         video.save
-
       else
         video = existing_video
         video.saved_videos.each do |sv|
@@ -48,6 +47,8 @@ layout 'page'
         sv.save
       end
     end
+    flash[:notice] = "The video was added."
+    redirect_to :controller => 'admin/overview', :action => 'index'
   end
 
   def get_channels
