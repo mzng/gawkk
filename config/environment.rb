@@ -27,8 +27,6 @@ Rails::Initializer.run do |config|
   config.gem "twitter4r",       :lib => "twitter"
   config.gem "twitterdispatch", :lib => "twitterdispatch"
   config.gem "youtube-g",       :lib => "youtube_g"
-  config.gem 'subdomain-fu',    :lib => "subdomain_fu"
-   
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -38,6 +36,7 @@ Rails::Initializer.run do |config|
                     :acts_as_list, :acts_as_state_machine, :browser_detect, :country_select, 
                     :facebooker, :white_list, :will_paginate]
 
+  
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]

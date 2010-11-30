@@ -1,4 +1,3 @@
-require 'subdomain-fu'
 module VideosHelper
   def intelligent_author_avatar(author)
     image = image_tag(author.thumbnail.blank? ? 'profile-pic.jpg' : author.thumbnail, :class => 'avatar')
@@ -17,17 +16,13 @@ module VideosHelper
     end
   end
 
-  def smart_category_link(category)
-    base_domain = request.domain
-    base_domain += ":#{request.port}" if request.port
-
-    base_domain.gsub!(/tv\.|www\./, '')
-
-
-    if category.slug == "television-shows"
-      return "http://tv.#{base_domain}"
+  def smart_category_link(category, popular = nil)
+    #return nil
+    if defined? @popular || !popular.nil?
+      popular ||= @popular
+      return category_path(category, :popular => popular)
     else
-      return "http://#{base_domain}#{category_path(category)}"
+      return category_path(category)
     end
   end
 end

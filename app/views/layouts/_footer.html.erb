@@ -8,8 +8,6 @@
 	</div>
 	<div class="container">
 		<div class="heading">More Gawkk</div>
-		<div><%= link_to 'Featured Channels', '/channels' %></div>
-		<div><%= link_to 'Popular Channels', '/channels?t=p' %></div>
 		<div>
 			<% if user_logged_in? -%>
 				<%= link_to_remote 'Tweet Your Activity', :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %>

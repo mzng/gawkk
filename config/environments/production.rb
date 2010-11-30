@@ -47,9 +47,6 @@ memcache_options = {
 
 }
 
-require 'subdomain-fu'
-SubdomainFu.tld_size = 1
-
 
 require 'memcache'
 

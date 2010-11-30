@@ -78,10 +78,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':category/popular.rss',    :controller => 'videos', :action => 'category', :popular => true, :format => 'rss'
   
   map.connect 'videos/:action',     :controller => 'videos'
-  
-  map.with_options :conditions => {:subdomain => 'tv'} do |tv|
-    tv.tv_root '/', :controller => 'videos', :action => 'category', :category => 'television-shows'
-  end 
 
   # news items
   map.connect 'news_items/:action', :controller => 'news_items'
