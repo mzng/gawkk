@@ -8,6 +8,11 @@ module VideosHelper
     end
   end
 
+  def link_for_channel_name(video)
+    channel = video.posted_by.channels.first
+    link_to "#{channel.name}", user_channel_path(video.posted_by)
+  end
+
   def intelligent_author_name(author)
     if author.feed_owner?
       link_to author.username, user_channel_path(author)

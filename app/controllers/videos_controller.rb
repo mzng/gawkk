@@ -19,16 +19,12 @@ class VideosController < ApplicationController
       # setup_recommendation_sidebar
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
-    
+   @categories = Category.allowed_on_front_page
+ 
     # Friends Activity
     @base_user = (logged_in_user or User.new)
     @include_followings = true
-    
-    if Parameter.status?('messaging_layer_enabled') and @base_user.active?
-      @news_items = @base_user.followings_activity(:limit => 3)
-    else
-      @news_items = Array.new
-    end
+    @videos = collect('videos', Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:limit => 18))
   end
   
   def friends
@@ -53,7 +49,7 @@ class VideosController < ApplicationController
     
     pitch
     set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
-    set_title("#{@popular ? 'Popular' : 'Newest'} Videos")
+    set_title("All Topics")
     setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
     setup_category_sidebar
     taggable
@@ -73,8 +69,8 @@ class VideosController < ApplicationController
       
       pitch
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
-      set_title("#{@popular ? 'Popular' : 'Newest'} Videos in The #{@category.name} Category")
-      setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
+      set_title("Videos in The #{@category.name} Category")
+      setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 5))
       setup_category_sidebar(@category)
       taggable
       
@@ -87,6 +83,21 @@ class VideosController < ApplicationController
       flash[:notice] = 'The category you are looking for does not exist.'
       redirect_to :action => "index", :popular => @popular
     end
+  end
+
+  def category_ref
+    render :nothing => true and return if params[:category].nil? || !@category = Category.find(params[:category])
+    
+    setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 5))
+    @popular = params[:popular] ? true : false
+
+    if @popular
+      @videos = collect('videos', Video.popular.in_category(@category).all(:offset => @offset, :limit => @per_page))
+    else
+      @videos = collect('videos', Video.newest.in_category(@category).all(:offset => @offset, :limit => @per_page))
+    end
+
+    render :layout => false
   end
   
   def subscriptions

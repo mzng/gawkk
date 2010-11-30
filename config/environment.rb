@@ -27,6 +27,7 @@ Rails::Initializer.run do |config|
   config.gem "twitter4r",       :lib => "twitter"
   config.gem "twitterdispatch", :lib => "twitterdispatch"
   config.gem "youtube-g",       :lib => "youtube_g"
+  config.gem "haml"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

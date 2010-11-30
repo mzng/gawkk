@@ -268,15 +268,17 @@ class ApplicationController < ActionController::Base
   end
   
   def logged_in_user
+    return @currently_logged_in_user if defined?(@currently_logged_in_user)
     if user_logged_in?
-      Rails.cache.fetch("users/#{session[:user_id]}", :expires_in => 1.week) do
+      @currently_logged_in_user = Rails.cache.fetch("users/#{session[:user_id]}", :expires_in => 1.week) do
         User.find(session[:user_id])
       end
     else
-      return nil
+      @currently_logged_in_user = nil
     end
-  end
-  
+    return @currently_logged_in_user
+  end  
+
   def user_logged_in?
     (session[:user_id] != nil) ? true : false
   end

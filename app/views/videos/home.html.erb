@@ -1,26 +1,71 @@
-<div id="navigable-container">
-	<%= render :partial => "/layouts/navigation", :locals => {:selected => 'Activity Stream'} %>
-	<div id="content-main">
-		<div id="postbox-container">
-			<%= render :partial => "/submit/new" %>
+<% content_for :box do %>
+	<div id="pitch" style="background-color: #bcdff3;border-color: #acacac;height: 162px;">
+		<span style="display:none;">
+			<%= submit_tag 'Join today!' %><br/>
+			or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>
+			Already a member? <%= link_to_remote('Login', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %>
+		</span>
+		<div id="sign-up">
+			<p id="one-click">Sign up with one click:</p>
+			<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
+				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
+			<% end -%>
+			<p>
+				<%= link_to image_tag('fb-connect-button.gif'), "http://apps.facebook.com/gawkkapp", :target => 'fbapp' %>
+			</p>
+			<p>Or, <%= link_to_remote('log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your account.</p>
 		</div>
-		<br class="clear"/>
-		
-		<h1 id="filter-bar">
-			<span class="title-container">Activity Stream</span>
-		</h1>
-		<%= render :partial => "/registration/contact_importer_plug" %>
-		<div id="activity">
-			<%= render @news_items %>	
-			<div id="activity-loading-indicator" style="color:gray;font-size:9pt;margin:15px 0;text-align:center;">
-				<%= image_tag('spinner.gif', :style => 'vertical-align:top;') %> Loading...
-			</div>
+		<div id="copy" style="background: url(/images/cat-header-bg.png) no-repeat; border: solid 1px #acacac; height: 142px;margin-top: 10px;">
+      <p style="font-size:12pt;font-weight:bold;margin-bottom: 0;">All Categories</p>
+      <table>
+        <% @categories.each_with_index do |c, i| %>
+          <% if i % 6 == 0 %>
+            <% if i > 0 %>
+              </tr>
+            <% end %>
+            <tr>
+          <% end %>
+          <td width="110">
+            <%= link_to truncate(c.name, 15), category_path(c), :style => "text-decoration: none;" %>
+          </td>
+        <% end %>
+      </tr>
+      </table>
+
 		</div>
-		<div id="pagination-container" style="display:none;">
-			<%= render :partial => "/layouts/pagination", :locals => {:title => 'View More Activity', :options => {:action => 'friends', :page => 2}, :force_next => true} %>
-		</div>
-		<%= render :partial => "/news_items/setup" %>
 	</div>
+<% end -%>
+
+<div class="content-section">
+  <div style="margin-left: 25px;">	
+		<h1 id="filter-bar" style="border: none">
+			<span class="title-container">Recent Searches</span>
+    </h1>
+  </div>
+    <p class="queries" style="margin-left: 25px;margin-right: 25px;">
+      Lorem ipsum dolor sit amet consectetur adipiscing elit Nulla risus nunc iaculis vitae vulputate non faucibus ac leo Maecenas consectetur dolor vitae tortor dignissim quis gravida libero pharetra Pellentesque varius magna velit Nullam iaculis tincidunt diam eget sollicitudin Ut semper consequat consectetur Curabitur ac diam nisi sit amet fermentum nisl Praesent tempor mi in faucibus molestie Lorem ipsum dolor sit amet consectetur adipisc
+      </p>
+     <div class="video-list" style="margin-left: 15px">
+        <table>
+        <% @videos.each_with_index do |video, i| %>
+          <% if i % 6 == 0 %>
+            <% if i > 0 %>
+              </tr>
+            <% end %>
+            <tr height="90">
+          <% end %>
+          <td width="127">
+            <div class="small-video" style="margin: 5px 5px; width: auto; height: auto;">
+              <div class="thumbnail" style="margin: 5px 5px;  width: auto; height: auto;">
+                <%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+              </div>
+            </div>
+          </td>
+        <% end %>      
+        </tr>
+      </table> 
+
+      </div>
 </div>
 
 <div id="content-sidebar">
@@ -33,5 +78,4 @@
 	<% if params[:register] -%>
 		new Ajax.Request('/register', {method:'get', asynchronous:true, evalScripts:false});
 	<% end -%>
-	new Ajax.Request('/friends', {method:'get', asynchronous:true, evalScripts:false});
 </script>

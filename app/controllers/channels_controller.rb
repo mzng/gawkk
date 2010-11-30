@@ -63,14 +63,23 @@ class ChannelsController < ApplicationController
     set_meta_keywords(@channel.keywords)
     set_title(@channel.proper_name)
     setup_pagination
-    setup_category_sidebar
+   # setup_category_sidebar
     setup_channel_sidebar(@channel)
 
-    if @channel.search_only?
-      @videos = Video.search(@user.username, :order => :posted_at, :sort_mode => :desc, :page => @page, :per_page => @per_page, :retry_stale => true)
-    else
-      @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))
+
+    cache_key = "c_s_#{@user.id}_#{@channel.id}_#{@page}"
+
+    @videos = Rails.cache.fetch(cache_key, :expires_in => 1.day) do
+      ids = @channel.videos(:select => :video_id, :offset => @offset, :limit => @per_page).collect { |x| x.video_id } 
+      Video.find(ids, :include => [:category, :posted_by, {:saved_videos => {:channel => :user}}])
     end
+
+
+ #   if @channel.search_only?
+ #     @videos = Video.search(@user.username, :order => :posted_at, :sort_mode => :desc, :page => @page, :per_page => @per_page, :retry_stale => true)
+ #   else
+ #     @videos = collect('saved_videos', @channel.videos(:offset => @offset, :limit => @per_page))
+ #   end
   end
   
   
@@ -113,12 +122,12 @@ class ChannelsController < ApplicationController
   private
   def load_channel
     if (@user = User.find_by_slug(params[:user])) and (@channel = Channel.owned_by(@user).with_slug(params[:channel]).first)
-      #if @user.feed_owner?
+      if @user.feed_owner?
         yield
       
-      #else
-      #  redirect_to :controller => "users", :action => "activity", :id => @user
-      #end
+      else
+        redirect_to :controller => "users", :action => "activity", :id => @user
+      end
     else
       flash[:notice] = 'The channel you are looking for does not exist.'
       redirect_to :action => "index"

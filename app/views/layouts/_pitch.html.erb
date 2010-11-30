@@ -1,5 +1,5 @@
 <% if !user_logged_in? -%>
-	<div id="pitch">
+	<div id="pitch" style="background: url(/images/welcome-header-bg.png) no-repeat #bcdff3;border-color: #acacac">
 		<span style="display:none;">
 			<%= submit_tag 'Join today!' %><br/>
 			or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>

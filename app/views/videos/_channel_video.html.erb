@@ -1,3 +1,4 @@
+<% video = channel_video %>
 <% news_item					= nil		if news_item.nil? -%>
 <% visible_title 			= true	if visible_title.nil? -%>
 <% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
@@ -8,42 +9,28 @@
 <div id="video_<%= video.id %><%= container_id %>" class="video">
 	<table class="anchored_container" cellpadding="0" cellspacing="0">
 		<tr>
-			<% if !news_item.nil? -%>
-				<td class="action_owner" rowspan="2">
-					<%= intelligent_author_avatar news_item.user %>
-				</td>
-				<td class="action_description">
-					<%= news_item.render_simple %> <span><%= time_ago_in_words(news_item.created_at) %> ago</span>
-				</td>
-			<% elsif !video.posted_by.nil? -%>
-				<td class="action_owner" rowspan="2">
-					<%= intelligent_author_avatar video.posted_by %>
-				</td>
-				<td class="action_description">
-					<%= intelligent_author_name video.posted_by %> posted this video <span><%= time_ago_in_words(video.posted_at) %> ago</span>
-				</td>
-			<% else -%>
-				<td class="action_owner" rowspan="2"></td>
-				<td class="action_description"></td>
-			<% end -%>
-		</tr>
-		<tr>
       <td class="action_body">
         <div class="title">
-          <%= link_to video.title, discuss_video_path(video) %>
+          <%= link_to video.title, discuss_video_path(video) %> <font size="1"> posted <span><%= time_ago_in_words(video.posted_at) %> ago</span> </font>
+          <span class="like_for_<%= video.id %>">
+										<%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %>
+									</span>
+<span class="like_for_<%= video.id %>">
+										<%= render :partial => "/videos/dislike", :locals => {:video => video, :container_id => container_id} %>
+									</span>
+
         </div>
 				<div class="body">
 					<% if @tagged -%>
 						<div class="thumbnail">
-							<%#= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+							<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 						</div>
 					<% else -%>
 						<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
-							<%#= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+							<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
-          <div class="description">
-            <%= link_for_channel_name video %> - 
+					<div class="description">
 						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %><%= container_id %>">
 								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
@@ -52,8 +39,7 @@
 						<span id="full_description_for_<%= video.id %><%= container_id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
 							<%= video.safe_description %>
 						</span>
-          </div>
-          <font size="1">Posted in <%= video.category.name %> on <%= video.posted_at %>
+					</div>
 					<div class="actions">
 						<table cellpadding="0" cellspacing="0">
 							<tr>

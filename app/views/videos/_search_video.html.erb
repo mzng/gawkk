@@ -1,4 +1,4 @@
-<% news_item					= nil		if news_item.nil? -%>
+% news_item					= nil		if news_item.nil? -%>
 <% visible_title 			= true	if visible_title.nil? -%>
 <% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
 <% load_activity			= false	if load_activity.nil? -%>
@@ -10,14 +10,14 @@
 		<tr>
 			<% if !news_item.nil? -%>
 				<td class="action_owner" rowspan="2">
-					<%= intelligent_author_avatar news_item.user %>
+					<%#= intelligent_author_avatar news_item.user %>
 				</td>
 				<td class="action_description">
 					<%= news_item.render_simple %> <span><%= time_ago_in_words(news_item.created_at) %> ago</span>
 				</td>
 			<% elsif !video.posted_by.nil? -%>
 				<td class="action_owner" rowspan="2">
-					<%= intelligent_author_avatar video.posted_by %>
+					<%#= intelligent_author_avatar video.posted_by %>
 				</td>
 				<td class="action_description">
 					<%= intelligent_author_name video.posted_by %> posted this video <span><%= time_ago_in_words(video.posted_at) %> ago</span>
@@ -42,8 +42,7 @@
 							<%#= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
-          <div class="description">
-            <%= link_for_channel_name video %> - 
+					<div class="description">
 						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %><%= container_id %>">
 								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
@@ -52,8 +51,7 @@
 						<span id="full_description_for_<%= video.id %><%= container_id %>" <% if video.safe_description.length > 160 -%>style="display:none;"<% end -%>>
 							<%= video.safe_description %>
 						</span>
-          </div>
-          <font size="1">Posted in <%= video.category.name %> on <%= video.posted_at %>
+					</div>
 					<div class="actions">
 						<table cellpadding="0" cellspacing="0">
 							<tr>

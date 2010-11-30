@@ -1,27 +1,22 @@
-<div id="navigable-container" style="width:100%;">
-	<% render :layout => '/layouts/navigation', :locals => {:selected => "#{@video.popular? ? 'Popular' : 'Newest'} Videos"} do -%>
-		<div class="items">
-			<div class="item-wrapper">
-				<ul>
-					<li><%= link_to 'All Categories', {:controller => 'videos', :action => 'index', :popular => @video.popular?} %></li>
-					<% @categories.each do |category| -%>
-						<li<%= " class=\"selected-item\"" if @video.category.id == category.id %>><%= link_to category.name, {:controller => 'videos', :action => 'category', :category => category, :popular => @video.popular?} %></li>
-					<% end -%>
-				</ul>
-			</div>
-		</div>
-	<% end -%>
-	<div style="float:right;width:830px;">
-		<%= render :partial => "/layouts/content_header_simple", :locals => {:title => @video.title, 
-					:crumbs => [{:name => @video.popular? ? 'Popular Videos' : 'Newest Videos', :params => {:controller => 'videos', :action => 'index', :popular => @video.popular?}}, 
-											{:name => @video.category.name, :params => category_path(@video.category, :popular => @video.popular?)}, 
-					{:name => @video.title}]} %>
+<div id="navigable-container">
+	<div id="content-main">			<h1 id="filter-bar">
+			<span class="title-container"><%= @video.title %></span>
+    </h1>
+
+		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+      :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => "index"}},{:name => @video.category.name, :params => category_path(@video.category, :popular => @video.popular?)}, 
+        {:name => @video.posted_by.channels.first.name, :params => channel_path(:user => @video.posted_by, :channel => @video.posted_by.channels.first)},
+    {:name => @video.title}]} %>
+
+    <br />
+
 		
-		<div style="float:left;width:650px;">
 			<%= render @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true %>
 			<%= render :partial => "/news_items/setup" %>
-		</div>
-		<div id="content-sidebar" style="float:right;width:160px;">
+    </div>
+
+</div>
+<div id="content-sidebar">
 			<%= render :partial => "/layouts/set", :locals => {:title => 'Related Videos', :collection => @related_videos, 
 						:link => {:controller => 'search', :action => 'videos', :q => @q}, :force_link => true} %>
 
@@ -35,8 +30,6 @@
 							:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
 			<% end -%>
 		</div>
-	</div>
-</div>
 
 <script type="text/javascript" charset="utf-8">
 	watchVideoAndScroll('<%= @video.id %>','<%= @video.slug %>', false, '<%= @news_item.nil? ? '' : '_' + @news_item.id.to_s %>');

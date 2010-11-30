@@ -53,7 +53,9 @@
 				<p id="flash"><%= flash[:notice] %></p>
 				<% flash[:notice] = nil -%>
 			<% end -%>
-			
+
+      <%= yield(:box) if yield(:box) %>
+
 			<div id="content">
 				<%= yield  %>
 				<br class="clear"/>

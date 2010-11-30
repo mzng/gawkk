@@ -51,6 +51,19 @@ h2 {
 	padding: 0;
 }
 
+.divider {
+  margin-left: 22px;
+  margin-right: 02px;
+  background: url(/images/divider.png) no-repeat;
+  background-size: 940px;
+  height: 50px;
+}
+
+.divider > h2 {
+  margin-left: 20px;
+  padding-top: 15px;
+}
+
 #flash {
 	background-color: #FFFFCC;
 	border: 1px solid #FFFF00;
@@ -662,7 +675,18 @@ div.paginate-single-link-set span.disabled {
 /* content */
 #content-main {
 	float: left;
-	width: 650px;
+  margin-left: 25px;
+	width: 700px;
+}
+
+
+.content-section {
+  width: 100%;
+}
+
+.main-content-area {
+  float: left;
+  width: 650px;
 }
 
 #content-centered {
@@ -677,7 +701,7 @@ div.paginate-single-link-set span.disabled {
 }
 
 #navigable-container #content-main {
-	float: right;
+	float: left;
 }
 
 #navigable-container #content-main h1 {
