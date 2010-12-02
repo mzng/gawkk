@@ -1,0 +1,24 @@
+<div id="navigable-container">
+  <% render :layout => "users/navigation", :locals => { :selected => "My Submissions" } do %>
+    <div class="items">
+      <div class="item-wrapper">
+        <ul>
+          <li><%= link_to "Open", "/my-submissions" %></li>
+          <li class="selected-item"><%= link_to "Accepted", "/my-submissions/accepted" %></li>
+          <li><%= link_to "Declined", "/my-submissions/declined" %></li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= render :partial => "submission" %>
+  
+  <div class="user-area">
+    <h2>Your Accepted Submissions</h2><br />
+    <% if @submissions.size > 0 %>
+        <%= render :partial => "videos/channel_video", :collection => @submissions.collect { |s| s.video } %>
+    <% else %>
+      <p> None of your submissions were accepted </p>
+    <% end %>
+  </div>
+</div>

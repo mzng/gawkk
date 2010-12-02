@@ -11,15 +11,18 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/comments/:action',     :controller => 'admin/comments'
   map.connect 'admin/import/:action',       :controller => 'admin/import'
   map.connect 'admin/likes/:action',        :controller => 'admin/likes'
+  map.connect 'admin/dislikes/:action',        :controller => 'admin/dislikes'
   map.connect 'admin/parameters/:action',   :controller => 'admin/parameters'
   map.connect 'admin/statistics/:action',   :controller => 'admin/statistics'
   map.connect 'admin/suggestions/:action',  :controller => 'admin/suggestions'
   map.connect 'admin/users/:action',        :controller => 'admin/users'
   map.connect 'admin/videos/:action',       :controller => 'admin/videos'
+  map.connect 'admin/searches/:action',       :controller => 'admin/searches'
 
   map.connect 'admin/submissions/new',      :controller => 'admin/submissions', :action => 'new'
   map.connect 'admin/submissions/get-channels',      :controller => 'admin/submissions', :action => 'get_channels'
   map.connect 'admin/submissions',          :controller => 'admin/submissions', :action => 'create'
+  map.connect 'admin/user_submissions/:action',          :controller => 'admin/user_submissions'
   
   # nested administration areas
   map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
@@ -35,6 +38,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'registration/:action', :controller => 'registration'
   
   
+  map.connect 'my-profile', :controller => 'users', :action => 'profile'
+  map.connect 'my-subscriptions', :controller => 'users', :action => 'my_subscriptions'
+  map.connect 'my-submissions', :controller => 'user_submissions', :action => 'index'
+  map.connect 'my-submissions/accepted', :controller => 'user_submissions', :action => 'accepted'
+  map.connect 'my-submissions/declined', :controller => 'user_submissions', :action => 'declined'
+  map.connect 'my-submissions/create', :controller => 'user_submissions', :action => 'create'
+
   # settings
   map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
   map.connect 'settings/activity/ungroup',  :controller => 'settings', :action => 'ungroup_activity'
@@ -62,6 +72,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':id/discuss',        :controller => 'videos', :action => 'discuss'
   map.connect ':id/watch',          :controller => 'videos', :action => 'watch'
   map.connect ':id/like',           :controller => 'videos', :action => 'like'
+  map.connect ':id/dislike',           :controller => 'videos', :action => 'dislike'
   map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
   map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
   map.connect ':id/share',          :controller => 'videos', :action => 'share'
@@ -152,7 +163,14 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # front page
-  map.root :controller => 'videos', :action => 'home'
+  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
+  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "tv" }
+
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
+  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "movies" }
   
   # generic routes
   map.connect ':controller/:action/:id'

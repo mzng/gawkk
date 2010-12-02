@@ -3,9 +3,12 @@
 	<%= link_to 'Channels', {:controller => "admin/channels"} %><br/>
 	<%= link_to 'Comments', {:controller => "admin/comments"} %><br/>
 	<%= link_to 'Likes', {:controller => "admin/likes"} %><br/>
+	<%= link_to 'Dislikes', {:controller => "admin/dislikes"} %><br/>
 	<%= link_to 'Suggestions', {:controller => "admin/suggestions"} %><br/>
   <%= link_to 'Users', {:controller => "admin/users"} %><br />
-  <%= link_to 'Add a Video', {:controller => "admin/submissions", :action => :new} %>
+  <%= link_to 'User Submissions', {:controller => "admin/user_submissions"} %><br />
+  <%= link_to 'Searches', {:controller => "admin/searches"} %><br />
+  <%= link_to 'Add a Video', {:controller => "admin/submissions", :action => :new} %> <br />
 </p>
 
 <h1 class="section-header">Statistics</h1>

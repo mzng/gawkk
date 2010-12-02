@@ -11,26 +11,24 @@
 		<tr>
       <td class="action_body">
         <div class="title">
-          <%= link_to video.title, discuss_video_path(video) %> <font size="1"> posted <span><%= time_ago_in_words(video.posted_at) %> ago</span> </font>
-          <span class="like_for_<%= video.id %>">
-										<%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %>
-									</span>
-<span class="like_for_<%= video.id %>">
-										<%= render :partial => "/videos/dislike", :locals => {:video => video, :container_id => container_id} %>
-									</span>
-
-        </div>
+          <%= smart_video_link video  %> <font size="1"> posted <span><%= time_ago_in_words(video.posted_at) %> ago</span> </font>
+          <span class="like_for_<%=video.id %>">
+            <%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id}  %>
+          </span>
+          
+                  </div>
 				<div class="body">
 					<% if @tagged -%>
 						<div class="thumbnail">
 							<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 						</div>
 					<% else -%>
-						<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
-							<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+            <div class="thumbnail" style="background-image: url(/images/<%=(video.thumbnail.blank? ? '/images/no-image.png' : video.thumbnail) %>)" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
+              <%= image_tag("play-overlay-filler.png", :size => "128x89", :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
-					<div class="description">
+          <div class="description">
+            <%= link_for_channel_name video %>
 						<% if video.safe_description.length > 160 -%>
 							<span id="short_description_for_<%= video.id %><%= container_id %>">
 								<%= video.safe_description.first(160) %>... <%= link_to 'read more', "javascript:read('#{video.id}','#{video.slug}', '#{container_id}');" %>
@@ -44,11 +42,6 @@
 						<table cellpadding="0" cellspacing="0">
 							<tr>
 								<td><%= render :partial => "/videos/comment", :locals => {:video => video, :container_id => container_id} %></td>
-								<td>
-									<span class="like_for_<%= video.id %>">
-										<%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id} %>
-									</span>
-								</td>
 								<% if user_can_edit?(video) -%>
 									<td>| <%= link_to_remote 'Edit', {:url => {:controller => 'videos', :action => 'edit', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');"} %></td>
 								<% end -%>

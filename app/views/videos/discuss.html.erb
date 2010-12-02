@@ -11,7 +11,7 @@
     <br />
 
 		
-			<%= render @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true %>
+    <%= render :partial => "channel_video", :locals => { :channel_video => @video, :news_item => @news_item, :visible_title => false, :load_activity => true, :load_comments => true } %>
 			<%= render :partial => "/news_items/setup" %>
     </div>
 

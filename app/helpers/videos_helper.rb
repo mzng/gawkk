@@ -8,9 +8,45 @@ module VideosHelper
     end
   end
 
+  def make_a_cloud(searches)
+    max, min = 0, 0
+  searches.each { |t|
+    max = t.count.to_i if t.count.to_i > max
+    min = t.count.to_i if t.count.to_i < min
+  }
+
+  sizes = ["1", "1.2", "1.4","1.6", "1.8", "2.0","2", "2.2", "2.4", "2.6"]
+  divisor = ((max - min) / sizes.size) + 1
+
+
+  res = []
+
+  searches.each { |t|
+    res << link_to(t.query, "http://#{BASE_URL}/search?q=#{t.query}", :style => "font-size: #{sizes[(t.count.to_i - min) / divisor]}em")
+  }
+  res
+  end
+
+  def topic_crumb_params(channel)
+    category_id = !channel.category.blank? ? channel.category.to_i : nil
+
+    if category_id.nil?
+      { :name => "Unkown Topic" }
+    else
+      category = Category.find(category_id)
+      { :name => category.name, :params => smart_category_link(category, nil, true) }
+    end
+  end
+
+
   def link_for_channel_name(video)
-    channel = video.posted_by.channels.first
-    link_to "#{channel.name}", user_channel_path(video.posted_by)
+    smart_channel_link video.posted_by, video.posted_by.channels.first
+  end
+
+  def root_link(url_only = false)
+    url = "http://#{BASE_URL}"
+
+    url_only ? url : link_to("Home", url)
   end
 
   def intelligent_author_name(author)
@@ -21,13 +57,71 @@ module VideosHelper
     end
   end
 
-  def smart_category_link(category, popular = nil)
-    #return nil
-    if defined? @popular || !popular.nil?
-      popular ||= @popular
-      return category_path(category, :popular => popular)
-    else
-      return category_path(category)
+  def smart_channel_link(user, channel, url_only = false)
+    url = "http://"
+    subdomain = false
+    splits = channel.category_ids.split ' '
+    
+    splits.each do |s|
+      if s == '7'
+        url += "tv."
+        subdomain = true
+
+        break
+      elsif s == '26'
+        url += "movies."
+        subdomain = true
+        break
+      end
     end
+
+    url += "#{BASE_URL}/#{user.slug}/channel"
+    url_only ? url : link_to(channel.name, url)
+  end
+
+  def smart_video_link(video, url_only = false)
+    url = "http://"
+    subdomain = false
+
+    
+      if video.category_id == 7
+        url += "tv."
+      subdomain = true
+      elsif video.category_id == 26
+        url += "movies."
+        subdomain = true
+      end
+    
+    url += "#{BASE_URL}/#{video.slug}/discuss"
+
+    url_only ? url : link_to(truncate(video.title, 60), url)
+  end
+
+  def smart_category_link(category, popular = nil, url_only = false)
+    url = "http://"
+    subdomain = false
+    if category.slug == 'television-shows'
+      url += "tv."
+      subdomain = true
+    elsif category.slug == 'movies-previews-trailers'      
+      url += "movies."
+      subdomain = true
+    end
+
+    url += BASE_URL
+
+    if subdomain
+      
+    else
+      url += "/topics/#{category.slug}"
+    end
+
+   
+    url_only ? url : link_to(category.name, url)
+  end
+
+  def topic_link(url_only = false)
+    url = "http://#{BASE_URL}/topics"
+    url_only ? url : link_to("Topics", url) 
   end
 end

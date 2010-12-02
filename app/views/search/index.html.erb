@@ -1,5 +1,4 @@
 <div id="navigable-container">
-	<%= render :partial => "/layouts/navigation" %>
 	<div id="content-main">
 		<h1 id="filter-bar"><span class="title-container">Search Results for <em><%= @q %></em></span></h1>
 		
@@ -13,14 +12,9 @@
 		</div>
 		<br class="clear"/>
 
-		<%= render :partial => "/layouts/set_header", :locals => {:title => 'Members', :count => @users.total_entries, :set_size => 7, :link => {:action => 'members', :q => @q}} %>
-		<div class="grid-container">
-			<%= @users.size > 0 ? render(@users) : "<em>No Members found.</em>" %>
-		</div>
-		<br class="clear"/>
 
 		<%= render :partial => "/layouts/set_header", :locals => {:title => 'Videos', :count => @videos.total_entries, :set_size => 5, :link => {:action => 'videos', :q => @q}} %>
-		<%= @videos.size > 0 ? render(@videos) : "<em>No Videos found.</em>" %>
+    <%= @videos.size > 0 ? render(:partial => "videos/channel_video", :collection => @videos) : "<em>No Videos found.</em>" %>
 		<%= render :partial => "/layouts/pagination", :locals => {:title => "View All#{@videos.total_entries > 5 ? ' ' + @videos.total_entries.to_s : ''} Search Results", :options => {:action => 'videos', :q => @q, :page => 1}} %>
 		<br class="clear"/>
 
@@ -37,10 +31,6 @@
 </div>
 
 <div id="content-sidebar">
-	<% if user_logged_in? -%>
-		<%= render :partial => "/users/sidebar", :locals => {:welcome => true, :about => false, :user => logged_in_user} %>
-	<% end -%>
-	
 	<%= render :partial => "/layouts/set", :locals => {:title => 'Featured Channels', 
 			:link => {:controller => 'channels'}, :force_link => true, :collection => @featured_channels} %>
 </div>

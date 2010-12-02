@@ -1,7 +1,7 @@
 <% container_id ||= '' -%>
 
 <% if (logged_in_user or User.new).consumes_grouped_activity? -%>
-	<%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}');" %> |
+	<%= link_to 'Comment', "javascript:comment('#{video.id}','#{video.slug}','!AUTO','#{container_id}');" %> 
 <% else -%>
-	<%= link_to 'Comment', "javascript:reloadCommentsAndComment('#{video.id}','#{video.slug}',true,true,'#{container_id}');" %> |
+	<%= link_to 'Comment', "javascript:reloadCommentsAndComment('#{video.id}','#{video.slug}',true,true,'#{container_id}');" %> 
 <% end -%>

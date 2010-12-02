@@ -1,7 +1,7 @@
 <% container_id ||= '' -%>
 
-<% if user_logged_in? and logged_in_user.liked?(video) -%>
+<% if user_logged_in? and logged_in_user.disliked?(video) -%>
 	<%= link_to_remote 'Unlike', {:url => {:controller => 'videos', :action => 'unlike', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');", :complete => "reloadActivity('#{video.id}','#{container_id}');"} %>
 <% else -%>
-	<%= link_to_remote 'Dislike', {:url => {:controller => 'videos', :action => 'like', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');", :complete => "reloadActivity('#{video.id}','#{container_id}');"} %>
+	<%= link_to_remote image_tag("dislike.png"), {:url => {:controller => 'videos', :action => 'like', :id => video, :container_id => container_id}, :loading => "work('#{video.id}','#{container_id}');", :complete => "reloadActivity('#{video.id}','#{container_id}');"} %>
 <% end -%>

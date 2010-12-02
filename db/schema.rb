@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091117171344) do
+ActiveRecord::Schema.define(:version => 20101202025053) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -120,6 +120,17 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
     t.text     "truveo_url"
     t.datetime "deleted_at"
   end
+
+  create_table "dislikes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "video_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dislikes", ["user_id"], :name => "user_id"
+  add_index "dislikes", ["video_id"], :name => "index_dislikes_on_video_id"
+  add_index "dislikes", ["created_at"], :name => "index_dislikes_on_created_at"
 
   create_table "facebook_accounts", :force => true do |t|
     t.integer  "user_id"
@@ -255,7 +266,6 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   end
 
   add_index "likes", ["user_id"], :name => "user_id"
-  add_index "likes", ["video_id"], :name => "video_id"
   add_index "likes", ["video_id", "user_id", "created_at"], :name => "index_likes_on_video_id_and_user_id_and_created_at"
 
   create_table "news_item_types", :force => true do |t|
@@ -353,6 +363,13 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   add_index "searches", ["search_type_id"], :name => "search_type_id"
   add_index "searches", ["user_id"], :name => "user_id"
 
+  create_table "staged_searches", :force => true do |t|
+    t.string  "query", :null => false
+    t.integer "count", :null => false
+  end
+
+  add_index "staged_searches", ["query"], :name => "index_staged_searches_on_query"
+
   create_table "subscriptions", :force => true do |t|
     t.integer  "channel_id"
     t.integer  "user_id"
@@ -406,6 +423,27 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   end
 
   add_index "twitter_accounts", ["user_id"], :name => "user_id"
+
+  create_table "user_submissions", :force => true do |t|
+    t.integer  "user_id",                        :null => false
+    t.string   "title",                          :null => false
+    t.text     "description"
+    t.string   "url",                            :null => false
+    t.integer  "channel_id",                     :null => false
+    t.integer  "category_id",                    :null => false
+    t.integer  "status",          :default => 1, :null => false
+    t.integer  "video_id"
+    t.integer  "processed_by_id"
+    t.datetime "processed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_submissions", ["user_id"], :name => "user_id"
+  add_index "user_submissions", ["channel_id"], :name => "channel_id"
+  add_index "user_submissions", ["category_id"], :name => "category_id"
+  add_index "user_submissions", ["video_id"], :name => "video_id"
+  add_index "user_submissions", ["processed_by_id"], :name => "processed_by_id"
 
   create_table "users", :force => true do |t|
     t.boolean  "administrator",                                :default => false
@@ -493,6 +531,7 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
     t.string   "short_code"
     t.integer  "likes_count",              :default => 0
     t.string   "hashed_url"
+    t.integer  "dislikes_count",           :default => 0
   end
 
   add_index "videos", ["posted_by_id"], :name => "posted_by_id"
@@ -501,7 +540,6 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   add_index "videos", ["category_id", "promoted_at"], :name => "category_id"
   add_index "videos", ["category_id", "posted_at"], :name => "category_id_posted_at"
   add_index "videos", ["hashed_url"], :name => "index_videos_on_hashed_url"
-  add_index "videos", ["category_id"], :name => "category_id_newest"
 
   create_table "views", :force => true do |t|
     t.integer  "user_id"
@@ -561,6 +599,9 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
 
   add_foreign_key "contacts", ["user_id"], "users", ["id"], :name => "contacts_ibfk_1"
 
+  add_foreign_key "dislikes", ["user_id"], "users", ["id"], :name => "dislikes_ibfk_1"
+  add_foreign_key "dislikes", ["video_id"], "videos", ["id"], :name => "dislikes_ibfk_2"
+
   add_foreign_key "facebook_accounts", ["user_id"], "users", ["id"], :name => "facebook_accounts_ibfk_1"
 
   add_foreign_key "feed_importer_reports", ["feed_id"], "feeds", ["id"], :name => "feed_importer_reports_ibfk_1"
@@ -619,6 +660,12 @@ ActiveRecord::Schema.define(:version => 20091117171344) do
   add_foreign_key "tweets", ["tweet_type_id"], "tweet_types", ["id"], :name => "tweets_ibfk_2"
 
   add_foreign_key "twitter_accounts", ["user_id"], "users", ["id"], :name => "twitter_accounts_ibfk_1"
+
+  add_foreign_key "user_submissions", ["user_id"], "users", ["id"], :name => "user_submissions_ibfk_1"
+  add_foreign_key "user_submissions", ["channel_id"], "channels", ["id"], :name => "user_submissions_ibfk_2"
+  add_foreign_key "user_submissions", ["category_id"], "categories", ["id"], :name => "user_submissions_ibfk_3"
+  add_foreign_key "user_submissions", ["video_id"], "videos", ["id"], :name => "user_submissions_ibfk_4"
+  add_foreign_key "user_submissions", ["processed_by_id"], "users", ["id"], :name => "user_submissions_ibfk_5"
 
   add_foreign_key "users", ["age_range_id"], "age_ranges", ["id"], :name => "users_ibfk_1"
 

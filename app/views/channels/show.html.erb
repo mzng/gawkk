@@ -6,16 +6,15 @@
     </h1>
 
 		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-      :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => "index"}}, 
-        {:name => @channel.name, :params => channel_path(:user => @user, :channel => @channel)}]} %>
+      :crumbs => [{:name => 'Topics', :params => topic_link(true)}, topic_crumb_params(@channel),
+        {:name => @channel.name, :params => smart_channel_link(@user, @channel, true)}]} %>
 
-    <br />
 
     <div id="channel">
-      <div class="channel-thumb">
+      <div class="channel-thumb" style="float: left;">
         <%= link_to image_tag(@user.thumbnail.blank? ? 'profile-pic.jpg' : @user.thumbnail, :style => 'border:1px solid #E5E5E5;height:50px;width:50px;'), channel_path(@user, @channel) %>
       </div>
-      <div class="channel-description">
+      <div class="channel-description" style="margin-left: 65px">
         <% if !@user.description.blank? -%>
           <% if @user.description.split.size > 40 -%>
             <div id="short-description">

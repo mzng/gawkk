@@ -1,0 +1,11 @@
+<% submission = user_submission %>
+
+<li id="submission_<%= submission.id %>" style="border: 1px solid black; padding: 5px;margin-bottom: 10px;">
+  <div class="open_submission">
+    <h3 style="padding: 0;margin: 0;margin-bottom: 5px"><a href="<%= submission.url %>" target="_blank"><%= submission.title %></a></h3>
+    <% if submission.description %>
+      <p><%= submission.description %></p>
+    <% end %>
+    <font size="1">submitted <%= time_ago_in_words(submission.created_at) %> ago</font>
+  </div>
+</li>

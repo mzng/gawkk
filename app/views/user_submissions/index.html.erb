@@ -1,0 +1,26 @@
+<div id="navigable-container">
+  <% render :layout => "users/navigation", :locals => { :selected => "My Submissions" } do %>
+    <div class="items">
+      <div class="item-wrapper">
+        <ul>
+          <li class="selected-item"><%= link_to "Open", "/my-submissions" %></li>
+          <li><%= link_to "Accepted", "/my-submissions/accepted" %></li>
+          <li><%= link_to "Declined", "/my-submissions/declined" %></li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= render :partial => "submission" %>
+  
+  <div class="user-area">
+    <h2>Your Open Submissions</h2><br />
+    <% if @submissions.size > 0 %>
+      <ul id="submissions" style="list-style-type: none;padding: 0;margin: 0">
+        <%= render @submissions %>
+      </ul>
+    <% else %>
+      <p> You have no open submissions </p>
+    <% end %>
+  </div>
+</div>

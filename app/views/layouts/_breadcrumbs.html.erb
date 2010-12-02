@@ -1,6 +1,6 @@
 <% page		||= nil -%>
 <% crumbs	||= Array.new -%>
-<% crumbs	= [{:name => 'Home', :params => '/'}].concat(crumbs) -%>
+<% crumbs	= [{:name => 'Home', :params => root_link(true) }].concat(crumbs) -%>
 <% q			||= '' -%>
 
 <div id="breadcrumbs">

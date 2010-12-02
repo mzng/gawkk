@@ -1,6 +1,6 @@
 class VideosController < ApplicationController
   around_filter :ensure_logged_in_user, :only => [:unlike, :edit, :thumbnail_search, :update]
-  around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :comment, :edit, :update]
+  around_filter :load_video, :only => [:discuss, :share, :watch, :like, :unlike, :dislike, :comment, :edit, :update]
   around_filter :redirect_improper_formats, :only => [:share, :watch, :comment]
   skip_before_filter :verify_authenticity_token, :only => [:watch, :reload_activity, :reload_comments, :comment]
   
@@ -19,9 +19,13 @@ class VideosController < ApplicationController
       # setup_recommendation_sidebar
       setup_user_sidebar(logged_in_user) if user_logged_in?
     end
-   @categories = Category.allowed_on_front_page
- 
-    # Friends Activity
+    @categories = Category.allowed_on_front_page
+
+    @searches = Rails.cache.fetch('fp_searches', :expires_in => 6.hours, :force => true) do
+      StagedSearch.for_front_page
+    end
+
+
     @base_user = (logged_in_user or User.new)
     @include_followings = true
     @videos = collect('videos', Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:limit => 18))
@@ -45,7 +49,7 @@ class VideosController < ApplicationController
   end
   
   def index
-    @popular = params[:popular] ? true : false
+    @popular = !params[:newest] 
     
     pitch
     set_feed_url("http://www.gawkk.com/all/#{@popular ? 'popular' : 'newest'}.rss")
@@ -65,12 +69,13 @@ class VideosController < ApplicationController
     redirect_to category_path(params[:category]), :status=>301  and return if !request.url =~ /topics/ 
       
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
-      @popular = params[:popular] ? true : false
-      
+      @popular = !params[:newest]  
+
       pitch
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
-      set_title("Videos in The #{@category.name} Category")
-      setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 5))
+      set_title("Videos in The #{@category.name} Topic")
+      
+      setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 15))
       setup_category_sidebar(@category)
       taggable
       
@@ -79,17 +84,18 @@ class VideosController < ApplicationController
       else
         @videos = collect('videos', Video.newest.in_category(@category).all(:offset => @offset, :limit => @per_page))
       end
+
     else
       flash[:notice] = 'The category you are looking for does not exist.'
-      redirect_to :action => "index", :popular => @popular
+      redirect_to :action => "index", :newest => !@popular
     end
   end
 
   def category_ref
     render :nothing => true and return if params[:category].nil? || !@category = Category.find(params[:category])
     
-    setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 5))
-    @popular = params[:popular] ? true : false
+    setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 15))
+    @popular = !params[:newest]
 
     if @popular
       @videos = collect('videos', Video.popular.in_category(@category).all(:offset => @offset, :limit => @per_page))
@@ -218,6 +224,27 @@ class VideosController < ApplicationController
       render :template => 'registration/register'
     end
   end
+
+  def dislike
+    affects_recommendation_countdown
+    containerable
+    
+    like = Dislike.new
+    like.video_id = @video.id
+    
+    if user_logged_in?
+      like.user_id = logged_in_user.id
+      like.save
+    else
+      session[:actionable] = dislike
+      
+      @user = User.new
+      @user.send_digest_emails = true
+      render :template => 'registration/register'
+    end
+
+    render 'like'
+  end
   
   def unlike
     affects_recommendation_countdown
@@ -227,7 +254,9 @@ class VideosController < ApplicationController
     if like = Like.by_user(logged_in_user).for_video(@video).first
       like.destroy
     end
-    
+    if dislike = Dislike.by_user(logged_in_user).for_video(@video).first
+      dislike.destroy
+    end
     render :action => 'like'
   end
   
@@ -300,7 +329,7 @@ class VideosController < ApplicationController
       yield
     else
       flash[:notice] = 'The video you are looking for does not exist.'
-      redirect_to :action => "index", :popular => false
+      redirect_to :action => "index", :newest => false
     end
   end
   

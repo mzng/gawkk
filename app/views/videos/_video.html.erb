@@ -87,7 +87,7 @@
 	</table>
 	<div id="share_for_<%= video.id %><%= container_id %>" class="share" style="display:none;"></div>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
-	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
+	<%#= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
 	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
 	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
 </div>

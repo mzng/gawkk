@@ -3,12 +3,9 @@
       <h1 id="filter-bar"><span class="title-container"><%= @category.name %></span></h1>
 		
       <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-                  :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => 'index'}}, 
-                              {:name => @category.name, :params => category_path(@category)}]} %>
+        :crumbs => [{:name => 'Topics', :params => topic_link(true)}, 
+          {:name => @category.name, :params => smart_category_link(@category, false, true)}]} %>
                             </div>
-                            <br />
-                            <br />
-                            <br />
                             <br />
   <div class="divider">
     <h2>Featured Channels</h2>
@@ -20,12 +17,12 @@
             <% if i > 0 %>
               </tr>
             <% end %>
-            <tr>
+            <tr height="90">
           <% end %>
-          <td width="90">
-            <div class="small-channel" style="width: 70px;">
+          <td width="120" style = "border: none">
+            <div class="small-channel" style="width: 110px;text-align: center">
               <%= link_to image_tag(r.user.thumbnail.blank? ? 'profile-pic.jpg' : r.user.thumbnail, :size => "48x48", :style => "text-align: center"), channel_path(:user => r.user, :channel => r) %><br />
-              <%= link_to r.user.username, channel_path(:user => r.user, :channel => r) %>
+              <%= link_to truncate(r.user.username, 12), channel_path(:user => r.user, :channel => r) %>
             </div>
           </td>
         
@@ -40,28 +37,27 @@
   <div class="divider">
     <h2>Videos</h2>
   </div>
-  <div class="main-content-area" id="videos">
-		<%= render @videos %>
+  <div class="main-content-area" id="videos" style = "margin-left: 40px">
+    <%= render :partial => 'channel_video', :collection => @videos %>
     <% title			||=  'View More Videos in This Topic' -%>
 <% collection	||= @videos -%>
 <% options		||= {:tagged => @tagged} -%>
 <% force_next	||= false -%>
 
 <br class="clear"/>
-<div class="titled-pagination-container">
+<div id="pagination" class="titled-pagination-container">
 	<% if !title.blank? -%><span class="title-container"><%= title %></span><br/><% end -%>
-	<div class="paginate-single-link-set">
+    <div class="paginate-single-link-set">
     <% if @page.to_i > 1 -%>
-      <%= link_to_remote '&laquo; Previous', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => @popular, :page => (@page.to_i - 1) } %>
+      <%= link_to_remote '&laquo; Previous', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :newest => !@popular, :page => (@page.to_i - 1) } %>
     <% else -%>
     <span class="disabled">&laquo; Previous</span>
   <% end -%>
     <% if force_next or collection.nil? or collection.size == @per_page -%>
-      <%= link_to_remote 'Next &raquo;', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => @popular, :page => (@page.to_i + 1) } %>
+      <%= link_to_remote 'Next &raquo;', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :newest => !@popular, :page => (@page.to_i + 1) } %>
     <% else %>
     <span class="disabled">Next &raquo;</span>
   <% end -%>
-	</div>
 </div>
   </div>
 </div>
@@ -69,6 +65,9 @@
 
 
 <div id="content-sidebar" style="margin-right: 30px;">
-  <%= link_to_remote "Newest", :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => false } %>
-  <%= link_to_remote "Popular", :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => true } %>
+  <div id="navigation">
+    <%= link_to_remote "<div id=\"popular-link\" class=\"selected\">Popular</div>", {:update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id }}, { :class => "navigation-item" }%>
+    <%= link_to_remote "<div id=\"newest-link\">Newest</div>",{ :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :newest => true }}, {:class => "navigation-item"} %>
+
+  </div>
 </div>

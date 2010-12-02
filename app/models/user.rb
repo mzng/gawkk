@@ -552,6 +552,12 @@ class User < ActiveRecord::Base
   rescue
     (Like.by_user(self).for_video(video).count > 0)
   end
+
+  def disliked?(video)
+    self.cached_dislikes[video.id.to_s.to_sym]
+  rescue
+    (Dislike.by_user(self).for_video(video).count > 0)
+  end
   
   def cache_like!(like)
     self.cached_likes[like.video_id.to_s.to_sym] = like.video_id
@@ -560,10 +566,25 @@ class User < ActiveRecord::Base
   def uncache_like!(like)
     self.cached_likes.delete(like.video_id.to_s.to_sym)
   end
+
+   def cache_dislike!(like)
+    self.cached_dislikes[like.video_id.to_s.to_sym] = like.video_id
+  end
+  
+  def uncache_dislike!(like)
+    self.cached_dislikes.delete(like.video_id.to_s.to_sym)
+  end
+
   
   def cached_likes
     Rails.cache.fetch("user/#{self.id}/likes", :expires_in => 1.week) do
       CacheableHash.new("user/#{self.id}/likes", :hash => Hash[*Like.by_user(self).collect{|like| [like.video_id.to_s.to_sym, like.video_id]}.flatten], :expires_in => 1.week)
+    end
+  end
+
+  def cached_dislikes
+        Rails.cache.fetch("user/#{self.id}/dislikes", :expires_in => 1.week) do
+      CacheableHash.new("user/#{self.id}/dislikes", :hash => Hash[*Dislike.by_user(self).collect{|like| [like.video_id.to_s.to_sym, like.video_id]}.flatten], :expires_in => 1.week)
     end
   end
   

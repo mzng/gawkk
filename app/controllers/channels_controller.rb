@@ -4,7 +4,7 @@ class ChannelsController < ApplicationController
   
   # Channel Manager
   def index
-    
+    redirect_to root_path and return
 
     searchable
     setup_pagination(:per_page => 42)

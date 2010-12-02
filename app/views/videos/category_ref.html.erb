@@ -1,21 +1,29 @@
-<%= render @videos %>
+<%= render :partial => 'videos/channel_video', :collection => @videos %>
 <%#= render :partial => "/layouts/pagination", :locals => {:title => 'View More Videos in This Topic', :collection => @videos, :options => {:tagged => @tagged}} %>
     <% title			||=  'View More Videos in This Topic' -%>
 <% collection	||= @videos -%>
 <% options		||= {:tagged => @tagged} -%>
 <% force_next	||= false -%>
-
+<script> 
+  $$('#popular-link').invoke('removeClassName','selected');
+  $$('#newest-link').invoke('removeClassName','selected');
+  <% if @popular %>
+  $$('#popular-link').invoke('addClassName','selected');
+  <% else %>
+  $$('#newest-link').invoke('addClassName','selected');
+  <% end %>
+</script>
 <br class="clear"/>
 <div class="titled-pagination-container">
 	<% if !title.blank? -%><span class="title-container"><%= title %></span><br/><% end -%>
 	<div class="paginate-single-link-set">
     <% if @page.to_i > 1 -%>
-      <%= link_to_remote '&laquo; Previous', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => @popular, :page => (@page.to_i - 1) } %>
+      <%= link_to_remote '&laquo; Previous', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :newest => !@popular, :page => (@page.to_i - 1) } %>
     <% else -%>
     <span class="disabled">&laquo; Previous</span>
   <% end -%>
     <% if force_next or collection.nil? or collection.size == @per_page -%>
-      <%= link_to_remote 'Next &raquo;', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :popular => @popular, :page => (@page.to_i + 1) } %>
+      <%= link_to_remote 'Next &raquo;', :update => "videos", :url => { :controller => :videos, :action => :category_ref, :category => @category.id, :newest => !@popular, :page => (@page.to_i + 1) } %>
     <% else %>
     <span class="disabled">Next &raquo;</span>
   <% end -%>

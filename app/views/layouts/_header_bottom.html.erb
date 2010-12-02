@@ -3,12 +3,7 @@
 		<ul class="menu-container" style="float:right;">
 			<% Category.allowed_in_header.each_with_index do |category, i| -%>
 				<li <% if Category.allowed_in_header.size == (i + 1) -%>class="last"<% end -%>>
-					<%= link_to category.name, smart_category_link(category, true) %>
-					<!--<ul>
-						<li><%= link_to 'Popular Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => true} %></li>
-						<li><%= link_to 'Newest Videos', {:controller => 'videos', :action => 'category', :category => category, :popular => false} %></li>
-						<li><%= link_to 'Channels', {:controller => 'channels', :action => 'index', :c => category.id, :t => 'a', :s => 'p'} %></li>
-          </ul> -->
+					<%= smart_category_link(category) %>
 				</li>
 			<% end -%>
 		</ul>

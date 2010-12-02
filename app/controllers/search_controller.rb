@@ -8,9 +8,8 @@ class SearchController < ApplicationController
     parse_page
     setup_generic_sidebar
     setup_user_sidebar(logged_in_user) if user_logged_in?
-    
+    Search.create :query => @q unless @q.blank?
     @channels = Channel.search(@q.split.join(' | '), :page => @page, :per_page => 7, :conditions => {:user_owned => false}, :match_mode => :boolean, :retry_stale => true)
-    @users = User.search(@q, :page => @page, :per_page => 7, :conditions => {:feed_owner => false}, :retry_stale => true)
     @videos = Video.search(@q, :order => :posted_at, :sort_mode => :desc, :page => @page, :per_page => 5, :conditions => {:category_id => Category.allowed_on_front_page_ids}, :retry_stale => true)
   end
   

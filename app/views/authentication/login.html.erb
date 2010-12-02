@@ -23,16 +23,6 @@
 					<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
 						<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
 					<% end -%>
-					<p>
-						<% if false -%>
-							<fb:login-button onclick="hideOverlay();" size="medium" background="white" length="long" onlogin="window.location = '/fb_callback';"></fb:login-button>
-							<script type="text/javascript">
-							    FB.init("<%= Util::Facebook.config[:key] %>", "/xd_receiver.html");
-							</script>
-						<% else -%>
-							<%= link_to image_tag('fb-connect-button.gif'), "http://apps.facebook.com/gawkkapp", :target => 'fbapp' %>
-						<% end -%>
-					</p>
 					<p style="font-size:8pt;margin-top:49px;">
 						Don't have a Twitter account? <%= link_to 'Sign up now', "http://twitter.com/signup", :target => 'twitter' %>.</p>
 				</td>

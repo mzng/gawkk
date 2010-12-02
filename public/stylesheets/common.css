@@ -51,6 +51,19 @@ h2 {
 	padding: 0;
 }
 
+p.queries a{
+  color: #6e7c85;
+  text-decoration: none;
+}
+p.queries a:hover{
+  color: #6e7c85;
+  text-decoration: underline;
+}
+
+.user-area {
+  margin-left: 150px;
+}
+
 .divider {
   margin-left: 22px;
   margin-right: 02px;

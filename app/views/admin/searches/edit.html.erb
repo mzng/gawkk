@@ -1,0 +1,15 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Searches', :params => {:controller => 'admin/searches', :action => :index}}, { :name => "Edit" }]} %>
+
+<div id="content-main">
+  <% form_for @search, :url => { :controller => 'admin/searches', :action => :update, :id => @search.id } do |f| %>
+    <p>
+    <%= f.label :query %><br />
+      <%= f.text_field :query %>
+    </p>
+    <p>
+    <%= f.label :count, "Weight" %><br />
+      <%= f.text_field :count %>
+    </p>
+    <%= f.submit "Update" %>
+  <% end %>
+  </div>

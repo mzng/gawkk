@@ -6,6 +6,7 @@ class Video < ActiveRecord::Base
   
   has_many    :comments, :as => :commentable, :order => 'created_at DESC', :dependent => :destroy
   has_many    :likes, :dependent => :destroy
+  has_many    :dislikes, :dependent => :destroy
   has_many    :news_items, :as => :reportable, :dependent => :destroy
   has_many    :saved_videos, :dependent => :destroy
   

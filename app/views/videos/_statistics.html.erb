@@ -2,12 +2,12 @@
 	<table class="video-statistics" cellpadding="2" cellspacing="0">
 		<tr>
 			<td>Category:</td>
-			<td><%= link_to video.category.name, {:controller => 'videos', :action => 'category', :category => video.category, :popular => video.popular?} %></td>
+			<td><%= smart_category_link(video.category, video.popular?) %></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Permalink:</td>
-			<td><input type="text" value="http://www.gawkk.com/<%= video.slug %>/discuss" readonly="readonly" onclick="this.select();" /></td>
+      <td><input type="text" value="<%= smart_video_link(video, true) %>" readonly="readonly" onclick="this.select();" /></td>
 		</tr>
 		<% if !video.short_code.blank? -%>
 			<tr>

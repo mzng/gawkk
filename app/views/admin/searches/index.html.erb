@@ -1,0 +1,23 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Searches'}]} %>
+
+<div id="content-main" style="width: 100%">
+  <%= link_to "Real Queries", :action => :real %> | 
+  <%= link_to "New", :action => :new %>  
+  <table>
+    <tr>
+      <th width="400px">Query</th>
+      <th>Weight</th>
+      <th></th>
+      <th></th>
+
+    </tr>
+    <% @searches.each do |s| %>
+      <tr>
+        <td><%= s.query %></td>
+        <td><%= s.count %></td>
+        <td><%= link_to "Edit", { :action => :edit, :id => s.id } %></td>
+        <td><%= link_to "Delete", { :action => :destroy, :id => s.id } %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

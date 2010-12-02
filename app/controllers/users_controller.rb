@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  around_filter :load_member, :only => [:activity, :profile, :comments, :follows, :followers, :friends, :subscriptions, :digest]
-  around_filter :ensure_logged_in_user, :only => [:follow, :unfollow, :follow_recommendations, :dismiss_recommendations, :my_videos]
+  around_filter :load_member, :only => [:activity, :comments, :follows, :followers, :friends, :subscriptions, :digest]
+  around_filter :ensure_logged_in_user, :only => [:follow, :profile, :unfollow, :follow_recommendations, :dismiss_recommendations, :my_videos]
   layout 'page'
   
   # User Manager
@@ -36,6 +36,14 @@ class UsersController < ApplicationController
     @base_user = @user
     @include_followings = false
     @news_items = collect('news_items', @user.activity(:offset => @offset, :limit => @per_page))
+  end
+
+
+  def profile
+    pitch(:title => "Your Profile")
+    set_title("Your Profile")
+    setup_pagination
+    render :my_videos
   end
 
   def my_videos
