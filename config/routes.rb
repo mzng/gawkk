@@ -1,4 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
+  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'television-shows', :conditions => { :subdomain => "tv" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
+  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "tv" }
+
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
+  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
+  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "movies" }
+
+
+
   # authentication
   map.connect 'login',                    :controller => 'authentication', :action => 'login'
   map.connect 'logout',                   :controller => 'authentication', :action => 'logout'
@@ -38,12 +52,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'registration/:action', :controller => 'registration'
   
   
-  map.connect 'my-profile', :controller => 'users', :action => 'profile'
   map.connect 'my-subscriptions', :controller => 'users', :action => 'my_subscriptions'
+  map.connect 'my-subscriptions/channels', :controller => 'users', :action => 'my_subscriptions_channels'
   map.connect 'my-submissions', :controller => 'user_submissions', :action => 'index'
   map.connect 'my-submissions/accepted', :controller => 'user_submissions', :action => 'accepted'
   map.connect 'my-submissions/declined', :controller => 'user_submissions', :action => 'declined'
   map.connect 'my-submissions/create', :controller => 'user_submissions', :action => 'create'
+  map.connect 'my-submissions/channels', :controller => 'user_submissions', :action => 'channels'
 
   # settings
   map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
@@ -63,7 +78,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':category/newest',   :controller => 'videos', :action => 'category', :popular => false
   map.connect ':category/popular',  :controller => 'videos', :action => 'category', :popular => true
   map.category 'topics/:category',   :controller => 'videos', :action => 'category'
+  map.connect 'topics/:category.rss',   :controller => 'videos', :action => 'category', :format => "rss"
+  map.connect 'topics/:category/channels',   :controller => 'channels', :action => 'index'
   map.topics 'topics',        :controller => 'videos', :action => 'index'
+  map.connect 'topics',        :controller => 'videos', :action => 'index', :format => "rss"
 
   map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
   
@@ -163,15 +181,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # front page
-  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
-  map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
-  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
-  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "tv" }
-
-  map.connect '/', :controller => 'videos', :action => 'category', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
-  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
-  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "movies" }
-  
+   
   # generic routes
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

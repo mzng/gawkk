@@ -14,7 +14,10 @@
   <%= render :partial => "submission" %>
   
   <div class="user-area">
-    <h2>Your Declined Submissions</h2><br />
+    <div class="divider" style="margin-left: 0">
+      <h2>Your Declined Submissions</h2>
+    </div>
+    <div style=";margin-left: 20px;">
     <% if @submissions.size > 0 %>
       <ul id="submissions" style="list-style-type: none;padding: 0;margin: 0">
         <%= render @submissions %>
@@ -22,5 +25,6 @@
     <% else %>
       <p> None of your submissions were declined </p>
     <% end %>
+  </div>
   </div>
 </div>

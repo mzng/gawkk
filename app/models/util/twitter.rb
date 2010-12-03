@@ -1,3 +1,5 @@
+require 'oauth'
+
 class Util::Twitter
   
   # Basic

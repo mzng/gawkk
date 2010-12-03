@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   around_filter :load_member, :only => [:activity, :comments, :follows, :followers, :friends, :subscriptions, :digest]
-  around_filter :ensure_logged_in_user, :only => [:follow, :profile, :unfollow, :follow_recommendations, :dismiss_recommendations, :my_videos]
+  around_filter :ensure_logged_in_user, :only => [:follow, :profile, :unfollow, :follow_recommendations, :my_subscriptions, :my_subscriptions_channels ,:dismiss_recommendations, :my_videos]
   layout 'page'
   
   # User Manager
@@ -38,23 +38,26 @@ class UsersController < ApplicationController
     @news_items = collect('news_items', @user.activity(:offset => @offset, :limit => @per_page))
   end
 
-
-  def profile
-    pitch(:title => "Your Profile")
-    set_title("Your Profile")
+  def my_subscriptions
+    pitch(:title => "Your Open Submissions")
+    set_title("Your Open Submissions")
     setup_pagination
-    render :my_videos
+    
+    @videos = Video.find_by_sql ["
+      SELECT 		  v.*
+      FROM		    videos v
+      INNER JOIN	channels c on v.`posted_by_id` = c.`user_id`
+      WHERE       c.id IN (?)
+      ORDER BY	  v.`posted_at` desc
+      LIMIT       #{@per_page}
+      OFFSET      #{@offset}
+    ", subscribed_channels.collect { |sc| sc.id }]
   end
 
-  def my_videos
-    pitch(:title => "Your Videos")
-    set_title("Your Videos")
-    setup_pagination
-    setup_user_sidebar(logged_in_user)
-    @user = logged_in_user
-    @base_user = @user
-    @include_followings = false
-    @videos = Video.find(:all, :conditions => { :posted_by_id => @user.id }, :offset => @offset, :limit => @per_page)
+  def my_subscriptions_channels
+    pitch(:title => "Your Subscriptions")
+    set_title("Your Subscriptions")
+    @channels = subscribed_channels
   end
   
   def comments

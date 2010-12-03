@@ -1,0 +1,16 @@
+<% category ||= nil %>
+<% selected ||= nil %>
+<div style="text-align: center;font-size: 125%;margin-top: 30px;">
+    <% if selected && selected == "0" %>
+    <%= link_to "#",  smart_channel_topic_link(category, "0", true), { :style => "padding: 3px 5px;color: #fff;text-decoration: none;font-weight: bold;background-color: #195baa"} %>
+  <% else %>
+      <%= link_to "#",  smart_channel_topic_link(category, "0", true), { :style => "padding: 3px 5px;color: #195baa;text-decoration: none;font-weight: bold"} %>
+    <% end %>
+    <% ("A".."Z").each do |l| %>
+      <% if selected && selected.downcase == l.downcase %>
+        <%= link_to l, smart_channel_topic_link(category, l, true), { :style => "padding: 3px 5px;color: #fff;text-decoration: none;font-weight: bold;background-color: #195baa"} %> 
+      <% else %>
+        <%= link_to l, smart_channel_topic_link(category, l, true), { :style => "padding: 3px 5px;color: #195baa;text-decoration: none;font-weight: bold"} %> 
+      <% end %>
+    <% end %>
+  </div>

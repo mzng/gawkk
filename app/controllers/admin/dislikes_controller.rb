@@ -1,10 +1,10 @@
 class Admin::DislikesController < ApplicationController
   around_filter :ensure_user_can_administer
-
+layout 'page'
   def index
     setup_pagination(:per_page => 50)
 
-    @dislikes = Video.find(:all, :conditions => "dislikes_count >= 30", :order => "dislikes_count desc", 
+    @videos = Video.find(:all, :conditions => "dislikes_count >= 1", :order => "dislikes_count desc", 
                            :offset => @offset, :limit => @per_page)
   end
 

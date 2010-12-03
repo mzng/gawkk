@@ -53,6 +53,7 @@ DEPENDENCIES
   mime-types
   mysql
   newrelic_rpm
+  oauth
   rails (= 2.3.2)
   right_aws
   rmagick

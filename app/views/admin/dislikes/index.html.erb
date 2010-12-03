@@ -1,18 +1,17 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Dislikes'}]} %>
 
 <div id="content-main"  style="width: 100%">
-  <%= link_to "Approved", :action => :real %> | 
-  <%= link_to "Declined", :action => :real %> 
-
   <table>
     <tr>
-      <th width="200px">Title</th>
-      <th width="50px">Url</th>
-      <th width="400px">Description</th>
+      <th width="500px">Title</th>
+      <th>Dislikes</th>
       <th></th>
-      <th></th>
-      <th></th>
-
     </tr>
-     </table>
+    <% @videos.each do |v| %>
+      <tr>
+        <td><%= smart_video_link(v) %></td>
+        <td><%= v.dislikes_count %></td>
+      </tr>
+    <% end %>
+</table>
 </div>

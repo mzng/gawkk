@@ -1,0 +1,23 @@
+<div id="navigable-container">
+  <% render :layout => "users/navigation", :locals => { :selected => "My Subscriptions" } do %>
+    <div class="items">
+      <div class="item-wrapper">
+        <ul>
+          <li class="selected-item"><%= link_to "Videos", "/my-subscriptions" %></li>
+          <li><%= link_to "Channels", "/my-subscriptions/channels" %></li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+   <div class="user-area">
+     <div class="divider" style="margin-left: 0">
+      <h2>Your Subscriptions</h2>
+    </div>
+    <div style=";margin-left: 20px;">
+     <%= render :partial => "videos/channel_video", :collection => @videos %>
+
+     <%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
+    </div>
+   </div>
+</div>

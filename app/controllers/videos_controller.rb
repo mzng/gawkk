@@ -57,7 +57,7 @@ class VideosController < ApplicationController
     setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
     setup_category_sidebar
     taggable
-    
+    @categories = Category.all(:order => "name asc")
     if @popular
       @videos = collect('videos', Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:offset => @offset, :limit => @per_page))
     else
@@ -236,11 +236,11 @@ class VideosController < ApplicationController
       like.user_id = logged_in_user.id
       like.save
     else
-      session[:actionable] = dislike
+      session[:actionable] = like
       
       @user = User.new
       @user.send_digest_emails = true
-      render :template => 'registration/register'
+      render :template => 'registration/register' and return
     end
 
     render 'like'

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101202025053) do
+ActiveRecord::Schema.define(:version => 20101202092345) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -540,6 +540,8 @@ ActiveRecord::Schema.define(:version => 20101202025053) do
   add_index "videos", ["category_id", "promoted_at"], :name => "category_id"
   add_index "videos", ["category_id", "posted_at"], :name => "category_id_posted_at"
   add_index "videos", ["hashed_url"], :name => "index_videos_on_hashed_url"
+  add_index "videos", ["dislikes_count"], :name => "index_videos_on_dislikes_count"
+  add_index "videos", ["likes_count"], :name => "index_videos_on_likes_count"
 
   create_table "views", :force => true do |t|
     t.integer  "user_id"

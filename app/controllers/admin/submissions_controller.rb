@@ -2,8 +2,8 @@ class Admin::SubmissionsController < ApplicationController
   around_filter :ensure_user_can_administer
 layout 'page'
   def new
-    @categories = Category.all
-    @channels = Channel.in_category(@categories[0].id)
+    @categories = Category.all(:order => "name asc")
+    @channels = Channel.in_category(@categories[0].id).all(:order => "name asc")
   end
 
   def create
@@ -52,7 +52,7 @@ layout 'page'
   end
 
   def get_channels
-    @channels = Channel.in_category(params[:category_id] )
+    @channels = Channel.in_category(params[:category_id] ).all(:order => "name asc")
     render :layout => false
   end
 

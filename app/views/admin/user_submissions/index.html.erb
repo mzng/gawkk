@@ -1,14 +1,10 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Submissions', :params => {:controller => 'admin/user_submissions'}}, { :name => "Open Submissions" }]} %>
 
 <div id="content-main"  style="width: 100%">
-  <%= link_to "Approved", :action => :real %> | 
-  <%= link_to "Declined", :action => :real %> 
-
   <table>
     <tr>
       <th width="200px">Title</th>
-      <th width="50px">Url</th>
-      <th width="400px">Description</th>
+      <th width="600px">Description</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,8 +12,8 @@
     </tr>
     <% @submissions.each do |s| %>
       <tr>
-        <td><%= s.title %></td>
-        <td><%= link_to s.url, s.url %></td>
+        <td><%= link_to truncate(s.title, 75), s.url %></td>
+        <td><%= truncate(s.description, 100) %></td>
         <td><%= link_to "Edit", { :action => :edit, :id => s.id } %></td>
         <td><%= link_to "Approve", { :action => :approve, :id => s.id } %></td>
         <td><%= link_to "Decline", { :action => :decline, :id => s.id } %></td>

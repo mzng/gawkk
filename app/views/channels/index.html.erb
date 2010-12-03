@@ -1,21 +1,12 @@
 <div id="navigable-container">
-	<% render :layout => '/layouts/navigation', :locals => {:selected => 'Channels'} do -%>
-		<div class="items">
-			<div class="item-wrapper">
-				<ul>
-					<li<%= " class=\"selected-item\"" if (!@c or @c == 'a') %>><%= link_to 'All Categories', {:c => 'a'} %></li>
-					<% @categories.each do |category| -%>
-						<li<%= " class=\"selected-item\"" if (@c == category.id.to_s) %>><%= link_to category.name, {:c => category.id} %></li>
-					<% end -%>
-				</ul>
-			</div>
-		</div>
-	<% end -%>
-	<div id="content-main">
+  <div id="content-main">
+    <%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
+      :crumbs => crumbs_for_channel_browsing(@category, @letter)} %>
 		<h1 id="filter-bar">Search Channels</h1>
 		<%= render :partial => "/search/search", :locals => {:link => {:controller => 'search', :action => 'channels'}, :separated => false} %>
 
 		<h1 id="filter-bar">Browse Channels</h1>
+    <%= render :partial => "letters", :locals => { :category => @category, :selected => @letter } %>
 		<div class="grid-container">
 			<%= render @channels, :subscribable => true %>
 		</div>
@@ -28,24 +19,4 @@
 	<%= render :partial => "/channels/explanation" %>
 </div>
 
-<!-- <div id="content-sidebar" class="browse">
-	<h1 class="section-header">Sort</h1>
-	<ul>
-		<li><%= link_to 'Alphabetical', {:s => 'a', :t => @type, :c => @c}, :style => bold_for_option(@sort, 'a') %></li>
-		<li><%= link_to 'Most Popular', {:s => 'p', :t => @type, :c => @c}, :style => bold_for_option(@sort, 'p') %></li>
-	</ul>
-	
-	<h1 class="section-header">Type Filter</h1>
-	<ul>
-		<li><%= link_to 'All Channels', {:s => @sort, :t => 'a', :c => @c}, :style => bold_for_option(@type, 'a') %></li>
-		<li><%= link_to 'Featured Channels', {:s => @sort, :t => 'f', :c => @c}, :style => bold_for_option(@type, 'f') %></li>
-	</ul>
-	
-	<h1 class="section-header">Category Filter</h1>
-	<ul>
-		<li><%= link_to 'All Categories', {:s => @sort, :t => @type, :c => 'a'}, :style => bold_for_option(@c, 'a') %></li>
-		<% @categories.each do |category| -%>
-			<li><%= link_to category.name, {:s => @sort, :t => @type, :c => category.id}, :style => bold_for_option(@c, category.id.to_s) %></li>
-		<% end -%>
-	</ul>
-</div> -->
+

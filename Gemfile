@@ -14,6 +14,7 @@ gem "youtube-g",       :require => "youtube_g"
 gem "htmlentities"
 gem "mime-types"
 gem "rmagick"
+gem 'oauth'
 
 # bundler requires these gems in all environments
 # gem "nokogiri", "1.4.2"

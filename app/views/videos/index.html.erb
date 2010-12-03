@@ -6,60 +6,28 @@
     </div>  
   </div>
   <br />
-  <br />
-  <br />
+
+  <div class="grid-container" style="height: 350px;margin-left: 20px;">
+    <%= render @categories %>
+  </div>
+  
   <div class="divider">
     <h2>Featured Channels</h2>
   </div>
-    <div style="margin-left: 20px;">
-      <table>
-        <% @popular_channels.each_with_index do |r, i| %>
-          <% if i % 8 == 0 %>
-            <% if i > 0 %>
-              </tr>
-            <% end %>
-            <tr height="90px">
-          <% end %>
-          <td width="120">
-            <div class="small-channel" style="width: 110px;text-align: center">
-              <%= link_to image_tag(r.user.thumbnail.blank? ? 'profile-pic.jpg' : r.user.thumbnail, :size => "48x48", :style => "text-align: center"), 
-                smart_channel_link(r.user, r, true)
-              %><br />
-              <%= link_to truncate(r.user.username,12),  smart_channel_link(r.user, r, true) %>
-            </div>
-          </td>
-        <% end %>      
-        </tr>
-      </table>
-    </div>
 
-    <br />
-    <br />
-    <br /><div class="divider">
+  <div class="grid-container" style="height: 400px;margin-left: 20px;">
+    <%= render @popular_channels %>
+  </div>
+
+<div class="divider">
     <h2>Featured Channels</h2>
   </div>
-   <div style="margin-left: 20px;">
-      <table>
-        <% @popular_channels.each_with_index do |r, i| %>
-          <% if i % 8 == 0 %>
-            <% if i > 0 %>
-              </tr>
-            <% end %>
-            <tr height="90px">
-          <% end %>
-          <td width="120">
-            <div class="small-channel" style="width: 110px;text-align: center;">
-              <%= link_to image_tag(r.user.thumbnail.blank? ? 'profile-pic.jpg' : r.user.thumbnail, :size => "48x48", :style => "text-align: center"), 
-                smart_channel_link(r.user, r, true)
- %><br />
-              <%= link_to truncate(r.user.username,12), channel_path(:user => r.user, :channel => r) %>
-            </div>
-          </td>
-        
-        <% end %>      
-        </tr>
-      </table>
-    </div>
+
+   <div class="grid-container" style="height: 400px;margin-left: 20px;">
+    <%= render @popular_channels %>
+  </div>
+
+
 </div>
 
 

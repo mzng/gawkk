@@ -13,8 +13,8 @@ xml.rss(:version => "2.0", "xmlns:media" => 'http://search.yahoo.com/mrss/') {
         end
         xml.media(:content, :url => "http://www.gawkk.com/images/#{video.thumbnail.blank? ? 'no-image.png' : video.thumbnail}", :type => "image/jpeg")
         xml.pubDate(@popular ? video.promoted_at.strftime("%Y-%m-%dT%H:%M%z").insert(-3, ':') : video.posted_at.strftime("%Y-%m-%dT%H:%M%z").insert(-3, ':'))
-        xml.link("http://www.gawkk.com/#{video.slug}/discuss")
-        xml.guid("http://www.gawkk.com/#{video.slug}/discuss")
+        xml.link(smart_video_link(video, true))
+        xml.guid(smart_video_link(video, true))
       end
     end
   }

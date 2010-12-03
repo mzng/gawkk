@@ -4,7 +4,8 @@ class ChannelsController < ApplicationController
   
   # Channel Manager
   def index
-    redirect_to root_path and return
+
+    
 
     searchable
     setup_pagination(:per_page => 42)
@@ -21,31 +22,42 @@ class ChannelsController < ApplicationController
     #   conditions = conditions.concat(' AND featured = true')
     # end
     
-    # Category filter
-    params[:c] ||= 'a'
-    @c = params[:c]
-
-    category = nil
-    if @c != 'a' and @c.match(/^[0-9]+$/)
-      category = Category.find(@c)
-      conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
-      parameters = parameters + ["#{category.id}", "#{category.id} %", "% #{category.id}", "% #{category.id} %"]
-      @popular = category.popular
-      redirect_to category_path category, :popular => category.popular
+    if params[:c]
+      @category = Category.find(params[:c])
+      redirect_to smart_channel_topic_link(@category, nil, true), :status => '301' and return
     else
-      redirect_to topics_path :popular => true and return
-      @popular = true
+      @category = nil
+    end
+    if params[:category]  
+      @category ||= Category.find_by_slug(params[:category])
+      conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
+      parameters = parameters + ["#{@category.id}", "#{@category.id} %", "% #{@category.id}", "% #{@category.id} %"]
     end
 
-
-    
+    if params[:letter]
+      @letter = params[:letter]
+      if @letter == '0'
+        c = " AND ("
+        (0..9).each do |i|
+          if i > 0
+            c += " OR "
+          end
+          c += "name LIKE ?"
+          parameters = parameters + ["#{i}%"]
+        end
+        c += ")"
+        conditions = conditions.concat(c)
+      else
+        conditions = conditions.concat(' AND (name LIKE ?)')
+        parameters = parameters + ["#{params[:letter]}%"]
+      end
+    end
     # Order by
     # if params[:s] and params[:s] == 'a'
     #   @sort = 'a'
     #   order = 'name ASC'
     # else
-      @sort = 'p'
-      order = 'subscriptions_count DESC'
+      order = 'name asc'
     # end
     
     @channels = collect('channels', Channel.all(:conditions => [conditions] + parameters, :order => order, :offset => @offset, :limit => @per_page))
@@ -141,4 +153,33 @@ class ChannelsController < ApplicationController
       render :nothing => true
     end
   end
+
+  def smart_channel_topic_link(topic, character = nil, url_only = false)
+    url = "http://"
+    subdomain = false
+    if topic
+      if topic.slug == 'television-shows'
+        url += "tv."
+        subdomain = true
+      elsif topic.slug == 'movies-previews-trailers'      
+        url += "movies."
+        subdomain = true
+      end
+    end
+
+    url += BASE_URL
+
+    if topic && !subdomain
+      url += "/topics/#{topic.slug}"
+    end
+
+    url += "/channels"
+
+    if character
+      url += "?letter=#{character}"
+    end
+
+   url_only ? url : link_to( (character ? character : "Channels"), url) 
+  end
+
 end

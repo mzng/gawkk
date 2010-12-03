@@ -1,8 +1,9 @@
 <% selected ||= '' %>
 
 <div id="navigation">
-  <%= link_to "<div#{" class=\"selected\"" if selected == 'My Subscriptions'}>My Subscriptions</div>", {:controller => 'videos', :action => 'index', :popular => true}, :class => 'navigation-item' %>
-  <%= link_to "<div#{" class=\"selected\"" if selected == 'My Submissions'}>My Submissions</div>", {:controller => 'videos', :action => 'home'}, :class => 'navigation-item' %>
+  <%= link_to "<div#{" class=\"selected\"" if selected == 'My Subscriptions'}>My Subscriptions</div>", {:controller => 'users', :action => 'my_subscriptions' }, :class => 'navigation-item' %>
+    <%= yield if selected == 'My Subscriptions' %>
+  <%= link_to "<div#{" class=\"selected\"" if selected == 'My Submissions'}>My Submissions</div>", {:controller => 'user_submissions', :action => 'index'}, :class => 'navigation-item' %>
   <%= yield if selected == 'My Submissions' %>
 
   </div>

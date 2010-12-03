@@ -1,23 +1,26 @@
 <div class="user-area">
+  <div class="divider" style="margin-left: 0; margin-top: 0">
     <h2>Submit a Video</h2>
-    <% form_for @submission, :url => "/my-submissions/create" do |f| %>
-      <%= f.label :category_id, "Topic:" %> 
-      <%= select_tag "user_submission[category_id]", options_for_select(@categories.collect {|c| [c.name, c.id]}) %>
-      <%= f.label :channel_id, "Channel:" %>
+  </div>
+  <% form_for @submission, :url => "/my-submissions/create" do |f| %>
+    <div style="margin-left: 20px">
+      <%= select_tag "user_submission[category_id]", options_for_select(@categories.collect {|c| [c.name, c.id]}), { :style => "padding: 4px;width: 300px;" } %>
+      &gt;&gt;
       <span id="channels">
-        <%= select_tag "user_submission[channel_id]", options_for_select(@channels.collect {|c| [c.name, c.id]}) %>
+        <%= select_tag "user_submission[channel_id]", options_for_select(@channels.collect {|c| [c.name, c.id]}), { :style => "padding: 4px;width: 300px;" } %>
       </span>
       <br />
-      <p>
-        <%= f.label :url, "Url:" %><%= f.text_field :url %>
-      </p>
-      <%= f.submit "Submit" %>
+      <input id="user_submission_url" name="user_submission[url]" onblur="descriptiveField(this, 'Video URL', false);" onfocus="descriptiveField(this, 'Video URL', true);" size="30" type="text" value="Video URL" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 557px;fonts-size: 10pt;padding: 4px; ">
+      <%= f.submit "Submit", :style => "padding: 3px;" %>
     <% end %>
 
    <%= observe_field "user_submission_category_id", :url => "/my-submissions/channels",
         :frequency => 0.25,
         :update => :channels,
         :with => 'category_id'
-    %> 
+      %> 
+    </div>
+    <br /> 
+    <br /> 
   </div>
 

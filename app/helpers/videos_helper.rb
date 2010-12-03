@@ -79,6 +79,35 @@ module VideosHelper
     url_only ? url : link_to(channel.name, url)
   end
 
+
+  def smart_channel_topic_link(topic, character = nil, url_only = false)
+    url = "http://"
+    subdomain = false
+    if topic
+      if topic.slug == 'television-shows'
+        url += "tv."
+        subdomain = true
+      elsif topic.slug == 'movies-previews-trailers'      
+        url += "movies."
+        subdomain = true
+      end
+    end
+
+    url += BASE_URL
+
+    if topic && !subdomain
+      url += "/topics/#{topic.slug}"
+    end
+
+    url += "/channels"
+
+    if character
+      url += "?letter=#{character}"
+    end
+
+   url_only ? url : link_to( (character ? character : "Channels"), url) 
+  end
+
   def smart_video_link(video, url_only = false)
     url = "http://"
     subdomain = false
