@@ -17,6 +17,13 @@ production:
  database: gawkk_production
  #username: gawkk_user
  #password: 0DU5LjQym7Rrh1P
- username: deploy
- password: nthfgtdn 
+ username: root
+ password: staging 
+ host: localhost
+
+staging:
+ adapter: mysql
+ database: gawkk_staging_2
+ username: root
+ password: staging
  host: localhost
