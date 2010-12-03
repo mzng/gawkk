@@ -8,8 +8,7 @@
 			<% if user_logged_in? -%>
 				<span>
 					<%= logged_in_user.username %>:
-					<%= user_profile_link %> |
-					<%= link_to('Settings', {:controller => '/settings'}) %> |
+          <%= link_to('My Subscriptions', {:controller => 'users', :action => "my_subscriptions"}) %> |
 					<% if user_can_administer? -%>
 						<%= link_to('Admin', {:controller => '/admin/overview'}) %> |
 					<% end -%>

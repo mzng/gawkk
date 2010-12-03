@@ -13,14 +13,16 @@ class UserSubmissionsController < ApplicationController
   end
 
   def create
-    @submission = UserSubmission.new(params[:user_submission])
-    if @submission.load_title
-      @submission.user_id = logged_in_user.id
-      @submission.save
-      flash[:notice] = "Your video has been submitted"
-    else
-      flash[:notice] = "There was an error :("
+    urls = params[:user_submission][:url].split ','
+    urls.each do |u|
+      @submission = UserSubmission.new(params[:user_submission])
+      @submission.url = u
+      if @submission.load_title
+        @submission.user_id = logged_in_user.id
+        @submission.save
+      end
     end
+    flash[:notice] = "Your video has been submitted"
 
     redirect_to :action => :index
   end

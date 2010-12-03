@@ -4,9 +4,6 @@ class ChannelsController < ApplicationController
   
   # Channel Manager
   def index
-
-    
-
     searchable
     setup_pagination(:per_page => 42)
     setup_category_sidebar
@@ -70,7 +67,7 @@ class ChannelsController < ApplicationController
   def show
     # load_channel or redirect
     pitch
-    set_feed_url("http://www.gawkk.com/#{@user.slug}/#{@channel.slug}.rss")
+    set_feed_url("http://www.gawkk.com/#{@user.slug}/channel.rss")
     set_meta_description(@channel.proper_name + (@user.description.blank? ? '' : ': ' + @user.description))
     set_meta_keywords(@channel.keywords)
     set_title(@channel.proper_name)
@@ -78,11 +75,17 @@ class ChannelsController < ApplicationController
    # setup_category_sidebar
     setup_channel_sidebar(@channel)
 
+    @popular = !params[:newest]
 
-    cache_key = "c_s_#{@user.id}_#{@channel.id}_#{@page}"
+    cache_key = "c_s_#{@user.id}_#{@channel.id}_#{@popular}_#{@page}"
 
-    @videos = Rails.cache.fetch(cache_key, :expires_in => 1.day) do
-      ids = @channel.videos(:select => :video_id, :offset => @offset, :limit => @per_page).collect { |x| x.video_id } 
+    @videos = Rails.cache.fetch(cache_key, :expires_in => 1.hour) do
+      if @popular
+        ids = Video.find_by_sql("SELECT videos.id FROM videos INNER JOIN saved_videos sv on videos.id = sv.video_id WHERE sv.channel_id = #{@channel.id} ORDER BY likes_count desc LIMIT #{@per_page} OFFSET #{@offset}").collect { |x| x.id } 
+          #@channel.videos(:select => :video_id, :order => "likes_count desc", :offset => @offset, :limit => @per_page).collect { |x| x.video_id } 
+      else
+        ids = @channel.videos(:select => :video_id, :order => "created_at desc", :offset => @offset, :limit => @per_page).collect { |x| x.video_id } 
+      end
       Video.find(ids, :include => [:category, :posted_by, {:saved_videos => {:channel => :user}}])
     end
 
