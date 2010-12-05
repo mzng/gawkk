@@ -75,11 +75,17 @@ module VideosHelper
       end
     end
 
-    
+    unless subdomain
+      category = Category.find(splits[0])
+    end
 
-    url += "#{BASE_URL}/#{user.slug}/channel"
+    url += "#{BASE_URL}/"
+    url += "#{category.slug}/" unless subdomain
+    url += "#{user.slug}"
     url += "?page=#{page}" if page
-    url += "?newest=true" if newest
+    url += "?newest=true" if newest && !page
+    url += "&newest=true" if newest && page
+
     url_only ? url : link_to(channel.name, url)
   end
 

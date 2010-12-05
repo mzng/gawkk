@@ -513,7 +513,7 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_channel_sidebar(channel)
-    setup_category_sidebar
+    #setup_category_sidebar
     
     @recent_subscribers_count = Subscription.for_channel(channel).count
     @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))

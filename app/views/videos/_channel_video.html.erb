@@ -20,11 +20,11 @@
 				<div class="body">
 					<% if @tagged -%>
 						<div class="thumbnail">
-							<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+							<%#= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 						</div>
 					<% else -%>
-            <div class="thumbnail" style="background-image: url(/images/<%=(video.thumbnail.blank? ? '/images/no-image.png' : video.thumbnail) %>)" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
-              <%= image_tag("play-overlay-filler.png", :size => "128x89", :mouseover => "/images/play-overlay-hover.png") %>
+            <div class="thumbnail" style="background-image: url(/images/no-image.png<%#=(video.thumbnail.blank? ? '/images/no-image.png' : video.thumbnail) %>)" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
+              <%#= image_tag("play-overlay-filler.png", :size => "128x89", :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
           <div class="description">
@@ -66,7 +66,7 @@
 	</table>
 	<div id="share_for_<%= video.id %><%= container_id %>" class="share" style="display:none;"></div>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
-	<%= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
-	<%= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+	<%#= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
+	<%#= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
 	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
 </div>

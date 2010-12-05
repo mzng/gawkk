@@ -83,6 +83,8 @@ ActionController::Routing::Routes.draw do |map|
   map.topics 'topics',        :controller => 'videos', :action => 'index'
   map.connect 'topics',        :controller => 'videos', :action => 'index', :format => "rss"
 
+  map.connect ':category/:channel', :controller => 'channels', :action => 'show'
+
   map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
   
   map.connect 'v/:id',              :controller => 'videos', :action => 'follow'

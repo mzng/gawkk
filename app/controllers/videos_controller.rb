@@ -69,22 +69,22 @@ class VideosController < ApplicationController
     redirect_to category_path(params[:category]), :status=>301  and return if !request.url =~ /topics/ 
       
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
-      @popular = !params[:newest]  
-
       pitch
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       set_title("Videos in The #{@category.name} Topic")
       
       setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 15))
-      setup_category_sidebar(@category)
-      taggable
+      #setup_category_sidebar(@category)     
+      #taggable
       
-      if @popular
-        @videos = collect('videos', Video.popular.in_category(@category).all(:offset => @offset, :limit => @per_page))
-      else
-        @videos = collect('videos', Video.newest.in_category(@category).all(:offset => @offset, :limit => @per_page))
+      @related_channels = Rails.cache.fetch("r_c_#{@category.slug}", :expires_in => 30.minutes) do
+        Channel.in_category(@category.id).all(:order => 'rand()', :limit => 30, :include => :user)
       end
-
+ 
+      @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes) do
+        ids = Video.popular.in_category(@category.id).all(:limit => @per_page)
+        Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
+      end
     else
       flash[:notice] = 'The category you are looking for does not exist.'
       redirect_to :action => "index", :newest => !@popular

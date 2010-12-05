@@ -9,3 +9,5 @@ Disallow: /search*
 Disallow: /subscriptions*
 Disallow: /*/like$
 Disallow: /*/share$
+Disallow: /*/dislike$
+Disallow: /tags/*

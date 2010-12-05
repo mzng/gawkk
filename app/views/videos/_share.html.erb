@@ -16,31 +16,31 @@
 				<tr>
 					<td>
 						<%= image_tag('favicon_twitter.png') %>
-						<%= link_to 'Twitter', "http://twitter.com/home?status=#{CGI.escape(video.title)}%20http://gawkk.com/#{video.short_code.blank? ? 'discuss/' + video.slug : 'v/' + video.short_code}", :target => 'twitter' %>
+						<%= link_to 'Twitter', "http://twitter.com/home?status=#{CGI.escape(video.title)}%20" + smart_video_link(video, true), :target => 'twitter' %>
 					</td>
 					<td>
 						<%= image_tag('favicon_delicious.png') %>
-						<%= link_to 'Delicious', 'http://delicious.com/save', :onclick => "window.open('http://delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url='+encodeURIComponent('http://gawkk.com/#{video.slug}/discuss')+'&amp;title='+encodeURIComponent('Gawkk: #{h(video.name.each_char.collect{|c| c == '\'' ? '\\' + '\'' : c}.join)}'), 'delicious','toolbar=no,width=550,height=550'); return false;" %>
+						<%= link_to 'Delicious', 'http://delicious.com/save', :onclick => "window.open('http://delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url='+encodeURIComponent('" + smart_video_link(video, true) + "')+'&amp;title='+encodeURIComponent('Gawkk: #{h(video.name.each_char.collect{|c| c == '\'' ? '\\' + '\'' : c}.join)}'), 'delicious','toolbar=no,width=550,height=550'); return false;" %>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<%= image_tag('favicon_facebook.png') %>
-						<%= link_to 'Facebook', "http://www.facebook.com/share.php?u=/#{video.slug}/discuss", :onclick => "return fbs_click('http://gawkk.com/#{video.slug}/discuss')", :class => 'fb_share_link', :target => 'facebook' %>
+						<%= link_to 'Facebook', "http://www.facebook.com/share.php?u=/#{video.slug}/discuss", :onclick => "return fbs_click('" + smart_video_link(video, true) + "')", :class => 'fb_share_link', :target => 'facebook' %>
 					</td>
 					<td>
 						<%= image_tag('favicon_digg.png') %>
-						<%= link_to 'Digg', "http://digg.com/submit?url=http://gawkk.com/#{video.slug}/discuss&title=#{video.title}&media=video", :target => 'digg' %>
+						<%= link_to 'Digg', "http://digg.com/submit?url=" + smart_video_link(video, true) + "&title=#{video.title}&media=video", :target => 'digg' %>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<%= image_tag('email.png') %>
-						<%= link_to 'Email', "mailto:?body=http://gawkk.com/#{video.slug}/discuss" %>
+						<%= link_to 'Email', "mailto:?body=" + smart_video_link(video, true) + "" %>
 					</td>
 					<td>
 						<%= image_tag('favicon_stumbleupon.png') %>
-						<%= link_to 'StumbleUpon', "http://www.stumbleupon.com/submit?url=http://gawkk.com/#{video.short_code.blank? ? 'discuss/' + video.slug : 'v/' + video.short_code}", :target => 'stumbleupon' %>
+						<%= link_to 'StumbleUpon', "http://www.stumbleupon.com/submit?url=" + smart_video_link(video, true) + "}", :target => 'stumbleupon' %>
 					</td>
 				</tr>
 			</table>
