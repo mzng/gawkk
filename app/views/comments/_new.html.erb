@@ -36,11 +36,7 @@
 					<td>
 						<% render(:layout => "/layouts/auto_disabling_submit", :locals => {:id => "submit_for_post_to_#{commentable.id}#{container_id}", :action => 'Posting'}) do -%>
 							<%= submit_tag 'Post', :id => "submit_button_for_#{commentable.id}#{container_id}" %>
-							<%= render :partial => "/comments/tweet", :locals => {:commentable => commentable, :container_id => container_id} %>
 						<% end -%>
-					</td>
-					<td id="inviter_link_for_<%= commentable.id %><%= container_id %>" class="last">
-						<%= render :partial => "/comments/open_inviter", :locals => {:video_id => commentable.id, :container_id => container_id} %>
 					</td>
 				</tr>
 			</table>

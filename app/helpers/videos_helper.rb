@@ -31,7 +31,7 @@ module VideosHelper
     category_id = !channel.category.blank? ? channel.category.to_i : nil
 
     if category_id.nil?
-      { :name => "Unkown Topic" }
+      { :name => "Variety", :params => smart_category_link(Category.find(15), nil, true) }
     else
       category = Category.find(category_id)
       { :name => category.name, :params => smart_category_link(category, nil, true) }
@@ -76,7 +76,13 @@ module VideosHelper
     end
 
     unless subdomain
-      category = Category.find(splits[0])
+      if splits[0]
+        category = Category.find(splits[0])
+      else 
+        category = Category.find_by_slug("uncategorized")
+      end
+      
+
     end
 
     url += "#{BASE_URL}/"
@@ -133,7 +139,7 @@ module VideosHelper
     
     url += "#{BASE_URL}/#{video.slug}/discuss"
 
-    url_only ? url : link_to(truncate(video.title, 60), url)
+    url_only ? url : link_to(truncate(video.title, :length => 60), url)
   end
 
   def smart_category_link(category, popular = nil, url_only = false)

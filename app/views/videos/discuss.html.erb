@@ -4,8 +4,8 @@
     </h1>
 
 		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-      :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => "index"}},{:name => @video.category.name, :params => category_path(@video.category, :popular => @video.popular?)}, 
-        {:name => @video.posted_by.channels.first.name, :params => channel_path(:user => @video.posted_by, :channel => @video.posted_by.channels.first)},
+      :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => "index"}},{:name => @video.category.name, :params => smart_category_link(@video.category,@video.popular?, true)}, 
+        {:name => @video.posted_by.channels.first.name, :params => smart_channel_link(@video.posted_by, @video.posted_by.channels.first, true)},
     {:name => @video.title}]} %>
 
     <br />

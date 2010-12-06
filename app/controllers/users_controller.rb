@@ -43,15 +43,16 @@ class UsersController < ApplicationController
     set_title("Your Open Submissions")
     setup_pagination
     
-    @videos = Video.find_by_sql ["
-      SELECT 		  v.*
-      FROM		    videos v
-      INNER JOIN	channels c on v.`posted_by_id` = c.`user_id`
-      WHERE       c.id IN (?)
-      ORDER BY	  v.`posted_at` desc
+     ids = SavedVideo.find_by_sql(["
+      SELECT 		  video_id
+      FROM		    saved_videos v
+      WHERE       channel_id IN (?)
+      ORDER BY	  created_at desc
       LIMIT       #{@per_page}
       OFFSET      #{@offset}
-    ", subscribed_channels.collect { |sc| sc.id }]
+    ", subscribed_channels.collect { |sc| sc.id }])
+
+    @videos = Video.find(ids.collect { |sv| sv.video_id}, :order => "posted_at desc")
   end
 
   def my_subscriptions_channels

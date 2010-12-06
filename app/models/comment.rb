@@ -21,7 +21,7 @@ class Comment < ActiveRecord::Base
       self.update_attribute('thread_id', Util::BaseConverter.to_base54(self.id))
     end
     
-    news_item = NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :actionable => self)
+  #  news_item = NewsItem.report(:type => 'make_a_comment', :reportable => self.commentable, :user_id => self.user_id, :thread_id => self.thread_id, :message => self.body, :actionable => self)
     
     spawn do
       if self.commentable_type == 'Video'
@@ -30,18 +30,6 @@ class Comment < ActiveRecord::Base
         
         if !self.commentable.posted_by.feed_owner and self.commentable.posted_by.id != self.user_id
           likers << self.commentable.posted_by
-        end
-        
-        likers.concat(commenters).uniq.each do |user|
-          details = Hash.new
-          details[:sender]    = self.user
-          details[:recipient] = user
-          details[:video]     = self.commentable
-          details[:comment]   = self.body
-          details[:nid]       = news_item.id if news_item
-          details[:thread_id] = self.thread_id
-          
-          DiscussionMailer.deliver_notification(details)
         end
       end
     end

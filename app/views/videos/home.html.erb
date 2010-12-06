@@ -11,7 +11,7 @@
             <tr>
           <% end %>
           <td width="110">
-            <%= link_to truncate(c.name, 15), smart_category_link(c, true, true), :style => "text-decoration: none;color: #373737" %>
+            <%= link_to truncate(c.name, :length => 15), smart_category_link(c, true, true), :style => "text-decoration: none;color: #373737" %>
           </td>
         <% end %>
       </tr>

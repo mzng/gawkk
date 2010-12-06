@@ -15,39 +15,23 @@ class VideosController < ApplicationController
     set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
     setup_pagination
     
-    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
-      # setup_recommendation_sidebar
-      setup_user_sidebar(logged_in_user) if user_logged_in?
+    @categories = Rails.cache.fetch('fp_categories', :expires_in => 1.week) do
+      Category.allowed_on_front_page
     end
-    @categories = Category.allowed_on_front_page
 
-    @searches = Rails.cache.fetch('fp_searches', :expires_in => 6.hours, :force => true) do
+    @searches = Rails.cache.fetch('fp_searches', :expires_in => 3.hours) do
       StagedSearch.for_front_page
     end
 
+    @base_user = (logged_in_user or User.new)
 
-    @base_user = (logged_in_user or User.new)
-    @include_followings = true
-    @videos = collect('videos', Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:limit => 18))
-  end
-  
-  def friends
-    pitch
-    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
-    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
-    setup_pagination
-    
-    if Parameter.status?('front_page_sidebar_enabled') or !(logged_in_user or User.new).administrator?
-      # setup_recommendation_sidebar
-      setup_user_sidebar(logged_in_user) if user_logged_in?
+    @videos = Rails.cache.fetch('fp_videos', :expires_in => 2.hours) do
+      ids = Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:limit => 18)
+      Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
     end
-    
-    # Friends Activity
-    @base_user = (logged_in_user or User.new)
-    @include_followings = true
-    @news_items = @base_user.followings_activity(:offset => @offset, :limit => @per_page)
   end
   
+    
   def index
     @popular = !params[:newest] 
     
@@ -56,12 +40,18 @@ class VideosController < ApplicationController
     set_title("All Topics")
     setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 25))
     setup_category_sidebar
-    taggable
-    @categories = Category.all(:order => "name asc")
-    if @popular
-      @videos = collect('videos', Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:offset => @offset, :limit => @per_page))
-    else
-      @videos = collect('videos', Video.newest.allowed_on_front_page.with_max_id_of(@max_id).all(:offset => @offset, :limit => @per_page))
+    @categories = Rails.cache.fetch("topics", :expires_in => 1.week) do
+      Category.all(:order => "name asc")
+    end
+
+    @popular_channels = Rails.cache.fetch("topics_channel", :expires_in => 6.hours) do
+      ids = Channel.suggested(:order => 'rand()')
+      Channel.find(ids, :include => :user)
+    end
+
+    @videos = Rails.cache.fetch("topics_#{params[:format] || 'web'}_#{@page}", :expires_in => 2.hours) do
+      ids = Video.popular.allowed_on_front_page.with_max_id_of(@max_id).all(:offset => @offset, :limit => @per_page)
+      Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
     end
   end
   
@@ -74,16 +64,23 @@ class VideosController < ApplicationController
       set_title("Videos in The #{@category.name} Topic")
       
       setup_pagination(:per_page => (params[:format] == 'rss' ? 100 : 15))
-      #setup_category_sidebar(@category)     
-      #taggable
       
       @related_channels = Rails.cache.fetch("r_c_#{@category.slug}", :expires_in => 30.minutes) do
         Channel.in_category(@category.id).all(:order => 'rand()', :limit => 30, :include => :user)
       end
  
-      @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes) do
-        ids = Video.popular.in_category(@category.id).all(:limit => @per_page)
-        Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
+      @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes, :force => true) do
+        ids = Video.popular.in_category(@category).all(:limit => @per_page)
+        if ids.empty?
+          ids = Video.in_category(@category).all(:order => "id desc", :limit => @per_page)
+        end
+
+        if ids.empty?
+          []
+        else
+          Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
+        end
+        
       end
     else
       flash[:notice] = 'The category you are looking for does not exist.'
@@ -125,14 +122,7 @@ class VideosController < ApplicationController
     end
   end
   
-  def follow_to_facebook
-    if !params[:id].nil? and params[:id][/%20$/]
-      params[:id].gsub(/%20$/, '')
-    end
     
-    redirect_to "http://apps.facebook.com/gawkkapp/v/#{params[:id]}"
-  end
-  
   def discuss
     # load_video or redirect
     pitch(:sidebar => true)
@@ -140,7 +130,7 @@ class VideosController < ApplicationController
     set_meta_keywords(@video.tags.join(','))
     set_title(@video.title)
     set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
-    setup_category_sidebar(@category)
+    #setup_category_sidebar(@category)
     setup_related_videos(@video)
     
     begin
@@ -275,14 +265,12 @@ class VideosController < ApplicationController
   end
   
   def edit
-    # load_video or redirect
     containerable
     
     @categories = Category.all_cached
   end
   
   def thumbnail_search
-    
   end
   
   def thumbnail_search_control
@@ -290,7 +278,6 @@ class VideosController < ApplicationController
   end
   
   def update
-    # load_video or redirect
     containerable
     
     params[:video][:embed_code]     = '' if params[:video] and params[:video][:embed_code] == 'Embed Code...'
@@ -313,7 +300,6 @@ class VideosController < ApplicationController
       end
     end
   end
-  
   
   private
   def ensure_logged_in_user

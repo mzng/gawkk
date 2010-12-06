@@ -11,13 +11,7 @@ class ChannelsController < ApplicationController
     conditions  = 'user_owned = false'
     parameters  = Array.new
     
-    # Type filter
-    # if params[:t] and params[:t] == 'a'
-      @type = 'a'
-    # else
-    #   @type = 'f'
-    #   conditions = conditions.concat(' AND featured = true')
-    # end
+    @type = 'a'
     
     if params[:c]
       @category = Category.find(params[:c])
@@ -25,6 +19,7 @@ class ChannelsController < ApplicationController
     else
       @category = nil
     end
+
     if params[:category]  
       @category ||= Category.find_by_slug(params[:category])
       conditions = conditions.concat(' AND (category_ids like ? OR category_ids like ? OR category_ids like ? OR category_ids like ?)')
@@ -49,13 +44,7 @@ class ChannelsController < ApplicationController
         parameters = parameters + ["#{params[:letter]}%"]
       end
     end
-    # Order by
-    # if params[:s] and params[:s] == 'a'
-    #   @sort = 'a'
-    #   order = 'name ASC'
-    # else
-      order = 'name asc'
-    # end
+    order = 'name asc'
     
     @channels = Rails.cache.fetch("c_#{params[:letter]}_#{params[:category]}_#{@page}", :expires => 1.hours) do 
       Channel.all(:conditions => [conditions] + parameters, :order => order, :offset => @offset, :limit => @per_page, :include => :user)
@@ -136,7 +125,9 @@ class ChannelsController < ApplicationController
   
   private
   def load_channel
-    if (@user = User.find_by_slug(params[:channel])) and (@channel = Channel.owned_by(@user).with_slug('channel').first)
+    user_param = params[:user] || params[:channel]
+
+    if user_param && (@user = User.find_by_slug(user_param)) and (@channel = Channel.owned_by(@user).with_slug('channel').first)
       if @user.feed_owner?
         yield
       else

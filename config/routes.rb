@@ -1,24 +1,101 @@
 ActionController::Routing::Routes.draw do |map|
-
-  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
-  map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
-  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'television-shows', :conditions => { :subdomain => "tv" }
-  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
-  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "tv" }
-
-  map.connect '/', :controller => 'videos', :action => 'category', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
-  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
-  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
-  map.connect '/:user/channel', :controller => 'channels', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "movies" }
-
-
-
   # authentication
   map.connect 'login',                    :controller => 'authentication', :action => 'login'
   map.connect 'logout',                   :controller => 'authentication', :action => 'logout'
   map.connect 'authentication/:action',   :controller => 'authentication'
   
+  map.connect 'home',                     :controller => 'videos', :action => 'home'
+
+  # pages
+  map.connect 'about',              :controller => 'pages', :action => 'about'
+  map.connect 'contact',            :controller => 'pages', :action => 'contact'
+  map.connect 'faq',                :controller => 'pages', :action => 'faq'
+  map.connect 'tour',               :controller => 'pages', :action => 'tour'
+  map.connect 'tour-video',         :controller => 'pages', :action => 'tour_video'
+  map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
+  map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
+  map.connect 'pages/:action',      :controller => 'pages'
+
+  # registration
+  map.connect 'register',             :controller => 'registration', :action => 'register'
+  map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
+  map.connect 'setup/profile',        :controller => 'registration', :action => 'setup_profile'
+  map.connect 'setup/suggestions',    :controller => 'registration', :action => 'setup_suggestions'
+  map.connect 'setup/friends',        :controller => 'registration', :action => 'setup_friends'
+  map.connect 'setup/friends/invite', :controller => 'registration', :action => 'invite_friends'
+  map.connect 'registration/:action', :controller => 'registration'
   
+  #me
+  map.connect 'my-subscriptions', :controller => 'users', :action => 'my_subscriptions'
+  map.connect 'my-subscriptions/channels', :controller => 'users', :action => 'my_subscriptions_channels'
+  map.connect 'my-submissions', :controller => 'user_submissions', :action => 'index'
+  map.connect 'my-submissions/accepted', :controller => 'user_submissions', :action => 'accepted'
+  map.connect 'my-submissions/declined', :controller => 'user_submissions', :action => 'declined'
+  map.connect 'my-submissions/create', :controller => 'user_submissions', :action => 'create'
+  map.connect 'my-submissions/channels', :controller => 'user_submissions', :action => 'channels'
+
+  # settings
+  map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
+  map.connect 'settings/activity/ungroup',  :controller => 'settings', :action => 'ungroup_activity'
+  map.connect 'settings/:action',           :controller => 'settings'
+ 
+  # channels
+  map.connect 'channels/:action',   :controller => 'channels'
+
+  # search
+  map.connect 'search/:action',     :controller => 'search'
+  # comments
+  map.connect 'comments/:action',   :controller => 'comments'
+
+  # subdomain routes
+  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
+  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'television-shows', :conditions => { :subdomain => "tv" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
+  map.connect '/:user', :controller => 'channels', :category => 'television-shows', :action => 'show', :channel => 'channel', :conditions => { :subdomain => "tv" }
+
+  map.connect '/', :controller => 'videos', :action => 'category', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
+  map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
+  map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
+  map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
+
+  #legacy routes
+  map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'
+  map.connect 'all/popular',              :controller => 'redirections', :action => 'all_popular'
+  map.connect ':category/newest',         :controller => 'redirections', :action => 'category_newest'
+  map.connect ':category/popular',        :controller => 'redirections', :action => 'category_popular'
+  map.connect 'friends',                  :controller => 'redirections', :action => 'friends'
+  map.connect 'all/newest/tagged',        :controller => 'redirections', :action => 'index_newest_tagged'
+  map.connect 'all/popular/tagged',       :controller => 'redirections', :action => 'index_popular_tagged'
+  map.connect ':category/newest/tagged',  :controller => 'redirections', :action => 'category_newest_tagged'
+  map.connect ':category/popular/tagged', :controller => 'redirections', :action => 'category_popular_tagged'
+
+  map.connect ':user',                    :controller => 'redirections', :action => 'user'
+  
+  map.connect 'all/newest.rss',           :controller => 'redirections', :action => 'newest_rss'
+  map.connect 'all/popular.rss',          :controller => 'redirections', :action => 'popular_rss'
+
+  map.connect 'submit/:anything',         :controller => 'redirections', :action => 'submit'
+ 
+  map.connect ':id/activity',             :controller => 'redirections', :action => 'activity'
+  map.connect ':id/activity.rss',         :controller => 'redirections', :action => 'activity'
+  map.connect ':id/comments',             :controller => 'redirections', :action => 'comments'
+  map.connect ':id/follow',               :controller => 'redirections', :action => 'follow'
+  map.connect ':id/unfollow',             :controller => 'redirections', :action => 'unfollow'
+  map.connect ':id/follows',              :controller => 'redirections', :action => 'follows'
+  map.connect ':id/followers',            :controller => 'redirections', :action => 'followers'
+  map.connect ':id/friends',              :controller => 'redirections', :action => 'friends'
+  map.connect ':id/subscriptions',        :controller => 'redirections', :action => 'subscriptions'
+
+  map.connect 'tags',                     :controller => 'redirections', :action => 'tags'
+  map.connect 'tags.rss',                 :controller => 'redirections', :action => 'tags_rss'
+  map.connect 'tags/:q',                  :controller => 'redirections', :action => 'tags_q'
+  map.connect 'tags/:q.rss',              :controller => 'redirections', :action => 'tags_q_rss'
+  
+  
+  
+  
+
   # administration areas
   map.connect 'admin/overview/:action',     :controller => 'admin/overview'
   map.connect 'admin/channels/:action',     :controller => 'admin/channels'
@@ -41,138 +118,48 @@ ActionController::Routing::Routes.draw do |map|
   # nested administration areas
   map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
   
-  
-  # registration
-  map.connect 'register',             :controller => 'registration', :action => 'register'
-  map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
-  map.connect 'setup/profile',        :controller => 'registration', :action => 'setup_profile'
-  map.connect 'setup/suggestions',    :controller => 'registration', :action => 'setup_suggestions'
-  map.connect 'setup/friends',        :controller => 'registration', :action => 'setup_friends'
-  map.connect 'setup/friends/invite', :controller => 'registration', :action => 'invite_friends'
-  map.connect 'registration/:action', :controller => 'registration'
-  
-  
-  map.connect 'my-subscriptions', :controller => 'users', :action => 'my_subscriptions'
-  map.connect 'my-subscriptions/channels', :controller => 'users', :action => 'my_subscriptions_channels'
-  map.connect 'my-submissions', :controller => 'user_submissions', :action => 'index'
-  map.connect 'my-submissions/accepted', :controller => 'user_submissions', :action => 'accepted'
-  map.connect 'my-submissions/declined', :controller => 'user_submissions', :action => 'declined'
-  map.connect 'my-submissions/create', :controller => 'user_submissions', :action => 'create'
-  map.connect 'my-submissions/channels', :controller => 'user_submissions', :action => 'channels'
-
-  # settings
-  map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
-  map.connect 'settings/activity/ungroup',  :controller => 'settings', :action => 'ungroup_activity'
-  map.connect 'settings/:action',           :controller => 'settings'
-  
-  
-  # submit
-  map.connect 'submit/:action',     :controller => 'submit'
-  
+    
   
   # videos
-  map.connect 'home',               :controller => 'videos', :action => 'home'
-  map.connect 'friends',            :controller => 'videos', :action => 'friends'
-  map.connect 'all/newest',         :controller => 'videos', :action => 'index', :popular => false
-  map.connect 'all/popular',        :controller => 'videos', :action => 'index', :popular => true
-  map.connect ':category/newest',   :controller => 'videos', :action => 'category', :popular => false
-  map.connect ':category/popular',  :controller => 'videos', :action => 'category', :popular => true
-  map.category 'topics/:category',   :controller => 'videos', :action => 'category'
-  map.connect 'topics/:category.rss',   :controller => 'videos', :action => 'category', :format => "rss"
-  map.connect 'topics/:category/channels',   :controller => 'channels', :action => 'index'
-  map.topics 'topics',        :controller => 'videos', :action => 'index'
-  map.connect 'topics',        :controller => 'videos', :action => 'index', :format => "rss"
+  map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
+  map.connect ':id/discuss',                  :controller => 'videos', :action => 'discuss' 
+  map.connect ':id/watch',                    :controller => 'videos', :action => 'watch'
+  map.connect ':id/like',                     :controller => 'videos', :action => 'like'
+  map.connect ':id/dislike',                  :controller => 'videos', :action => 'dislike'
+  map.connect ':id/unlike',                   :controller => 'videos', :action => 'unlike'
+  map.connect ':id/comment',                  :controller => 'videos', :action => 'comment'
+  map.connect ':id/share',                    :controller => 'videos', :action => 'share'
 
-  map.connect ':category/:channel', :controller => 'channels', :action => 'show'
-
-  map.connect 'subscriptions',      :controller => 'videos', :action => 'subscriptions'
-  
-  map.connect 'v/:id',              :controller => 'videos', :action => 'follow'
-  map.connect 'f/:id',              :controller => 'videos', :action => 'follow_to_facebook'
-  map.connect ':id/discuss',        :controller => 'videos', :action => 'discuss'
-  map.connect ':id/watch',          :controller => 'videos', :action => 'watch'
-  map.connect ':id/like',           :controller => 'videos', :action => 'like'
-  map.connect ':id/dislike',           :controller => 'videos', :action => 'dislike'
-  map.connect ':id/unlike',         :controller => 'videos', :action => 'unlike'
-  map.connect ':id/comment',        :controller => 'videos', :action => 'comment'
-  map.connect ':id/share',          :controller => 'videos', :action => 'share'
-
-  map.discuss_video ':id/discuss',  :controller => 'videos', :action => 'discuss'
-  map.connect 'all/newest/tagged',        :controller => 'videos', :action => 'index', :popular => false, :tagged => true
-  map.connect 'all/popular/tagged',       :controller => 'videos', :action => 'index', :popular => true, :tagged => true
-  map.connect ':category/newest/tagged',  :controller => 'videos', :action => 'category', :popular => false, :tagged => true
-  map.connect ':category/popular/tagged', :controller => 'videos', :action => 'category', :popular => true, :tagged => true
-  
-  map.connect 'all/newest.rss',           :controller => 'videos', :action => 'index', :popular => false, :format => 'rss'
-  map.connect 'all/popular.rss',          :controller => 'videos', :action => 'index', :popular => true, :format => 'rss'
-  map.connect ':category/newest.rss',     :controller => 'videos', :action => 'category', :popular => false, :format => 'rss'
-  map.connect ':category/popular.rss',    :controller => 'videos', :action => 'category', :popular => true, :format => 'rss'
+  map.connect 'topics/:category.rss',         :controller => 'videos', :action => 'category', :format => "rss"
+  map.connect 'topics/:category/channels',    :controller => 'channels', :action => 'index'
+  map.connect 'topics/:category',             :controller => 'videos', :action => 'category'
+  map.connect 'topics',                       :controller => 'videos', :action => 'index'
+  map.connect 'topics.rss',                   :controller => 'videos', :action => 'index', :format => "rss"
+  map.connect ':category/:channel',           :controller => 'channels', :action => 'show'
+  map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'
   
   map.connect 'videos/:action',     :controller => 'videos'
 
   # news items
   map.connect 'news_items/:action', :controller => 'news_items'
   
-  
-  # comments
-  map.connect 'comments/:action',   :controller => 'comments'
-  
+ 
   
   # users
-  map.my_videos 'my-videos',        :controller => 'users', :action => 'my_videos'
-  map.connect ':id/activity',       :controller => 'users', :action => 'activity'
-  map.connect ':id/comments',       :controller => 'users', :action => 'comments'
-  map.connect ':id/follows',        :controller => 'users', :action => 'follows'
-  map.connect ':id/followers',      :controller => 'users', :action => 'followers'
-  map.connect ':id/friends',        :controller => 'users', :action => 'friends'
-  map.connect ':id/subscriptions',  :controller => 'users', :action => 'subscriptions'
   map.connect ':id/digest',         :controller => 'users', :action => 'digest'
-  
-  map.connect ':id/follow',         :controller => 'users', :action => 'follow'
-  map.connect ':id/unfollow',       :controller => 'users', :action => 'unfollow'
-  
-  map.connect ':id/activity.rss',   :controller => 'users', :action => 'activity', :format => 'rss'
-  
   map.connect 'members/:action',    :controller => 'users'
   
-  
-  # channels
-  map.connect 'channels/:action',   :controller => 'channels'
-  
-  
+   
   # inviter
   map.connect 'invitation/:action', :controller => 'invitation'
-  
   
   # twitter
   map.connect 'twitter/:action',    :controller => 'twitter'
   
-  
   # facebook connect
   map.connect 'fb_callback',        :controller => 'facebook', :action => 'fb_callback'
   map.connect 'facebook/:action',   :controller => 'facebook'
-  
-  
-  # search
-  map.connect 'search/:action',     :controller => 'search'
-  
-  
-  # tags
-  map.connect 'tags/:q',            :controller => 'tags'
-  map.connect 'tags/:q.rss',        :controller => 'tags', :format => 'rss'
-  
-  
-  # pages
-  map.connect 'about',              :controller => 'pages', :action => 'about'
-  map.connect 'contact',            :controller => 'pages', :action => 'contact'
-  map.connect 'faq',                :controller => 'pages', :action => 'faq'
-  map.connect 'tour',               :controller => 'pages', :action => 'tour'
-  map.connect 'tour-video',         :controller => 'pages', :action => 'tour_video'
-  map.connect 'privacy',            :controller => 'pages', :action => 'privacy'
-  map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
-  map.connect 'pages/:action',      :controller => 'pages'
-  
-  
+   
   # named paths
   map.user_channel ':user/channel', :controller => 'channels', :action => 'show', :channel => "channel"
   map.channel ':user/:channel',                 :controller => 'channels', :action => 'show'
@@ -181,14 +168,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.facebook_connect 'facebook/connect',      :controller => 'facebook', :action => 'connect'
   
-  
-  # front page
-   
   # generic routes
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
-  map.connect ':id', :controller => 'users', :action => 'activity'
-  
-  # named path for building the generic user route
-  map.user ':id', :controller => 'users', :action => 'activity'
 end

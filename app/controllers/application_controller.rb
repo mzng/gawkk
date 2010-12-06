@@ -98,38 +98,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # The current user should have a FacebookSession and a Gawkk account
-  def require_login_for_facebook
-    if ensure_authenticated_to_facebook and !user_logged_in?
-      if facebook_account = FacebookAccount.find(:first, :conditions => {:facebook_user_id => session[:facebook_session].user.uid.to_s})
-        @user = facebook_account.user
-        
-        # Update the user's last login time
-        @user.update_attribute(:cookie_hash, bake_cookie_for(@user))
-        @user.register_login!
-        
-        # Store the logged in user's id in the session
-        session[:user_id] = @user.id
-        register_friend_linking_request
-        
-        if session[:next_page]
-          session[:next_page].gsub!(/_session_id/, '_old_session_id')
-          
-          if session[:next_page][/\?/]
-            session[:next_page] = session[:next_page] + '&_session_id=' + params[:_session_id]
-          else
-            session[:next_page] = session[:next_page] + '?_session_id=' + params[:_session_id]
-          end
-          
-          redirect_to session[:next_page]
-          session[:next_page] = nil
-        end
-      elsif controller_name != 'facebook'
-        redirect_to :controller => 'facebook', :action => 'connect'
-      end
-    end
-  end
-  
   # Check for a remember cookie and autologin
   def check_cookie
     return if session[:user_id]
@@ -419,49 +387,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def setup_user_sidebar(user)
-    @followings_count = Rails.cache.fetch("users/#{user.id}/followings/count", :expires_in => 6.hours) do
-      User.followings_of(user).count
-    end
-    
-    @followings = Rails.cache.fetch("users/#{user.id}/followings/random", :expires_in => 6.hours) do
-      user.followings(:order => 'rand()', :limit => 25)
-    end
-    
-    # @followings = @followings.rand(15)
-    
-    
-    @followers_count = Rails.cache.fetch("users/#{user.id}/followers/count", :expires_in => 6.hours) do
-      User.followers_of(user).count
-    end
-    
-    @followers = Rails.cache.fetch("users/#{user.id}/followers/random", :expires_in => 6.hours) do
-      user.followers(:order => 'rand()', :limit => 25)
-    end
-    
-    # @followers = @followers.rand(15)
-    
-    
-    @friends_count = Rails.cache.fetch("users/#{user.id}/friends/count", :expires_in => 6.hours) do
-      User.friends_of(user).count
-    end
-    
-    @friends = Rails.cache.fetch("users/#{user.id}/friends/random", :expires_in => 6.hours) do
-      user.friends(:order => 'rand()', :limit => 25)
-    end
-    
-    # @friends = @friends.rand(15)
-    
-    
-    activity_types = Rails.cache.fetch("news_item_types/activity/set", :expires_in => 6.hours) do
-      NewsItemType.find(:all, :conditions => ['kind = ?', 'about a user']).collect{|type| type.id}
-    end
-    
-    @posts_count = Rails.cache.fetch("users/#{user.id}/activity/count", :expires_in => 6.hours) do
-      NewsItem.count(:all, :conditions => ['news_item_type_id IN (?) AND user_id = ?', activity_types, user.id])
-    end
-  end
-  
   def setup_category_sidebar(category = nil)
     if !category.nil?
       @related_channels = collect('channels', Channel.in_category(category.id).all(:order => 'rand()', :limit => 30))
@@ -513,8 +438,6 @@ class ApplicationController < ActionController::Base
   end
   
   def setup_channel_sidebar(channel)
-    #setup_category_sidebar
-    
     @recent_subscribers_count = Subscription.for_channel(channel).count
     @recent_subscribers = collect('users_from_subscriptions', Subscription.for_channel(channel).recent.all(:limit => 4))
     

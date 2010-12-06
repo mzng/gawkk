@@ -1,10 +1,9 @@
-<% video = channel_video %>
+<% video ||= channel_video %>
 <% news_item					= nil		if news_item.nil? -%>
 <% visible_title 			= true	if visible_title.nil? -%>
 <% refresh_thumbnail	= false if refresh_thumbnail.nil? -%>
 <% load_activity			= false	if load_activity.nil? -%>
 <% load_comments			= false	if load_comments.nil? -%>
-
 <% container_id ||= (news_item.nil? ? '' : "_#{news_item.id}") -%>
 <div id="video_<%= video.id %><%= container_id %>" class="video">
 	<table class="anchored_container" cellpadding="0" cellspacing="0">
@@ -12,7 +11,7 @@
       <td class="action_body">
         <div class="title">
           <%= smart_video_link video  %> <font size="1"> posted <span><%= time_ago_in_words(video.posted_at) %> ago</span> </font>
-          <span class="like_for_<%=video.id %>">
+          <span class="like_for_<%= video.id %>">
             <%= render :partial => "/videos/like", :locals => {:video => video, :container_id => container_id}  %>
           </span>
           

@@ -19,6 +19,7 @@
     <%= render @related_channels %>
   </div>
 
+  <% unless @videos.empty? %>
   <div class="divider">
     <h2>Videos</h2>
   </div>
@@ -30,5 +31,6 @@
         </div>
     </div>
   </div>
+<% end %>
 </div>
 

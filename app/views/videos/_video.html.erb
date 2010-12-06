@@ -30,7 +30,7 @@
 		<tr>
       <td class="action_body">
         <div class="title">
-          <%= link_to video.title, discuss_video_path(video) %>
+          <%= link_to video.title, smart_video_link(video, true) %>
         </div>
 				<div class="body">
 					<% if @tagged -%>
