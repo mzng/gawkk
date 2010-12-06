@@ -60,13 +60,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
 # videos
   map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
-  map.connect ':id/discuss',                  :controller => 'videos', :action => 'discuss' 
-  map.connect ':id/watch',                    :controller => 'videos', :action => 'watch'
-  map.connect ':id/like',                     :controller => 'videos', :action => 'like'
-  map.connect ':id/dislike',                  :controller => 'videos', :action => 'dislike'
-  map.connect ':id/unlike',                   :controller => 'videos', :action => 'unlike'
-  map.connect ':id/comment',                  :controller => 'videos', :action => 'comment'
-  map.connect ':id/share',                    :controller => 'videos', :action => 'share'
+  map.connect '/:id/discuss',                  :controller => 'videos', :action => 'discuss' 
+  map.connect '/:id/watch',                    :controller => 'videos', :action => 'watch'
+  map.connect '/:id/like',                     :controller => 'videos', :action => 'like'
+  map.connect '/:id/dislike',                  :controller => 'videos', :action => 'dislike'
+  map.connect '/:id/unlike',                   :controller => 'videos', :action => 'unlike'
+  map.connect '/:id/comment',                  :controller => 'videos', :action => 'comment'
+  map.connect '/:id/share',                    :controller => 'videos', :action => 'share'
   #legacy routes
   map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'
   map.connect 'all/popular',              :controller => 'redirections', :action => 'all_popular'
