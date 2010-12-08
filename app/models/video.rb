@@ -19,7 +19,7 @@ class Video < ActiveRecord::Base
   attr_accessor :master_score
   
   named_scope :newest, :select => 'id, posted_at', :order => 'id DESC'
-  named_scope :popular, :select => 'id, promoted_at', :conditions => 'promoted_at IS NOT NULL', :order => 'promoted_at DESC'
+  named_scope :popular, :select => 'id', :conditions => "popularity_score IS NOT NULL", :order => "popularitiy_score desc"
   named_scope :allowed_on_front_page, lambda {{:select => 'id, category_id', :conditions => ['category_id IN (?)', Category.allowed_on_front_page_ids]}}
   named_scope :in_category, lambda {|category| {:select => 'id, category_id', :conditions => ['category_id = ?', category.id]}}
   named_scope :in_categories, lambda {|categories| {:select => 'id, category_id', :conditions => ['category_id IN (?)', categories]}}
@@ -49,6 +49,21 @@ class Video < ActiveRecord::Base
     self.update_attribute('short_code', Util::BaseConverter.to_base54(self.id))
     
     return true
+  end
+
+  def after_save
+    if self.likes_count && self.likes_count > self.dislikes_count
+      ActiveRecord::Base.connection.execute "
+      UPDATE videos 
+      SET popularity_score = log10(likes_count - dislikes_count) + (datediff(posted_at, '2007-01-01 00:00:00.0000')/500) 
+      WHERE id = #{self.id}"
+    elsif self.popularity_score
+      ActiveRecord::Base.connection.execute "
+      UPDATE videos 
+      SET popularity_score = null
+      WHERE id = #{self.id}"
+    end
+
   end
   
   def before_save
