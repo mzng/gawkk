@@ -71,10 +71,6 @@ class Video < ActiveRecord::Base
     self.embed_code   = Util::EmbedCode.scrub(self.embed_code)
     self.hashed_url   = Digest::SHA2.hexdigest(self.url.nil? ? '' : self.url)
     
-    Rails.cache.delete(self.cache_key)
-    Rails.cache.delete(self.long_cache_key)
-    Rails.cache.delete("videos/#{self.id}/first-channel")
-    
     self.news_items.each do |news_item|
       Rails.cache.delete(news_item.cache_key)
     end
@@ -83,9 +79,6 @@ class Video < ActiveRecord::Base
   end
   
   def before_destroy
-    Rails.cache.delete(self.cache_key)
-    Rails.cache.delete(self.long_cache_key)
-    Rails.cache.delete("videos/#{self.id}/first-channel")
     
     return true
   end

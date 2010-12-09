@@ -1,6 +1,7 @@
 set :application, "gawkk"
 set :repository,  "git@github.com:mzng/gawkk.git"
 set :scm, :git
+set :app_symlinks, %w{images/thumbnails images/users sitemaps}
 
 if target && target == 'production'
   set :environment, :production
@@ -32,4 +33,24 @@ namespace :deploy do
    end
 end
 
+namespace :app do
+  namespace :symlinks do
+    desc "Ensures directories for symlinking are available"
+    task :setup_db, :roles => :db do
+      if app_symlinks
+        app_symlinks.each {|link| run "mkdir -p #{shared_path}/public/#{link}"}
+      end
+    end
+
+    desc "Links public directories to shared location"
+    task :update_db, :roles => :db do
+      if app_symlinks
+        app_symlinks.each {|link| run "ln -nfs #{shared_path}/public/#{link} #{current_path}/public/#{link}"}
+      end
+    end
+  end
+end
+
+after 'app:symlinks:setup',  'app:symlinks:setup_db'
+after 'app:symlinks:update', 'app:symlinks:update_db'
 

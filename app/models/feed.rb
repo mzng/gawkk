@@ -145,20 +145,20 @@ class Feed < ActiveRecord::Base
           if !video.thumbnail.blank?
             retry_count = 0
             
-            if Rails.env.production?
-              begin
-                open("http://www.gawkk.com/images/#{video.thumbnail}")
-              rescue OpenURI::HTTPError
-                if retry_count > 1
-                  ImportMailer.deliver_automatic_shutdown_notification(video)
-                  Parameter.set('feed_importer_status', 'false')
-                else
-                  retry_count = retry_count + 1
-                  sleep(3 * retry_count)
-                  retry
-                end
-              end
-            end
+          #  if Rails.env.production?
+          #    begin
+          #      open("http://www.gawkk.com/images/#{video.thumbnail}")
+          #    rescue OpenURI::HTTPError
+          #      if retry_count > 1
+          #        ImportMailer.deliver_automatic_shutdown_notification(video)
+          #        Parameter.set('feed_importer_status', 'false')
+          #      else
+          ##        retry_count = retry_count + 1
+           #       sleep(3 * retry_count)
+           #       retry
+           #     end
+           #   end
+           # end
           end
           
           break if !Parameter.status?('feed_importer_status')
@@ -182,7 +182,7 @@ class Feed < ActiveRecord::Base
         self.update_attribute('last_video_imported_at', report.created_at) if report.videos_count > 0
         
         logger.debug " done"
-      rescue
+     # rescue
         # something went wrong, the report's completed_succesffully field will be left as false
      #   deactivate = true
      #   reports = FeedImporterReport.find(:all, :conditions => ['feed_id = ? AND scheduled = false', self.id], :order => 'created_at desc', :limit => 3)
@@ -285,8 +285,8 @@ class Feed < ActiveRecord::Base
         feed.locked = true
         feed.save
         feed.import(word_lists, keep_fresh)
-      rescue
-         handled inside feed.import
+     # rescue
+        # handled inside feed.import
       ensure
         feed.channel_videos_count = Video.count(:all, :joins => 'LEFT JOIN feed_importer_reports ON videos.feed_importer_report_id = feed_importer_reports.id', :conditions => ['feed_importer_reports.feed_id = ?', feed.id])
         feed.locked = false

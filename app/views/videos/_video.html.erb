@@ -35,11 +35,11 @@
 				<div class="body">
 					<% if @tagged -%>
 						<div class="thumbnail">
-							<%#= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
+							<%= link_to image_tag(video.thumbnail.blank? ? 'no-image.png' : video.thumbnail), {:controller => 'videos', :action => 'discuss', :id => video} %>
 						</div>
 					<% else -%>
 						<div class="thumbnail" onclick="watchVideo('<%= video.id %>','<%= video.slug %>','<%= container_id %>');" >
-							<%#= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
+							<%= image_tag('play-overlay-filler.png', :mouseover => "/images/play-overlay-hover.png") %>
 						</div>
 					<% end -%>
           <div class="description">
