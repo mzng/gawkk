@@ -25,6 +25,8 @@ else
   role :db,  "85.214.99.61", :primary => true
 end
 
+set :keep_releases, 4 
+
 namespace :deploy do
    task :start do ; end
    task :stop do ; end

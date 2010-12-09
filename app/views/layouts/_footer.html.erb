@@ -1,9 +1,7 @@
 <div id="footer">
 	<div class="container">
 		<div class="heading">Site Links</div>
-		<div><%= link_to 'Videos by Category', '/all/newest' %></div>
-		<div><%= link_to 'Popular Videos', '/all/popular' %></div>
-		<div><%= link_to 'Newest Videos', '/all/newest' %></div>
+		<div><%= link_to 'Videos by Category', topic_link(true) %></div>
 		<div><%= link_to 'Sitemap', '/sitemaps/index.html' %></div>
 	</div>
 	<div class="container">
@@ -21,13 +19,13 @@
 		<div class="heading">About Gawkk</div>
 		<div><%= link_to 'About Us', '/about' %></div>
 		<div><%= link_to 'Contact Us', '/contact' %></div>
-		<div><%= link_to 'The Gawkk Blog', 'http://blog.gawkk.com', :target => 'blog' %></div>
+		<div>&nbsp;<%#= link_to 'The Gawkk Blog', 'http://blog.gawkk.com', :target => 'blog' %></div>
 	</div>
 	<div class="container">
 		<div class="heading">Help</div>
 		<div><%= link_to 'Frequent Questions', '/faq' %></div>
-		<div><%= link_to 'Take Web Tour', '/tour' %></div>
-		<div><%= link_to 'Take Video Tour', '/tour-video' %></div>
+		<div>&nbsp;<%#= link_to 'Take Web Tour', '/tour' %></div>
+		<div>&nbsp;<%#= link_to 'Take Video Tour', '/tour-video' %></div>
 	</div>
 	<div class="container" style="border-right:0px;">
 		<div class="heading">Legal</div>
@@ -38,5 +36,5 @@
 </div>
 
 <div id="copyright">
-	&copy; Copyright 2007 - 2009, Gawkk.com
+	&copy; Copyright 2007 - 2010, Gawkk.com
 </div>
