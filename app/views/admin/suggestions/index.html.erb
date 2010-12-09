@@ -8,8 +8,8 @@
 		<tbody>
 			<% @users.each do |user| -%>
 				<tr<% if !user.description.blank? -%> class="not-separated"<% end -%>>
-					<td class="avatar-container"><%= link_to image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)), user_path(:id => user), :target => "edit-#{user.slug}" %></td>
-					<td><%= link_to user.username, user_path(:id => user), :target => "edit-#{user.slug}" %></td>
+            <td class="avatar-container"><%= image_tag((user.thumbnail.blank? ? 'g-avatar.png' : user.thumbnail)) %></td>
+					<td><%= user.username %></td>
 					<td style="text-align:right;"><%= pluralize(User.followers_of(user).count, 'Follower') %></td>
 					<td class="actions" style="width:100px;">
 						<%= link_to 'Edit', {:controller => '/settings', :id => user.slug}, :target => "edit-#{user.slug}" %> |

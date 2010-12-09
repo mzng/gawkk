@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'terms-of-use',       :controller => 'pages', :action => 'terms_of_use'
   map.connect 'pages/:action',      :controller => 'pages'
 
+  map.connect 'topics',                       :controller => 'videos', :action => 'index'
   # registration
   map.connect 'register',             :controller => 'registration', :action => 'register'
   map.connect 'setup/services',       :controller => 'registration', :action => 'setup_services'
@@ -38,7 +39,28 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'settings/activity/group',    :controller => 'settings', :action => 'group_activity'
   map.connect 'settings/activity/ungroup',  :controller => 'settings', :action => 'ungroup_activity'
   map.connect 'settings/:action',           :controller => 'settings'
- 
+  # administration areas
+  map.connect 'admin/overview/:action',     :controller => 'admin/overview'
+  map.connect 'admin/channels/:action',     :controller => 'admin/channels'
+  map.connect 'admin/comments/:action',     :controller => 'admin/comments'
+  map.connect 'admin/import/:action',       :controller => 'admin/import'
+  map.connect 'admin/likes/:action',        :controller => 'admin/likes'
+  map.connect 'admin/dislikes/:action',        :controller => 'admin/dislikes'
+  map.connect 'admin/parameters/:action',   :controller => 'admin/parameters'
+  map.connect 'admin/statistics/:action',   :controller => 'admin/statistics'
+  map.connect 'admin/suggestions/:action',  :controller => 'admin/suggestions'
+  map.connect 'admin/users/:action',        :controller => 'admin/users'
+  map.connect 'admin/videos/:action',       :controller => 'admin/videos'
+  map.connect 'admin/searches/:action',       :controller => 'admin/searches'
+
+  map.connect 'admin/submissions/new',      :controller => 'admin/submissions', :action => 'new'
+  map.connect 'admin/submissions/get-channels',      :controller => 'admin/submissions', :action => 'get_channels'
+  map.connect 'admin/submissions',          :controller => 'admin/submissions', :action => 'create'
+  map.connect 'admin/user_submissions/:action',          :controller => 'admin/user_submissions'
+  
+  # nested administration areas
+  map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
+
   # channels
   map.connect 'channels/:action',   :controller => 'channels'
 
@@ -58,7 +80,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'movies-previews-trailers', :conditions => { :subdomain => "movies" }
   map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
-# videos
+
+  # videos
   map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
   map.connect '/:id/discuss',                  :controller => 'videos', :action => 'discuss' 
   map.connect '/:id/watch',                    :controller => 'videos', :action => 'watch'
@@ -67,6 +90,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/unlike',                   :controller => 'videos', :action => 'unlike'
   map.connect '/:id/comment',                  :controller => 'videos', :action => 'comment'
   map.connect '/:id/share',                    :controller => 'videos', :action => 'share'
+
   #legacy routes
   map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'
   map.connect 'all/popular',              :controller => 'redirections', :action => 'all_popular'
@@ -100,41 +124,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'tags/:q',                  :controller => 'redirections', :action => 'tags_q'
   map.connect 'tags/:q.rss',              :controller => 'redirections', :action => 'tags_q_rss'
   
-  
-  
-  
-
-  # administration areas
-  map.connect 'admin/overview/:action',     :controller => 'admin/overview'
-  map.connect 'admin/channels/:action',     :controller => 'admin/channels'
-  map.connect 'admin/comments/:action',     :controller => 'admin/comments'
-  map.connect 'admin/import/:action',       :controller => 'admin/import'
-  map.connect 'admin/likes/:action',        :controller => 'admin/likes'
-  map.connect 'admin/dislikes/:action',        :controller => 'admin/dislikes'
-  map.connect 'admin/parameters/:action',   :controller => 'admin/parameters'
-  map.connect 'admin/statistics/:action',   :controller => 'admin/statistics'
-  map.connect 'admin/suggestions/:action',  :controller => 'admin/suggestions'
-  map.connect 'admin/users/:action',        :controller => 'admin/users'
-  map.connect 'admin/videos/:action',       :controller => 'admin/videos'
-  map.connect 'admin/searches/:action',       :controller => 'admin/searches'
-
-  map.connect 'admin/submissions/new',      :controller => 'admin/submissions', :action => 'new'
-  map.connect 'admin/submissions/get-channels',      :controller => 'admin/submissions', :action => 'get_channels'
-  map.connect 'admin/submissions',          :controller => 'admin/submissions', :action => 'create'
-  map.connect 'admin/user_submissions/:action',          :controller => 'admin/user_submissions'
-  
-  # nested administration areas
-  map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
-  
-    
-  
-  
 
   map.connect 'topics/:category.rss',         :controller => 'videos', :action => 'category', :format => "rss"
   map.connect 'topics/:category/channels',    :controller => 'channels', :action => 'index'
   map.connect 'topics/:category',             :controller => 'videos', :action => 'category'
-  map.connect 'topics',                       :controller => 'videos', :action => 'index'
-  map.connect 'topics.rss',                   :controller => 'videos', :action => 'index', :format => "rss"
   map.connect ':category/:channel',           :controller => 'channels', :action => 'show'
   map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'
   
@@ -142,8 +135,6 @@ ActionController::Routing::Routes.draw do |map|
 
   # news items
   map.connect 'news_items/:action', :controller => 'news_items'
-  
- 
   
   # users
   map.connect ':id/digest',         :controller => 'users', :action => 'digest'

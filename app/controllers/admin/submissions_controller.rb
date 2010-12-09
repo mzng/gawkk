@@ -43,7 +43,7 @@ layout 'page'
           next if i == sv.video_id
           this_ids << i
         end
-        sv.next_videos = this_ids.join(', ')
+        sv.next_videos = this_ids.join(' ')
         sv.save
       end
     end

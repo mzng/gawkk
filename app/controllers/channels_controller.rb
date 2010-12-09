@@ -77,7 +77,7 @@ class ChannelsController < ApplicationController
 
     @videos = Rails.cache.fetch(cache_key, :expires_in => 1.hour) do
       if @popular
-        ids = Video.find_by_sql("SELECT videos.id FROM videos INNER JOIN saved_videos sv on videos.id = sv.video_id WHERE sv.channel_id = #{@channel.id} ORDER BY likes_count desc LIMIT #{@per_page} OFFSET #{@offset}").collect { |x| x.id } 
+        ids = Video.find_by_sql("SELECT videos.id FROM videos INNER JOIN saved_videos sv on videos.id = sv.video_id WHERE sv.channel_id = #{@channel.id} ORDER BY popularity_score desc LIMIT #{@per_page} OFFSET #{@offset}").collect { |x| x.id } 
       Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
       else
         ids = @channel.videos(:select => :video_id, :order => "created_at desc", :offset => @offset, :limit => @per_page).collect { |x| x.video_id } 

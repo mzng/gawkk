@@ -15,10 +15,8 @@ test:
 production:
  adapter: mysql
  database: gawkk_production
- #username: gawkk_user
- #password: 0DU5LjQym7Rrh1P
- username: root
- password: staging 
+ username: debian-sys-maint
+ password: Var1U8Scr3F9a4jk 
  host: localhost
 
 staging:

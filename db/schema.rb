@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101202092345) do
+ActiveRecord::Schema.define(:version => 20101207080019) do
 
   create_table "activity_messages", :id => false, :force => true do |t|
     t.integer  "user_id"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20101202092345) do
   add_index "channels", ["user_id"], :name => "newfk"
   add_index "channels", ["earliest_video_id"], :name => "earliest_video_id"
   add_index "channels", ["latest_video_id"], :name => "latest_video_id"
+  add_index "channels", ["user_owned"], :name => "asdf"
 
   create_table "comments", :force => true do |t|
     t.text     "body"
@@ -532,6 +533,7 @@ ActiveRecord::Schema.define(:version => 20101202092345) do
     t.integer  "likes_count",              :default => 0
     t.string   "hashed_url"
     t.integer  "dislikes_count",           :default => 0
+    t.integer  "popularity_score"
   end
 
   add_index "videos", ["posted_by_id"], :name => "posted_by_id"
@@ -542,6 +544,8 @@ ActiveRecord::Schema.define(:version => 20101202092345) do
   add_index "videos", ["hashed_url"], :name => "index_videos_on_hashed_url"
   add_index "videos", ["dislikes_count"], :name => "index_videos_on_dislikes_count"
   add_index "videos", ["likes_count"], :name => "index_videos_on_likes_count"
+  add_index "videos", ["posted_at"], :name => "new_index"
+  add_index "videos", ["popularity_score"], :name => "index_videos_on_popularity_score"
 
   create_table "views", :force => true do |t|
     t.integer  "user_id"

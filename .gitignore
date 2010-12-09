@@ -10,6 +10,7 @@ db/sphinx
 public/images/thumbnails
 public/images/users
 public/sitemaps
+public/sitemap.xml
 vendor/plugins/acts_as_solr/solr/tmp/development_pid
 vendor/plugins/acts_as_solr/solr/solr/data/development
 nbproject

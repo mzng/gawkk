@@ -5,7 +5,11 @@
 	<% form_for(@comment, :url => {:controller => 'admin/comments', :action => 'update', :id => @comment.id}) do |f| %>
 		<table cellpadding="3" cellspacing="0">
 			<tr>
-				<td class="title" colspan="2"><%= link_to @comment.commentable.title, {:controller => 'videos', :action => 'discuss', :id => @comment.commentable} %></td>
+        <td class="title" colspan="2">
+          <% if @comment.commentable %>
+            <%= link_to @comment.commentable.title, {:controller => 'videos', :action => 'discuss', :id => @comment.commentable} %>
+          <% end %>
+          </td>
 			</tr>
 			<tr>
 				<td><%= render :partial => '/users/user', :locals => {:user => @comment.user} %></td>

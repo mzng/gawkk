@@ -69,7 +69,7 @@ class VideosController < ApplicationController
         Channel.in_category(@category.id).all(:order => 'rand()', :limit => 30, :include => :user)
       end
  
-      @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes, :force => true) do
+      @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes) do
         ids = Video.popular.in_category(@category).all(:limit => @per_page)
         if ids.empty?
           ids = Video.in_category(@category).all(:order => "id desc", :limit => @per_page)
@@ -78,7 +78,7 @@ class VideosController < ApplicationController
         if ids.empty?
           []
         else
-          Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'promoted_at DESC')
+          Video.find(ids, :include => [:category, {:posted_by => :channels}, {:saved_videos => {:channel => :user}}], :order => 'popularity_score desc')
         end
         
       end
@@ -133,6 +133,12 @@ class VideosController < ApplicationController
     #setup_category_sidebar(@category)
     setup_related_videos(@video)
     
+    if @video.next_videos.blank?
+      @parts = nil
+    else
+      @parts = Video.find(:all, :conditions => "id in (#{@video.next_videos.gsub(' ', ',')})", :order => :id)
+    end
+
     begin
       @tagged = true # (rand(2) == 0)
       @generate_phrases = true

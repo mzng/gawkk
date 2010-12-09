@@ -7,7 +7,7 @@ namespace "popularity" do
   task "recreate" => :environment do
    ActiveRecord::Base.connection.execute "
       UPDATE videos 
-      SET popularity_score = log10(likes_count - dislikes_count) + (datediff(posted_at, '2007-01-01 00:00:00.0000')/500) 
+      SET popularity_score = (log10(likes_count - dislikes_count) + (datediff(posted_at, '2007-01-01 00:00:00.0000')/300)) * 10000
       WHERE likes_count > dislikes_count"
   end
 end
