@@ -4,7 +4,7 @@
     </h1>
 
 		<%= render :partial => "/layouts/breadcrumbs", :locals => {:page => @page, 
-      :crumbs => [{:name => 'Topics', :params => {:controller => 'videos', :action => "index"}},{:name => @video.category.name, :params => smart_category_link(@video.category,@video.popular?, true)}, 
+      :crumbs => [{:name => 'Topics', :params => topic_link(true)},{:name => @video.category.name, :params => smart_category_link(@video.category,false, true)}, 
         {:name => @video.posted_by.channels.first.name, :params => smart_channel_link(@video.posted_by, @video.posted_by.channels.first, true)},
     {:name => @video.title}]} %>
 
@@ -24,12 +24,12 @@
 
 			<% if !@channel.nil? -%>
 				<%= render :partial => "/layouts/set", :locals => {:title => @channel.name, :collection => @channel_videos, 
-							:link => channel_path(@channel.user, @channel), :force_link => true} %>
+							:link => smart_channel_link(@user, @channel, true), :force_link => true} %>
 			<% end -%>
 
 			<% if !@category.nil? -%>
 				<%= render :partial => "/layouts/set", :locals => {:title => @category.name, :collection => @category_videos, 
-							:link => {:controller => 'videos', :action => 'category', :category => @category, :popular => false}, :force_link => true} %>
+							:link => smart_category_link(@video.category,false, true), :force_link => true} %>
 			<% end -%>
 		</div>
 
