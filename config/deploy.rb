@@ -51,6 +51,5 @@ namespace :app do
   end
 end
 
-after 'app:symlinks:setup',  'app:symlinks:setup_db'
-after 'app:symlinks:update', 'app:symlinks:update_db'
+after 'deploy:symlink',  'app:symlinks:update_db'
 
