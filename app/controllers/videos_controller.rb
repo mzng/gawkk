@@ -138,29 +138,6 @@ class VideosController < ApplicationController
     else
       @parts = Video.find(:all, :conditions => "id in (#{@video.next_videos.gsub(' ', ',')})", :order => :id)
     end
-
-    begin
-      @tagged = true # (rand(2) == 0)
-      @generate_phrases = true
-      
-      @news_item = nil
-      
-      if params[:nid] and params[:nid].to_s.match(/^[0-9]+$/)
-        if @news_item = NewsItem.find(params[:nid].to_i)
-          if @news_item.reportable_type != 'Video' or @news_item.reportable_id != @video.id
-            @news_item = nil
-          end
-        end
-      elsif params[:cid] and params[:cid].to_s.match(/^[0-9]+$/)
-        if comment = Comment.find(params[:cid].to_i)
-          if comment.commentable_type == 'Video' and comment.commentable_id == @video.id
-            @news_item = NewsItem.find(:first, :conditions => {:actionable_type => 'Comment', :actionable_id => comment.id})
-          end
-        end
-      end
-    rescue
-      # Finding an associated NewsItem is not necessary.
-    end
     
     @base_user = (logged_in_user or User.new)
     @include_followings = true
@@ -317,7 +294,7 @@ class VideosController < ApplicationController
   end
   
   def load_video
-    if params[:id] and @video = Rails.cache.fetch("videos/#{params[:id].first(225)}", :expires_in => 1.day) {Video.find_by_slug(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])}
+    if params[:id] and @video = Video.find_by_slug(params[:id], :include => [:category, {:saved_videos => {:channel => :user}}])
       yield
     else
       flash[:notice] = 'The video you are looking for does not exist.'
