@@ -24,7 +24,7 @@
 
 			<% if !@channel.nil? -%>
 				<%= render :partial => "/layouts/set", :locals => {:title => @channel.name, :collection => @channel_videos, 
-							:link => smart_channel_link(@user, @channel, true), :force_link => true} %>
+							:link => smart_channel_link(@video.posted_by, @video.posted_by.channels.first, true), :force_link => true} %>
 			<% end -%>
 
 			<% if !@category.nil? -%>
