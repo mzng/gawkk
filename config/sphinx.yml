@@ -2,8 +2,8 @@ development:
     address: localhost
     
 production:
-    address: 75.127.77.202
-    searchd_file_path: /var/www/apps/gawkk/shared/sphinx/
-    searchd_log_file: /var/www/apps/gawkk/shared/log/searchd.log
-    query_log_file: /var/www/apps/gawkk/shared/log/searchd.query.log
-    pid_file: /var/www/apps/gawkk/shared/pids/searchd.production.pid
+    address: 64.120.164.149/
+    searchd_file_path: /home/gawkk-app/shared/sphinx/
+    searchd_log_file: /home/gawkk-app/shared/log/searchd.log
+    query_log_file: /home/gawkk-app/shared/log/searchd.query.log
+    pid_file: /home/gawkk-app/shared/pids/searchd.production.pid
