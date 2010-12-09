@@ -1,5 +1,6 @@
 require 'digest/sha1'
 require 'open-uri'
+require 'feed_tools'
 
 class Feed < ActiveRecord::Base
   belongs_to :category
@@ -183,21 +184,17 @@ class Feed < ActiveRecord::Base
         logger.debug " done"
       rescue
         # something went wrong, the report's completed_succesffully field will be left as false
-        deactivate = true
-        reports = FeedImporterReport.find(:all, :conditions => ['feed_id = ? AND scheduled = false', self.id], :order => 'created_at desc', :limit => 3)
-        if reports.size == 3
-          reports.each do |report|
-            deactivate = false if report.completed_successfully?
-          end
-          
-          if deactivate
-            if self.update_attribute('active', false)
-              spawn do
-                # FeedManagerMailer.deliver_deactivation_notice(self)
-              end
-            end
-          end
-        end
+     #   deactivate = true
+     #   reports = FeedImporterReport.find(:all, :conditions => ['feed_id = ? AND scheduled = false', self.id], :order => 'created_at desc', :limit => 3)
+     #   if reports.size == 3
+     #     reports.each do |report|
+     #       deactivate = false if report.completed_successfully?
+     #     end
+     #     
+     #     if deactivate
+     #       self.update_attribute('active', false)
+     #     end
+     #   end
       end
       
       return report
@@ -289,7 +286,7 @@ class Feed < ActiveRecord::Base
         feed.save
         feed.import(word_lists, keep_fresh)
       rescue
-        # handled inside feed.import
+         handled inside feed.import
       ensure
         feed.channel_videos_count = Video.count(:all, :joins => 'LEFT JOIN feed_importer_reports ON videos.feed_importer_report_id = feed_importer_reports.id', :conditions => ['feed_importer_reports.feed_id = ?', feed.id])
         feed.locked = false
