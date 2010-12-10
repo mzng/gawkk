@@ -60,12 +60,41 @@ class ChannelsController < ApplicationController
   
   # Streams
   def show
-    pitch
     set_feed_url("http://www.gawkk.com/#{@user.slug}/channel.rss")
     set_meta_description(@channel.proper_name + (@user.description.blank? ? '' : ': ' + @user.description))
     set_meta_keywords(@channel.keywords)
     set_title(@channel.proper_name)
     setup_pagination
+
+    category = nil
+    category = Category.find(@channel.category) unless @channel.category.blank?
+
+    if category
+      if category.slug =~ /television/
+        pitch
+        @pitch_title = "Welcome to Gawkk!"
+        @pitch_key = 'channel_tv'
+        set_title("Watch #{@channel.proper_name}")
+        set_meta_keywords("watch #{@channel.proper_name},watch #{@channel.proper_name} online for free,watch #{@channel.proper_name} free online")
+        set_meta_description "Start following #{@channel.proper_name} for free. Keep up to date with the weekly epsodes. Gawkk helps organize millions of video on the web into specific tv show channel. Watch #{@channel.proper_name}"
+      elsif category.slug =~ /movies/
+        pitch
+        @pitch_title = "Welcome to Gawkk!"
+        @pitch_key = 'channel_movie'
+        set_title("Watch #{@channel.proper_name} Online For Free")
+        set_meta_keywords("watch #{@channel.proper_name} Online,{title} free online,watch #{@channel.proper_name}")
+        set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.proper_name} Online For Free."
+      else
+         set_title("The #{@channel.proper_name} Channel")
+      set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name} channel")
+      set_meta_description @user.description.blank? ? ("The {title} Channel on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} channel on Gawkk") : @user.description
+      end
+    else
+      set_title("The #{@channel.proper_name} Channel")
+      set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name} channel")
+      set_meta_description @user.description.blank? ? ("The {title} Channel on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} channel on Gawkk") : @user.description
+
+    end
 
     @popular = !params[:newest]
 

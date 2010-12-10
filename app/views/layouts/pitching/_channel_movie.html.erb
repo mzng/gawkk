@@ -1,0 +1,18 @@
+<div id="pitch" style="background: url(/images/welcome-header-bg.png) #bcdff3;border-color: #acacac">
+		<div id="sign-up">
+			<p id="one-click">Sign up with one click:</p>
+			<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
+				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
+			<% end -%>
+			<p>Or, <%= link_to_remote('log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your account.</p>
+      <p>Or, <%= link_to 'register', '/register' %> a new account.</p>
+    </div>
+		<div id="copy">
+			<p style="font-size:16pt;font-weight:bold;">
+					<%= @pitch_title %>
+			</p>
+      <p>Gawkk is the best place to follow your favorite movies, share, and discuss about videos from around the web. By following a channel, you can stay up to date with the latest trailer, free <%= @channel.proper_name %>, and watch <%= @channel.proper_name %> free online.
+
+      </p>
+		</div>
+	</div>

@@ -46,7 +46,7 @@
 		<%= render :partial => "/layouts/header" %>
 		
 		<div id="outer">
-			<%= render(:partial => "/layouts/pitch") if @pitch %>
+			<%= render(:partial => "/layouts/pitch") if @pitch && !user_logged_in? %>
 			
 			<% if !flash[:notice].blank? -%>
 				<p id="flash"><%= flash[:notice] %></p>

@@ -68,7 +68,19 @@ class VideosController < ApplicationController
       @related_channels = Rails.cache.fetch("r_c_#{@category.slug}", :expires_in => 30.minutes) do
         Channel.in_category(@category.id).all(:order => 'rand()', :limit => 30, :include => :user)
       end
- 
+
+      if @category.slug =~ /television/
+        @pitch_key = 'tv'
+        set_title("Watch Tv Shows for Free Online | Follow your favorite Tv Shows Online")
+        set_meta_keywords("watch tv shows free,watch tv shows for free,watch tv shows online,watch tv shows")
+        set_meta_description "Watch Free Tv Shows! Keep updated by following all your favorite Tv Shows for Free!"
+      elsif @category.slug =~  /movies/
+        @pitch_key = 'movies'
+        set_title("Watch Movies Free Online")
+        set_meta_keywords("watch movies,free movies,free online movies,watch movies online")
+        set_meta_description "Watch Movies Online Free! Gawkk Indexes Millions of Movies daily and categories them into channels so that you can follow a channel and keep updated."
+      end
+
       @videos = Rails.cache.fetch("c_#{@category.id}_vid", :expires_in => 30.minutes) do
         ids = Video.popular.in_category(@category).all(:limit => @per_page)
         if ids.empty?
