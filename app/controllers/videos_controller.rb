@@ -59,7 +59,6 @@ class VideosController < ApplicationController
   def category
       
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
-      pitch
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       set_title("Videos in The #{@category.name} Topic")
       
@@ -70,11 +69,13 @@ class VideosController < ApplicationController
       end
 
       if @category.slug =~ /television/
+        pitch
         @pitch_key = 'tv'
         set_title("Watch Tv Shows for Free Online | Follow your favorite Tv Shows Online")
         set_meta_keywords("watch tv shows free,watch tv shows for free,watch tv shows online,watch tv shows")
         set_meta_description "Watch Free Tv Shows! Keep updated by following all your favorite Tv Shows for Free!"
       elsif @category.slug =~  /movies/
+        pitch
         @pitch_key = 'movies'
         set_title("Watch Movies Free Online")
         set_meta_keywords("watch movies,free movies,free online movies,watch movies online")

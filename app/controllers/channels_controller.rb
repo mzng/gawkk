@@ -85,14 +85,14 @@ class ChannelsController < ApplicationController
         set_meta_keywords("watch #{@channel.proper_name} Online,#{@channel.proper_name} free online,watch #{@channel.proper_name}")
         set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.proper_name} Online For Free."
       else
-         set_title("The #{@channel.proper_name}")
+         set_title("#{@channel.proper_name}")
       set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name}")
-      set_meta_description @user.description.blank? ? ("The #{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
+      set_meta_description @user.description.blank? ? ("#{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
       end
     else
-      set_title("The #{@channel.proper_name}")
+      set_title("#{@channel.proper_name}")
       set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name}")
-      set_meta_description @user.description.blank? ? ("The #{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
+      set_meta_description @user.description.blank? ? ("#{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
 
     end
 
