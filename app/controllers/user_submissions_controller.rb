@@ -13,18 +13,30 @@ class UserSubmissionsController < ApplicationController
   end
 
   def create
-    urls = params[:user_submission][:url].split ','
-    urls.each do |u|
-      @submission = UserSubmission.new(params[:user_submission])
-      @submission.url = u
-      if @submission.load_title
-        @submission.user_id = logged_in_user.id
-        @submission.save
-      end
-    end
-    flash[:notice] = "Your video has been submitted"
+    text = params[:user_submission][:url]
 
-    redirect_to :action => :index
+    if text.blank? || text == 'Video URL'
+      flash[:notice] = "Please enter an url" 
+      render 'index' and return
+    end
+
+    begin
+      urls = params[:user_submission][:url].split ','
+      urls.each do |u|
+        @submission = UserSubmission.new(params[:user_submission])
+        @submission.url = u
+        if @submission.load_title
+          @submission.user_id = logged_in_user.id
+          @submission.save
+        end
+      end
+      
+      flash[:notice] = "Your video has been submitted"
+      redirect_to :action => :index
+    rescue
+      flash[:notice] = "There was an error with your submission"
+      render 'index' and return
+    end
   end
 
   def declined
