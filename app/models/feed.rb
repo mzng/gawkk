@@ -145,20 +145,20 @@ class Feed < ActiveRecord::Base
           if !video.thumbnail.blank?
             retry_count = 0
             
-            if Rails.env.production?
-              begin
-                open("http://www.gawkk.com/images/#{video.thumbnail}")
-              rescue OpenURI::HTTPError
-                if retry_count > 1
+          #  if Rails.env.production?
+          #    begin
+          #      open("http://www.gawkk.com/images/#{video.thumbnail}")
+          #    rescue OpenURI::HTTPError
+          #      if retry_count > 1
                   #ImportMailer.deliver_automatic_shutdown_notification(video)
-                  Parameter.set('feed_importer_status', 'false')
-                else
-                  retry_count = retry_count + 1
-                 sleep(3 * retry_count)
-                 retry
-                end
-              end
-            end
+          #        Parameter.set('feed_importer_status', 'false')
+          #      else
+          #        retry_count = retry_count + 1
+          #       sleep(3 * retry_count)
+          #       retry
+          #      end
+          #    end
+          # end
           end
           
           break if !Parameter.status?('feed_importer_status')

@@ -1,5 +1,5 @@
 <% if !user_logged_in? -%>
-	<div id="pitch" style="background: url(/images/welcome-header-bg.png) no-repeat #bcdff3;border-color: #acacac">
+	<div id="pitch" style="background: url(/images/welcome-header-bg.png) #bcdff3;border-color: #acacac">
 		<span style="display:none;">
 			<%= submit_tag 'Join today!' %><br/>
 			or, <%= link_to 'take the tour', {:controller => 'pages', :action => 'tour'} %><br/><br/>
@@ -11,24 +11,20 @@
 				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
 			<% end -%>
 			<p>Or, <%= link_to_remote('log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your account.</p>
-		</div>
+      <p>Or, <%= link_to 'register', '/register' %> a new account.</p>
+    </div>
 		<div id="copy">
 			<p style="font-size:16pt;font-weight:bold;">
-				<% if outstanding_invitation -%>
-					You've been invited to join <%= (outstanding_invitation.host.name or outstanding_invitation.host.username) %> on Gawkk!
-				<% else -%>
 					<%= @pitch_title %>
-				<% end -%>
 			</p>
-			<p>Gawkk is the best place to <strong>discover</strong>, <strong>share</strong> and <strong>discuss videos</strong> from around the web with your friends by answering the question: <strong>What are you watching?</strong></p>
-			<% if outstanding_invitation -%>
-				<p>
-					<%= link_to_remote('Join the conversation today', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %>
-					to start following your friend, <%= link_to (outstanding_invitation.host.name or outstanding_invitation.host.username), user_path(:id => outstanding_invitation.host) , {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}%>!
-				</p>
-			<% else -%>
-				<p><%= link_to_remote('Join the conversation today!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %></p>
-			<% end -%>
+			<p>Welcome back to the new and improved Gawkk. We index millions of videos online daily and help you categorize them into channels so that you can follow your favorite movies, tv shows, and funny videos.</p>
+      <p>
+      <%= link_to 'Sign Up', '/register' %> or <%= link_to_remote('Login!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %> <br />
+      Find a channel in the video categories<br />
+      Get daily feeds from the channel
+
+      </p>
+			
 		</div>
 	</div>
 <% end -%>

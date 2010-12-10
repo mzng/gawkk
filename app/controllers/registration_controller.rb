@@ -28,16 +28,14 @@ class RegistrationController < ApplicationController
   end
   
   def register
-    standard_registration_enabled = false
+    standard_registration_enabled = true
     
     if !user_logged_in?
       if request.get?
+        @user = User.new
         respond_to do |format|
-          format.html {
-            redirect_to root_path(:register => true)
-          }
+          format.html 
           format.js {
-            @user = User.new
             @user.send_digest_emails = true
           }
         end
@@ -66,7 +64,7 @@ class RegistrationController < ApplicationController
         redirect_to root_path(:register => true)
       end
     else
-      redirect_to :action => "setup_services"
+      redirect_to :action => "setup_profile"
     end
   end
   
@@ -105,7 +103,7 @@ class RegistrationController < ApplicationController
       
       if @user.save
         flash[:notice] = 'Your registration is complete!'
-        redirect_to :action => "setup_suggestions"
+        redirect_to '/'
       end
     end
   end

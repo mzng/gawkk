@@ -11,15 +11,16 @@ class VideosController < ApplicationController
   def home
     pitch
     record_ad_campaign
-    set_meta_description("Gawkk is like a 'Twitter for videos' where members discover, share and discuss videos from around the web with their friends by answering the question: What are you watching?")
-    set_meta_keywords("video,media,sharing,social,social networking,twitter,facebook,news,tv shows,movies,music,funny videos")
-    setup_pagination
+    set_title "Free Funny Videos Online | Follow your favorite videos online"
+    set_meta_description("Keep updated with the latest videos by following your favorite online video channels. Gawkk's free video service helps you follow your favorite videos online.")
+    set_meta_keywords("video search,free online video,watch video online,videos online")
+   # setup_pagination
     
     @categories = Rails.cache.fetch('fp_categories', :expires_in => 1.week) do
       Category.allowed_on_front_page
     end
 
-    @searches = Rails.cache.fetch('fp_searches', :expires_in => 3.hours) do
+    @searches = Rails.cache.fetch('fp_searches', :expires_in => 1.hour) do
       StagedSearch.for_front_page
     end
 
