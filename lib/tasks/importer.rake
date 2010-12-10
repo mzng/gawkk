@@ -11,7 +11,8 @@ namespace :importer do
     
     if !running and Parameter.status?('feed_importer_status')
       Kernel.system("ruby script/runner -e #{Rails.env.to_s} \"Feed.import(false)\" &")
-      ProcessMailer.deliver_restart_notification('runner -e production Feed.import(false)')
+      Kernel.system("ruby script/runner -e #{Rails.env.to_s} \"Feed.import(false)\" &")
+      Kernel.system("ruby script/runner -e #{Rails.env.to_s} \"Feed.import(false)\" &")
     end
   end
   
