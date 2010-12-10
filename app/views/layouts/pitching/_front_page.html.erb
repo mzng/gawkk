@@ -5,6 +5,10 @@
 				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
       <% end -%>
       -->
+      <br />
+      <br />
+      <br />
+      <br />
       <p><%= link_to_remote('Log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your existing account <br />or, <%= link_to 'register', '/register' %> a new one.</p>
     </div>
 		<div id="copy">
@@ -13,9 +17,8 @@
 			</p>
 			<p>Welcome back to the new and improved Gawkk. We index millions of videos online daily and help you categorize them into channels so that you can follow your favorite movies, tv shows, and funny videos.</p>
       <p>
-      <%= link_to 'Sign Up', '/register' %> or <%= link_to_remote('Login!', {:url => {:controller => 'registration', :action => 'register', :f => 'pl'}, :method => :get}, {:style => 'color:#195baa;font-weight:bold;text-decoration:none;'}) %> <br />
-      Find a channel in the video categories<br />
-      Get daily feeds from the channel
+      1. Find a channel in the video categories<br />
+      2. Get daily feeds from the channel
       </p>
 		</div>
 	</div>
