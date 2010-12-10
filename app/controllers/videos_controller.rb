@@ -56,7 +56,6 @@ class VideosController < ApplicationController
   end
   
   def category
-    redirect_to category_path(params[:category]), :status=>301  and return if !request.url =~ /topics/ 
       
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
       pitch
@@ -84,6 +83,7 @@ class VideosController < ApplicationController
       end
     else
       flash[:notice] = 'The category you are looking for does not exist.'
+      #render :text => "NOES"
       redirect_to :action => "index", :newest => !@popular
     end
   end

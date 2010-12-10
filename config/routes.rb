@@ -81,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
 
+  map.connect ':category', :controller => 'videos', :action => 'category'
   # videos
   map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
   map.connect '/:id/discuss',                  :controller => 'videos', :action => 'discuss' 
@@ -90,6 +91,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/unlike',                   :controller => 'videos', :action => 'unlike'
   map.connect '/:id/comment',                  :controller => 'videos', :action => 'comment'
   map.connect '/:id/share',                    :controller => 'videos', :action => 'share'
+
+
 
   #legacy routes
   map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'
@@ -102,7 +105,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':category/newest/tagged',  :controller => 'redirections', :action => 'category_newest_tagged'
   map.connect ':category/popular/tagged', :controller => 'redirections', :action => 'category_popular_tagged'
 
-  map.connect ':user',                    :controller => 'redirections', :action => 'user'
   
   map.connect 'all/newest.rss',           :controller => 'redirections', :action => 'newest_rss'
   map.connect 'all/popular.rss',          :controller => 'redirections', :action => 'popular_rss'

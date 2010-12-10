@@ -58,7 +58,7 @@ module Util
       if subdomain
       
       else
-        url += "/topics/#{category.slug}"
+        url += "/#{category.slug}"
       end
 
       url

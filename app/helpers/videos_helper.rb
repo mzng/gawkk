@@ -158,7 +158,7 @@ module VideosHelper
     if subdomain
       
     else
-      url += "/topics/#{category.slug}"
+      url += "/#{category.slug}"
     end
 
    
