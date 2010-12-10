@@ -35,7 +35,7 @@ config.action_mailer.smtp_settings = {
 
 # Enable threaded mode
 # config.threadsafe!
-BASE_URL = "gawk.com"
+BASE_URL = "gawkk.com"
 SESSION_DOMAIN = ".gawkk.com"
 BASE_URL_SIZE = 0
 config.cache_store = :mem_cache_store
