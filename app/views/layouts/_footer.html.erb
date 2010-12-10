@@ -6,14 +6,7 @@
 	</div>
 	<div class="container">
 		<div class="heading">More Gawkk</div>
-		<div>
-			<% if user_logged_in? -%>
-				<%= link_to_remote 'Tweet Your Activity', :url => {:controller => 'twitter', :action => 'request_credentials', :tweet_it => '1', :force => true}  %>
-			<% else -%>
-				<%= link_to 'Tweet Your Activity', '/twitter/please_register' %>
-			<% end -%>
-		</div>
-		<div><%= link_to '@Gawkk on Twitter', 'http://twitter.com/gawkk', :target => 'twitter' %></div>
+				<div><%= link_to '@Gawkk on Twitter', 'http://twitter.com/gawkk', :target => 'twitter' %></div>
 	</div>
 	<div class="container">
 		<div class="heading">About Gawkk</div>
