@@ -112,7 +112,7 @@ module VideosHelper
     url += BASE_URL
 
     if topic && !subdomain
-      url += "/topics/#{topic.slug}"
+      url += "/#{topic.slug}"
     end
 
     url += "/channels"

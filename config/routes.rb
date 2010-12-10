@@ -62,7 +62,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/channels/:channel_id/feeds/:action/:id', :controller => 'admin/feeds'
 
   # channels
-  map.connect 'channels/:action',   :controller => 'channels'
 
   # search
   map.connect 'search/:action',     :controller => 'search'
@@ -82,6 +81,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
 
   map.connect ':category', :controller => 'videos', :action => 'category'
+  map.connect ':category/channels',    :controller => 'channels', :action => 'index', :conditions => { :root_only => true }
+  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
+  map.connect 'channels/:action',   :controller => 'channels'
+
   # videos
   map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
   map.connect '/:id/discuss',                  :controller => 'videos', :action => 'discuss' 
@@ -127,10 +130,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'tags/:q.rss',              :controller => 'redirections', :action => 'tags_q_rss'
   
 
-  map.connect 'topics/:category.rss',         :controller => 'videos', :action => 'category', :format => "rss"
-  map.connect 'topics/:category/channels',    :controller => 'channels', :action => 'index'
-  map.connect 'topics/:category',             :controller => 'videos', :action => 'category'
-  map.connect ':category/:channel',           :controller => 'channels', :action => 'show'
   map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'
   
   map.connect 'videos/:action',     :controller => 'videos'
