@@ -17,7 +17,7 @@ class UserSubmissionsController < ApplicationController
 
     if text.blank? || text == 'Video URL'
       flash[:notice] = "Please enter an url" 
-      render 'index' and return
+      redirect_to :action => :index and return
     end
 
     begin
@@ -34,8 +34,9 @@ class UserSubmissionsController < ApplicationController
       flash[:notice] = "Your video has been submitted"
       redirect_to :action => :index
     rescue
+      @submission = UserSubmission.new
       flash[:notice] = "There was an error with your submission"
-      render 'index' and return
+      redirect_to :action => :index and return
     end
   end
 
@@ -47,7 +48,6 @@ class UserSubmissionsController < ApplicationController
 
     @submission = UserSubmission.new
     @submissions = UserSubmission.find(:all, :conditions => { :user_id => logged_in_user.id, :status => 3 }, :order => "processed_at desc")
-
   end
 
   def accepted

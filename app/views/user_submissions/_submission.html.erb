@@ -1,9 +1,6 @@
 <div class="user-area">
-  <div class="divider" style="margin-left: 0; margin-top: 0">
-    <h2>Submit a Video</h2>
-  </div>
+    <h1>Submit a Video</h2>
   <% form_for @submission, :url => "/my-submissions/create" do |f| %>
-    <div style="margin-left: 20px">
       <%= select_tag "user_submission[category_id]", options_for_select(@categories.collect {|c| [c.name, c.id]}), { :style => "padding: 4px;width: 300px;" } %>
       &gt;&gt;
       <span id="channels">
@@ -19,7 +16,6 @@
         :update => :channels,
         :with => 'category_id'
       %> 
-    </div>
     <br /> 
     <br /> 
   </div>

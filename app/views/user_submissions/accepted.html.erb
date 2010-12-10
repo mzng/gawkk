@@ -14,15 +14,11 @@
   <%= render :partial => "submission" %>
   
   <div class="user-area">
-    <div class="divider" style="margin-left: 0">
-      <h2>Your Accepted Submissions</h2>
-    </div>
-    <div style=";margin-left: 20px;">
+      <h1>Your Accepted Submissions</h2>
     <% if @submissions.size > 0 %>
         <%= render :partial => "videos/channel_video", :collection => @submissions.collect { |s| s.video } %>
     <% else %>
       <p> None of your submissions were accepted </p>
     <% end %>
   </div>
-</div>
 </div>

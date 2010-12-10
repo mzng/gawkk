@@ -11,13 +11,9 @@
   <% end %>
 
    <div class="user-area">
-     <div class="divider" style="margin-left: 0">
-      <h2>Your Subscriptions</h2>
-    </div>
-    <div style=";margin-left: 20px;">
+      <h1>Your Subscriptions</h2>
      <%= render :partial => "videos/channel_video", :collection => @videos %>
 
      <%= render :partial => "/layouts/pagination", :locals => {:collection => @videos} %>
-    </div>
    </div>
 </div>

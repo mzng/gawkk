@@ -63,6 +63,10 @@ p.queries a:hover{
 .user-area {
   margin-left: 150px;
 }
+.user-area > h1 {
+  border-bottom: 1px solid #E5E5E5;
+  padding: 5px 0;
+}
 
 .divider {
   margin-left: 22px;
