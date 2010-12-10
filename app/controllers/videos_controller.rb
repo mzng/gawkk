@@ -143,7 +143,7 @@ class VideosController < ApplicationController
     set_meta_keywords(@video.tags.join(','))
     set_title(@video.title)
     set_thumbnail("http://gawkk.com/images/#{@video.thumbnail.blank? ? 'no-image.png' : @video.thumbnail}")
-    #setup_category_sidebar(@category)
+    @meta_no_follow = true
     setup_related_videos(@video)
     
     if @video.next_videos.blank?
