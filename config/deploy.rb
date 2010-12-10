@@ -1,7 +1,7 @@
 set :application, "gawkk"
 set :repository,  "git@github.com:mzng/gawkk.git"
 set :scm, :git
-set :app_symlinks, %w{images/thumbnails images/users sitemaps}
+set :app_symlinks, %w{images/thumbnails images/users sitemaps sitemap.xml}
 
 if target && target == 'production'
   set :environment, :production
