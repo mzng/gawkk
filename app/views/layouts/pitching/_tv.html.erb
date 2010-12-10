@@ -1,11 +1,11 @@
-<div id="pitch" style="background: url(/images/welcome-header-bg.png) #bcdff3;border-color: #acacac">
+<div id="pitch" style="background: url(/images/welcome-header-bg.jpg) #bcdff3;border-color: #acacac">
 		<div id="sign-up">
-			<p id="one-click">Sign up with one click:</p>
+		<!--	<p id="one-click">Sign up with one click:</p>
 			<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
 				<p><input type="image" src="/images/sign_in_with_twitter.png"/></p>
-			<% end -%>
-			<p>Or, <%= link_to_remote('log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your account.</p>
-      <p>Or, <%= link_to 'register', '/register' %> a new account.</p>
+      <% end -%>
+      -->
+      <p><%= link_to_remote('Log into', {:url => {:controller => 'authentication', :action => 'login'}, :method => :get}) %> your existing account <br />or, <%= link_to 'register', '/register' %> a new one.</p>
     </div>
 		<div id="copy">
 			<p style="font-size:16pt;font-weight:bold;">
