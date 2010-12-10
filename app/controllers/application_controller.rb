@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
     cookie_pass = [Array.new(9){rand(256).chr}.join].pack("m").chomp
     cookie_hash = Digest::MD5.hexdigest(cookie_pass + user.salt)
     
-    cookies[:_gawkk_login] = {:value => [user.slug, cookie_pass], :expires => 3.month.from_now}
+    cookies[:_gawkk_login] = {:value => [user.slug, cookie_pass], :expires => 3.month.from_now, :domain => SESSION_DOMAIN }
     
     return cookie_hash
   end

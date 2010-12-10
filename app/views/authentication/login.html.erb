@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Login to Gawkk', :description => "Don't have an account yet? #{link_to_remote('Register', {:url => {:controller => 'registration', :action => 'register'}, :method => :get})} now."} %>
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => 'Login to Gawkk', :description => "Don't have an account yet? #{link_to('Register', '/register')} now."} %>
 
 <div>
 	<table id="login-options" cellpadding="3" cellspacing="0">
@@ -17,7 +17,8 @@
 
 						<%= submit_tag 'Login' %>
 					<% end %>
-				</td>
+        </td>
+        <!--
 				<td style="vertical-align:top;">
 					<p id="one-click" style="font-size:9pt;">Or, login with one click:</p>
 					<% form_tag({:controller => 'twitter', :action => 'oauth_request'}) do %>
@@ -25,7 +26,8 @@
 					<% end -%>
 					<p style="font-size:8pt;margin-top:49px;">
 						Don't have a Twitter account? <%= link_to 'Sign up now', "http://twitter.com/signup", :target => 'twitter' %>.</p>
-				</td>
+          </td>
+          -->
 			</tr>
 		</table>
 </div>

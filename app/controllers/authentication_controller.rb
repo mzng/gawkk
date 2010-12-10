@@ -50,7 +50,9 @@ class AuthenticationController < ApplicationController
   def forget_token
     # Forget autologin cookie
     if cookies[:_gawkk_login]
-      cookies.delete(:_gawkk_login)
+
+
+      cookies.delete(:_gawkk_login, :domain => SESSION_DOMAIN)
     end
     
     redirect_to '/'

@@ -48,6 +48,7 @@ memcache_options = {
 }
 
 BASE_URL = "gawkk.codingefficiency.com"
+SESSION_DOMAIN = ".gawkk.codingefficiency.com"
 BASE_URL_SIZE = 1
 
 require 'memcache'

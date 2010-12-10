@@ -99,7 +99,7 @@
 		</table>
 		
 		<p class="submit">
-			<%= submit_tag("Continue") %> or <%= link_to 'Skip this step', {:controller => 'registration', :action => 'setup_suggestions'} %>
+    <%= submit_tag("Continue") %> or <%= link_to 'Skip this step', root_link(true) %>
 		</p>
 	<% end -%>
 </div>

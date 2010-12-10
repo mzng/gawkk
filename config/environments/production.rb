@@ -36,6 +36,7 @@ config.action_mailer.smtp_settings = {
 # Enable threaded mode
 # config.threadsafe!
 BASE_URL = "64.120.164.149"
+SESSION_DOMAIN = "64.120.164.149"
 BASE_URL_SIZE = 0
 config.cache_store = :mem_cache_store
 memcache_options = {

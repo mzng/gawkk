@@ -82,7 +82,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':category', :controller => 'videos', :action => 'category'
   map.connect ':category/channels',    :controller => 'channels', :action => 'index', :conditions => { :root_only => true }
-  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
   map.connect 'channels/:action',   :controller => 'channels'
 
   # videos
@@ -96,6 +95,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/share',                    :controller => 'videos', :action => 'share'
 
 
+  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
 
   #legacy routes
   map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'

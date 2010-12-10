@@ -23,6 +23,7 @@ config.action_mailer.smtp_settings = {
 }
 
 BASE_URL = "lvh.me:3000"
+SESSION_DOMAIN = ".lvh.me"
 BASE_URL_SIZE = 0
 # Configure memcached
 config.cache_store = :mem_cache_store, 'localhost', {:namespace => 'gawkk'}
