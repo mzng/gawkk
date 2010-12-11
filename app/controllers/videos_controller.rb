@@ -98,7 +98,7 @@ class VideosController < ApplicationController
     else
       flash[:notice] = 'The category you are looking for does not exist.'
       #render :text => "NOES"
-      redirect_to :action => "index", :newest => !@popular
+      redirect_to Util::Routes.root_url
     end
   end
 

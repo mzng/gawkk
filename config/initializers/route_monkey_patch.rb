@@ -14,7 +14,6 @@ module ActionController
         result << "conditions[:method] === env[:method]" if conditions[:method]
         result << "conditions[:hosts].include?(env[:host])" if conditions[:hosts]
         result << "env[:subdomains].include?(conditions[:subdomain])" if conditions[:subdomain]
-        result << "env[:subdomains].size == BASE_URL_SIZE || (env[:subdomains].size == BASE_URL_SIZE + 1 && env[:subdomains].include?('www'))" if conditions[:root_only]
         result
       end
     end

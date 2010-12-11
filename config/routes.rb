@@ -69,7 +69,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'comments/:action',   :controller => 'comments'
 
   # subdomain routes
-  map.root :controller => 'videos', :action => 'home', :conditions => { :root_only => true }
   map.connect '/', :controller => 'videos', :action => 'category', :category => 'television-shows', :conditions => { :subdomain => "tv" }
   map.connect '/channels', :controller => 'channels', :action => 'index', :category => 'television-shows', :conditions => { :subdomain => "tv" }
   map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "tv" }
@@ -121,16 +120,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'tags/:q.rss',              :controller => 'redirections', :action => 'tags_q_rss'
 
   map.connect ':category', :controller => 'videos', :action => 'category'
-  map.connect ':category/channels',    :controller => 'channels', :action => 'index', :conditions => { :root_only => true }
-  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
+  map.connect ':category/channels',    :controller => 'channels', :action => 'index' 
+  map.connect ':category/:channel',    :controller => 'channels', :action => 'show'
 
   #legacy routes
 
-  
-
- 
-
-  
 
   map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'
   
@@ -163,6 +157,7 @@ ActionController::Routing::Routes.draw do |map|
   map.facebook_connect 'facebook/connect',      :controller => 'facebook', :action => 'connect'
   
   # generic routes
+  map.root :controller => 'videos', :action => 'home' 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 end
