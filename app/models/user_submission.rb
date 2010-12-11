@@ -3,7 +3,7 @@ class UserSubmission < ActiveRecord::Base
   belongs_to :video
 
   def self.all_open
-    find(:all, :conditions => { :status => 1 }, :order => "created_at desc")
+    find(:all, :conditions => { :status => 1 }, :order => "created_at asc")
   end
 
   def self.all_approved

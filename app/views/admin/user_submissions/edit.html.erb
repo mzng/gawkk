@@ -1,0 +1,20 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Admin", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Submissions', :params => {:controller => 'admin/user_submissions'}}, { :name => "Open Submissions", :params => {:controller => 'admin/user_submissions'}}, { :name => "Edit" }]} %>
+
+<div id="content-main"  style="width: 100%">
+   <% form_for @submission, :url => "/admin/user_submissions/update" do |f| %>
+      <%= select_tag :category_id, options_for_select(@categories.collect {|c| [c.name, c.id]}, @submission.category_id), { :style => "padding: 4px;width: 300px;" } %>
+      &gt;&gt;
+      <span id="channels">
+        <%= select_tag "user_submission[channel_id]", options_for_select(@channels.collect {|c| [c.name, c.id]}, @submission.channel_id), { :style => "padding: 4px;width: 300px;" } %>
+      </span>
+      <br />
+      <input id="user_submission_url" name="user_submission[url]" value="<%= @submission.url %>"  size="30" type="text" value="Video URL" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 557px;fonts-size: 10pt;padding: 4px; ">
+      <%= f.submit "Update", :style => "padding: 3px;" %>
+    <% end %>
+
+   <%= observe_field "user_submission_category_id", :url => "/my-submissions/channels",
+        :frequency => 0.25,
+        :update => :channels,
+        :with => 'category_id'
+      %> 
+</div>

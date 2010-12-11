@@ -29,7 +29,9 @@ class Admin::UserSubmissionsController < ApplicationController
   end
 
   def edit
+    @categories = Category.all(:order => "name asc")
     @submission = UserSubmission.find(params[:id])
+    @channels = Channel.in_category(@submission.category_id).all(:order => "name asc")
   end
 
   def update
