@@ -90,6 +90,19 @@ class RedirectionsController < ApplicationController
     redirect_to("http://#{BASE_URL}/", :status => 301)
   end
 
+  def channel
+    user_param = params[:id]
+    if user_param
+      user = User.find_by_slug(user_param)
+      if user && user.feed_owner
+        channel = Channel.owned_by(user).with_slug('channel').first
+        redirect_to Util::Routes.channel_url(channel, user), :status => 301 and return
+      end
+    end
+
+    redirect_to Util::Routes.root_url, :status => 302 
+  end
+
   def friends
     redirect_to("http://#{BASE_URL}/", :status => 301)
   end

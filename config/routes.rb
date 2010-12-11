@@ -80,8 +80,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
 
-  map.connect ':category', :controller => 'videos', :action => 'category'
-  map.connect ':category/channels',    :controller => 'channels', :action => 'index', :conditions => { :root_only => true }
   map.connect 'channels/:action',   :controller => 'channels'
 
   # videos
@@ -95,11 +93,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/share',                    :controller => 'videos', :action => 'share'
 
 
-  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
-
-  #legacy routes
   map.connect 'all/newest',               :controller => 'redirections', :action => 'all_newest'
+  map.connect 'all/newest.rss',           :controller => 'redirections', :action => 'newest_rss'
   map.connect 'all/popular',              :controller => 'redirections', :action => 'all_popular'
+  map.connect 'all/popular.rss',          :controller => 'redirections', :action => 'popular_rss'
   map.connect ':category/newest',         :controller => 'redirections', :action => 'category_newest'
   map.connect ':category/popular',        :controller => 'redirections', :action => 'category_popular'
   map.connect 'friends',                  :controller => 'redirections', :action => 'friends'
@@ -107,27 +104,32 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'all/popular/tagged',       :controller => 'redirections', :action => 'index_popular_tagged'
   map.connect ':category/newest/tagged',  :controller => 'redirections', :action => 'category_newest_tagged'
   map.connect ':category/popular/tagged', :controller => 'redirections', :action => 'category_popular_tagged'
-
-  
-  map.connect 'all/newest.rss',           :controller => 'redirections', :action => 'newest_rss'
-  map.connect 'all/popular.rss',          :controller => 'redirections', :action => 'popular_rss'
-
   map.connect 'submit/:anything',         :controller => 'redirections', :action => 'submit'
- 
   map.connect ':id/activity',             :controller => 'redirections', :action => 'activity'
   map.connect ':id/activity.rss',         :controller => 'redirections', :action => 'activity'
   map.connect ':id/comments',             :controller => 'redirections', :action => 'comments'
+  map.connect ':id/channel',              :controller => 'redirections', :action => 'channel'
   map.connect ':id/follow',               :controller => 'redirections', :action => 'follow'
   map.connect ':id/unfollow',             :controller => 'redirections', :action => 'unfollow'
   map.connect ':id/follows',              :controller => 'redirections', :action => 'follows'
   map.connect ':id/followers',            :controller => 'redirections', :action => 'followers'
   map.connect ':id/friends',              :controller => 'redirections', :action => 'friends'
   map.connect ':id/subscriptions',        :controller => 'redirections', :action => 'subscriptions'
-
   map.connect 'tags',                     :controller => 'redirections', :action => 'tags'
   map.connect 'tags.rss',                 :controller => 'redirections', :action => 'tags_rss'
   map.connect 'tags/:q',                  :controller => 'redirections', :action => 'tags_q'
   map.connect 'tags/:q.rss',              :controller => 'redirections', :action => 'tags_q_rss'
+
+  map.connect ':category', :controller => 'videos', :action => 'category'
+  map.connect ':category/channels',    :controller => 'channels', :action => 'index', :conditions => { :root_only => true }
+  map.connect ':category/:channel',    :controller => 'channels', :action => 'show', :conditions => { :root_only => true }
+
+  #legacy routes
+
+  
+
+ 
+
   
 
   map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'

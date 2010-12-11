@@ -1,6 +1,6 @@
 module Util
   class Routes
-    def root_url
+    def self.root_url
       "http://#{BASE_URL}"
     end
 
