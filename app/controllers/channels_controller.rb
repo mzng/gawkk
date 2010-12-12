@@ -83,7 +83,7 @@ class ChannelsController < ApplicationController
         @pitch_key = 'channel_movie'
         set_title("Watch #{@channel.proper_name} Online For Free")
         set_meta_keywords("watch #{@channel.proper_name} Online,#{@channel.proper_name} free online,watch #{@channel.proper_name}")
-        set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.proper_name} Online For Free."
+        set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.proper_name} Online For Free on Gawkk on #{Util::Routes.channel_url(@channel)}."
       else
          set_title("#{@channel.proper_name}")
       set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name}")

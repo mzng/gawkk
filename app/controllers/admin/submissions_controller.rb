@@ -37,10 +37,10 @@ layout 'page'
     if @videos.size > 1
       ids = @videos.collect {|v| v.id}
 
-      @svs.each do |sv|
+      @videos.each do |sv|
         this_ids = []
         ids.each do |i|
-          next if i == sv.video_id
+          next if i == sv.id
           this_ids << i
         end
         sv.next_videos = this_ids.join(' ')
