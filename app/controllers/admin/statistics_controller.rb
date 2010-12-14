@@ -1,3 +1,4 @@
+require 'gchart'
 class Admin::StatisticsController < ApplicationController
   around_filter :ensure_user_can_administer
   layout 'page'
