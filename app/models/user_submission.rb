@@ -16,9 +16,14 @@ class UserSubmission < ActiveRecord::Base
 
   def load_title
     #begin
-     self.url = Util::Scrub.url(self.url)
-     self.title = Util::Title.from_url(self.url) 
-     !title.blank?
+    self.url = Util::Scrub.url(self.url)
+    loaded_title = Util::Title.from_url(self.url)
+    if loaded_title
+      self.title = loaded_title if self.title.blank?
+      !self.title.blank?
+    else
+      false
+    end
     #rescue
     #  return false
     #end

@@ -7,6 +7,10 @@
         <%= select_tag "user_submission[channel_id]", options_for_select(@channels.collect {|c| [c.name, c.id]}), { :style => "padding: 4px;width: 300px;" } %>
       </span>
       <br />
+      <input id="user_submission_title" name="user_submission[title]" onblur="descriptiveField(this, 'Title (Optional, we will use the videos title if left blank)', false);" onfocus="descriptiveField(this, 'Title (Optional, we will use the videos title if left blank)', true);" size="30" type="text" value="Title (Optional, we will use the videos title if left blank)" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 615px;fonts-size: 10pt;padding: 4px; "><br />
+      <textarea id="user_submission_description" name="user_submission[description]" onblur="descriptiveField(this, 'Description (Optional, we will use the videos description if left blank)', false);" onfocus="descriptiveField(this, 'Description (Optional, we will use the videos description if left blank)', true);" size="30" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 615px;fonts-size: 10pt;padding: 4px; ">Description (Optional, we will use the videos description if left blank)</textarea><br />
+
+
       <input id="user_submission_url" name="user_submission[url]" onblur="descriptiveField(this, 'Video URL', false);" onfocus="descriptiveField(this, 'Video URL', true);" size="30" type="text" value="Video URL" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 557px;fonts-size: 10pt;padding: 4px; ">
       <%= f.submit "Submit", :style => "padding: 3px;" %>
     <% end %>

@@ -25,13 +25,16 @@ class UserSubmissionsController < ApplicationController
       urls.each do |u|
         @submission = UserSubmission.new(params[:user_submission])
         @submission.url = u
+        @submission.description = nil if @submission.description == 'Description (Optional, we will use the videos description if left blank)'
+        @submission.title = nil if @submission.title == 'Title (Optional, we will use the videos title if left blank)'
+
         if @submission.load_title
           @submission.user_id = logged_in_user.id
           @submission.save
         end
       end
       
-      flash[:notice] = "Your video has been submitted"
+      flash[:notice] = "Your video has been submitted #{@submission.title}"
       redirect_to :action => :index
     rescue
       @submission = UserSubmission.new

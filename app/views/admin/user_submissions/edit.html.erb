@@ -8,6 +8,11 @@
         <%= select_tag "user_submission[channel_id]", options_for_select(@channels.collect {|c| [c.name, c.id]}, @submission.channel_id), { :style => "padding: 4px;width: 300px;" } %>
       </span>
       <br />
+      Title:<br />
+      <input id="user_submission_title" name="user_submission[title]" size="30" type="text" value="<%= @submission.title %>" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 615px;fonts-size: 10pt;padding: 4px; "><br />
+      Description:<br />
+      <textarea id="user_submission_description" name="user_submission[description]" size="30" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 615px;fonts-size: 10pt;padding: 4px; "><%= @submission.description %></textarea><br />
+      Url:<br />
       <input id="user_submission_url" name="user_submission[url]" value="<%= @submission.url %>"  size="30" type="text" value="Video URL" style="color: rgb(51, 51, 51);border: 1px solid #999;color: grey;width: 557px;fonts-size: 10pt;padding: 4px; ">
       <%= f.submit "Update", :style => "padding: 3px;" %>
     <% end %>
