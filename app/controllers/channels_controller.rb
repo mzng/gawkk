@@ -164,7 +164,7 @@ class ChannelsController < ApplicationController
       end
     else
       flash[:notice] = 'The channel you are looking for does not exist.'
-      redirect_to :action => "index"
+      redirect_to Util::Routes.root_url
     end
   end
   

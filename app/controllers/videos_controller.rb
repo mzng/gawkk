@@ -312,7 +312,7 @@ class VideosController < ApplicationController
       yield
     else
       flash[:notice] = 'The video you are looking for does not exist.'
-      redirect_to :action => "index", :newest => false
+      redirect_to Util::Routes.root_url
     end
   end
   
