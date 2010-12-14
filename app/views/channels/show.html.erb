@@ -34,8 +34,8 @@
     <br />
 
 <div id="navigation" style="float: right">
-  <%= link_to "<div#{" class=\"selected\"" if @popular}>Popular</div>", smart_channel_link(@user,@channel, true), :class => 'navigation-item' %>
-  <%= link_to "<div#{" class=\"selected\"" if !@popular}>Newest</div>", smart_channel_link(@user,@channel, true, nil, true), :class => 'navigation-item' %>
+  <%= link_to "<div#{" class=\"selected\"" if @popular}>Relevance</div>", smart_channel_link(@user,@channel, true), :class => 'navigation-item' %>
+  <%= link_to "<div#{" class=\"selected\"" if !@popular}>Date</div>", smart_channel_link(@user,@channel, true, nil, true), :class => 'navigation-item' %>
 
   </div>
 
