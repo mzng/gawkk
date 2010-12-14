@@ -57,7 +57,6 @@ class VideosController < ApplicationController
   end
   
   def category
-      
     if !params[:category].nil? and @category = Category.find_by_slug(params[:category])
       set_feed_url("http://www.gawkk.com/#{@category.slug}/#{@popular ? 'popular' : 'newest'}.rss")
       set_title("Videos in The #{@category.name} Topic")

@@ -96,7 +96,12 @@ class ChannelsController < ApplicationController
 
     end
 
-    @popular = !params[:newest]
+    if params[:sort]
+      @popular = params[:sort] == 'relevance'
+    else
+      @popular = false
+    end
+
 
     @related_channels = Rails.cache.fetch("r_c_#{params[:category].downcase}", :expires_in => 30.minutes) do
       Channel.in_category(@channel.category).all(:order => 'rand()', :limit => 30, :include => :user)

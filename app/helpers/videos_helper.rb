@@ -57,7 +57,7 @@ module VideosHelper
     end
   end
 
-  def smart_channel_link(user, channel, url_only = false, page = nil, newest = nil)
+  def smart_channel_link(user, channel, url_only = false, page = nil, sort = nil)
     url = "http://"
     subdomain = false
     splits = channel.category_ids.split ' '
@@ -81,17 +81,17 @@ module VideosHelper
       else 
         category = Category.find_by_slug("uncategorized")
       end
-      
-
     end
 
     url += "#{BASE_URL}/"
     url += "#{category.slug}/" unless subdomain
     url += "#{user.slug}"
     url += "?page=#{page}" if page
-    url += "?newest=true" if newest && !page
-    url += "&newest=true" if newest && page
 
+    next_sign = page ? "&" : "?"
+
+    url += "#{next_sign}sort=#{sort}" if sort
+    
     url_only ? url : link_to(channel.name, url)
   end
 

@@ -34,8 +34,8 @@
     <br />
 
 <div id="navigation" style="float: right">
-  <%= link_to "<div#{" class=\"selected\"" if @popular}>Relevance</div>", smart_channel_link(@user,@channel, true), :class => 'navigation-item' %>
-  <%= link_to "<div#{" class=\"selected\"" if !@popular}>Date</div>", smart_channel_link(@user,@channel, true, nil, true), :class => 'navigation-item' %>
+  <%= link_to "<div#{" class=\"selected\"" if @popular}>Relevance</div>", smart_channel_link(@user,@channel, true, nil, 'relevance'), :class => 'navigation-item' %>
+  <%= link_to "<div#{" class=\"selected\"" if !@popular}>Date</div>", smart_channel_link(@user,@channel, true), :class => 'navigation-item' %>
 
   </div>
 
@@ -45,8 +45,8 @@
 		<div class="titled-pagination-container">
 			<span class="title-container">View More Videos in This Channel</span><br/>
 			<div class="paginate-single-link-set">
-				<% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', smart_channel_link(@user,@channel, true, (@page.to_i - 1), !@popular) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
-				<%= link_to 'Next &raquo;', smart_channel_link(@user,@channel, true, (@page.to_i + 1), !@popular) %>
+      <% if @page.to_i > 1 -%><%= link_to '&laquo; Previous', smart_channel_link(@user,@channel, true, (@page.to_i - 1), @popular ? 'relevance' : nil) %><% else -%><span class="disabled prev_page">&laquo; Previous</span><% end -%>
+				<%= link_to 'Next &raquo;', smart_channel_link(@user,@channel, true, (@page.to_i + 1), @popular ? 'relevance' : nil) %>
 			</div>
 		</div>
 	</div>
