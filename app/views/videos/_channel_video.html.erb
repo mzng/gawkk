@@ -66,6 +66,21 @@
 	<div id="share_for_<%= video.id %><%= container_id %>" class="share" style="display:none;"></div>
 	<div id="embed_for_<%= video.id %><%= container_id %>" class="embed" style="display:none;"></div>
 	<%#= render :partial => "/tags/list", :locals => {:video => video, :tagged => @tagged} %>
-	<%#= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+  <%#= render :partial => "/news_items/activity", :locals => {:video => video, :load_activity => load_activity, :container_id => container_id} %>
+  <% if news_item %>
+    <div align="center">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-0823990884917063";
+/* Discussion Page Text */
+google_ad_slot = "2726632934";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+  <% end %>
 	<%= render :partial => "/comments/list", :locals => {:news_item => news_item, :video => video, :load_comments => load_comments, :container_id => container_id} %>
 </div>

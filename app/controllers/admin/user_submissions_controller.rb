@@ -18,6 +18,8 @@ class Admin::UserSubmissionsController < ApplicationController
     @submission = UserSubmission.find(params[:id])
     @submission.approve!(logged_in_user)
 
+    Rails.cache.expire("c_s_#{@submission.video.posted_by}_n_0")
+
     redirect_to :action => :index
   end
 
@@ -25,6 +27,8 @@ class Admin::UserSubmissionsController < ApplicationController
     @submission = UserSubmission.find(params[:id])
     @submission.decline!(logged_in_user)
     
+
+
     redirect_to :action => :index
   end
 
