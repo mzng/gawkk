@@ -1,0 +1,43 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Channels", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Channels', :params => {:controller => 'admin/channels'}}]} %>
+
+<div>
+  <p id="create-channel-action"><%= image_tag('add.png') %> <%= link_to 'Create a Channel', {:controller => 'admin/channels', :action => 'new'} %></p>
+  <p><%= link_to "Default View", {:controller => 'admin/channels', :action => 'index' } %>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Channel</th>
+        <th>Feeds</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @channels.each_with_index do |c, i| %>
+        <tr bgcolor="<%= "#{(i % 2 == 0) ? '#efefef' : '#fff'}" %>" >
+          <td><%= link_to c.name, {:controller => 'admin/channels', :action => 'edit', :id => c.id}, :target => "edit-#{c.id}" %></td>
+          <td>  
+            	<table id="feed-list" cellpadding="3" cellspacing="0">
+		<tbody>
+			 <% @feeds.select { |f| f.owned_by_id == c.user_id }.each do |feed| %>
+				<tr>
+					<td style="width:16px;"><%= image_tag(feed.active? ? 'tick.png' : 'cross.png') %></td>
+					<td><%= feed.category.name %></td>
+          <td><div><%= truncate(feed.url, :length => 50) %></div></td>
+					<td class="actions">
+						<%= link_to 'Edit', {:controller => 'admin/feeds', :action => 'edit', :channel_id => c.id, :id => feed}, :target => "edit-#{feed.id}" %> |
+						<%= link_to 'Delete', {:controller => 'admin/feeds', :action => 'destroy', :channel_id => c.id, :id => feed}, :confirm => 'Are you sure?', :method => :post %>
+					</td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+        </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= render :partial => "/layouts/pagination", :locals => { :collection => @channels } %>
+
+</div>

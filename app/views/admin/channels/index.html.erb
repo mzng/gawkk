@@ -1,7 +1,8 @@
 <%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Channels", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}, {:name => 'Channels', :params => {:controller => 'admin/channels'}}], :q => @q, :include_search => true} %>
 
 <div>
-	<p id="create-channel-action"><%= image_tag('add.png') %> <%= link_to 'Create a Channel', {:controller => 'admin/channels', :action => 'new'} %></p>
+  <p id="create-channel-action"><%= image_tag('add.png') %> <%= link_to 'Create a Channel', {:controller => 'admin/channels', :action => 'new'} %></p>
+  <p><%= link_to "Combined View", {:controller => 'admin/channels', :action => 'combined' } %>
 	<table id="channel-list" cellpadding="3" cellspacing="0">
 		<thead>
 			<th colspan="2">Name</th>

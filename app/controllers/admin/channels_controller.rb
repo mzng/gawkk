@@ -19,6 +19,14 @@ class Admin::ChannelsController < ApplicationController
     @user = User.new
   end
   
+  def combined
+    setup_pagination(:per_page => 25)
+
+    @channels = Channel.find_by_sql("SELECT c.id, c.name, c.slug, c.user_id FROM channels c LEFT JOIN feeds f on c.user_id = f.owned_by_id where c.user_owned = false GROUP BY c.id ORDER BY count(f.id) asc LIMIT #{@per_page} OFFSET #{@offset}")
+    @feeds = Feed.find(:all, :conditions => "owned_by_id IN ('#{@channels.collect{|c| c.user_id}.join("', '")}')")
+  end
+
+
   def create
     @user = User.new(params[:user])
     @user.administrator = false
