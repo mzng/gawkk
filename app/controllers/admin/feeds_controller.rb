@@ -1,6 +1,6 @@
 class Admin::FeedsController < ApplicationController
   around_filter :ensure_user_can_administer
-  around_filter :load_channel
+  around_filter :load_channel, :except => [:index]
   around_filter :load_feed, :only => [:edit, :update, :destroy]
   layout 'page'
   
@@ -44,6 +44,13 @@ class Admin::FeedsController < ApplicationController
     
     flash[:notice] = 'The feed was successfully destroyed.'
     redirect_to :controller => 'admin/channels', :action => 'feeds', :id => @channel.id
+  end
+
+  def index
+    setup_pagination(:per_page => 30)
+
+    @feeds = Feed.find(:all, :conditions => 'active = false', :limit => @per_page, :offset => @offset, :order => 'owned_by_id asc')
+    @channels = Channel.find(:all, :conditions => "user_id in ('#{@feeds.collect{|f| f.owned_by_id}.uniq.join("', '")}')")
   end
   
   

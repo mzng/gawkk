@@ -1,0 +1,31 @@
+<%= render :partial => "/layouts/content_header_simple", :locals => {:title => "Dead Feeds", :crumbs => [{:name => 'Admin', :params => {:controller => 'admin/overview'}}]} %>
+
+<div>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Channel</th>
+        <th>Feed</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @feeds.each_with_index do |f, i| %>
+        <% c = @channels.select{|c| c.user_id == f.owned_by_id}.first %>
+        <tr bgcolor="<%= "#{(i % 2 == 0) ? '#efefef' : '#fff'}" %>" >
+          <td><%= link_to c.name, {:controller => 'admin/channels', :action => 'edit', :id => c.id}, :target => "edit-#{c.id}" %></td>
+          <td><%= truncate(f.url, :length => 50) %></td>
+            <td><%= link_to 'Edit', {:controller => 'admin/feeds', :action => 'edit', :channel_id => c.id, :id => f}, :target => "edit-#{f.id}" %></td>
+            <td><%= link_to 'Delete', {:controller => 'admin/feeds', :action => 'destroy', :channel_id => c.id, :id => f}, :confirm => 'Are you sure?', :method => :post %></td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+   <%= render :partial => "/layouts/pagination", :locals => { :collection => @feeds } %>
+
+</div>

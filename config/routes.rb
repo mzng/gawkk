@@ -44,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/channels/:action',     :controller => 'admin/channels'
   map.connect 'admin/comments/:action',     :controller => 'admin/comments'
   map.connect 'admin/import/:action',       :controller => 'admin/import'
+  map.connect 'admin/feeds/:action',       :controller => 'admin/feeds'
   map.connect 'admin/likes/:action',        :controller => 'admin/likes'
   map.connect 'admin/dislikes/:action',        :controller => 'admin/dislikes'
   map.connect 'admin/parameters/:action',   :controller => 'admin/parameters'
