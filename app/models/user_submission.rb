@@ -46,6 +46,9 @@ class UserSubmission < ActiveRecord::Base
       video = Util::Thumbnail.suggest(video)
       video.posted_by_id = Channel.find(self.channel_id).user_id
       video.save
+
+      SavedVideo.create :video_id => video.id, :channel_id => self.channel_id 
+
     else
       video = existing_video
     end
