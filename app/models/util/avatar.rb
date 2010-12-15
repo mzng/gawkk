@@ -1,3 +1,5 @@
+require 'RMagick'
+
 class Util::Avatar
   # Stock
   def self.random
