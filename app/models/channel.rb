@@ -83,6 +83,9 @@ class Channel < ActiveRecord::Base
     end
   end
   
+  def pure_name
+    return self.name.gsub(/^the /i, '').gsub(/ channel$/i, '')
+  end
   
   def categorize!
     category_ids = Array.new

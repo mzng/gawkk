@@ -74,25 +74,25 @@ class ChannelsController < ApplicationController
         pitch
         @pitch_title = "Welcome to Gawkk!"
         @pitch_key = 'channel_tv'
-        set_title("Watch #{@channel.proper_name}")
-        set_meta_keywords("watch #{@channel.proper_name},watch #{@channel.proper_name} online for free,watch #{@channel.proper_name} free online")
-        set_meta_description "Start following #{@channel.proper_name} for free. Keep up to date with the weekly epsodes. Gawkk helps organize millions of video on the web into specific tv show channel. Watch #{@channel.proper_name}"
+        set_title("Watch #{@channel.pure_name} Channel")
+        set_meta_keywords("watch #{@channel.pure_name},watch #{@channel.pure_name} online for free,watch #{@channel.pure_name} free online")
+        set_meta_description "Start following #{@channel.proper_name} for free. Keep up to date with the weekly epsodes. Gawkk helps organize millions of video on the web into specific tv show channel. Watch #{@channel.name}"
       elsif category.slug =~ /movies/
         pitch
         @pitch_title = "Welcome to Gawkk!"
         @pitch_key = 'channel_movie'
-        set_title("Watch #{@channel.proper_name} Online For Free")
-        set_meta_keywords("watch #{@channel.proper_name} Online,#{@channel.proper_name} free online,watch #{@channel.proper_name}")
-        set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.proper_name} Online For Free on Gawkk on #{Util::Routes.channel_url(@channel)}."
+        set_title("Watch #{@channel.pure_name} Online For Free")
+        set_meta_keywords("watch #{@channel.pure_name} Online,#{@channel.pure_name} free online,watch #{@channel.pure_name}")
+        set_meta_description "Start following #{@channel.proper_name} for free online. Gawkk's proprietary technology helps organize millions of video into channel. Watch #{@channel.pure_name} Online For Free on Gawkk on #{Util::Routes.channel_url(@channel)}."
       else
-         set_title("#{@channel.proper_name}")
-      set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name}")
-      set_meta_description @user.description.blank? ? ("#{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
+         set_title("Watch #{@channel.pure_name} Online For Free")
+      set_meta_keywords("#{@channel.pure_name},#{@channel.proper_name}")
+      set_meta_description @user.description.blank? ? ("#{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.pure_name} by following #{@channel.proper_name} on Gawkk") : @user.description
       end
     else
-      set_title("#{@channel.proper_name}")
-      set_meta_keywords("#{@channel.proper_name},#{@channel.proper_name}")
-      set_meta_description @user.description.blank? ? ("#{@channel.proper_name} on Gawkk. Get the latest news on #{@channel.proper_name} by following #{@channel.proper_name} on Gawkk") : @user.description
+      set_title("#{@channel.name}")
+      set_meta_keywords("#{@channel.name},#{@channel.name}")
+      set_meta_description @user.description.blank? ? ("#{@channel.name} on Gawkk. Get the latest news on #{@channel.name} by following #{@channel.proper_name} on Gawkk") : @user.description
 
     end
 
