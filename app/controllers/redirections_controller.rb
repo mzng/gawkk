@@ -11,7 +11,7 @@ class RedirectionsController < ApplicationController
     cat = Category.find_by_slug(params[:category])
     redirect_to("http://#{BASE_URL}/", :status => 301) and return if cat.nil?
 
-    redirect_to smart_category_link(cat, false, true), :status => 301
+    redirect_to Util::Routes.category_url(cat, true), :status => 301
   end
 
   def category_popular
@@ -20,7 +20,7 @@ class RedirectionsController < ApplicationController
  
     redirect_to("http://#{BASE_URL}/", :status => 301) and return if cat.nil?
 
-    redirect_to smart_category_link(cat, true, true), :status => 301
+    redirect_to Util::Routes.category_url(cat), :status => 301
   end
 
 

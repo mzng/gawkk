@@ -80,7 +80,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:id/discuss', :controller => 'videos', :action => 'discuss', :conditions => { :subdomain => "movies" }
   map.connect '/:user', :controller => 'channels', :action => 'show', :category => 'movies-previews-trailers', :channel => 'channel', :conditions => { :subdomain => "movies" }
 
-  map.connect 'channels/:action',   :controller => 'channels'
 
   # videos
   map.connect 'v/:id',                        :controller => 'videos', :action => 'follow'
@@ -124,7 +123,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':category/channels',    :controller => 'channels', :action => 'index' 
   map.connect ':category/:channel',    :controller => 'channels', :action => 'show'
 
-  #legacy routes
+  map.connect 'channels/:action',   :controller => 'channels'
 
 
   map.connect 'subscriptions',                :controller => 'videos', :action => 'subscriptions'
