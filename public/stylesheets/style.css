@@ -1,0 +1,47 @@
+.socialList{float:left;height:47px;overflow:auto;padding-left:4px;*padding-left:2px;}
+.socialList .icon{width:28px;height:28px;margin-right:10px;margin-top:8px;float:left;list-style:none;}
+.socialList .icon a{display:block;width:100%;height:100%;}
+.whiteWrapper{background:#fff;position:relative;}
+#sliderContent{color:#555;background:transparent url(images/sliderbg.png) no-repeat 0 0;height:305px;width:964px;position:relative;margin:0px auto;left:-12px;}
+#pnlSpotlight #flash{position:relative;height:200px;width:500px;left:30px;top:24px;}
+.jcarousel-container{position:absolute;height:265px;width:975px;left:34px;top:15px; }
+.jcarousel-container .jcarousel-centerfloat{position:absolute;z-index:50;height:255px;width:126px;left:125px;top:3px;}
+.jcarousel-container  .jcarousel-prev, .jcarousel-container .jcarousel-next{position:absolute;height:32px;width:41px;top:208px;cursor:pointer;z-index:25;}
+.jcarousel-container .jcarousel-prev{left:98px;background:url(../images/next.png) no-repeat;}
+.jcarousel-container .jcarousel-next{left:257px;background:url(../images/pre.png) no-repeat;}
+.jcarousel-container .sptltPic img{width:134px;height:242px;}
+#sliderContent .movieDetails{left:240px;position:absolute;top:206px;width:570px;}
+.jcarousel-container .movieTitle{color:#1460AE;display:block;float:left;font-size:9px;}
+.jcarousel-container .movieTitle a{font:bold 18px/22px arial, sans-serif;color:#fff;text-decoration:none !important;border-bottom:2px solid #fff;}
+.jcarousel-container .movieTitle span{display:block;margin-top:7px;color:#c1d1dc;font:normal 11px/12px Verdana, arial, sans-serif;}
+.jcarousel-container .jcarousel-centercontainer .viewOptions{float:right;font-size:13px;}
+.jcarousel-container .jcarousel-centercontainer .viewOptions a{margin:0 5px;}
+.jcarousel-container .jcarousel-clip{position:absolute;height:170px;width:940px;overflow:hidden;margin:0px;padding:0px;left:0px;top:27px;z-index:1;}
+.jcarousel-container .jcarousel-clip .jcarousel-list{z-index:1;overflow:hidden;position:relative;top:0px;left:0px;margin:0px;padding:0px;}
+.jcarousel-container .jcarousel-clip .jcarousel-list li, .jcarousel-container .jcarousel-clip .jcarousel-item{float:left;position:relative;list-style:none;padding:0px;width:115px;}
+.jcarousel-container .jcarousel-list li img, .jcarousel-container .jcarousel-item img{
+	width:115px;
+	position:relative;
+	cursor:pointer;
+	border:1px solid #FFF;
+	background-image: url(images/cd.jpg);
+}
+.ie6 .jcarousel-container .jcarousel-centercontainer .jcarousel-centerfloat{background:url(/cppp/yahoo/images/42162profile.gif) no-repeat 0px 0px;}
+.ie6 .jcarousel-container .jcarousel-centercontainer .jcarousel-prev{background:url(/cppp/yahoo/images/42162arwLeft.gif) no-repeat;}
+.ie6 .jcarousel-container .jcarousel-centercontainer .jcarousel-next{background:url(/cppp/yahoo/images/42162arwRight.gif) no-repeat;}
+#content{clear:both;position:relative;background:#fff;overflow:auto;}
+.single #content{*overflow:visible;}
+#content ul{margin:0px;}
+#content ul li{list-style:none; }
+#content .movieTitle{color:#122129;font-weight:bold;text-transform:uppercase;margin-bottom:8px;margin-top:5px;}
+.home #content .movieTitle{height:45px;overflow:hidden;}
+#content .movieSyn{height:50px;overflow:hidden;}
+#content .page_content{padding:10px;line-height:18px;}
+#content .page_content p{margin-bottom:15px;}
+#content .leftDetails p, #content .leftMovieDetails p, #content .viewCount{color:#6a7881;font-size:12px;line-height:130%;margin-bottom:10px;}
+.moviesContainer{float:left;padding:7px 0px 2px 0px;width:586px;margin:12px;*margin:12px 10px 12px 12px;background:#dae5ed;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;}
+.movieItem{border:1px solid #c5cfd6;height:170px;width:260px;position:relative;padding:10px 10px 10px 10px;float:left;margin:0px 0px 7px 7px;*margin:0px 0px 3px 3px;background-color:#fcfcfc;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;}
+.movieItem .leftDetails{float:left;width:135px;}
+.movieItem .leftDetails li{float:left;}
+.movieItem .leftDetails li a{display:block;float:left;text-indent:-9999px;}
+.thumbnail{float:left;margin-right:10px;}

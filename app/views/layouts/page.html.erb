@@ -1,70 +1,72 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en">
-	<head>
-	  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-		<meta name="verify-v1" content="gJ6BCFevHkD1M2nQB8tjnpG74TtwLtQOdAWjoAwqOec=" />
-		<meta name="y_key" content="b78fce59f8ae1e66"/>
-		<meta name="msvalidate.01" content="31B32F01B1572735414C39D236D40F18" />
-		<link rel="shortcut icon" href="/favicon.ico" />
-		
-	<% if !@meta_description.nil? -%>
-		<meta name="description" content="<%= @meta_description %>"/>
-	<% end -%>
-	
-	<% if !@meta_keywords.nil? -%>
-		<meta name="keywords" content="<%= @meta_keywords %>"/>
-	<% end -%>
-
-	<% if !@feed_url.nil? -%>
-	<% end -%>
-	
-	<% if !@thumbnail_url.nil? -%>
-		<link rel="image_src" href="<%= @thumbnail_url %>" />
-		<link rel="media:image" href="<%= @thumbnail_url %>" />
-	<% end -%>
-		
-  <title><%= @title.nil? ? 'Share Videos with Friends' : @title %> on Gawkk</title>
-		
-		<%= stylesheet_link_merged :base %>
-		<%= render :partial => "/layouts/ie7_css_overrides" %>
-		<%= render :partial => "/layouts/ie8_css_overrides" %>
-		
-		<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
-		<%= javascript_include_merged :base %>
-		
-		<% if Rails.env.production? and (!user_logged_in? or (user_logged_in? and !user_can_administer?)) -%>
-			<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
-			<script type="text/javascript">
-				var pageTracker = _gat._getTracker("UA-2389740-1");
-				pageTracker._trackPageview();
-			</script>
-		<% end -%>
-	</head>
-	<body>
-		<%= render :partial => "/layouts/header" %>
-		
-		<div id="outer">
-			<%= render(:partial => "/layouts/pitch") if @pitch && !user_logged_in? %>
-			
-			<% if !flash[:notice].blank? -%>
-				<p id="flash"><%= flash[:notice] %></p>
-				<% flash[:notice] = nil -%>
-			<% end -%>
-
-      <%= yield(:box) if yield(:box) %>
-
-			<div id="content">
-				<%= yield  %>
-				<br class="clear"/>
-			</div>
-			
-			<%= render :partial => "/layouts/footer" %>
-		</div>
-		
-		<%= render :partial => "/layouts/overlay" %>
-    <%= render :partial => "/layouts/referrers" %>
-    <%= render :partial => "/layouts/analytics" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Gawkk</title>
+<%= stylesheet_link_tag "all" %>
+<%= stylesheet_link_tag "style" %>
+<!--[if lt IE 7]>
+		<%= stylesheet_link_tag "ie" %>
+<![endif]-->
+<!--[if lt IE 7]><%= javascript_include_tag "DD_belatedPNG_0.0.7a-min.js" %><![endif]-->
+</head>
+<body>
+<div id="Wrapper"> <!--wrapper-->
+    	<div id="header"><!--header-->
+        		<div class="hed_box"><!--hed_box-->
+                	<a class="logo" href="index.html">logo</a>
+                    	<div class="account">	
+                    	    <%= link_to "Register", "/register", {:class => "regi"} %> 
+							<%= link_to "Login", "/login", {:class => "login"} %>		
+						</div>                       	               
+               		</div><!--hed_box-->
+                     <div id="menu"><!--menu-->
+                     	<ul>
+							<li class="ative"> <a class="a"href="#">Home </a></li>
+                            <li><a href="#"> Movies </a></li>
+                            <li><a href="#">Coming Soon </a></li>
+                            <li><a href="#">Music  </a></li>												
+							<li><a href="#">Recommendations you may enjoy   </a></li>
+                            <li><a href="#">Anime  </a></li>	
+                             <li><a href="#">Games </a></li>				
+						</ul>
+                        <div class="Search_box">
+                        	<input name="" type="text"  class="Search" value="Search millions of videos" />
+                            <input name="" class="sub"  value="Search" type="submit" />
+                        </div>
+                     </div> <!--menu-->      
+             	 </div><!--header-->    
+   
+          <div class="midpanel" style="padding-top:30px;"><!--midpanel-->
+              <%= yield %>  
+          </div><!--midpanel-->
+          
+          <div class="bottom"></div>        	
+          </div><!--wrapper-->
+          <div id="footer"><!--footer-->
+          <div class="footer" >
+          	<ul>
+            	<li> <label>Site Link</label>
+					<a href="#">Video by Category Sitemap</a>
+                </li>
+                <li> <label>More Gawkk</label>
+					<a href="#">@Gawkk on Twitter</a>
+                </li>
+                <li> <label>About Gawkk</label>
+					<a href="#">About US</a>
+                    <a href="#">Contact Us</a>
+                </li>
+                <li> <label>Help</label>
+					<a href="#">Frequent Questions</a>
+                </li>
+                <li style="background:none;"> <label>Legal</label>
+					<a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                	</li>
+	           </ul>
+                   © Copyright 2007-2011 Share video with friends. Gawkk.com. All Rights Reserved.
+           </div>
+        </div><!--footer-->
 	</body>
+     
 </html>

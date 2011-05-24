@@ -2,26 +2,26 @@ development:
  adapter: mysql
  database: gawkk_development
  username: root
- password: root
+ password: deneme
  host: localhost
 
 test:
  adapter: mysql
  database: gawkk_test
  username: root
- password:
+ password: deneme
  host: localhost
 
 production:
  adapter: mysql
  database: gawkk_production
- username: debian-sys-maint
- password: Var1U8Scr3F9a4jk 
+ username: root
+ password: deneme
  host: localhost
 
 staging:
  adapter: mysql
  database: gawkk_staging_2
  username: root
- password: staging
+ password: deneme
  host: localhost
